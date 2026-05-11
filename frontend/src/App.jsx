@@ -1,16 +1,16 @@
-import { BrowserRouter, Routes, Route } from "react-router";
+import { BrowserRouter } from "react-router";
 import Navbar from "./components/Navbar";
 import HeroBanner from "./components/HeroBanner";
+import HowItWorks from "./components/HowItWorks";
+import CoursesSection from "./components/CoursesSection";
 
 function App() {
   return (
     <BrowserRouter>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<HeroBanner />} />
-        <Route path="/how-it-works" element={<></>} />
-        <Route path="/courses" element={<></>} />
-      </Routes>
+      <HeroBanner />
+      <HowItWorks />
+      <CoursesSection />
     </BrowserRouter>
   );
 }

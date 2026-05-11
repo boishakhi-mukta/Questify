@@ -29,8 +29,7 @@ export default function HeroBanner() {
             style={{
               fontSize: "16px",
               color: "#434649",
-              lineHeight: 1.7,
-              fontStyle: "italic",
+              lineHeight: 1.6,
               margin: 0,
               maxWidth: "460px",
             }}
@@ -61,7 +60,7 @@ export default function HeroBanner() {
               Explore Courses
             </Link>
 
-            {/* Secondary */}
+            {/* Secondary — "Buy for my team" style */}
             <Link
               to="/how-it-works"
               style={{
@@ -70,20 +69,14 @@ export default function HeroBanner() {
                 fontWeight: 700,
                 fontSize: "15px",
                 background: "transparent",
-                color: "#1D2226",
+                color: "#0A66C2",
                 textDecoration: "none",
-                border: "1.5px solid #1D2226",
-                transition: "background 150ms, color 150ms",
+                border: "1.5px solid #0A66C2",
+                transition: "background 150ms",
                 display: "inline-block",
               }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = "#1D2226";
-                e.currentTarget.style.color = "#FFFFFF";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = "transparent";
-                e.currentTarget.style.color = "#1D2226";
-              }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = "#EBF3FF")}
+              onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
             >
               Learn More
             </Link>
