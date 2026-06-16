@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap');
+
+@import "tailwindcss";
+
+/* ── shadcn/ui CSS variables ─────────────────────────────── */
+:root {
+  --background: 0 0% 100%;
+  --foreground: 210 11% 15%;
+  --card: 0 0% 100%;
+  --card-foreground: 210 11% 15%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 210 11% 15%;
+  --primary: 211 89% 39%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 40 6% 94%;
+  --secondary-foreground: 210 11% 15%;
+  --muted: 40 6% 94%;
+  --muted-foreground: 210 5% 46%;
+  --accent: 40 6% 94%;
+  --accent-foreground: 210 11% 15%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 30 5% 88%;
+  --input: 30 5% 88%;
+  --ring: 211 89% 39%;
+  --radius: 0.25rem;
+}
+
+/* ── Questify brand tokens (Tailwind v4 @theme) ──────────── */
+@theme {
+  --color-brand-blue: #0A66C2;
+  --color-brand-blue-dark: #004182;
+  --color-brand-dark: #1D2226;
+  --color-brand-body: #434649;
+  --color-brand-bg: #F3F2EE;
+  --color-brand-border: #E0DFDC;
+  --color-brand-white: #FFFFFF;
+  --color-brand-blue-light: #EBF3FF;
+}
+
+/* ── Base styles ─────────────────────────────────────────── */
+body {
+  font-family: 'Source Sans 3', 'Source Sans Pro', system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #434649;
+  background-color: #F3F2EE;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Source Sans 3', 'Source Sans Pro', system-ui, sans-serif;
+  font-weight: 700;
+  color: #1D2226;
+  line-height: 1.2;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
