@@ -1,44 +1,48 @@
-import { auth } from "@/lib/auth";
+import NextAuth from "next-auth";
+import { authConfig, type UserRole } from "@/lib/auth.config";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+// Middleware uses the Edge-safe config (no Credentials provider / Node.js APIs)
+const { auth } = NextAuth(authConfig);
+
 export default auth(function middleware(req) {
-  const { nextUrl, auth: session } = req as typeof req & { auth: { user?: { role?: string } } | null };
+  const session = (req as NextRequest & { auth: { user?: { role?: UserRole } } | null }).auth;
   const isLoggedIn = !!session?.user;
   const role = session?.user?.role;
-  const path = nextUrl.pathname;
+  const { pathname } = req.nextUrl;
 
-  // Logged-in user visiting /signin → redirect to their dashboard
-  if (path === "/signin" && isLoggedIn && role) {
-    return NextResponse.redirect(new URL(`/${role}`, nextUrl));
+  // Logged-in user visiting /signin → go straight to their dashboard
+  if (pathname === "/signin" && isLoggedIn && role) {
+    return NextResponse.redirect(new URL(`/${role}`, req.nextUrl));
   }
 
-  // Public paths — always allow
+  // Always-public paths
   if (
-    path === "/" ||
-    path === "/signin" ||
-    path.startsWith("/courses") ||
-    path.startsWith("/api/auth")
+    pathname === "/" ||
+    pathname === "/signin" ||
+    pathname.startsWith("/courses") ||
+    pathname.startsWith("/api/auth")
   ) {
     return NextResponse.next();
   }
 
-  // Not logged in → send to sign in
+  // Protected — must be logged in
   if (!isLoggedIn) {
-    const signInUrl = new URL("/signin", nextUrl);
-    signInUrl.searchParams.set("callbackUrl", path);
-    return NextResponse.redirect(signInUrl);
+    const url = new URL("/signin", req.nextUrl);
+    url.searchParams.set("callbackUrl", pathname);
+    return NextResponse.redirect(url);
   }
 
   // Role-based access control
-  if (path.startsWith("/admin") && role !== "admin") {
-    return NextResponse.redirect(new URL(`/${role}`, nextUrl));
+  if (pathname.startsWith("/admin") && role !== "admin") {
+    return NextResponse.redirect(new URL(`/${role}`, req.nextUrl));
   }
-  if (path.startsWith("/teacher") && role !== "teacher") {
-    return NextResponse.redirect(new URL(`/${role}`, nextUrl));
+  if (pathname.startsWith("/teacher") && role !== "teacher") {
+    return NextResponse.redirect(new URL(`/${role}`, req.nextUrl));
   }
-  if (path.startsWith("/student") && role !== "student") {
-    return NextResponse.redirect(new URL(`/${role}`, nextUrl));
+  if (pathname.startsWith("/student") && role !== "student") {
+    return NextResponse.redirect(new URL(`/${role}`, req.nextUrl));
   }
 
   return NextResponse.next();

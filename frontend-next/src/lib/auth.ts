@@ -1,9 +1,11 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import { authConfig, type UserRole } from "./auth.config";
 import { mockUsers } from "./mock-users";
 
-export type UserRole = "admin" | "teacher" | "student";
+export type { UserRole };
 
+// Extend NextAuth types
 declare module "next-auth" {
   interface User {
     role: UserRole;
@@ -20,39 +22,8 @@ declare module "next-auth" {
   }
 }
 
-declare module "next-auth/jwt" {
-  interface JWT {
-    role: UserRole;
-    userId: string;
-  }
-}
-
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  secret: process.env.AUTH_SECRET,
-
-  pages: {
-    signIn: "/signin",
-  },
-
-  session: {
-    strategy: "jwt",
-  },
-
-  callbacks: {
-    jwt({ token, user }) {
-      if (user) {
-        token.role   = user.role;
-        token.userId = user.userId;
-      }
-      return token;
-    },
-
-    session({ session, token }) {
-      session.user.role   = token.role;
-      session.user.userId = token.userId;
-      return session;
-    },
-  },
+  ...authConfig,
 
   providers: [
     Credentials({
@@ -68,6 +39,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         if (!userId || !password || !role) return null;
 
+        // TODO: replace with real DB query + bcrypt.compare() in production
         const user = mockUsers.find(
           (u) => u.userId === userId && u.role === role && u.password === password
         );
