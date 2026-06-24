@@ -7,7 +7,8 @@ export type { ICourse } from "../models/Course";
 export type { IEnrollment } from "../models/Enrollment";
 export type { IXP as IXPPoint, IXPMetadata, XPActivityType } from "../models/XP";
 export type { IAttendance } from "../models/Attendance";
-export type { IAssignment, ISubmission } from "../models/Assignment";
+export type { IAssignment, SubmissionType } from "../models/Assignment";
+export type { ISubmission, SubmissionStatus } from "../models/Submission";
 export type { IMaterial, MaterialType } from "../models/Material";
 
 // ── Primitive domain types ─────────────────────────────────────────────────────
