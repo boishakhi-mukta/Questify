@@ -38,30 +38,6 @@
   --color-brand-blue-light: #EBF3FF;
 }
 
-/* ── Fade-in-up entrance animation ──────────────────────── */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.fade-in-up {
-  opacity: 0;
-  animation: fadeInUp 0.7s ease-out forwards;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .fade-in-up {
-    animation: none;
-    opacity: 1;
-  }
-}
-
 /* ── Base styles ─────────────────────────────────────────── */
 body {
   font-family: 'Source Sans 3', 'Source Sans Pro', system-ui, sans-serif;
