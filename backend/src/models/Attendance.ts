@@ -1,58 +1,138 @@
-import { Schema, model, Document, Types } from "mongoose";
+import { Schema, model, Document, Types, Model, type PipelineStage } from "mongoose";
+import { XPModel } from "./XP";
 
+// ── Document interface ─────────────────────────────────────────────────────────
 export interface IAttendance extends Document {
   _id: Types.ObjectId;
-  studentId: Types.ObjectId;  // ref: User
-  courseId: Types.ObjectId;   // ref: Course
-  /** ISO date string YYYY-MM-DD — the class date */
-  date: string;
+  studentId: Types.ObjectId;
+  courseId: Types.ObjectId;
+  /** Class date (stored as Date; time component is ignored) */
+  date: Date;
   present: boolean;
-  /** Teacher who recorded this entry */
-  recordedBy: Types.ObjectId; // ref: User (teacher)
+  /** Teacher who marked this record */
+  markedBy: Types.ObjectId;
+  remarks?: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
-const AttendanceSchema = new Schema<IAttendance>(
+// ── Static methods interface ───────────────────────────────────────────────────
+export interface IAttendanceModel extends Model<IAttendance> {
+  getStudentAttendance(
+    studentId: Types.ObjectId | string,
+    courseId: Types.ObjectId | string
+  ): Promise<IAttendance[]>;
+
+  getAttendanceRate(
+    studentId: Types.ObjectId | string,
+    courseId: Types.ObjectId | string
+  ): Promise<number>;
+}
+
+// ── Schema ─────────────────────────────────────────────────────────────────────
+const AttendanceSchema = new Schema<IAttendance, IAttendanceModel>(
   {
     studentId: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: [true, "studentId is required"],
+      index: true,
     },
     courseId: {
       type: Schema.Types.ObjectId,
       ref: "Course",
       required: [true, "courseId is required"],
+      index: true,
     },
     date: {
-      type: String,
+      type: Date,
       required: [true, "date is required"],
-      match: [
-        /^\d{4}-\d{2}-\d{2}$/,
-        "date must be in YYYY-MM-DD format",
-      ],
+      index: true,
     },
     present: {
       type: Boolean,
       required: [true, "present is required"],
+      default: true,
     },
-    recordedBy: {
+    markedBy: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      required: [true, "recordedBy is required"],
+      required: [true, "markedBy is required"],
+    },
+    remarks: {
+      type: String,
+      trim: true,
+      maxlength: [500, "Remarks must be at most 500 characters"],
     },
   },
   { timestamps: true }
 );
 
-// ── Indexes ───────────────────────────────────────────────────────────────────
-// One attendance record per student per course per date
+// ── Post-save: award attendance XP on first save when present ──────────────────
+AttendanceSchema.post("save", async function (doc: IAttendance) {
+  if (!this.isNew || !doc.present) return;
+
+  // Idempotency index on metadata.attendanceId silently absorbs duplicate attempts
+  await XPModel.create({
+    studentId: doc.studentId,
+    courseId: doc.courseId,
+    type: "ATTENDANCE",
+    metadata: { attendanceId: doc._id },
+  }).catch(() => undefined);
+});
+
+// ── Static: all attendance records for a student in a course ──────────────────
+AttendanceSchema.statics.getStudentAttendance = async function (
+  studentId: Types.ObjectId | string,
+  courseId: Types.ObjectId | string
+): Promise<IAttendance[]> {
+  return Attendance.find({
+    studentId: new Types.ObjectId(studentId.toString()),
+    courseId: new Types.ObjectId(courseId.toString()),
+  }).sort({ date: -1 });
+};
+
+// ── Static: attendance rate (0–100) for a student in a course ─────────────────
+AttendanceSchema.statics.getAttendanceRate = async function (
+  studentId: Types.ObjectId | string,
+  courseId: Types.ObjectId | string
+): Promise<number> {
+  const pipeline: PipelineStage[] = [
+    {
+      $match: {
+        studentId: new Types.ObjectId(studentId.toString()),
+        courseId: new Types.ObjectId(courseId.toString()),
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        total: { $sum: 1 },
+        present: { $sum: { $cond: ["$present", 1, 0] } },
+      },
+    },
+  ];
+
+  const result = await Attendance.aggregate<{ total: number; present: number }>(pipeline);
+  if (!result[0] || result[0].total === 0) return 0;
+
+  return Math.round((result[0].present / result[0].total) * 100);
+};
+
+// ── Indexes ────────────────────────────────────────────────────────────────────
+// Prevent duplicate: one record per student per course per date
 AttendanceSchema.index(
   { studentId: 1, courseId: 1, date: 1 },
   { unique: true, name: "unique_attendance_record" }
 );
-// Teacher dashboard: all attendance for a course on a given date
+
+// Attendance reports: all students for a course on a given date
 AttendanceSchema.index({ courseId: 1, date: 1 });
 
-export const Attendance = model<IAttendance>("Attendance", AttendanceSchema);
+// Student attendance history within a course
+AttendanceSchema.index({ studentId: 1, courseId: 1 });
+
+export const Attendance = model<IAttendance, IAttendanceModel>(
+  "Attendance",
+  AttendanceSchema
+);
