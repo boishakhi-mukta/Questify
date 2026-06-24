@@ -3,7 +3,12 @@ import { verifyAccessToken } from "@/utils/jwt";
 import { AuthorizationError } from "@/utils/errors";
 import type { AuthenticatedRequest, UserRole } from "@/types";
 
-export function protect(
+/**
+ * verifyJWT (alias: protect) — extracts and verifies the Bearer token.
+ * Attaches { id, role, name } to req.user on success.
+ * Delegates to errorHandler via next() on failure.
+ */
+export function verifyJWT(
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
@@ -25,10 +30,14 @@ export function protect(
     req.user = { id: decoded.id, role: decoded.role, name: decoded.name };
     next();
   } catch (err) {
-    // verifyAccessToken throws AuthenticationError or TokenExpiredError
+    // verifyAccessToken throws AuthenticationError or TokenExpiredError — both
+    // are APIErrors so errorHandler will format them correctly.
     next(err);
   }
 }
+
+/** Alias kept for backward compatibility with existing route files */
+export const protect = verifyJWT;
 
 export function authorize(...roles: UserRole[]) {
   return (req: AuthenticatedRequest, _res: Response, next: NextFunction): void => {
