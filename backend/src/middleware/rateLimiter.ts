@@ -54,3 +54,16 @@ export const strictLimiter: RateLimitRequestHandler = rateLimit({
     "Too many attempts. Please wait 15 minutes and try again."
   ),
 });
+
+// ── Login hard-cap: 10 failed attempts / 15 min per IP ────────────────────────
+// Applied on top of authLimiter to enforce a sliding fail-safe.
+// Only failed requests count (skipSuccessfulRequests: true).
+export const loginHardLimiter: RateLimitRequestHandler = rateLimit({
+  ...base,
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  skipSuccessfulRequests: true,
+  message: errorBody(
+    "Too many failed login attempts. Please wait 15 minutes and try again."
+  ),
+});

@@ -38,6 +38,19 @@ const schema = z.object({
   LOG_FORMAT: z
     .enum(["combined", "dev", "short", "tiny"])
     .default("dev"),
+
+  // ── Email (all optional — falls back to console logging in dev) ───────────────
+  SMTP_HOST:   z.string().optional(),
+  SMTP_PORT:   z.coerce.number().positive().optional(),
+  SMTP_SECURE: z.coerce.boolean().default(false),
+  SMTP_USER:   z.string().optional(),
+  SMTP_PASS:   z.string().optional(),
+  SMTP_FROM:   z.string().default("noreply@questify.app"),
+
+  APP_URL: z.string().default("http://localhost:3000"),
+
+  // ── Clerk Backend API (optional — enables Clerk user sync) ───────────────────
+  CLERK_SECRET_KEY: z.string().optional(),
 });
 
 export type Env = z.infer<typeof schema>;

@@ -1,20 +1,14 @@
-import { currentUser } from "@clerk/nextjs/server";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import DashboardShell from "@/components/dashboard/DashboardShell";
-import type { UserRole } from "@/types/auth";
 
-export default async function TeacherLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const user = await currentUser();
-  if (!user) redirect("/auth/login");
+export default async function TeacherLayout({ children }: { children: React.ReactNode }) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("questify_token")?.value;
+  const role  = cookieStore.get("questify_role")?.value;
 
-  const role = user.publicMetadata?.role as UserRole | undefined;
-  if (role !== "teacher") {
-    redirect(role ? `/${role}` : "/auth/login");
-  }
+  if (!token)             redirect("/login");
+  if (role !== "teacher") redirect(role ? `/${role}` : "/login");
 
   return <DashboardShell role="teacher">{children}</DashboardShell>;
 }

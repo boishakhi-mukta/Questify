@@ -1,12 +1,12 @@
 "use client";
 
-import Link from "next/link";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
-import { useUser, useClerk } from "@clerk/nextjs";
+import Link              from "next/link";
+import Image             from "next/image";
+import { usePathname }   from "next/navigation";
+import { useAuth }       from "@/hooks/useAuth";
 import type { UserRole } from "@/types/auth";
-import { cn } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
+import { cn }            from "@/lib/utils";
+import { Badge }         from "@/components/ui/badge";
 import {
   HiHome,
   HiUsers,
@@ -18,9 +18,9 @@ import {
 } from "react-icons/hi2";
 
 interface NavItem {
-  href: string;
+  href:  string;
   label: string;
-  icon: React.ElementType;
+  icon:  React.ElementType;
 }
 
 const navByRole: Record<UserRole, NavItem[]> = {
@@ -30,14 +30,14 @@ const navByRole: Record<UserRole, NavItem[]> = {
     { href: "/admin/courses", label: "Courses",   icon: HiBookOpen },
   ],
   teacher: [
-    { href: "/teacher",          label: "Overview",   icon: HiHome       },
-    { href: "/teacher/courses",  label: "My Courses", icon: HiBookOpen   },
+    { href: "/teacher",          label: "Overview",   icon: HiHome        },
+    { href: "/teacher/courses",  label: "My Courses", icon: HiBookOpen    },
     { href: "/teacher/students", label: "Students",   icon: HiAcademicCap },
   ],
   student: [
-    { href: "/student",              label: "Overview",    icon: HiHome      },
-    { href: "/student/courses",      label: "My Courses",  icon: HiBookOpen  },
-    { href: "/student/leaderboard",  label: "Leaderboard", icon: HiChartBar  },
+    { href: "/student",             label: "Overview",    icon: HiHome     },
+    { href: "/student/courses",     label: "My Courses",  icon: HiBookOpen },
+    { href: "/student/leaderboard", label: "Leaderboard", icon: HiChartBar },
   ],
 };
 
@@ -59,22 +59,34 @@ const roleActiveBg: Record<UserRole, string> = {
   student: "bg-brand-blue/20",
 };
 
+// ── Backward-compat demo override (used by /demo/* pages) ─────────────────────
+interface DemoUser { name: string; email: string }
+
 export default function DashboardShell({
   children,
   role,
+  demoUser,
 }: {
-  children: React.ReactNode;
-  role: UserRole;
+  children:  React.ReactNode;
+  role:      UserRole;
+  demoUser?: DemoUser;
 }) {
-  const pathname  = usePathname();
-  const { user }  = useUser();
-  const { signOut } = useClerk();
+  const pathname           = usePathname();
+  const { user, logout }   = useAuth();
 
   const navItems   = navByRole[role];
-  const displayName =
-    user?.fullName ??
+  const displayName = demoUser?.name ?? user?.fullName ??
     (`${user?.firstName ?? ""} ${user?.lastName ?? ""}`.trim() || "User");
-  const displaySub  = user?.primaryEmailAddress?.emailAddress ?? "";
+  const displaySub  = demoUser?.email ?? user?.email ?? "";
+  const isDemo      = displaySub.endsWith("@demo.com");
+
+  function handleSignOut() {
+    if (demoUser) {
+      window.location.href = "/login";
+    } else {
+      logout();
+    }
+  }
 
   return (
     <div className="flex min-h-screen bg-brand-bg">
@@ -85,13 +97,7 @@ export default function DashboardShell({
         {/* Logo */}
         <div className="px-5 pt-6 pb-5">
           <Link href="/">
-            <Image
-              src="/logo.svg"
-              alt="Questify"
-              width={110}
-              height={28}
-              className="h-7 w-auto brightness-0 invert"
-            />
+            <Image src="/logo.svg" alt="Questify" width={110} height={28} className="h-7 w-auto brightness-0 invert" />
           </Link>
         </div>
 
@@ -104,8 +110,7 @@ export default function DashboardShell({
         <nav className="flex-1 px-3">
           <ul className="list-none m-0 p-0 flex flex-col gap-0.5">
             {navItems.map(({ href, label, icon: Icon }) => {
-              const isActive =
-                href === `/${role}` ? pathname === href : pathname.startsWith(href);
+              const isActive = href === `/${role}` ? pathname === href : pathname.startsWith(href);
               return (
                 <li key={href}>
                   <Link
@@ -128,16 +133,20 @@ export default function DashboardShell({
 
         {/* User + sign out */}
         <div className="px-5 py-4 border-t border-white/8">
+
+          {/* Demo badge */}
+          {isDemo && (
+            <div className="mb-3 px-2 py-1 bg-amber-400/15 border border-amber-400/25 rounded-md flex items-center justify-center">
+              <span className="text-[10px] font-bold text-amber-300 uppercase tracking-wider">
+                Demo Account
+              </span>
+            </div>
+          )}
+
           <div className="flex items-center gap-2.5 mb-3">
             <div className="w-9 h-9 rounded-full bg-brand-blue flex items-center justify-center shrink-0">
-              {user?.imageUrl ? (
-                <Image
-                  src={user.imageUrl}
-                  alt={displayName}
-                  width={36}
-                  height={36}
-                  className="w-9 h-9 rounded-full object-cover"
-                />
+              {user?.avatar ? (
+                <Image src={user.avatar} alt={displayName} width={36} height={36} className="w-9 h-9 rounded-full object-cover" />
               ) : (
                 <HiUser size={18} className="text-white" />
               )}
@@ -149,11 +158,11 @@ export default function DashboardShell({
           </div>
 
           <button
-            onClick={() => signOut({ redirectUrl: "/" })}
+            onClick={handleSignOut}
             className="w-full flex items-center gap-2 bg-transparent border border-white/15 rounded-md px-3 py-2 text-[13px] font-semibold text-white/55 cursor-pointer transition-colors duration-150 hover:border-red-500 hover:text-red-400"
           >
             <HiArrowRightOnRectangle size={16} />
-            Sign Out
+            {demoUser ? "Exit Demo" : "Sign Out"}
           </button>
         </div>
 

@@ -62,7 +62,7 @@ export default function CourseDetail({ id }: CourseDetailProps) {
         <div className="max-w-[1100px] mx-auto px-12 pt-10 pb-12">
 
           <Link
-            href="/"
+            href="/courses"
             className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-white/65 hover:text-white no-underline transition-colors mb-7"
           >
             ← Back to Courses

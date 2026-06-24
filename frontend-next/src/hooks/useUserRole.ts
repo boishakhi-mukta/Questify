@@ -1,27 +1,25 @@
-import { useUser } from "@clerk/nextjs";
+import { useAuth } from "@/hooks/useAuth";
 import type { UserRole } from "@/types/auth";
 
 export interface UseUserRoleReturn {
-  role: UserRole | null;
-  isAdmin: boolean;
+  role:      UserRole | null;
+  isAdmin:   boolean;
   isTeacher: boolean;
   isStudent: boolean;
-  /** true once Clerk has finished hydrating (use to avoid flash of wrong state) */
-  isLoaded: boolean;
+  isLoaded:  boolean;
   isSignedIn: boolean;
 }
 
 export function useUserRole(): UseUserRoleReturn {
-  const { user, isLoaded, isSignedIn } = useUser();
-
-  const role = (user?.publicMetadata?.role as UserRole | undefined) ?? null;
+  const { user, isAuthenticated, isLoading } = useAuth();
+  const role = user?.role ?? null;
 
   return {
     role,
     isAdmin:    role === "admin",
     isTeacher:  role === "teacher",
     isStudent:  role === "student",
-    isLoaded,
-    isSignedIn: isSignedIn ?? false,
+    isLoaded:   !isLoading,
+    isSignedIn: isAuthenticated,
   };
 }

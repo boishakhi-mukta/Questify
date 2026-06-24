@@ -1,26 +1,17 @@
-// Role-based redirect hub — Clerk sends users here after sign-in.
-// Reads publicMetadata.role and forwards to the correct dashboard.
-import { currentUser } from "@clerk/nextjs/server";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import type { UserRole } from "@/types/auth";
 
-const rolePaths: Record<UserRole, string> = {
-  admin:   "/admin",
-  teacher: "/teacher",
-  student: "/student",
-};
-
+// Role-based redirect hub — redirects authenticated users to their dashboard.
 export default async function DashboardPage() {
-  const user = await currentUser();
+  const cookieStore = await cookies();
+  const token = cookieStore.get("questify_token")?.value;
+  const role  = cookieStore.get("questify_role")?.value;
 
-  if (!user) redirect("/auth/login");
+  if (!token) redirect("/login");
 
-  const role = user.publicMetadata?.role as UserRole | undefined;
+  if (role === "admin")   redirect("/admin");
+  if (role === "teacher") redirect("/teacher");
+  if (role === "student") redirect("/student");
 
-  if (role && rolePaths[role]) {
-    redirect(rolePaths[role]);
-  }
-
-  // Role not assigned yet — send to home until an admin sets it
-  redirect("/");
+  redirect("/login");
 }
