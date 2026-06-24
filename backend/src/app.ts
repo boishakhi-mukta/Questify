@@ -48,10 +48,16 @@ import authRoutes from "@/routes/auth";
 import userRoutes from "@/routes/users";
 import courseRoutes from "@/routes/courses";
 import adminRoutes from "@/routes/admin";
+import materialRoutes from "@/routes/materials";
+import assignmentRoutes from "@/routes/assignments";
+import enrollmentRoutes from "@/routes/enrollments";
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/courses", courseRoutes);
 app.use("/api/v1/admin", adminRoutes);
+app.use("/api/v1/materials", materialRoutes);
+app.use("/api/v1/assignments", assignmentRoutes);
+app.use("/api/v1/enrollments", enrollmentRoutes);
 
 // ── 404 + error handler ────────────────────────────────────────────────────────
 app.use(notFound);

@@ -23,6 +23,7 @@ export interface IXPMetadata {
   attendanceId?: Types.ObjectId;
   assignmentId?: Types.ObjectId;
   submissionId?: Types.ObjectId;
+  materialId?: Types.ObjectId;
   description?: string;
 }
 
@@ -57,6 +58,7 @@ const MetadataSchema = new Schema<IXPMetadata>(
     attendanceId: { type: Schema.Types.ObjectId, ref: "Attendance" },
     assignmentId: { type: Schema.Types.ObjectId, ref: "Assignment" },
     submissionId: { type: Schema.Types.ObjectId },
+    materialId:   { type: Schema.Types.ObjectId, ref: "Material" },
     description: {
       type: String,
       trim: true,
@@ -207,6 +209,12 @@ XPSchema.index(
 XPSchema.index(
   { studentId: 1, "metadata.submissionId": 1, type: 1 },
   { unique: true, sparse: true, name: "unique_submission_xp" }
+);
+
+// Idempotency: prevent double-awarding for reading the same material
+XPSchema.index(
+  { studentId: 1, "metadata.materialId": 1, type: 1 },
+  { unique: true, sparse: true, name: "unique_material_xp" }
 );
 
 export const XPModel = model<IXP, IXPModel>("XP", XPSchema);

@@ -53,8 +53,11 @@ export class TokenExpiredError extends AuthenticationError {
 
 // ── 403 Unauthorized ───────────────────────────────────────────────────────────
 export class AuthorizationError extends APIError {
-  constructor(message = "You do not have permission to perform this action.") {
-    super(message, HTTP.FORBIDDEN, ERROR_CODES.FORBIDDEN);
+  constructor(
+    message = "You do not have permission to perform this action.",
+    code: ErrorCode = ERROR_CODES.FORBIDDEN
+  ) {
+    super(message, HTTP.FORBIDDEN, code);
     this.name = "AuthorizationError";
   }
 }

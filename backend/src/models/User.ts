@@ -26,6 +26,10 @@ export interface IUser extends Document {
   isActive: boolean;
   emailVerified: boolean;
   lastLogin?: Date;
+  /** Clerk user ID — populated when admin creates user via Clerk sync */
+  clerkId?: string;
+  /** True when the account was created by admin with a temp password — cleared after first change */
+  requiresPasswordChange: boolean;
   createdAt: Date;
   updatedAt: Date;
   /** Virtual — "firstName lastName" */
@@ -128,6 +132,14 @@ const UserSchema = new Schema<IUser>(
     },
     lastLogin: {
       type: Date,
+    },
+    clerkId: {
+      type:   String,
+      sparse: true,
+    },
+    requiresPasswordChange: {
+      type:    Boolean,
+      default: false,
     },
   },
   {

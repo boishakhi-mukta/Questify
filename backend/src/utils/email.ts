@@ -1,0 +1,112 @@
+import nodemailer, { type Transporter } from "nodemailer";
+import { env } from "@/config/environment";
+
+export interface CredentialEmailPayload {
+  to:           string;
+  name:         string;
+  tempPassword: string;
+  loginUrl:     string;
+  role:         string;
+}
+
+export interface EmailResult {
+  sent:   boolean;
+  error?: string;
+}
+
+// ── Transport factory ──────────────────────────────────────────────────────────
+function buildTransport(): Transporter | null {
+  if (!env.SMTP_HOST || !env.SMTP_USER || !env.SMTP_PASS) return null;
+
+  return nodemailer.createTransport({
+    host:   env.SMTP_HOST,
+    port:   env.SMTP_PORT ?? 587,
+    secure: env.SMTP_SECURE,
+    auth:   { user: env.SMTP_USER, pass: env.SMTP_PASS },
+  });
+}
+
+// ── HTML template ──────────────────────────────────────────────────────────────
+function buildHtml(name: string, email: string, password: string, loginUrl: string, role: string): string {
+  const roleLabel = role.charAt(0).toUpperCase() + role.slice(1);
+  return `<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>Your Questify Account</title></head>
+<body style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px;color:#1D2226">
+  <h2 style="color:#0A66C2">Welcome to Questify, ${name}!</h2>
+  <p>An administrator has created a <strong>${roleLabel}</strong> account for you.</p>
+  <table style="background:#F3F2EE;border-radius:8px;padding:16px 24px;margin:16px 0;border-collapse:collapse">
+    <tr>
+      <td style="padding:6px 0;font-weight:600">Email</td>
+      <td style="padding:6px 16px">${email}</td>
+    </tr>
+    <tr>
+      <td style="padding:6px 0;font-weight:600">Temporary&nbsp;Password</td>
+      <td style="padding:6px 16px;font-family:monospace;font-size:20px;letter-spacing:3px;color:#0A66C2">${password}</td>
+    </tr>
+  </table>
+  <p>
+    <a href="${loginUrl}"
+       style="background:#0A66C2;color:#fff;padding:12px 24px;text-decoration:none;border-radius:4px;display:inline-block;font-weight:600">
+      Log in to Questify →
+    </a>
+  </p>
+  <p style="color:#666;font-size:13px">
+    Please change your password after your first login.
+    This temporary password will remain valid until changed.
+  </p>
+  <hr style="border:none;border-top:1px solid #E0DFDC;margin:24px 0">
+  <p style="color:#999;font-size:12px">
+    If you did not expect this message, please ignore it or contact your administrator.
+  </p>
+</body>
+</html>`;
+}
+
+// ── Public send function ───────────────────────────────────────────────────────
+// Never throws — returns { sent: false, error } on failure so callers can
+// log a warning without blocking the user creation response.
+export async function sendCredentialEmail(payload: CredentialEmailPayload): Promise<EmailResult> {
+  const transport = buildTransport();
+
+  if (!transport) {
+    // Dev fallback: write to stdout so developers can read the password
+    console.log(
+      JSON.stringify({
+        event:        "EMAIL_SKIPPED_NO_SMTP",
+        to:           payload.to,
+        name:         payload.name,
+        role:         payload.role,
+        tempPassword: payload.tempPassword,
+        loginUrl:     payload.loginUrl,
+        hint:         "Set SMTP_HOST, SMTP_USER, SMTP_PASS to send real emails",
+        timestamp:    new Date().toISOString(),
+      }, null, 2)
+    );
+    return { sent: false, error: "SMTP not configured — credentials printed to server log" };
+  }
+
+  try {
+    await transport.sendMail({
+      from:    `"Questify" <${env.SMTP_FROM}>`,
+      to:      payload.to,
+      subject: "Your Questify Account Credentials",
+      html:    buildHtml(payload.name, payload.to, payload.tempPassword, payload.loginUrl, payload.role),
+    });
+    return { sent: true };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error(JSON.stringify({ event: "EMAIL_SEND_FAILED", to: payload.to, error: message }));
+    return { sent: false, error: message };
+  }
+}
+
+// ── Password reset variant ─────────────────────────────────────────────────────
+export async function sendPasswordResetEmail(
+  to: string,
+  name: string,
+  tempPassword: string,
+  loginUrl: string
+): Promise<EmailResult> {
+  return sendCredentialEmail({ to, name, tempPassword, loginUrl, role: "password reset" });
+}
