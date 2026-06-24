@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import SessionProviderWrapper from "@/components/SessionProviderWrapper";
+import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
   title: "Questify",
@@ -17,8 +18,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <SessionProviderWrapper>{children}</SessionProviderWrapper>
+      <body className="flex flex-col min-h-screen">
+        <SessionProviderWrapper>
+          <div className="flex-1">{children}</div>
+          <Footer />
+        </SessionProviderWrapper>
       </body>
     </html>
   );
