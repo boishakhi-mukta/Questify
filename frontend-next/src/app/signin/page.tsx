@@ -1,5 +1,6 @@
-import SignIn from "@/components/SignIn";
+import { redirect } from "next/navigation";
 
-export default function SignInPage() {
-  return <SignIn />;
+// Legacy route kept so old bookmarks don't 404
+export default function LegacySignInPage() {
+  redirect("/auth/login");
 }
