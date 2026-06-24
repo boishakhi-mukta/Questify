@@ -31,9 +31,9 @@ export const PAGINATION = {
 
 // ── Course ─────────────────────────────────────────────────────────────────────
 export const COURSE_LEVELS = {
-  BACHELOR: "Bachelor",
-  MASTER: "Master",
-  PHD: "PhD",
+  BEGINNER: "BEGINNER",
+  INTERMEDIATE: "INTERMEDIATE",
+  ADVANCED: "ADVANCED",
 } as const;
 
 export type CourseLevel = (typeof COURSE_LEVELS)[keyof typeof COURSE_LEVELS];
@@ -57,7 +57,7 @@ export const POINT_TYPES = {
 
 export type PointTypeValue = (typeof POINT_TYPES)[keyof typeof POINT_TYPES];
 
-// ── Status ─────────────────────────────────────────────────────────────────────
+// ── Generic status ─────────────────────────────────────────────────────────────
 export const STATUS = {
   ACTIVE: "active",
   INACTIVE: "inactive",
@@ -65,6 +65,16 @@ export const STATUS = {
 } as const;
 
 export type StatusValue = (typeof STATUS)[keyof typeof STATUS];
+
+// ── Enrollment status ──────────────────────────────────────────────────────────
+export const ENROLLMENT_STATUS = {
+  ACTIVE: "ACTIVE",
+  COMPLETED: "COMPLETED",
+  DROPPED: "DROPPED",
+} as const;
+
+export type EnrollmentStatusValue =
+  (typeof ENROLLMENT_STATUS)[keyof typeof ENROLLMENT_STATUS];
 
 // ── Error codes ────────────────────────────────────────────────────────────────
 export const ERROR_CODES = {

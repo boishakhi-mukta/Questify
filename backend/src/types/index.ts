@@ -92,11 +92,13 @@ export interface PaginationQuery {
 
 // ── Common query filters ───────────────────────────────────────────────────────
 export interface CourseQuery extends PaginationQuery {
-  level?: string;
+  level?: "BEGINNER" | "INTERMEDIATE" | "ADVANCED";
   category?: string;
   campus?: string;
   search?: string;
-  isActive?: string;
+  isPublished?: string;
+  isFeatured?: string;
+  teachers?: string;
 }
 
 export interface XPLeaderboardQuery extends PaginationQuery {
