@@ -1,96 +1,175 @@
 import { Schema, model, Document, Types } from "mongoose";
 import bcrypt from "bcryptjs";
-import type { UserRole } from "../types";
+import { env } from "@/config/environment";
+import type { UserRole } from "@/types";
 
-export interface IUser extends Document {
-  _id: Types.ObjectId;
-  userId: string;      // Human-readable ID (e.g. "student01") — unique
-  name: string;
-  email: string;
-  password: string;    // bcrypt hash — NEVER store plain text
-  role: UserRole;
-  avatar?: string;     // URL to profile image
-  createdAt: Date;
-  updatedAt: Date;
-  /** Instance method — compare a plain-text candidate against the stored hash */
-  comparePassword(candidate: string): Promise<boolean>;
+// ── Sub-document interface ────────────────────────────────────────────────────
+export interface IUserProfile {
+  bio?: string;
+  location?: string;
+  phone?: string;
+  socialLinks: string[];
+  educationLevel?: string;
 }
 
+// ── Document interface ────────────────────────────────────────────────────────
+export interface IUser extends Document {
+  _id: Types.ObjectId;
+  email: string;
+  firstName: string;
+  lastName: string;
+  /** bcrypt hash — never expose; select: false keeps it out of queries by default */
+  passwordHash: string;
+  avatar?: string;
+  role: UserRole;
+  profile: IUserProfile;
+  isActive: boolean;
+  emailVerified: boolean;
+  lastLogin?: Date;
+  createdAt: Date;
+  updatedAt: Date;
+  /** Virtual — "firstName lastName" */
+  readonly fullName: string;
+  /** Compare a plain-text candidate against the stored hash */
+  comparePassword(plainPassword: string): Promise<boolean>;
+}
+
+// ── Profile sub-schema ────────────────────────────────────────────────────────
+const ProfileSchema = new Schema<IUserProfile>(
+  {
+    bio: {
+      type: String,
+      trim: true,
+      maxlength: [500, "Bio must be at most 500 characters"],
+    },
+    location: {
+      type: String,
+      trim: true,
+      maxlength: [100, "Location must be at most 100 characters"],
+    },
+    phone: {
+      type: String,
+      trim: true,
+      match: [/^\+?[1-9]\d{7,14}$/, "Phone number is invalid"],
+    },
+    socialLinks: {
+      type: [String],
+      default: [],
+      validate: {
+        validator: (links: string[]) => links.length <= 10,
+        message: "A maximum of 10 social links are allowed",
+      },
+    },
+    educationLevel: {
+      type: String,
+      trim: true,
+      maxlength: [100, "Education level must be at most 100 characters"],
+    },
+  },
+  { _id: false }
+);
+
+// ── User schema ───────────────────────────────────────────────────────────────
 const UserSchema = new Schema<IUser>(
   {
-    userId: {
-      type: String,
-      required: [true, "userId is required"],
-      unique: true,
-      trim: true,
-      minlength: [3, "userId must be at least 3 characters"],
-      maxlength: [30, "userId must be at most 30 characters"],
-      match: [/^[a-zA-Z0-9_-]+$/, "userId may only contain letters, numbers, underscores and hyphens"],
-    },
-    name: {
-      type: String,
-      required: [true, "Name is required"],
-      trim: true,
-      minlength: [2, "Name must be at least 2 characters"],
-      maxlength: [100, "Name must be at most 100 characters"],
-    },
     email: {
       type: String,
       required: [true, "Email is required"],
       unique: true,
       lowercase: true,
       trim: true,
+      maxlength: [254, "Email must be at most 254 characters"],
       match: [/^\S+@\S+\.\S+$/, "Please provide a valid email address"],
     },
-    password: {
+    firstName: {
+      type: String,
+      required: [true, "First name is required"],
+      trim: true,
+      minlength: [1, "First name must be at least 1 character"],
+      maxlength: [50, "First name must be at most 50 characters"],
+    },
+    lastName: {
+      type: String,
+      required: [true, "Last name is required"],
+      trim: true,
+      minlength: [1, "Last name must be at least 1 character"],
+      maxlength: [50, "Last name must be at most 50 characters"],
+    },
+    passwordHash: {
       type: String,
       required: [true, "Password is required"],
       minlength: [8, "Password must be at least 8 characters"],
-      select: false,   // Never return password in queries by default
-    },
-    role: {
-      type: String,
-      enum: {
-        values: ["admin", "teacher", "student"],
-        message: "Role must be admin, teacher, or student",
-      },
-      required: [true, "Role is required"],
+      select: false,
     },
     avatar: {
       type: String,
       trim: true,
     },
+    role: {
+      type: String,
+      enum: {
+        values: ["admin", "teacher", "student"] as UserRole[],
+        message: "Role must be admin, teacher, or student",
+      },
+      default: "student",
+      required: [true, "Role is required"],
+    },
+    profile: {
+      type: ProfileSchema,
+      default: () => ({ socialLinks: [] }),
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+    emailVerified: {
+      type: Boolean,
+      default: false,
+    },
+    lastLogin: {
+      type: Date,
+    },
   },
   {
     timestamps: true,
     toJSON: {
+      virtuals: true,
       transform(_doc, ret) {
-        // Strip sensitive fields from all JSON serialisations
-        (ret as Record<string, unknown>).password = undefined;
+        (ret as Record<string, unknown>).passwordHash = undefined;
+        delete (ret as Record<string, unknown>).id; // remove duplicate of _id
         return ret;
       },
     },
+    toObject: { virtuals: true },
   }
 );
 
-// ── Indexes ──────────────────────────────────────────────────────────────────
-UserSchema.index({ role: 1 });
-UserSchema.index({ email: 1 });
+// ── Virtual ───────────────────────────────────────────────────────────────────
+UserSchema.virtual("fullName").get(function (this: IUser): string {
+  return `${this.firstName} ${this.lastName}`;
+});
 
-// ── Hooks ────────────────────────────────────────────────────────────────────
-/** Hash password before every save/update that modifies it */
+// ── Indexes ───────────────────────────────────────────────────────────────────
+UserSchema.index({ email: 1 }, { unique: true });
+UserSchema.index({ role: 1 });
+UserSchema.index({ createdAt: -1 });
+UserSchema.index({ isActive: 1, role: 1 });
+
+// ── Pre-save hook ─────────────────────────────────────────────────────────────
 UserSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
-  const salt = await bcrypt.genSalt(12);
-  this.password = await bcrypt.hash(this.password, salt);
+  if (!this.isModified("passwordHash")) return next();
+  // At this point passwordHash holds the plain-text password — hash it in place
+  const salt = await bcrypt.genSalt(env.BCRYPT_ROUNDS);
+  this.passwordHash = await bcrypt.hash(this.passwordHash, salt);
   next();
 });
 
 // ── Instance methods ──────────────────────────────────────────────────────────
 UserSchema.methods.comparePassword = function (
-  candidate: string
+  this: IUser,
+  plainPassword: string
 ): Promise<boolean> {
-  return bcrypt.compare(candidate, this.password as string);
+  return bcrypt.compare(plainPassword, this.passwordHash);
 };
 
 export const User = model<IUser>("User", UserSchema);

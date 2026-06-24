@@ -35,11 +35,11 @@ export interface AuthTokens {
 
 // ── Auth request bodies ────────────────────────────────────────────────────────
 export interface RegisterBody {
-  userId: string;
-  name: string;
   email: string;
+  firstName: string;
+  lastName: string;
   password: string;
-  role: UserRole;
+  role?: UserRole;
   avatar?: string;
 }
 
