@@ -80,7 +80,7 @@ export default function FeaturesSection() {
           </p>
           <h2
             id="features-heading"
-            className="text-[32px] font-bold text-brand-dark leading-tight mb-3.5"
+            className="text-[32px] font-bold text-brand-dark text-center leading-tight mb-3.5"
           >
             Everything you need to succeed
           </h2>
