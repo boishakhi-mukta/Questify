@@ -8,7 +8,9 @@ export default function Home() {
     <>
       <Navbar />
       <HeroBanner />
-      <HowItWorks />
+      <section id="how-it-works">
+        <HowItWorks />
+      </section>
       <CoursesSection />
     </>
   );
