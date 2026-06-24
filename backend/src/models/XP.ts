@@ -1,21 +1,73 @@
-import { Schema, model, Document, Types } from "mongoose";
-import type { PointType } from "../types";
+import { Schema, model, Document, Types, Model, type PipelineStage } from "mongoose";
+import { Enrollment } from "./Enrollment";
+import type { LeaderboardEntry } from "@/types";
 
-/** One XP record per earning event — append-only ledger */
-export interface IXP extends Document {
-  _id: Types.ObjectId;
-  studentId: Types.ObjectId;  // ref: User
-  courseId: Types.ObjectId;   // ref: Course
-  /** The activity that earned this XP */
-  pointType: PointType;
-  /** Points earned in this event (positive integer) */
-  xpEarned: number;
-  /** Optional reference to the source document (attendanceId, submissionId, etc.) */
-  sourceId?: Types.ObjectId;
-  timestamp: Date;
+// ── Activity type enum + point map ─────────────────────────────────────────────
+export type XPActivityType =
+  | "ATTENDANCE"
+  | "ASSIGNMENT_SUBMISSION"
+  | "MATERIAL_READ"
+  | "PARTICIPATION"
+  | "QUIZ";
+
+export const XP_POINT_VALUES: Record<XPActivityType, number> = {
+  ATTENDANCE: 10,
+  ASSIGNMENT_SUBMISSION: 25,
+  MATERIAL_READ: 15,
+  PARTICIPATION: 5,
+  QUIZ: 20,
+};
+
+// ── Metadata sub-document interface ───────────────────────────────────────────
+export interface IXPMetadata {
+  attendanceId?: Types.ObjectId;
+  assignmentId?: Types.ObjectId;
+  submissionId?: Types.ObjectId;
+  description?: string;
 }
 
-const XPSchema = new Schema<IXP>(
+// ── Document interface ─────────────────────────────────────────────────────────
+export interface IXP extends Document {
+  _id: Types.ObjectId;
+  studentId: Types.ObjectId;
+  courseId: Types.ObjectId;
+  type: XPActivityType;
+  /** Points awarded — auto-set from XP_POINT_VALUES[type] on creation */
+  points: number;
+  metadata: IXPMetadata;
+  earnedAt: Date;
+  createdAt: Date;
+}
+
+// ── Static methods interface ───────────────────────────────────────────────────
+export interface IXPModel extends Model<IXP> {
+  calculateLeaderboard(
+    courseId: Types.ObjectId | string
+  ): Promise<LeaderboardEntry[]>;
+
+  getUserPoints(
+    studentId: Types.ObjectId | string,
+    courseId: Types.ObjectId | string
+  ): Promise<number>;
+}
+
+// ── Metadata sub-schema ────────────────────────────────────────────────────────
+const MetadataSchema = new Schema<IXPMetadata>(
+  {
+    attendanceId: { type: Schema.Types.ObjectId, ref: "Attendance" },
+    assignmentId: { type: Schema.Types.ObjectId, ref: "Assignment" },
+    submissionId: { type: Schema.Types.ObjectId },
+    description: {
+      type: String,
+      trim: true,
+      maxlength: [500, "Description must be at most 500 characters"],
+    },
+  },
+  { _id: false }
+);
+
+// ── XP schema ──────────────────────────────────────────────────────────────────
+const XPSchema = new Schema<IXP, IXPModel>(
   {
     studentId: {
       type: Schema.Types.ObjectId,
@@ -27,25 +79,27 @@ const XPSchema = new Schema<IXP>(
       ref: "Course",
       required: [true, "courseId is required"],
     },
-    pointType: {
+    type: {
       type: String,
       enum: {
-        values: ["attendance", "assignment", "reading"],
-        message: "pointType must be attendance, assignment, or reading",
+        values: Object.keys(XP_POINT_VALUES) as XPActivityType[],
+        message: `type must be one of: ${Object.keys(XP_POINT_VALUES).join(", ")}`,
       },
-      required: [true, "pointType is required"],
+      required: [true, "type is required"],
     },
-    xpEarned: {
+    points: {
       type: Number,
-      required: [true, "xpEarned is required"],
-      min: [1, "xpEarned must be at least 1"],
+      required: [true, "points is required"],
+      min: [1, "points must be at least 1"],
     },
-    sourceId: {
-      type: Schema.Types.ObjectId,
+    metadata: {
+      type: MetadataSchema,
+      default: () => ({}),
     },
-    timestamp: {
+    earnedAt: {
       type: Date,
       default: () => new Date(),
+      required: [true, "earnedAt is required"],
     },
   },
   {
@@ -54,15 +108,105 @@ const XPSchema = new Schema<IXP>(
   }
 );
 
-// ── Indexes ───────────────────────────────────────────────────────────────────
-// Leaderboard query: total XP per student per course
+// ── Pre-validate: auto-set points from type ────────────────────────────────────
+XPSchema.pre("validate", function (next) {
+  if (this.isNew && this.type) {
+    this.points = XP_POINT_VALUES[this.type];
+  }
+  next();
+});
+
+// ── Post-save: increment Enrollment.totalXpEarned ─────────────────────────────
+XPSchema.post("save", async function (doc: IXP) {
+  if (!this.isNew) return;
+
+  await Enrollment.findOneAndUpdate(
+    { studentId: doc.studentId, courseId: doc.courseId },
+    { $inc: { totalXpEarned: doc.points } }
+  );
+});
+
+// ── Static: leaderboard for a course ──────────────────────────────────────────
+XPSchema.statics.calculateLeaderboard = async function (
+  courseId: Types.ObjectId | string
+): Promise<LeaderboardEntry[]> {
+  const pipeline: PipelineStage[] = [
+    { $match: { courseId: new Types.ObjectId(courseId.toString()) } },
+    { $group: { _id: "$studentId", totalXP: { $sum: "$points" } } },
+    { $sort: { totalXP: -1 } },
+    {
+      $lookup: {
+        from: "users",
+        localField: "_id",
+        foreignField: "_id",
+        as: "studentData",
+      },
+    },
+    { $unwind: "$studentData" },
+    {
+      $project: {
+        _id: 0,
+        studentId: { $toString: "$_id" },
+        name: {
+          $concat: ["$studentData.firstName", " ", "$studentData.lastName"],
+        },
+        avatar: "$studentData.avatar",
+        totalXP: 1,
+      },
+    },
+  ];
+
+  const results = await XPModel.aggregate<Omit<LeaderboardEntry, "rank">>(pipeline);
+
+  return results.map((entry, index) => ({ ...entry, rank: index + 1 }));
+};
+
+// ── Static: total points for a student in a course ────────────────────────────
+XPSchema.statics.getUserPoints = async function (
+  studentId: Types.ObjectId | string,
+  courseId: Types.ObjectId | string
+): Promise<number> {
+  const pipeline: PipelineStage[] = [
+    {
+      $match: {
+        studentId: new Types.ObjectId(studentId.toString()),
+        courseId: new Types.ObjectId(courseId.toString()),
+      },
+    },
+    { $group: { _id: null, total: { $sum: "$points" } } },
+  ];
+
+  const result = await XPModel.aggregate<{ total: number }>(pipeline);
+
+  return result[0]?.total ?? 0;
+};
+
+// ── Indexes ────────────────────────────────────────────────────────────────────
+// Per-student totals for leaderboard
 XPSchema.index({ courseId: 1, studentId: 1 });
-// Student profile: all XP across all courses
-XPSchema.index({ studentId: 1, timestamp: -1 });
-// Prevent double-awarding the same event
+
+// Course-wide leaderboard (sorted by points already in Enrollment, but useful for direct XP queries)
+XPSchema.index({ courseId: 1, points: -1 });
+
+// Student's XP history across all courses
+XPSchema.index({ studentId: 1, earnedAt: -1 });
+
+// Analytics by activity type
+XPSchema.index({ type: 1 });
+
+// Time-series queries
+XPSchema.index({ earnedAt: -1 });
+
+// Idempotency: prevent double-awarding the same attendance event
 XPSchema.index(
-  { studentId: 1, sourceId: 1, pointType: 1 },
-  { unique: true, sparse: true, name: "unique_xp_event" }
+  { studentId: 1, "metadata.attendanceId": 1, type: 1 },
+  { unique: true, sparse: true, name: "unique_attendance_xp" }
 );
 
-export const XP = model<IXP>("XP", XPSchema);
+// Idempotency: prevent double-awarding the same submission
+XPSchema.index(
+  { studentId: 1, "metadata.submissionId": 1, type: 1 },
+  { unique: true, sparse: true, name: "unique_submission_xp" }
+);
+
+export const XPModel = model<IXP, IXPModel>("XP", XPSchema);

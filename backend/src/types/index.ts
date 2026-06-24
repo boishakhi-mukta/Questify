@@ -5,7 +5,7 @@ import { Types } from "mongoose";
 export type { IUser } from "../models/User";
 export type { ICourse } from "../models/Course";
 export type { IEnrollment } from "../models/Enrollment";
-export type { IXP as IXPPoint } from "../models/XP";
+export type { IXP as IXPPoint, IXPMetadata, XPActivityType } from "../models/XP";
 export type { IAttendance } from "../models/Attendance";
 export type { IAssignment, ISubmission } from "../models/Assignment";
 export type { IMaterial, MaterialType } from "../models/Material";
@@ -14,7 +14,12 @@ export type { IMaterial, MaterialType } from "../models/Material";
 export type UserRole = "admin" | "teacher" | "student";
 export type IUserRole = UserRole;
 
-export type PointType = "attendance" | "assignment" | "reading";
+export type PointType =
+  | "ATTENDANCE"
+  | "ASSIGNMENT_SUBMISSION"
+  | "MATERIAL_READ"
+  | "PARTICIPATION"
+  | "QUIZ";
 
 export type MongoId = Types.ObjectId;
 
