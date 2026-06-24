@@ -14,13 +14,15 @@ export const JWT = {
 } as const;
 
 // ── XP Point values ────────────────────────────────────────────────────────────
-export const XP = {
+export const XP_POINTS = {
   ATTENDANCE: 10,
-  ASSIGNMENT: 25,
-  MATERIAL: 15,
+  ASSIGNMENT_SUBMISSION: 25,
+  MATERIAL_READ: 15,
+  PARTICIPATION: 5,
+  QUIZ: 20,
 } as const;
 
-export type XPActivity = keyof typeof XP;
+export type XPActivity = keyof typeof XP_POINTS;
 
 // ── Pagination ─────────────────────────────────────────────────────────────────
 export const PAGINATION = {
@@ -31,9 +33,9 @@ export const PAGINATION = {
 
 // ── Course ─────────────────────────────────────────────────────────────────────
 export const COURSE_LEVELS = {
-  BACHELOR: "Bachelor",
-  MASTER: "Master",
-  PHD: "PhD",
+  BEGINNER: "BEGINNER",
+  INTERMEDIATE: "INTERMEDIATE",
+  ADVANCED: "ADVANCED",
 } as const;
 
 export type CourseLevel = (typeof COURSE_LEVELS)[keyof typeof COURSE_LEVELS];
@@ -50,14 +52,16 @@ export type MaterialTypeValue = (typeof MATERIAL_TYPES)[keyof typeof MATERIAL_TY
 
 // ── Point types ────────────────────────────────────────────────────────────────
 export const POINT_TYPES = {
-  ATTENDANCE: "attendance",
-  ASSIGNMENT: "assignment",
-  READING: "reading",
+  ATTENDANCE: "ATTENDANCE",
+  ASSIGNMENT_SUBMISSION: "ASSIGNMENT_SUBMISSION",
+  MATERIAL_READ: "MATERIAL_READ",
+  PARTICIPATION: "PARTICIPATION",
+  QUIZ: "QUIZ",
 } as const;
 
 export type PointTypeValue = (typeof POINT_TYPES)[keyof typeof POINT_TYPES];
 
-// ── Status ─────────────────────────────────────────────────────────────────────
+// ── Generic status ─────────────────────────────────────────────────────────────
 export const STATUS = {
   ACTIVE: "active",
   INACTIVE: "inactive",
@@ -65,6 +69,16 @@ export const STATUS = {
 } as const;
 
 export type StatusValue = (typeof STATUS)[keyof typeof STATUS];
+
+// ── Enrollment status ──────────────────────────────────────────────────────────
+export const ENROLLMENT_STATUS = {
+  ACTIVE: "ACTIVE",
+  COMPLETED: "COMPLETED",
+  DROPPED: "DROPPED",
+} as const;
+
+export type EnrollmentStatusValue =
+  (typeof ENROLLMENT_STATUS)[keyof typeof ENROLLMENT_STATUS];
 
 // ── Error codes ────────────────────────────────────────────────────────────────
 export const ERROR_CODES = {

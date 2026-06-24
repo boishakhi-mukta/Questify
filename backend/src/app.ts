@@ -3,9 +3,9 @@ import express from "express";
 import helmet from "helmet";
 import cors from "cors";
 import morgan from "morgan";
-import rateLimit from "express-rate-limit";
 import { env } from "@/config/environment";
 import { HTTP } from "@/config/constants";
+import { generalLimiter } from "@/middleware/rateLimiter";
 import { notFound, errorHandler } from "@/middleware/errorHandler";
 
 const app = express();
@@ -31,18 +31,7 @@ app.use(express.json({ limit: "10kb" }));
 app.use(express.urlencoded({ extended: true }));
 
 // ── Global rate limiter ────────────────────────────────────────────────────────
-app.use(
-  rateLimit({
-    windowMs: env.RATE_LIMIT_WINDOW_MS,
-    max: env.RATE_LIMIT_MAX,
-    standardHeaders: true,
-    legacyHeaders: false,
-    message: {
-      success: false,
-      message: "Too many requests. Please try again later.",
-    },
-  })
-);
+app.use(generalLimiter);
 
 // ── Health check ───────────────────────────────────────────────────────────────
 app.get("/health", (_req, res) => {
