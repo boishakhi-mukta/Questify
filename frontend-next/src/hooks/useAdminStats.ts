@@ -1,0 +1,40 @@
+import { useState, useEffect, useCallback } from "react";
+
+export interface AdminStats {
+  totalStudents: number;
+  totalTeachers: number;
+  totalCourses: number;
+  totalXPDistributed: number;
+}
+
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api/v1";
+
+export function useAdminStats() {
+  const [data, setData] = useState<AdminStats | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchStats = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch(`${API_BASE}/admin/stats`, { cache: "no-store" });
+      if (!res.ok) throw new Error(`Server returned ${res.status}`);
+      const json = await res.json();
+      setData(json.data as AdminStats);
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Failed to load statistics"
+      );
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchStats();
+  }, [fetchStats]);
+
+  return { data, loading, error, refetch: fetchStats };
+}

@@ -47,9 +47,11 @@ app.get("/health", (_req, res) => {
 import authRoutes from "@/routes/auth";
 import userRoutes from "@/routes/users";
 import courseRoutes from "@/routes/courses";
+import adminRoutes from "@/routes/admin";
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/courses", courseRoutes);
+app.use("/api/v1/admin", adminRoutes);
 
 // ── 404 + error handler ────────────────────────────────────────────────────────
 app.use(notFound);

@@ -3,7 +3,7 @@
  * Swap the arrays and functions below with real API calls when a backend is ready.
  */
 
-import type { UserRole } from "./auth";
+import type { UserRole } from "@/types/auth";
 
 export interface AdminUser {
   id: string;

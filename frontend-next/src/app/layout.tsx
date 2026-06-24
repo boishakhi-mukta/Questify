@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
+import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
-import SessionProviderWrapper from "@/components/SessionProviderWrapper";
+import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
   title: "Questify",
@@ -16,10 +17,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>
-        <SessionProviderWrapper>{children}</SessionProviderWrapper>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className="flex flex-col min-h-screen">
+          <div className="flex-1">{children}</div>
+          <Footer />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

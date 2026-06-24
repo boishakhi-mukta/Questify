@@ -1,18 +1,20 @@
-import { auth } from "@/lib/auth";
+import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import DashboardShell from "@/components/dashboard/DashboardShell";
+import type { UserRole } from "@/types/auth";
 
 export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth();
-  if (!session || session.user.role !== "admin") redirect("/signin");
+  const user = await currentUser();
+  if (!user) redirect("/auth/login");
 
-  return (
-    <DashboardShell session={session} role="admin">
-      {children}
-    </DashboardShell>
-  );
+  const role = user.publicMetadata?.role as UserRole | undefined;
+  if (role !== "admin") {
+    redirect(role ? `/${role}` : "/auth/login");
+  }
+
+  return <DashboardShell role="admin">{children}</DashboardShell>;
 }
