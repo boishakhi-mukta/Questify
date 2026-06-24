@@ -1,31 +1,8 @@
 import { Schema, model, Document, Types, Model } from "mongoose";
+import type { ISubmission } from "./Submission";
 
 // ── Submission type enum ───────────────────────────────────────────────────────
 export type SubmissionType = "TEXT" | "FILE" | "LINK" | "CODE";
-
-// ── Submission document interface (separate collection, populated via virtual) ─
-export interface ISubmission extends Document {
-  _id: Types.ObjectId;
-  assignmentId: Types.ObjectId;
-  studentId: Types.ObjectId;
-  courseId: Types.ObjectId;
-  type: SubmissionType;
-  /** Present when type is TEXT or CODE */
-  content?: string;
-  /** Present when type is FILE */
-  fileUrl?: string;
-  /** Present when type is LINK */
-  linkUrl?: string;
-  isLate: boolean;
-  grade?: number;
-  gradedAt?: Date;
-  /** Teacher who graded */
-  gradedBy?: Types.ObjectId;
-  feedback?: string;
-  submittedAt: Date;
-  createdAt: Date;
-  updatedAt: Date;
-}
 
 // ── Assignment document interface ──────────────────────────────────────────────
 export interface IAssignment extends Document {
