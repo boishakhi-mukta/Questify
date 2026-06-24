@@ -1,68 +1,69 @@
-import { Schema, model, Document, Types } from "mongoose";
+import { Schema, model, Document, Types, Model } from "mongoose";
 
-/** Embedded submission sub-document */
-export interface ISubmission {
-  studentId: Types.ObjectId;  // ref: User
-  submittedAt: Date;
-  /** URL to the submitted file (S3, Cloudinary, etc.) or text answer */
+// ── Submission type enum ───────────────────────────────────────────────────────
+export type SubmissionType = "TEXT" | "FILE" | "LINK" | "CODE";
+
+// ── Submission document interface (separate collection, populated via virtual) ─
+export interface ISubmission extends Document {
+  _id: Types.ObjectId;
+  assignmentId: Types.ObjectId;
+  studentId: Types.ObjectId;
+  courseId: Types.ObjectId;
+  type: SubmissionType;
+  /** Present when type is TEXT or CODE */
+  content?: string;
+  /** Present when type is FILE */
   fileUrl?: string;
-  textAnswer?: string;
-  /** Teacher-assigned grade (0-100), null until graded */
+  /** Present when type is LINK */
+  linkUrl?: string;
+  isLate: boolean;
   grade?: number;
   gradedAt?: Date;
-  gradedBy?: Types.ObjectId;  // ref: User (teacher)
+  /** Teacher who graded */
+  gradedBy?: Types.ObjectId;
   feedback?: string;
-}
-
-export interface IAssignment extends Document {
-  _id: Types.ObjectId;
-  courseId: Types.ObjectId;   // ref: Course
-  title: string;
-  description: string;
-  dueDate: Date;
-  /** Max file size in MB */
-  maxFileSizeMb: number;
-  /** Allowed MIME types */
-  allowedTypes: string[];
-  /** Uploaded by a teacher */
-  uploadedBy: Types.ObjectId; // ref: User
-  submissions: ISubmission[];
-  isActive: boolean;
+  submittedAt: Date;
   createdAt: Date;
   updatedAt: Date;
 }
 
-const SubmissionSchema = new Schema<ISubmission>(
-  {
-    studentId: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
-    submittedAt: {
-      type: Date,
-      default: () => new Date(),
-    },
-    fileUrl: { type: String, trim: true },
-    textAnswer: { type: String, trim: true },
-    grade: {
-      type: Number,
-      min: [0, "Grade cannot be negative"],
-      max: [100, "Grade cannot exceed 100"],
-    },
-    gradedAt: { type: Date },
-    gradedBy: { type: Schema.Types.ObjectId, ref: "User" },
-    feedback: { type: String, trim: true },
-  },
-  { _id: false } // embedded sub-document — no separate _id needed
-);
+// ── Assignment document interface ──────────────────────────────────────────────
+export interface IAssignment extends Document {
+  _id: Types.ObjectId;
+  courseId: Types.ObjectId;
+  title: string;
+  description: string;
+  instructions?: string;
+  dueDate: Date;
+  totalPoints: number;
+  submissionType: SubmissionType;
+  allowLateSubmission: boolean;
+  /** Late-submission penalty as a percentage (0–100) */
+  latePenalty: number;
+  attachments: string[];
+  createdAt: Date;
+  updatedAt: Date;
+  /** Virtual populate — available after .populate("submissions") */
+  submissions?: ISubmission[];
+}
 
-const AssignmentSchema = new Schema<IAssignment>(
+// ── Static methods interface ───────────────────────────────────────────────────
+export interface IAssignmentModel extends Model<IAssignment> {
+  getActiveAssignments(
+    courseId: Types.ObjectId | string
+  ): Promise<IAssignment[]>;
+
+  getOverdueAssignments(): Promise<IAssignment[]>;
+}
+
+// ── Schema ─────────────────────────────────────────────────────────────────────
+const AssignmentSchema = new Schema<IAssignment, IAssignmentModel>(
   {
     courseId: {
       type: Schema.Types.ObjectId,
       ref: "Course",
       required: [true, "courseId is required"],
+      index: true,
     },
     title: {
       type: String,
@@ -75,42 +76,88 @@ const AssignmentSchema = new Schema<IAssignment>(
       type: String,
       required: [true, "Description is required"],
       trim: true,
-      maxlength: [2000, "Description must be at most 2000 characters"],
+      minlength: [10, "Description must be at least 10 characters"],
+      maxlength: [2_000, "Description must be at most 2 000 characters"],
+    },
+    instructions: {
+      type: String,
+      trim: true,
+      maxlength: [10_000, "Instructions must be at most 10 000 characters"],
     },
     dueDate: {
       type: Date,
       required: [true, "Due date is required"],
+      index: true,
     },
-    maxFileSizeMb: {
+    totalPoints: {
+      type: Number,
+      default: 100,
+      min: [1, "Total points must be at least 1"],
+      max: [1_000, "Total points must be at most 1 000"],
+    },
+    submissionType: {
+      type: String,
+      enum: {
+        values: ["TEXT", "FILE", "LINK", "CODE"] as SubmissionType[],
+        message: "submissionType must be TEXT, FILE, LINK, or CODE",
+      },
+      required: [true, "submissionType is required"],
+    },
+    allowLateSubmission: {
+      type: Boolean,
+      default: false,
+    },
+    latePenalty: {
       type: Number,
       default: 10,
-      min: [1, "Max file size must be at least 1 MB"],
+      min: [0, "Late penalty cannot be negative"],
+      max: [100, "Late penalty cannot exceed 100%"],
     },
-    allowedTypes: {
-      type: [String],
-      default: ["application/pdf", "application/zip", "text/plain"],
-    },
-    uploadedBy: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      required: [true, "uploadedBy is required"],
-    },
-    submissions: {
-      type: [SubmissionSchema],
+    attachments: {
+      type: [{ type: String, trim: true }],
       default: [],
     },
-    isActive: {
-      type: Boolean,
-      default: true,
-    },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
 );
 
-// ── Indexes ───────────────────────────────────────────────────────────────────
-AssignmentSchema.index({ courseId: 1, dueDate: 1 });
-AssignmentSchema.index({ courseId: 1, isActive: 1 });
-// Fast lookup: has this student already submitted?
-AssignmentSchema.index({ "submissions.studentId": 1 });
+// ── Virtual populate: submissions ──────────────────────────────────────────────
+AssignmentSchema.virtual("submissions", {
+  ref: "Submission",
+  localField: "_id",
+  foreignField: "assignmentId",
+});
 
-export const Assignment = model<IAssignment>("Assignment", AssignmentSchema);
+// ── Static: assignments with dueDate in the future ────────────────────────────
+AssignmentSchema.statics.getActiveAssignments = async function (
+  courseId: Types.ObjectId | string
+): Promise<IAssignment[]> {
+  return Assignment.find({
+    courseId: new Types.ObjectId(courseId.toString()),
+    dueDate: { $gte: new Date() },
+  }).sort({ dueDate: 1 });
+};
+
+// ── Static: all assignments past their dueDate (system-wide) ──────────────────
+AssignmentSchema.statics.getOverdueAssignments = async function (): Promise<IAssignment[]> {
+  return Assignment.find({ dueDate: { $lt: new Date() } }).sort({ dueDate: -1 });
+};
+
+// ── Indexes ────────────────────────────────────────────────────────────────────
+// Course assignment listing
+AssignmentSchema.index({ courseId: 1 });
+
+// Due-date sorting / overdue queries
+AssignmentSchema.index({ dueDate: 1 });
+
+// Combined: course assignments ordered by due date
+AssignmentSchema.index({ courseId: 1, dueDate: 1 });
+
+export const Assignment = model<IAssignment, IAssignmentModel>(
+  "Assignment",
+  AssignmentSchema
+);
