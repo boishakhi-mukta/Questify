@@ -10,6 +10,8 @@ export interface IUserProfile {
   phone?: string;
   socialLinks: string[];
   educationLevel?: string;
+  /** Department code, e.g. "CS" — matches Department.code */
+  department?: string;
 }
 
 // ── Document interface ────────────────────────────────────────────────────────
@@ -68,6 +70,12 @@ const ProfileSchema = new Schema<IUserProfile>(
       type: String,
       trim: true,
       maxlength: [100, "Education level must be at most 100 characters"],
+    },
+    department: {
+      type: String,
+      trim: true,
+      uppercase: true,
+      maxlength: [20, "Department code must be at most 20 characters"],
     },
   },
   { _id: false }

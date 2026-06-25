@@ -9,6 +9,8 @@
     "start": "node dist/server.js",
     "test": "jest --coverage --forceExit",
     "test:watch": "jest --watch",
+    "test:unit": "jest --testPathPattern=tests/unit --forceExit",
+    "test:integration": "jest --testPathPattern=tests/integration --forceExit",
     "test:coverage": "jest --coverage --forceExit",
     "lint": "eslint src --ext .ts"
   },
@@ -45,23 +47,5 @@
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.5.3"
-  },
-  "jest": {
-    "preset": "ts-jest",
-    "testEnvironment": "node",
-    "roots": [
-      "<rootDir>/tests"
-    ],
-    "testMatch": [
-      "**/*.test.ts"
-    ],
-    "moduleNameMapper": {
-      "^@/(.*)$": "<rootDir>/src/$1"
-    },
-    "coverageDirectory": "coverage",
-    "collectCoverageFrom": [
-      "src/**/*.ts",
-      "!src/server.ts"
-    ]
   }
 }

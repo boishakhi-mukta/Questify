@@ -11,6 +11,7 @@ export interface IEnrollment extends Document {
   studentId: Types.ObjectId;
   courseId: Types.ObjectId;
   status: EnrollmentStatus;
+  semester?: string;
   enrolledAt: Date;
   completedAt?: Date;
   totalXpEarned: number;
@@ -47,6 +48,11 @@ const EnrollmentSchema = new Schema<IEnrollment>(
         message: "Status must be ACTIVE, COMPLETED, or DROPPED",
       },
       default: "ACTIVE",
+    },
+    semester: {
+      type: String,
+      trim: true,
+      maxlength: [50, "Semester must be at most 50 characters"],
     },
     enrolledAt: {
       type: Date,
