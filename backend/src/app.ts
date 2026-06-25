@@ -3,16 +3,38 @@ import express from "express";
 import helmet from "helmet";
 import cors from "cors";
 import morgan from "morgan";
+import swaggerUi from "swagger-ui-express";
 import { env } from "@/config/environment";
 import { HTTP } from "@/config/constants";
 import { generalLimiter } from "@/middleware/rateLimiter";
 import { attachRequestId } from "@/middleware/requestId";
 import { notFound, errorHandler } from "@/middleware/errorHandler";
+import { openApiSpec } from "@/docs/openapi";
 
 const app = express();
 
 // ── Request ID — mount first so every handler and the error handler can read it
 app.use(attachRequestId);
+
+// ── API Docs — mounted before helmet so Swagger UI assets bypass CSP
+// Disabled in production unless explicitly opted-in via ENABLE_DOCS=true
+if (env.NODE_ENV !== "production" || process.env.ENABLE_DOCS === "true") {
+  app.use(
+    "/api-docs",
+    swaggerUi.serve,
+    swaggerUi.setup(openApiSpec as Parameters<typeof swaggerUi.setup>[0], {
+      customSiteTitle: "Questify API Docs",
+      customCss: ".swagger-ui .topbar { background-color: #1a1a2e; } .swagger-ui .topbar-wrapper img { content: none; }",
+      swaggerOptions: { persistAuthorization: true, displayRequestDuration: true },
+    })
+  );
+
+  // Raw JSON spec — useful for importing into Postman / Insomnia
+  app.get("/api-docs.json", (_req, res) => {
+    res.setHeader("Content-Type", "application/json");
+    res.json(openApiSpec);
+  });
+}
 
 // ── Security headers ───────────────────────────────────────────────────────────
 app.use(helmet());
