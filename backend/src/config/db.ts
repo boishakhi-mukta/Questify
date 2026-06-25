@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { logger } from "@/utils/logger";
 
 const MONGODB_URI = process.env.MONGODB_URI as string;
 
@@ -21,19 +22,19 @@ export async function connectDB(): Promise<void> {
     });
 
     isConnected = true;
-    console.log("✅  MongoDB connected:", mongoose.connection.host);
+    logger.info(`MongoDB connected: ${mongoose.connection.host}`);
 
     mongoose.connection.on("error", (err) => {
-      console.error("❌  MongoDB connection error:", err);
+      logger.error("MongoDB connection error", { error: err });
       isConnected = false;
     });
 
     mongoose.connection.on("disconnected", () => {
-      console.warn("⚠️   MongoDB disconnected. Reconnecting...");
+      logger.warn("MongoDB disconnected");
       isConnected = false;
     });
   } catch (err) {
-    console.error("❌  Failed to connect to MongoDB:", err);
+    logger.error("Failed to connect to MongoDB", { error: err });
     process.exit(1);
   }
 }

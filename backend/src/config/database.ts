@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { env } from "./environment";
+import { logger } from "@/utils/logger";
 
 const CONNECTION_OPTIONS: mongoose.ConnectOptions = {
   maxPoolSize: 10,
@@ -14,19 +15,19 @@ function attachEvents(): void {
   const conn = mongoose.connection;
 
   conn.on("error", (err: Error) => {
-    console.error("❌  MongoDB error:", err.message);
+    logger.error("MongoDB error", { message: err.message });
   });
 
   conn.on("disconnected", () => {
-    console.warn("⚠️   MongoDB disconnected");
+    logger.warn("MongoDB disconnected");
   });
 
   conn.on("reconnected", () => {
-    console.log("✅  MongoDB reconnected");
+    logger.info("MongoDB reconnected");
   });
 
   conn.on("close", () => {
-    console.log("MongoDB connection closed");
+    logger.info("MongoDB connection closed");
   });
 }
 
@@ -36,9 +37,9 @@ export async function connectDB(): Promise<void> {
   try {
     attachEvents();
     await mongoose.connect(env.MONGODB_URI, CONNECTION_OPTIONS);
-    console.log(`✅  MongoDB connected: ${mongoose.connection.host}`);
+    logger.info(`MongoDB connected: ${mongoose.connection.host}`);
   } catch (err) {
-    console.error("❌  MongoDB connection failed:", err);
+    logger.error("MongoDB connection failed", { error: err });
     process.exit(1);
   }
 }
@@ -46,7 +47,7 @@ export async function connectDB(): Promise<void> {
 export async function disconnectDB(): Promise<void> {
   if (mongoose.connection.readyState === 0) return;
   await mongoose.disconnect();
-  console.log("MongoDB disconnected");
+  logger.info("MongoDB disconnected");
 }
 
 export { mongoose };

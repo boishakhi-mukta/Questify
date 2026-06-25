@@ -28,6 +28,7 @@ import {
   clerkDeleteUser,
   clerkFindByEmail,
 } from "@/utils/clerk-admin";
+import { logAction, logger } from "@/utils/logger";
 import type { AuthenticatedRequest } from "@/types";
 
 // ── Shared helpers ─────────────────────────────────────────────────────────────
@@ -37,14 +38,7 @@ function logAdmin(
   adminId: string,
   details: Record<string, unknown> = {}
 ): void {
-  console.log(
-    JSON.stringify({
-      event: `ADMIN_${action}`,
-      adminId,
-      ...details,
-      timestamp: new Date().toISOString(),
-    })
-  );
+  logAction(`ADMIN_${action}`, { adminId, ...details });
 }
 
 function parsePagination(page = "1", limit = String(PAGINATION.DEFAULT_LIMIT)) {
@@ -165,9 +159,7 @@ export async function adminCreateUser(
       await user.save({ validateModifiedOnly: true });
       clerkSynced = true;
     } catch (err) {
-      console.warn(
-        JSON.stringify({ event: "CLERK_CREATE_FAILED", userId: user._id, error: String(err) })
-      );
+      logger.warn("CLERK_CREATE_FAILED", { userId: user._id, error: String(err) });
     }
   }
 
@@ -295,7 +287,7 @@ export async function adminUpdateUser(
         await clerkUpdateUser(clerkId, clerkPayload as Parameters<typeof clerkUpdateUser>[1]);
       }
     } catch (err) {
-      console.warn(JSON.stringify({ event: "CLERK_UPDATE_FAILED", userId: user._id, error: String(err) }));
+      logger.warn("CLERK_UPDATE_FAILED", { userId: user._id, error: String(err) });
     }
   }
 
@@ -334,7 +326,7 @@ export async function adminSoftDeleteUser(
       }
       if (clerkId) await clerkDeleteUser(clerkId);
     } catch (err) {
-      console.warn(JSON.stringify({ event: "CLERK_DELETE_FAILED", userId: user._id, error: String(err) }));
+      logger.warn("CLERK_DELETE_FAILED", { userId: user._id, error: String(err) });
     }
   }
 
@@ -372,9 +364,7 @@ export async function adminResetPassword(
   // The user will need to log in with the new password through the local auth
   // flow; their Clerk session will be invalidated on next sign-in attempt.
   if (isClerkConfigured()) {
-    console.warn(
-      JSON.stringify({ event: "CLERK_RESET_SKIPPED", userId: String(user._id), reason: "password not in ClerkUpdatePayload" })
-    );
+    logger.warn("CLERK_RESET_SKIPPED", { userId: String(user._id), reason: "password not in ClerkUpdatePayload" });
   }
 
   logAdmin("RESET_PASSWORD", req.user!.id, {

@@ -12,15 +12,11 @@ import {
   buildPaginationMeta,
 } from "@/utils/responses";
 import { PAGINATION } from "@/config/constants";
+import { logAction } from "@/utils/logger";
 import type { AuthenticatedRequest } from "@/types";
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
-/**
- * Ensures the calling user has edit rights over the given course.
- * Admins bypass the teacher-assignment check; teachers must be listed
- * in course.teachers.
- */
 async function assertCourseAccess(
   courseId: Types.ObjectId | string,
   userId: string,
@@ -35,16 +31,6 @@ async function assertCourseAccess(
       throw new AuthorizationError("You are not assigned to this course.");
     }
   }
-}
-
-/** Structured action log — consumed by morgan / a log aggregator. */
-function logAction(
-  action: string,
-  details: Record<string, unknown>
-): void {
-  console.log(
-    JSON.stringify({ action, ...details, timestamp: new Date().toISOString() })
-  );
 }
 
 // ── POST /api/v1/materials ─────────────────────────────────────────────────────

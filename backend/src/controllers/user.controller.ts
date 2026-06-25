@@ -28,6 +28,7 @@ import {
   clerkFindByEmail,
 } from "@/utils/clerk-admin";
 import { env } from "@/config/environment";
+import { logAction, logger } from "@/utils/logger";
 import type { AuthenticatedRequest } from "@/types";
 import type { IUser } from "@/models/User";
 
@@ -38,15 +39,7 @@ function logAdminEvent(
   targetUserId: string,
   extra: Record<string, unknown> = {}
 ): void {
-  console.log(
-    JSON.stringify({
-      event:        `ADMIN_${action}`,
-      adminId,
-      targetUserId,
-      ...extra,
-      timestamp:    new Date().toISOString(),
-    })
-  );
+  logAction(`ADMIN_${action}`, { adminId, targetUserId, ...extra });
 }
 
 // ── POST /api/v1/users (admin) ─────────────────────────────────────────────────
@@ -96,7 +89,7 @@ export async function createUser(
       await user.save({ validateModifiedOnly: true });
     } catch (err) {
       clerkWarning = err instanceof Error ? err.message : "Clerk sync failed";
-      console.warn(JSON.stringify({ event: "CLERK_CREATE_FAILED", userId: user._id, error: clerkWarning }));
+      logger.warn("CLERK_CREATE_FAILED", { userId: user._id, error: clerkWarning });
     }
   }
 
@@ -324,7 +317,7 @@ export async function updateUser(
         await clerkUpdateUser(clerkId, clerkPayload as Parameters<typeof clerkUpdateUser>[1]);
       }
     } catch (err) {
-      console.warn(JSON.stringify({ event: "CLERK_UPDATE_FAILED", userId: user._id, error: String(err) }));
+      logger.warn("CLERK_UPDATE_FAILED", { userId: user._id, error: String(err) });
     }
   }
 
@@ -365,7 +358,7 @@ export async function deleteUser(
       }
       if (clerkId) await clerkDeleteUser(clerkId);
     } catch (err) {
-      console.warn(JSON.stringify({ event: "CLERK_DELETE_FAILED", userId: user._id, error: String(err) }));
+      logger.warn("CLERK_DELETE_FAILED", { userId: user._id, error: String(err) });
     }
   }
 
@@ -404,7 +397,7 @@ export async function resetPassword(
         await clerkUpdateUser(clerkId, { first_name: user.firstName });
       }
     } catch (err) {
-      console.warn(JSON.stringify({ event: "CLERK_RESET_FAILED", userId: user._id, error: String(err) }));
+      logger.warn("CLERK_RESET_FAILED", { userId: user._id, error: String(err) });
     }
   }
 
@@ -472,7 +465,7 @@ export async function bulkCreateUsers(
           user.clerkId = clerkUser.id;
           await user.save({ validateModifiedOnly: true });
         } catch (err) {
-          console.warn(JSON.stringify({ event: "CLERK_BULK_CREATE_FAILED", email, error: String(err) }));
+          logger.warn("CLERK_BULK_CREATE_FAILED", { email, error: String(err) });
         }
       }
 

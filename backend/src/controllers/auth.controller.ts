@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { User } from "@/models/User";
-import { generateTokenPair } from "@/utils/jwt";
+import { generateTokenPair, verifyRefreshToken } from "@/utils/jwt";
 import {
   AuthenticationError,
   AuthorizationError,
@@ -8,18 +8,8 @@ import {
 } from "@/utils/errors";
 import { sendSuccess } from "@/utils/responses";
 import { ERROR_CODES } from "@/config/constants";
+import { logAuthEvent } from "@/utils/logger";
 import type { AuthenticatedRequest } from "@/types";
-
-// ── Helpers ────────────────────────────────────────────────────────────────────
-
-function logAuthEvent(
-  event: string,
-  details: Record<string, unknown>
-): void {
-  console.log(
-    JSON.stringify({ event, ...details, timestamp: new Date().toISOString() })
-  );
-}
 
 // ── POST /api/v1/auth/login ────────────────────────────────────────────────────
 export async function login(req: Request, res: Response): Promise<void> {
@@ -170,6 +160,28 @@ export async function changePassword(
     { note: "All other active sessions will expire at their natural token expiry." },
     "Password changed successfully"
   );
+}
+
+// ── POST /api/v1/auth/refresh ─────────────────────────────────────────────────
+export async function refreshToken(req: Request, res: Response): Promise<void> {
+  const { refreshToken: token } = req.body as { refreshToken: string };
+
+  // verifyRefreshToken throws AuthenticationError or TokenExpiredError on failure
+  const payload = verifyRefreshToken(token);
+
+  const user = await User.findById(payload.id);
+  if (!user || !user.isActive) {
+    throw new AuthenticationError(
+      "User no longer exists or has been disabled.",
+      ERROR_CODES.INVALID_CREDENTIALS
+    );
+  }
+
+  const tokens = generateTokenPair({ id: String(user._id), role: user.role, name: user.fullName });
+
+  logAuthEvent("TOKEN_REFRESH", { userId: String(user._id), ip: req.ip });
+
+  sendSuccess(res, tokens, "Token refreshed successfully");
 }
 
 // ── PATCH /api/v1/auth/profile ─────────────────────────────────────────────────

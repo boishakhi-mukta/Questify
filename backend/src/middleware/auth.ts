@@ -1,7 +1,6 @@
 import { Response, NextFunction } from "express";
 import { verifyAccessToken } from "@/utils/jwt";
-import { AuthorizationError } from "@/utils/errors";
-import type { AuthenticatedRequest, UserRole } from "@/types";
+import type { AuthenticatedRequest } from "@/types";
 
 /**
  * verifyJWT (alias: protect) — extracts and verifies the Bearer token.
@@ -38,17 +37,3 @@ export function verifyJWT(
 
 /** Alias kept for backward compatibility with existing route files */
 export const protect = verifyJWT;
-
-export function authorize(...roles: UserRole[]) {
-  return (req: AuthenticatedRequest, _res: Response, next: NextFunction): void => {
-    if (!req.user || !roles.includes(req.user.role)) {
-      next(
-        new AuthorizationError(
-          `Access denied. Required role: ${roles.join(" or ")}.`
-        )
-      );
-      return;
-    }
-    next();
-  };
-}

@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
 import { env } from "@/config/environment";
-import { JWT } from "@/config/constants";
 import { AuthenticationError, TokenExpiredError } from "./errors";
 import type { UserRole, JwtPayload } from "@/types";
 
@@ -13,13 +12,15 @@ export interface JwtUserPayload {
 // ── Generate tokens ────────────────────────────────────────────────────────────
 export function generateAccessToken(payload: JwtUserPayload): string {
   return jwt.sign(payload, env.JWT_SECRET, {
-    expiresIn: JWT.ACCESS_EXPIRES_IN,
+    algorithm: "HS256",
+    expiresIn: env.JWT_EXPIRES_IN as jwt.SignOptions["expiresIn"],
   } as jwt.SignOptions);
 }
 
 export function generateRefreshToken(payload: JwtUserPayload): string {
   return jwt.sign(payload, env.JWT_REFRESH_SECRET, {
-    expiresIn: JWT.REFRESH_EXPIRES_IN,
+    algorithm: "HS256",
+    expiresIn: env.JWT_REFRESH_EXPIRES_IN as jwt.SignOptions["expiresIn"],
   } as jwt.SignOptions);
 }
 
