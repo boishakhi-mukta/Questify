@@ -159,7 +159,8 @@ export default function ProfileLayout({
       {/* Role-specific content */}
       {children}
 
-      {/* Achievements */}
+      {/* Achievements — omitted when caller supplies an empty array */}
+      {achievements.length > 0 && (
       <Card>
         <CardContent className="pt-5 pb-5">
           <h2 className="font-semibold text-brand-dark dark:text-white mb-4">
@@ -192,6 +193,7 @@ export default function ProfileLayout({
           </div>
         </CardContent>
       </Card>
+      )}
 
       {/* Edit Profile Modal */}
       <ModalRoot state={editState}>
