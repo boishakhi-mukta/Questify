@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/layout/Footer";
 import CoursesPageClient from "@/components/courses/CoursesPageClient";
 import { CourseSkeletonGrid } from "@/components/courses/CourseSkeleton";
 
@@ -27,6 +28,7 @@ export default function CoursesPage() {
       <Suspense fallback={<CoursesPageFallback />}>
         <CoursesPageClient />
       </Suspense>
+      <Footer />
     </>
   );
 }

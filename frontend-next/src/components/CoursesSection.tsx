@@ -29,16 +29,21 @@ export default function CoursesSection() {
 
   return (
     <section id="courses" className="w-full bg-white">
-      <div className="max-w-6xl mx-auto py-16 px-12">
+      <div className="max-w-6xl mx-auto py-16 px-6 md:px-12">
 
-        <h2 className="text-[32px] font-bold text-brand-dark text-center mb-3.5 leading-tight">
-          Explore Courses
-        </h2>
-
-        <p className="text-[15px] text-brand-body text-center leading-relaxed max-w-[600px] mx-auto mb-10">
-          Browse our catalogue and enroll in courses to start earning points
-          and climbing the leaderboard.
-        </p>
+        {/* Section header */}
+        <div className="flex flex-col items-center text-center mb-12">
+          <p className="text-sm font-semibold text-brand-blue uppercase tracking-widest mb-3">
+            Course Catalogue
+          </p>
+          <h2 className="text-[32px] font-bold text-brand-dark mb-3.5 leading-tight">
+            Explore Courses
+          </h2>
+          <p className="text-[15px] text-brand-body leading-relaxed max-w-[600px]">
+            Browse your institution&apos;s course catalogue and enroll to start
+            earning XP and climbing the leaderboard.
+          </p>
+        </div>
 
         {isLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">

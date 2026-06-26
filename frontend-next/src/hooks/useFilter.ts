@@ -5,17 +5,13 @@ import { useState, useCallback, useMemo } from "react";
 export interface FilterState {
   categories: string[];
   difficulty: string;
-  minRating: number;
-  priceType: "all" | "free" | "paid";
-  dateFilter: "all" | "week" | "month" | "year";
+  semester:   string;
 }
 
 export const DEFAULT_FILTERS: FilterState = {
   categories: [],
   difficulty: "",
-  minRating: 0,
-  priceType: "all",
-  dateFilter: "all",
+  semester:   "",
 };
 
 export function useFilter(initial: Partial<FilterState> = {}) {
@@ -34,16 +30,8 @@ export function useFilter(initial: Partial<FilterState> = {}) {
     setFilters((prev) => ({ ...prev, difficulty: prev.difficulty === diff ? "" : diff }));
   }, []);
 
-  const setMinRating = useCallback((r: number) => {
-    setFilters((prev) => ({ ...prev, minRating: prev.minRating === r ? 0 : r }));
-  }, []);
-
-  const setPriceType = useCallback((t: FilterState["priceType"]) => {
-    setFilters((prev) => ({ ...prev, priceType: t }));
-  }, []);
-
-  const setDateFilter = useCallback((d: FilterState["dateFilter"]) => {
-    setFilters((prev) => ({ ...prev, dateFilter: d }));
+  const setSemester = useCallback((s: string) => {
+    setFilters((prev) => ({ ...prev, semester: prev.semester === s ? "" : s }));
   }, []);
 
   const clearAll = useCallback(() => setFilters(DEFAULT_FILTERS), []);
@@ -51,9 +39,7 @@ export function useFilter(initial: Partial<FilterState> = {}) {
   const activeCount = useMemo(() => {
     let n = filters.categories.length;
     if (filters.difficulty) n++;
-    if (filters.minRating > 0) n++;
-    if (filters.priceType !== "all") n++;
-    if (filters.dateFilter !== "all") n++;
+    if (filters.semester)   n++;
     return n;
   }, [filters]);
 
@@ -62,9 +48,7 @@ export function useFilter(initial: Partial<FilterState> = {}) {
     setFilters,
     toggleCategory,
     setDifficulty,
-    setMinRating,
-    setPriceType,
-    setDateFilter,
+    setSemester,
     clearAll,
     activeCount,
     hasActiveFilters: activeCount > 0,

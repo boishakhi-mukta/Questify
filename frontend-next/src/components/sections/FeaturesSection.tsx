@@ -59,9 +59,9 @@ const features: Feature[] = [
     cardTo: "#FDE8C4",
     title: "AI-Powered Learning",
     description:
-      "Smart recommendations adapt to your pace and learning history. Personalized study plans help you stay focused, identify gaps, and progress faster than ever.",
-    ctaLabel: "Get started",
-    ctaHref: "/auth/register",
+      "Smart insights surface your strongest and weakest areas based on your activity. See where you're excelling and where to focus so you never fall behind.",
+    ctaLabel: "View dashboard",
+    ctaHref: "/student",
   },
 ];
 
@@ -74,19 +74,19 @@ export default function FeaturesSection() {
       <div className="max-w-6xl mx-auto py-16 px-6 md:px-12">
 
         {/* Section header */}
-        <header className="text-center mb-12">
+        <header className="flex flex-col items-center text-center mb-12">
           <p className="text-sm font-semibold text-brand-blue uppercase tracking-widest mb-3">
             Why Questify
           </p>
           <h2
             id="features-heading"
-            className="text-[32px] font-bold text-brand-dark text-center leading-tight mb-3.5"
+            className="text-[32px] font-bold text-brand-dark leading-tight mb-3.5"
           >
             Everything you need to succeed
           </h2>
-          <p className="text-[15px] text-brand-body leading-relaxed max-w-[600px] mx-auto">
-            Questify combines proven learning tools with gamification to keep
-            you engaged, motivated, and on track — every step of the way.
+          <p className="text-[15px] text-brand-body leading-relaxed max-w-[600px]">
+            Questify brings gamification to your institution&apos;s courses —
+            keeping students engaged, motivated, and accountable every step of the way.
           </p>
         </header>
 

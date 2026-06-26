@@ -63,10 +63,10 @@ AUTHENTICATED (Logged In):
 
 # DETAILED REQUIREMENTS
 
-## PART 1: PUBLIC PAGES (Already ~80% Done)
+## PART 1: PUBLIC PAGES 
 
 ### 1.1 Landing Page (/)
-**Status:** ✅ Mostly Done
+
 **Components Present:**
 - HeroBanner ✅
 - FeaturesSection ✅
@@ -82,7 +82,7 @@ AUTHENTICATED (Logged In):
 - ⬜ Ensure dark mode works on all sections
 
 ### 1.2 Courses Listing Page (/courses)
-**Status:** ✅ Mostly Done
+
 **Features:**
 - ✅ Course grid (4 per row desktop)
 - ✅ Search bar (debounced)
@@ -100,7 +100,7 @@ AUTHENTICATED (Logged In):
 - ⬜ Ensure course cards show: Image, Title, Description, Category, Level, [View Details] button
 
 ### 1.3 Course Detail Page (/courses/[id])
-**Status:** ✅ Mostly Done
+
 **Features:**
 - ✅ Course info display
 - ✅ Faculty info
@@ -128,7 +128,7 @@ AUTHENTICATED (Logged In):
 - ✅ CTA
 
 ### 1.5 Contact Page (/contact)
-**Status:** ✅ Done
+
 **Features:**
 - ✅ Contact form (name, email, subject, message)
 - ✅ Form validation
@@ -136,7 +136,7 @@ AUTHENTICATED (Logged In):
 - ✅ Contact info display
 
 ### 1.6 Help/FAQ Page (/help)
-**Status:** ✅ Done
+
 **Features:**
 - ✅ Searchable FAQ
 - ✅ Accordion sections
@@ -530,7 +530,7 @@ AUTHENTICATED (Logged In):
 - ⬜ Edit course:
   - Update any field
   - Manage faculty (add/remove)
-  - [Save] button
+  - [Save] buttono
 - ⬜ Assign faculty modal:
   - List of teachers (checkboxes)
   - [Assign] button

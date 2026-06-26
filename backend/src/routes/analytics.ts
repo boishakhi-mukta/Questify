@@ -13,6 +13,7 @@ import {
   getUserAnalytics,
   getEnrollmentAnalytics,
   getXPAnalytics,
+  getLeaderboard,
 } from "@/controllers/analytics.controller";
 
 const router = Router();
@@ -43,5 +44,8 @@ router.get("/enrollments", requireAdmin, getEnrollmentAnalytics);
 
 // Admin — XP analytics (optionally scoped to a course)
 router.get("/xp", requireAdmin, validateQuery(xpAnalyticsQuerySchema), getXPAnalytics);
+
+// All authenticated users — global XP leaderboard
+router.get("/leaderboard", getLeaderboard);
 
 export default router;

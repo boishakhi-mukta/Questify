@@ -19,21 +19,156 @@ import { useAdminCourses } from "@/hooks/api/useAdminCourses";
 import type { Course } from "@/types/api-response";
 import type { AdminCreateCoursePayload } from "@/services/api";
 
-const LEVELS     = ["BEGINNER", "INTERMEDIATE", "ADVANCED"] as const;
+const LEVELS     = ["BACHELOR", "MASTERS"] as const;
 const LEVEL_LABELS: Record<string, string> = {
-  BEGINNER:     "Beginner",
-  INTERMEDIATE: "Intermediate",
-  ADVANCED:     "Advanced",
+  BACHELOR: "Bachelor",
+  MASTERS:  "Masters",
 };
-const CAMPUSES   = ["Halden", "Fredrikstad", "Oslo"];
-const SEMESTERS  = ["Spring 2025", "Fall 2025", "Spring 2026", "Fall 2026"];
-const CATEGORIES = ["Technology", "Computer Science", "Design", "AI & Machine Learning", "Cloud Computing", "Quality Assurance", "Mathematics", "Business"];
+const CAMPUSES  = ["Halden", "Fredrikstad", "Oslo"];
+const SEMESTERS = ["Spring 2025", "Fall 2025", "Spring 2026", "Fall 2026"];
+const DEPARTMENTS = [
+  "Computer Science",
+  "Information Technology",
+  "Mathematics & Statistics",
+  "Natural Sciences",
+  "Business Administration",
+  "Engineering",
+  "Social Sciences",
+  "Humanities",
+  "Health Sciences",
+  "Arts & Design",
+  "Law",
+  "Economics",
+];
 
-type CourseLevel = "BEGINNER" | "INTERMEDIATE" | "ADVANCED";
+const DEPARTMENT_SUBJECTS: Record<string, string[]> = {
+  "Computer Science": [
+    "Introduction to Computer Science",
+    "Data Structures and Algorithms",
+    "Computer Networks",
+    "Operating Systems",
+    "Database Systems",
+    "Software Engineering",
+    "Artificial Intelligence",
+    "Machine Learning",
+    "Computer Security",
+    "Web Development",
+    "Mobile Application Development",
+    "Cloud Computing",
+  ],
+  "Information Technology": [
+    "IT Project Management",
+    "Systems Analysis and Design",
+    "Network Administration",
+    "Information Security",
+    "Enterprise Systems",
+    "Business Intelligence",
+    "IT Service Management",
+    "Digital Transformation",
+  ],
+  "Mathematics & Statistics": [
+    "Calculus I",
+    "Calculus II",
+    "Linear Algebra",
+    "Probability and Statistics",
+    "Discrete Mathematics",
+    "Numerical Analysis",
+    "Mathematical Modeling",
+    "Real Analysis",
+  ],
+  "Natural Sciences": [
+    "Physics I",
+    "Physics II",
+    "General Chemistry",
+    "Organic Chemistry",
+    "Biology",
+    "Environmental Science",
+    "Geology",
+    "Astrophysics",
+  ],
+  "Business Administration": [
+    "Business Management",
+    "Marketing Principles",
+    "Corporate Finance",
+    "Financial Accounting",
+    "Human Resource Management",
+    "Operations Management",
+    "Strategic Management",
+    "Entrepreneurship",
+    "Business Ethics",
+  ],
+  "Engineering": [
+    "Engineering Mathematics",
+    "Statics and Dynamics",
+    "Thermodynamics",
+    "Fluid Mechanics",
+    "Electrical Engineering Fundamentals",
+    "Civil Engineering Principles",
+    "Mechanical Design",
+    "Materials Science",
+  ],
+  "Social Sciences": [
+    "Introduction to Sociology",
+    "Social Psychology",
+    "Political Science",
+    "Cultural Anthropology",
+    "Social Research Methods",
+    "International Relations",
+    "Public Policy",
+  ],
+  "Humanities": [
+    "World History",
+    "Philosophy",
+    "World Literature",
+    "Linguistics",
+    "Ethics and Moral Theory",
+    "Cultural Studies",
+    "Comparative Religion",
+  ],
+  "Health Sciences": [
+    "Anatomy and Physiology",
+    "Health Informatics",
+    "Public Health",
+    "Nutrition Science",
+    "Epidemiology",
+    "Health Policy",
+    "Clinical Psychology",
+  ],
+  "Arts & Design": [
+    "Graphic Design",
+    "Digital Media Production",
+    "Photography",
+    "2D and 3D Animation",
+    "Interior Design",
+    "Fine Arts Studio",
+    "Design Thinking",
+  ],
+  "Law": [
+    "Constitutional Law",
+    "Criminal Law",
+    "Contract Law",
+    "International Law",
+    "Intellectual Property Law",
+    "Corporate Law",
+    "Human Rights Law",
+  ],
+  "Economics": [
+    "Microeconomics",
+    "Macroeconomics",
+    "Development Economics",
+    "International Economics",
+    "Econometrics",
+    "Financial Economics",
+    "Behavioral Economics",
+  ],
+};
+
+type CourseLevel = "BACHELOR" | "MASTERS";
 
 interface CourseForm {
   title:       string;
   description: string;
+  subject:     string;
   category:    string;
   level:       CourseLevel;
   campus:      string;
@@ -44,8 +179,9 @@ interface CourseForm {
 const emptyCourse = (): CourseForm => ({
   title:       "",
   description: "",
-  category:    "Technology",
-  level:       "BEGINNER",
+  subject:     "",
+  category:    "Computer Science",
+  level:       "BACHELOR",
   campus:      "Halden",
   credits:     10,
   semester:    "Spring 2025",
@@ -89,6 +225,7 @@ export default function AdminCourses() {
     setForm({
       title:       course.title,
       description: course.description,
+      subject:     course.shortDescription ?? "",
       category:    course.category,
       level:       course.level as CourseLevel,
       campus:      course.campus,
@@ -105,13 +242,14 @@ export default function AdminCourses() {
     setFormError(null);
     try {
       const payload: AdminCreateCoursePayload = {
-        title:       form.title,
-        description: form.description,
-        category:    form.category,
-        level:       form.level,
-        campus:      form.campus,
-        credits:     form.credits,
-        semester:    form.semester || undefined,
+        title:            form.title,
+        description:      form.description,
+        shortDescription: form.subject || undefined,
+        category:         form.category,
+        level:            form.level,
+        campus:           form.campus,
+        credits:          form.credits,
+        semester:         form.semester || undefined,
       };
       if (editingCourse) {
         await update(editingCourse._id, payload);
@@ -186,7 +324,7 @@ export default function AdminCourses() {
                 <tr className="border-b border-brand-border bg-brand-bg">
                   <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Course Name</th>
                   <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Level</th>
-                  <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Category</th>
+                  <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Department</th>
                   <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Credits</th>
                   <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Semester</th>
                   <th className="text-right px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Actions</th>
@@ -210,7 +348,7 @@ export default function AdminCourses() {
                     >
                       <td className="px-5 py-3.5 font-semibold text-brand-dark max-w-[260px]">{course.title}</td>
                       <td className="px-5 py-3.5">
-                        <Badge variant={course.level === "ADVANCED" ? "blue" : "default"}>
+                        <Badge variant={course.level === "MASTERS" ? "blue" : "default"}>
                           {LEVEL_LABELS[course.level] ?? course.level}
                         </Badge>
                       </td>
@@ -278,6 +416,25 @@ export default function AdminCourses() {
               />
             </div>
 
+            <div className="flex flex-col gap-1.5">
+              <Label>Subject</Label>
+              <div className={!form.category ? "opacity-50 pointer-events-none" : ""}>
+                <Select
+                  value={form.subject}
+                  onValueChange={(v) => setForm((f) => ({ ...f, subject: v }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={form.category ? "Select a subject" : "Select a department first"} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {(DEPARTMENT_SUBJECTS[form.category] ?? []).map((s) => (
+                      <SelectItem key={s} value={s}>{s}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-1.5">
                 <Label>Level</Label>
@@ -292,11 +449,11 @@ export default function AdminCourses() {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <Label>Category</Label>
-                <Select value={form.category} onValueChange={(v) => setForm((f) => ({ ...f, category: v }))}>
+                <Label>Department</Label>
+                <Select value={form.category} onValueChange={(v) => setForm((f) => ({ ...f, category: v, subject: "" }))}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
-                    {CATEGORIES.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+                    {DEPARTMENTS.map((d) => <SelectItem key={d} value={d}>{d}</SelectItem>)}
                   </SelectContent>
                 </Select>
               </div>

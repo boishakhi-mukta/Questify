@@ -23,43 +23,24 @@ import type { Course } from "@/types/api-response";
 function sortCourses(list: Course[], sort: SortKey): Course[] {
   return [...list].sort((a, b) => {
     switch (sort) {
-      case "newest":     return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-      case "popular":    return (b.enrollmentCount ?? 0) - (a.enrollmentCount ?? 0);
-      case "rating":     return (b.averageRating ?? 0) - (a.averageRating ?? 0);
-      case "az":         return a.title.localeCompare(b.title);
-      case "za":         return b.title.localeCompare(a.title);
-      case "price-asc":  return a.title.localeCompare(b.title); // no price — fall back to az
-      case "price-desc": return b.title.localeCompare(a.title);
+      case "newest":       return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      case "popular":      return (b.enrollmentCount ?? 0) - (a.enrollmentCount ?? 0);
+      case "az":           return a.title.localeCompare(b.title);
+      case "za":           return b.title.localeCompare(a.title);
+      case "credits-desc": return (b.credits ?? 0) - (a.credits ?? 0);
+      case "credits-asc":  return (a.credits ?? 0) - (b.credits ?? 0);
     }
   });
 }
 
 // ── Filter logic ────────────────────────────────────────────────────────────────
 
-function matchesDateFilter(createdAt: string, dateFilter: string): boolean {
-  if (dateFilter === "all") return true;
-  const date = new Date(createdAt);
-  const now  = new Date();
-  if (dateFilter === "year")  return date.getFullYear() === now.getFullYear();
-  if (dateFilter === "month") {
-    return date.getFullYear() === now.getFullYear() &&
-           date.getMonth()    === now.getMonth();
-  }
-  if (dateFilter === "week") {
-    const weekAgo = new Date();
-    weekAgo.setDate(now.getDate() - 7);
-    return date >= weekAgo;
-  }
-  return true;
-}
-
 function applyFilters(
   list: Course[],
   query: string,
   categories: string[],
   difficulty: string,
-  minRating: number,
-  dateFilter: "all" | "week" | "month" | "year",
+  semester: string,
 ): Course[] {
   return list.filter((c) => {
     if (query) {
@@ -69,10 +50,9 @@ function applyFilters(
         !c.description.toLowerCase().includes(q)
       ) return false;
     }
-    if (categories.length > 0 && !categories.includes(c.category))  return false;
+    if (categories.length > 0 && !categories.includes(c.category)) return false;
     if (difficulty && c.level !== difficulty)                        return false;
-    if (minRating > 0 && (c.averageRating ?? 0) < minRating)        return false;
-    if (!matchesDateFilter(c.createdAt, dateFilter))                 return false;
+    if (semester   && c.semester !== semester)                       return false;
     return true;
   });
 }
@@ -85,9 +65,7 @@ function parseInitialParams(params: URLSearchParams) {
   return {
     categories: params.get("category")?.split(",").filter(Boolean) ?? [],
     difficulty: params.get("level") ?? "",
-    minRating:  Number(params.get("minRating") ?? 0),
-    priceType:  (params.get("price") as "all" | "free" | "paid") ?? "all",
-    dateFilter: (params.get("date") as "all" | "week" | "month" | "year") ?? "all",
+    semester:   params.get("semester") ?? "",
     sort:       sortParam ?? undefined,
     page:       Math.max(1, Number(params.get("page") ?? 1)),
     pageSize:   (PAGE_SIZES.includes(pageSizeParam as PageSize) ? pageSizeParam : undefined) as PageSize | undefined,
@@ -113,17 +91,13 @@ export default function CoursesPageClient() {
     filters,
     toggleCategory,
     setDifficulty,
-    setMinRating,
-    setPriceType,
-    setDateFilter,
+    setSemester,
     clearAll: clearFilters,
     activeCount,
   } = useFilter({
     categories: initialParams.categories,
     difficulty: initialParams.difficulty,
-    minRating:  initialParams.minRating,
-    priceType:  initialParams.priceType,
-    dateFilter: initialParams.dateFilter,
+    semester:   initialParams.semester,
   });
 
   const { sort, setSort } = useSort(initialParams.sort);
@@ -132,7 +106,6 @@ export default function CoursesPageClient() {
   // ── Fetch all published courses (client-side filter/sort/paginate) ────────────
   const { courses, isLoading } = useCourses({ limit: 200 });
 
-  // Derive the category list from the actual data
   const categories = useMemo(
     () => [...new Set(courses.map((c) => c.category))].sort(),
     [courses],
@@ -140,7 +113,7 @@ export default function CoursesPageClient() {
 
   // ── Derived: filter → sort → paginate ────────────────────────────────────────
   const results = useMemo(
-    () => applyFilters(courses, query, filters.categories, filters.difficulty, filters.minRating, filters.dateFilter),
+    () => applyFilters(courses, query, filters.categories, filters.difficulty, filters.semester),
     [courses, query, filters],
   );
 
@@ -171,8 +144,7 @@ export default function CoursesPageClient() {
     if (query)                          p.set("q",        query);
     if (filters.categories.length > 0) p.set("category", filters.categories.join(","));
     if (filters.difficulty)             p.set("level",    filters.difficulty);
-    if (filters.minRating > 0)          p.set("minRating",String(filters.minRating));
-    if (filters.dateFilter !== "all")   p.set("date",     filters.dateFilter);
+    if (filters.semester)               p.set("semester", filters.semester);
     if (sort !== "newest")              p.set("sort",     sort);
     if (pagination.page > 1)            p.set("page",     String(pagination.page));
     if (pagination.pageSize !== 12)     p.set("pageSize", String(pagination.pageSize));
@@ -201,8 +173,7 @@ export default function CoursesPageClient() {
     categories,
     onToggleCategory: toggleCategory,
     onSetDifficulty:  setDifficulty,
-    onSetMinRating:   setMinRating,
-    onSetDateFilter:  setDateFilter,
+    onSetSemester:    setSemester,
     onClearAll:       clearFilters,
     activeCount,
   };
@@ -216,7 +187,7 @@ export default function CoursesPageClient() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
           <h1 className="text-[28px] font-bold text-brand-dark mb-1">Browse Courses</h1>
           <p className="text-[15px] text-brand-body mb-6">
-            Discover courses across technology, design, business, and more.
+            Discover courses across departments offered at our institution.
           </p>
           <SearchBar value={input} onChange={setInput} onClear={clearSearch} />
         </div>
@@ -270,14 +241,11 @@ export default function CoursesPageClient() {
           {/* ── Course results ────────────────────────────────────────────────── */}
           <div className="flex-1 min-w-0">
 
-            {/* Filter chips + sort dropdown (desktop) */}
             <FilterChips
               filters={filters}
               onToggleCategory={toggleCategory}
               onSetDifficulty={setDifficulty}
-              onSetMinRating={setMinRating}
-              onSetPriceType={setPriceType}
-              onSetDateFilter={setDateFilter}
+              onSetSemester={setSemester}
               onClearAll={handleClearAll}
               resultCount={sorted.length}
               query={query}
@@ -288,10 +256,8 @@ export default function CoursesPageClient() {
               }
             />
 
-            {/* Loading skeletons */}
             {(!hydrated || isLoading) && <CourseSkeletonGrid />}
 
-            {/* Results grid */}
             {hydrated && !isLoading && paged.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
                 {paged.map((course) => (
@@ -300,7 +266,6 @@ export default function CoursesPageClient() {
               </div>
             )}
 
-            {/* Empty state */}
             {hydrated && !isLoading && sorted.length === 0 && (
               <div className="flex flex-col items-center justify-center gap-5 py-24 text-center">
                 <div className="w-16 h-16 rounded-2xl bg-brand-blue/8 flex items-center justify-center">
@@ -320,7 +285,6 @@ export default function CoursesPageClient() {
               </div>
             )}
 
-            {/* Pagination */}
             {hydrated && !isLoading && (
               <Pagination
                 page={pagination.page}

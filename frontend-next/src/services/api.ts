@@ -74,7 +74,7 @@ export const assignmentsApi = {
 
 export const leaderboardApi = {
   global: (params?: { timeframe?: string; limit?: number }) =>
-    get<LeaderboardEntry[]>("/analytics/xp", params as Record<string, unknown>),
+    get<LeaderboardEntry[]>("/analytics/leaderboard", params as Record<string, unknown>),
 };
 
 // ── Admin — Users ─────────────────────────────────────────────────────────────
@@ -136,7 +136,7 @@ export interface AdminCreateCoursePayload {
   description:      string;
   shortDescription?: string;
   category:         string;
-  level:            "BEGINNER" | "INTERMEDIATE" | "ADVANCED";
+  level:            "BACHELOR" | "MASTERS";
   campus:           string;
   credits:          number;
   semester?:        string;
@@ -149,7 +149,7 @@ export interface AdminUpdateCoursePayload {
   description?:     string;
   shortDescription?: string;
   category?:        string;
-  level?:           "BEGINNER" | "INTERMEDIATE" | "ADVANCED";
+  level?:           "BACHELOR" | "MASTERS";
   campus?:          string;
   credits?:         number;
   semester?:        string;

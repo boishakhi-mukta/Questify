@@ -115,7 +115,7 @@ export interface User {
 // DOMAIN — COURSE
 // ══════════════════════════════════════════════════════════════════════════════
 
-export type CourseLevel = "BEGINNER" | "INTERMEDIATE" | "ADVANCED";
+export type CourseLevel = "BACHELOR" | "MASTERS";
 
 export interface CourseMetadata {
   objectives?:    string[];

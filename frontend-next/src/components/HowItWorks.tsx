@@ -43,16 +43,21 @@ const cards: Card[] = [
 export default function HowItWorks() {
   return (
     <section id="how-it-works" className="w-full bg-white">
-      <div className="max-w-6xl mx-auto py-16 px-12">
+      <div className="max-w-6xl mx-auto py-16 px-6 md:px-12">
 
-        <h2 className="text-[32px] font-bold text-brand-dark text-center mb-3.5 leading-tight">
-          Learn. Earn Points. Climb the Leaderboard.
-        </h2>
-
-        <p className="text-[15px] text-brand-body text-center leading-relaxed max-w-[680px] mx-auto mb-10">
-          Every action you take earns you points — attend classes, submit
-          assignments, and read course materials to rise through the rankings.
-        </p>
+        {/* Section header */}
+        <div className="flex flex-col items-center text-center mb-12">
+          <p className="text-sm font-semibold text-brand-blue uppercase tracking-widest mb-3">
+            The XP System
+          </p>
+          <h2 className="text-[32px] font-bold text-brand-dark mb-3.5 leading-tight">
+            Learn. Earn Points. Climb the Leaderboard.
+          </h2>
+          <p className="text-[15px] text-brand-body leading-relaxed max-w-[680px]">
+            Every action you take earns you points — attend classes, submit
+            assignments, and read course materials to rise through the rankings.
+          </p>
+        </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {cards.map(({ icon: Icon, iconColorClass, bgClass, title, desc }) => (

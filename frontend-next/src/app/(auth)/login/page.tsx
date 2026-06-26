@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef }      from "react";
+import { useState }              from "react";
 import Link                       from "next/link";
 import Image                      from "next/image";
 import { DotLottieReact }         from "@lottiefiles/dotlottie-react";
@@ -10,13 +10,14 @@ import ForcePasswordChangeModal   from "@/components/auth/ForcePasswordChangeMod
 import type { UserRole }           from "@/types/auth";
 
 // ── Demo shortcut accounts ─────────────────────────────────────────────────────
+const DEMO_PASSWORD = "DemoPass123!";
+
 const DEMO_ACCOUNTS = [
-  { label: "Demo Student", email: "student@demo.com", role: "student" as UserRole },
-  { label: "Demo Teacher", email: "teacher@demo.com", role: "teacher" as UserRole },
-  { label: "Demo Admin",   email: "admin@demo.com",   role: "admin"   as UserRole },
+  { label: "Demo Student", email: "student@demo.com",  role: "student" as UserRole },
+  { label: "Demo Teacher", email: "faculty@demo.com",  role: "teacher" as UserRole },
+  { label: "Demo Admin",   email: "admin@demo.com",    role: "admin"   as UserRole },
 ] as const;
 
-const DEMO_PASSWORD = "DemoPass123!";
 
 // ── Role badge colour ──────────────────────────────────────────────────────────
 const DEMO_BADGE: Record<UserRole, string> = {
@@ -32,7 +33,7 @@ export default function LoginPage() {
   const [password,       setPassword]       = useState("");
   const [showPassword,   setShowPassword]   = useState(false);
   const [showForceModal, setShowForceModal] = useState(false);
-  const [demoActive,     setDemoActive]     = useState<UserRole | null>(null);
+  const [demoLoading,    setDemoLoading]    = useState<UserRole | null>(null);
 
   // ── Form submit ────────────────────────────────────────────────────────────
   async function handleSubmit(e?: React.FormEvent) {
@@ -45,19 +46,11 @@ export default function LoginPage() {
     }
   }
 
-  // ── Demo login: fill fields, pause for visual feedback, then submit ────────
-  async function handleDemoLogin(demoEmail: string, demoRole: UserRole) {
-    setDemoActive(demoRole);
-    setEmail(demoEmail);
-    setPassword(DEMO_PASSWORD);
-
-    await new Promise((r) => setTimeout(r, 500));
-
-    const result = await login(demoEmail, DEMO_PASSWORD);
-    setDemoActive(null);
-    if (result.success && result.requiresPasswordChange) {
-      setShowForceModal(true);
-    }
+  // ── Demo login: authenticate with pre-seeded demo credentials ─────────────
+  async function handleDemoLogin(email: string, role: UserRole) {
+    setDemoLoading(role);
+    await login(email, DEMO_PASSWORD);
+    setDemoLoading(null);
   }
 
   // If forced-change is resolved, user will be in context — derive role
@@ -188,13 +181,14 @@ export default function LoginPage() {
                         type="button"
                         onClick={() => handleDemoLogin(dEmail, role)}
                         disabled={isLoggingIn}
-                        className={`w-full h-10 flex items-center justify-between px-4 border rounded-lg text-[13px] font-semibold transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed ${
-                          demoActive === role
-                            ? "border-brand-blue bg-brand-blue/5"
-                            : "border-brand-border hover:border-brand-blue/40 hover:bg-brand-bg"
-                        }`}
+                        className="w-full h-10 flex items-center justify-between px-4 border border-brand-border rounded-lg text-[13px] font-semibold transition-all duration-150 hover:border-brand-blue/40 hover:bg-brand-bg disabled:opacity-60 disabled:cursor-not-allowed"
                       >
-                        <span className="text-brand-dark">{label}</span>
+                        <span className="text-brand-dark flex items-center gap-2">
+                          {demoLoading === role && (
+                            <span className="w-3.5 h-3.5 rounded-full border-2 border-brand-blue/30 border-t-brand-blue animate-spin" />
+                          )}
+                          {label}
+                        </span>
                         <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border ${DEMO_BADGE[role]}`}>
                           {role}
                         </span>

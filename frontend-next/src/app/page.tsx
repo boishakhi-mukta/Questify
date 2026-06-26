@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/layout/Footer";
 import HeroBanner from "@/components/HeroBanner";
 import FeaturesSection from "@/components/sections/FeaturesSection";
 import StatisticsSection from "@/components/sections/StatisticsSection";
@@ -16,6 +17,7 @@ export default function Home() {
       <TestimonialsSection />
       <HowItWorks />
       <CoursesSection />
+      <Footer />
     </>
   );
 }
