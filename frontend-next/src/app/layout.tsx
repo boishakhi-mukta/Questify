@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Providers } from "@/components/theme/Providers";
 import Footer from "@/components/layout/Footer";
+import { Toaster } from "sonner";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -16,6 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Providers>
           <div className="flex-1">{children}</div>
           <Footer />
+          <Toaster position="bottom-right" richColors theme="system" />
         </Providers>
       </body>
     </html>
