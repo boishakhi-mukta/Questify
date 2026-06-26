@@ -74,9 +74,13 @@ export async function getCourses(req: Request, res: Response): Promise<void> {
       .populate("teachers", "firstName lastName avatar")
       .sort(sortOrder)
       .skip(skip)
-      .limit(limitNum),
+      .limit(limitNum)
+      .lean(),
     Course.countDocuments(filter),
   ]);
+
+  // Public listing — safe to cache at the CDN/proxy for 60 s
+  res.setHeader("Cache-Control", "public, max-age=60, stale-while-revalidate=300");
 
   sendPaginated(
     res,
@@ -106,9 +110,12 @@ export async function searchCourses(req: Request, res: Response): Promise<void> 
       .populate("teachers", "firstName lastName avatar")
       .sort({ score: { $meta: "textScore" } })
       .skip(skip)
-      .limit(limitNum),
+      .limit(limitNum)
+      .lean(),
     Course.countDocuments(filter),
   ]);
+
+  res.setHeader("Cache-Control", "public, max-age=30, stale-while-revalidate=120");
 
   sendPaginated(
     res,

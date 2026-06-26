@@ -1,13 +1,10 @@
-import DashboardShell from "@/components/dashboard/DashboardShell";
+import Layout from "@/components/layout/Layout";
 import StudentDashboard from "@/components/dashboard/StudentDashboard";
 
 export default function DemoStudentPage() {
   return (
-    <DashboardShell
-      role="student"
-      demoUser={{ name: "Demo Student", email: "student@demo.com" }}
-    >
+    <Layout role="student" demoUser={{ name: "Demo Student", email: "student@demo.com" }}>
       <StudentDashboard />
-    </DashboardShell>
+    </Layout>
   );
 }

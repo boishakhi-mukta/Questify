@@ -2,6 +2,9 @@
 
 @import "tailwindcss";
 
+/* ── Class-based dark mode (required for next-themes) ──────── */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* ── shadcn/ui CSS variables ─────────────────────────────── */
 :root {
   --background: 0 0% 100%;

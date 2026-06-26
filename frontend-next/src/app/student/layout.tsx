@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import DashboardShell from "@/components/dashboard/DashboardShell";
+import Layout from "@/components/layout/Layout";
 
 export default async function StudentLayout({ children }: { children: React.ReactNode }) {
   const cookieStore = await cookies();
@@ -10,5 +10,5 @@ export default async function StudentLayout({ children }: { children: React.Reac
   if (!token)             redirect("/login");
   if (role !== "student") redirect(role ? `/${role}` : "/login");
 
-  return <DashboardShell role="student">{children}</DashboardShell>;
+  return <Layout role="student">{children}</Layout>;
 }

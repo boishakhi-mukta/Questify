@@ -1,5 +1,6 @@
 "use client";
 
+import type React from "react";
 import { HiXMark } from "react-icons/hi2";
 import type { FilterState } from "@/hooks/useFilter";
 
@@ -18,6 +19,7 @@ interface FilterChipsProps {
   onClearAll: () => void;
   resultCount: number;
   query: string;
+  rightSlot?: React.ReactNode;
 }
 
 const DATE_LABELS: Record<string, string> = {
@@ -36,6 +38,7 @@ export function FilterChips({
   onClearAll,
   resultCount,
   query,
+  rightSlot,
 }: FilterChipsProps) {
   const chips: Chip[] = [
     ...filters.categories.map((cat) => ({
@@ -89,15 +92,18 @@ export function FilterChips({
           )}
         </p>
 
-        {chips.length > 0 && (
-          <button
-            type="button"
-            onClick={onClearAll}
-            className="text-[13px] font-semibold text-brand-blue hover:text-brand-dark transition-colors shrink-0"
-          >
-            Clear all filters
-          </button>
-        )}
+        <div className="flex items-center gap-3">
+          {rightSlot}
+          {chips.length > 0 && (
+            <button
+              type="button"
+              onClick={onClearAll}
+              className="text-[13px] font-semibold text-brand-blue hover:text-brand-dark transition-colors shrink-0"
+            >
+              Clear all filters
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Active chips */}
