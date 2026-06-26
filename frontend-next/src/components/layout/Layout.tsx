@@ -3,7 +3,7 @@
 import { useState } from "react";
 import type { ReactNode } from "react";
 import { Sidebar } from "./Sidebar";
-import { AuthenticatedNavbar } from "@/components/navbar/AuthenticatedNavbar";
+import { Navbar } from "@/components/navbar/Navbar";
 import type { UserRole } from "@/types/auth";
 
 interface LayoutProps {
@@ -36,8 +36,7 @@ export default function Layout({ children, role, demoUser }: LayoutProps) {
       {/* ── Right column: navbar + scrollable content ── */}
       <div className="flex-1 flex flex-col min-w-0">
 
-        {/* Top navbar */}
-        <AuthenticatedNavbar
+        <Navbar
           sidebarOpen={sidebarOpen}
           onMenuToggle={() => setSidebarOpen((v) => !v)}
         />
