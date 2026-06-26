@@ -7,6 +7,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { ScrollShadow } from "@heroui/react";
 import type { UserRole } from "@/types/auth";
 import {
   HiSquares2X2,
@@ -164,12 +165,14 @@ function SidebarContent({
       </div>
 
       {/* Nav items */}
-      <nav aria-label={`${roleLabel[role]} navigation`} className="flex-1 px-3 overflow-y-auto">
-        <ul className="list-none m-0 p-0 flex flex-col gap-0.5">
-          {navItems.map((item) => (
-            <SidebarLink key={item.href} item={item} role={role} onClick={onClose} />
-          ))}
-        </ul>
+      <nav aria-label={`${roleLabel[role]} navigation`} className="flex-1 min-h-0 px-3">
+        <ScrollShadow className="h-full" hideScrollBar>
+          <ul className="list-none m-0 p-0 py-1 flex flex-col gap-0.5">
+            {navItems.map((item) => (
+              <SidebarLink key={item.href} item={item} role={role} onClick={onClose} />
+            ))}
+          </ul>
+        </ScrollShadow>
       </nav>
 
       {/* Bottom section: theme toggle + user + sign out */}
