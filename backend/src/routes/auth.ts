@@ -2,7 +2,7 @@ import { Router } from "express";
 import { verifyJWT } from "@/middleware/auth";
 import { validateBody } from "@/middleware/validation";
 import { authLimiter, loginHardLimiter, strictLimiter } from "@/middleware/rateLimiter";
-import { loginSchema, changePasswordSchema, updateProfileSchema } from "@/utils/validators";
+import { loginSchema, refreshTokenSchema, changePasswordSchema, updateProfileSchema } from "@/utils/validators";
 import * as Auth from "@/controllers/auth.controller";
 
 const router = Router();
@@ -14,6 +14,13 @@ router.post(
   authLimiter,
   validateBody(loginSchema),
   Auth.login
+);
+
+router.post(
+  "/refresh",
+  authLimiter,
+  validateBody(refreshTokenSchema),
+  Auth.refreshToken
 );
 
 // Protected

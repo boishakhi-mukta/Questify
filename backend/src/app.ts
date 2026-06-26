@@ -1,14 +1,16 @@
 import "express-async-errors";
 import express from "express";
+import compression from "compression";
 import helmet from "helmet";
 import cors from "cors";
 import morgan from "morgan";
 import swaggerUi from "swagger-ui-express";
 import { env } from "@/config/environment";
-import { HTTP } from "@/config/constants";
 import { generalLimiter } from "@/middleware/rateLimiter";
 import { attachRequestId } from "@/middleware/requestId";
 import { notFound, errorHandler } from "@/middleware/errorHandler";
+import { requestLogger, healthCheck } from "@/middleware/monitoring";
+import { logger } from "@/utils/logger";
 import { openApiSpec } from "@/docs/openapi";
 
 const app = express();
@@ -36,6 +38,9 @@ if (env.NODE_ENV !== "production" || process.env.ENABLE_DOCS === "true") {
   });
 }
 
+// ── Compression — before any response-sending middleware ──────────────────────
+app.use(compression());
+
 // ── Security headers ───────────────────────────────────────────────────────────
 app.use(helmet());
 
@@ -50,7 +55,13 @@ app.use(
 );
 
 // ── Request logging ────────────────────────────────────────────────────────────
-app.use(morgan(env.LOG_FORMAT));
+// Morgan writes the access log line; Winston handles formatting and transport.
+app.use(
+  morgan(env.LOG_FORMAT, {
+    stream: { write: (msg) => logger.http(msg.trimEnd()) },
+  })
+);
+app.use(requestLogger);
 
 // ── Body parsers ───────────────────────────────────────────────────────────────
 app.use(express.json({ limit: "10kb" }));
@@ -60,14 +71,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(generalLimiter);
 
 // ── Health check ───────────────────────────────────────────────────────────────
-app.get("/health", (_req, res) => {
-  res.status(HTTP.OK).json({
-    success: true,
-    message: "OK",
-    env: env.NODE_ENV,
-    timestamp: new Date().toISOString(),
-  });
-});
+app.get("/health", healthCheck);
 
 // ── API routes ─────────────────────────────────────────────────────────────────
 import authRoutes from "@/routes/auth";

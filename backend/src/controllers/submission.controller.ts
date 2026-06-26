@@ -18,15 +18,8 @@ import {
   buildPaginationMeta,
 } from "@/utils/responses";
 import { PAGINATION, ERROR_CODES } from "@/config/constants";
+import { logAction } from "@/utils/logger";
 import type { AuthenticatedRequest } from "@/types";
-
-// ── Shared helpers ─────────────────────────────────────────────────────────────
-
-function logAction(action: string, details: Record<string, unknown>): void {
-  console.log(
-    JSON.stringify({ action, ...details, timestamp: new Date().toISOString() })
-  );
-}
 
 function parsePagination(page = "1", limit = String(PAGINATION.DEFAULT_LIMIT)) {
   const pageNum = Math.max(1, parseInt(page, 10));

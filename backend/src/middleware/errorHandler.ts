@@ -3,6 +3,7 @@ import { Error as MongooseError } from "mongoose";
 import { JsonWebTokenError, TokenExpiredError as JwtTokenExpiredError } from "jsonwebtoken";
 import { env } from "@/config/environment";
 import { HTTP, ERROR_CODES } from "@/config/constants";
+import { logger } from "@/utils/logger";
 import {
   APIError,
   NotFoundError,
@@ -87,22 +88,20 @@ function buildContext(
 function logError(ctx: LogContext): void {
   if (env.NODE_ENV === "test") return;
 
-  if (env.NODE_ENV === "production") {
-    // Structured JSON — picked up by log aggregators (Datadog, CloudWatch, etc.)
-    const { error: { stack: _stack, ...errorWithoutStack }, ...rest } = ctx;
-    console.error(JSON.stringify({ level: "error", ...rest, error: errorWithoutStack }));
-    return;
-  }
+  const meta = {
+    requestId:  ctx.requestId,
+    method:     ctx.method,
+    url:        ctx.url,
+    ip:         ctx.ip,
+    userId:     ctx.userId,
+    statusCode: ctx.error.statusCode,
+    errorName:  ctx.error.name,
+  };
 
-  // Development: human-readable
-  const severityTag = ctx.error.statusCode >= 500 ? "❌" : "⚠️";
-  const userTag     = ctx.userId ? ` [user:${ctx.userId}]` : "";
-  console.error(
-    `${severityTag} ${ctx.error.statusCode} ${ctx.method} ${ctx.url}${userTag}` +
-    ` [${ctx.requestId}] — ${ctx.error.message}`
-  );
-  if (ctx.error.statusCode >= 500 && ctx.error.stack) {
-    console.error(ctx.error.stack);
+  if (ctx.error.statusCode >= 500) {
+    logger.error(ctx.error.message, { ...meta, stack: ctx.error.stack });
+  } else {
+    logger.warn(ctx.error.message, meta);
   }
 }
 
