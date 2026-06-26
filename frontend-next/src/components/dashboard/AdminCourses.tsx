@@ -19,21 +19,34 @@ import { useAdminCourses } from "@/hooks/api/useAdminCourses";
 import type { Course } from "@/types/api-response";
 import type { AdminCreateCoursePayload } from "@/services/api";
 
-const LEVELS     = ["BEGINNER", "INTERMEDIATE", "ADVANCED"] as const;
+const LEVELS     = ["BACHELOR", "MASTERS"] as const;
 const LEVEL_LABELS: Record<string, string> = {
-  BEGINNER:     "Beginner",
-  INTERMEDIATE: "Intermediate",
-  ADVANCED:     "Advanced",
+  BACHELOR: "Bachelor",
+  MASTERS:  "Masters",
 };
-const CAMPUSES   = ["Halden", "Fredrikstad", "Oslo"];
-const SEMESTERS  = ["Spring 2025", "Fall 2025", "Spring 2026", "Fall 2026"];
-const CATEGORIES = ["Technology", "Computer Science", "Design", "AI & Machine Learning", "Cloud Computing", "Quality Assurance", "Mathematics", "Business"];
+const CAMPUSES    = ["Halden", "Fredrikstad", "Oslo"];
+const SEMESTERS   = ["Spring 2025", "Fall 2025", "Spring 2026", "Fall 2026"];
+const DEPARTMENTS = [
+  "Computer Science",
+  "Information Technology",
+  "Mathematics & Statistics",
+  "Natural Sciences",
+  "Business Administration",
+  "Engineering",
+  "Social Sciences",
+  "Humanities",
+  "Health Sciences",
+  "Arts & Design",
+  "Law",
+  "Economics",
+];
 
-type CourseLevel = "BEGINNER" | "INTERMEDIATE" | "ADVANCED";
+type CourseLevel = "BACHELOR" | "MASTERS";
 
 interface CourseForm {
   title:       string;
   description: string;
+  subject:     string;
   category:    string;
   level:       CourseLevel;
   campus:      string;
@@ -44,8 +57,9 @@ interface CourseForm {
 const emptyCourse = (): CourseForm => ({
   title:       "",
   description: "",
-  category:    "Technology",
-  level:       "BEGINNER",
+  subject:     "",
+  category:    "Computer Science",
+  level:       "BACHELOR",
   campus:      "Halden",
   credits:     10,
   semester:    "Spring 2025",
@@ -89,6 +103,7 @@ export default function AdminCourses() {
     setForm({
       title:       course.title,
       description: course.description,
+      subject:     course.shortDescription ?? "",
       category:    course.category,
       level:       course.level as CourseLevel,
       campus:      course.campus,
@@ -105,13 +120,14 @@ export default function AdminCourses() {
     setFormError(null);
     try {
       const payload: AdminCreateCoursePayload = {
-        title:       form.title,
-        description: form.description,
-        category:    form.category,
-        level:       form.level,
-        campus:      form.campus,
-        credits:     form.credits,
-        semester:    form.semester || undefined,
+        title:            form.title,
+        description:      form.description,
+        shortDescription: form.subject || undefined,
+        category:         form.category,
+        level:            form.level,
+        campus:           form.campus,
+        credits:          form.credits,
+        semester:         form.semester || undefined,
       };
       if (editingCourse) {
         await update(editingCourse._id, payload);
@@ -186,7 +202,7 @@ export default function AdminCourses() {
                 <tr className="border-b border-brand-border bg-brand-bg">
                   <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Course Name</th>
                   <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Level</th>
-                  <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Category</th>
+                  <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Department</th>
                   <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Credits</th>
                   <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Semester</th>
                   <th className="text-right px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Actions</th>
@@ -210,7 +226,7 @@ export default function AdminCourses() {
                     >
                       <td className="px-5 py-3.5 font-semibold text-brand-dark max-w-[260px]">{course.title}</td>
                       <td className="px-5 py-3.5">
-                        <Badge variant={course.level === "ADVANCED" ? "blue" : "default"}>
+                        <Badge variant={course.level === "MASTERS" ? "blue" : "default"}>
                           {LEVEL_LABELS[course.level] ?? course.level}
                         </Badge>
                       </td>
@@ -278,6 +294,16 @@ export default function AdminCourses() {
               />
             </div>
 
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="c-subject">Subject</Label>
+              <Input
+                id="c-subject"
+                placeholder="e.g. Introduction to Algorithms"
+                value={form.subject}
+                onChange={(e) => setForm((f) => ({ ...f, subject: e.target.value }))}
+              />
+            </div>
+
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-1.5">
                 <Label>Level</Label>
@@ -292,11 +318,11 @@ export default function AdminCourses() {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <Label>Category</Label>
+                <Label>Department</Label>
                 <Select value={form.category} onValueChange={(v) => setForm((f) => ({ ...f, category: v }))}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
-                    {CATEGORIES.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+                    {DEPARTMENTS.map((d) => <SelectItem key={d} value={d}>{d}</SelectItem>)}
                   </SelectContent>
                 </Select>
               </div>

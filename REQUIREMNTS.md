@@ -530,7 +530,7 @@ AUTHENTICATED (Logged In):
 - ⬜ Edit course:
   - Update any field
   - Manage faculty (add/remove)
-  - [Save] button
+  - [Save] buttono
 - ⬜ Assign faculty modal:
   - List of teachers (checkboxes)
   - [Assign] button

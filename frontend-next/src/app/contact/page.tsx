@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/layout/Footer";
-import { Mail, Phone, MapPin, Send, CheckCircle } from "lucide-react";
+import { Mail, Phone, MapPin, Send, CheckCircle, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 // ── Contact info items ─────────────────────────────────────────────────────────
@@ -11,20 +11,26 @@ import { Button } from "@/components/ui/button";
 const contactInfo = [
   {
     icon: Mail,
-    label: "Email",
-    value: "support@questify.app",
-    href: "mailto:support@questify.app",
+    label: "IT Helpdesk Email",
+    value: "it.support@questify.edu",
+    href: "mailto:it.support@questify.edu",
   },
   {
     icon: Phone,
-    label: "Phone",
-    value: "+1 (555) 012-3456",
-    href: "tel:+15550123456",
+    label: "Support Line",
+    value: "+47 22 85 50 00",
+    href: "tel:+4722855000",
   },
   {
     icon: MapPin,
-    label: "Address",
-    value: "123 Learning Lane, San Francisco, CA 94102",
+    label: "Office Location",
+    value: "IT Services Building, Main Campus — Room 201",
+    href: undefined,
+  },
+  {
+    icon: Clock,
+    label: "Office Hours",
+    value: "Monday–Friday, 08:00–16:00 CET",
     href: undefined,
   },
 ];
@@ -41,12 +47,12 @@ interface FormState {
 }
 
 const SUBJECTS = [
-  "General Inquiry",
-  "Technical Support",
-  "Course Question",
-  "Billing & Payments",
-  "Report a Bug",
-  "Partnership",
+  "Account Access Problem",
+  "Technical Issue / Bug Report",
+  "Course or Enrollment Query",
+  "Attendance Record Issue",
+  "XP or Grade Discrepancy",
+  "Feedback & Suggestions",
   "Other",
 ];
 
@@ -88,7 +94,7 @@ function ContactForm() {
     }
   }
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
     if (!validate()) return;
     setStatus("loading");
@@ -103,9 +109,10 @@ function ContactForm() {
         <div className="w-16 h-16 rounded-full bg-emerald-500/15 flex items-center justify-center">
           <CheckCircle size={32} className="text-emerald-500" />
         </div>
-        <h3 className="text-xl font-bold text-brand-dark dark:text-white">Message Sent!</h3>
+        <h3 className="text-xl font-bold text-brand-dark dark:text-white">Request Submitted</h3>
         <p className="text-brand-body dark:text-white/60 max-w-sm">
-          Thanks for reaching out. We typically respond within 1–2 business days.
+          Your message has been sent to the IT helpdesk. We aim to respond
+          within one working day during office hours.
         </p>
         <button
           type="button"
@@ -148,14 +155,14 @@ function ContactForm() {
         </div>
         <div>
           <label htmlFor="email" className="block text-sm font-semibold text-brand-dark dark:text-white mb-1.5">
-            Email Address <span className="text-red-400">*</span>
+            University Email <span className="text-red-400">*</span>
           </label>
           <input
             id="email"
             name="email"
             type="email"
             autoComplete="email"
-            placeholder="jane@example.com"
+            placeholder="jane@university.edu"
             value={form.email}
             onChange={handleChange}
             disabled={status === "loading"}
@@ -195,7 +202,7 @@ function ContactForm() {
           id="message"
           name="message"
           rows={6}
-          placeholder="Tell us how we can help…"
+          placeholder="Describe your issue or question in detail…"
           value={form.message}
           onChange={handleChange}
           disabled={status === "loading"}
@@ -226,13 +233,13 @@ function ContactForm() {
         ) : (
           <>
             <Send size={15} />
-            Send Message
+            Submit Request
           </>
         )}
       </Button>
 
       <p className="text-xs text-center text-brand-body/50 dark:text-white/30">
-        We typically respond within 1–2 business days.
+        We aim to respond within one working day (Mon–Fri, 08:00–16:00 CET).
       </p>
     </form>
   );
@@ -250,14 +257,14 @@ export default function ContactPage() {
         <section className="bg-gradient-to-b from-brand-bg to-white dark:from-slate-950 dark:to-slate-900 pt-16 pb-14 px-6 text-center">
           <div className="max-w-2xl mx-auto">
             <span className="inline-block mb-4 px-3.5 py-1 rounded-full bg-brand-blue/10 text-brand-blue text-xs font-bold uppercase tracking-widest">
-              Contact Us
+              IT Support
             </span>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-brand-dark dark:text-white mb-4 leading-tight">
-              We&apos;d Love to Hear from You
+              Contact the Helpdesk
             </h1>
             <p className="text-brand-body dark:text-white/60 text-lg leading-relaxed">
-              Have a question, feedback, or just want to say hello? Fill out the
-              form below and our team will get back to you.
+              Having trouble logging in, a missing enrollment, or a platform issue?
+              Submit a request and the IT support team will get back to you.
             </p>
           </div>
         </section>
@@ -270,11 +277,12 @@ export default function ContactPage() {
             <div className="space-y-8">
               <div>
                 <h2 className="text-xl font-bold text-brand-dark dark:text-white mb-2">
-                  Get in Touch
+                  IT Helpdesk
                 </h2>
                 <p className="text-brand-body dark:text-white/60 text-sm leading-relaxed">
-                  Reach out via the form or through any of the channels below.
-                  Our support team is available Monday–Friday, 9 AM–6 PM PST.
+                  The helpdesk handles all Questify platform issues for students, faculty,
+                  and staff. For urgent account problems (locked out, wrong role), email
+                  directly and include your student or employee ID.
                 </p>
               </div>
 
@@ -306,17 +314,17 @@ export default function ContactPage() {
               {/* Response time badge */}
               <div className="rounded-xl border border-brand-border dark:border-white/10 p-5 bg-brand-bg dark:bg-slate-800/50">
                 <p className="text-[13px] font-semibold text-brand-dark dark:text-white mb-1">
-                  Average Response Time
+                  Typical Response Time
                 </p>
                 <p className="text-2xl font-extrabold text-brand-blue mb-1">
-                  &lt; 24 hours
+                  &lt; 1 working day
                 </p>
                 <p className="text-xs text-brand-body dark:text-white/50">
-                  Business days only. For urgent issues, check our{" "}
+                  During office hours only. Check our{" "}
                   <a href="/help" className="text-brand-blue hover:underline underline-offset-2">
                     Help Center
                   </a>{" "}
-                  first.
+                  for quick answers before submitting a ticket.
                 </p>
               </div>
             </div>
@@ -324,7 +332,7 @@ export default function ContactPage() {
             {/* Right — form */}
             <div className="bg-white dark:bg-slate-800/60 border border-brand-border dark:border-white/10 rounded-2xl p-8 shadow-sm">
               <h2 className="text-lg font-bold text-brand-dark dark:text-white mb-6">
-                Send a Message
+                Submit a Support Request
               </h2>
               <ContactForm />
             </div>

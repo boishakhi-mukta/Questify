@@ -136,7 +136,7 @@ export interface AdminCreateCoursePayload {
   description:      string;
   shortDescription?: string;
   category:         string;
-  level:            "BEGINNER" | "INTERMEDIATE" | "ADVANCED";
+  level:            "BACHELOR" | "MASTERS";
   campus:           string;
   credits:          number;
   semester?:        string;
@@ -149,7 +149,7 @@ export interface AdminUpdateCoursePayload {
   description?:     string;
   shortDescription?: string;
   category?:        string;
-  level?:           "BEGINNER" | "INTERMEDIATE" | "ADVANCED";
+  level?:           "BACHELOR" | "MASTERS";
   campus?:          string;
   credits?:         number;
   semester?:        string;
