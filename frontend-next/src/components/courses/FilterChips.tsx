@@ -13,28 +13,23 @@ interface FilterChipsProps {
   filters: FilterState;
   onToggleCategory: (cat: string) => void;
   onSetDifficulty: (d: string) => void;
-  onSetMinRating: (r: number) => void;
-  onSetPriceType: (t: FilterState["priceType"]) => void;
-  onSetDateFilter: (d: FilterState["dateFilter"]) => void;
+  onSetSemester: (s: string) => void;
   onClearAll: () => void;
   resultCount: number;
   query: string;
   rightSlot?: React.ReactNode;
 }
 
-const DATE_LABELS: Record<string, string> = {
-  week: "This week",
-  month: "This month",
-  year: "This year",
+const LEVEL_LABELS: Record<string, string> = {
+  BACHELOR: "Bachelor",
+  MASTERS:  "Masters",
 };
 
 export function FilterChips({
   filters,
   onToggleCategory,
   onSetDifficulty,
-  onSetMinRating,
-  onSetPriceType,
-  onSetDateFilter,
+  onSetSemester,
   onClearAll,
   resultCount,
   query,
@@ -46,26 +41,10 @@ export function FilterChips({
       onRemove: () => onToggleCategory(cat),
     })),
     ...(filters.difficulty
-      ? [{ label: filters.difficulty, onRemove: () => onSetDifficulty(filters.difficulty) }]
+      ? [{ label: LEVEL_LABELS[filters.difficulty] ?? filters.difficulty, onRemove: () => onSetDifficulty(filters.difficulty) }]
       : []),
-    ...(filters.minRating > 0
-      ? [{ label: `${filters.minRating}★+`, onRemove: () => onSetMinRating(filters.minRating) }]
-      : []),
-    ...(filters.priceType !== "all"
-      ? [
-          {
-            label: filters.priceType === "free" ? "Free" : "Paid",
-            onRemove: () => onSetPriceType("all"),
-          },
-        ]
-      : []),
-    ...(filters.dateFilter !== "all"
-      ? [
-          {
-            label: DATE_LABELS[filters.dateFilter] ?? filters.dateFilter,
-            onRemove: () => onSetDateFilter("all"),
-          },
-        ]
+    ...(filters.semester
+      ? [{ label: filters.semester, onRemove: () => onSetSemester(filters.semester) }]
       : []),
   ];
 
@@ -73,7 +52,6 @@ export function FilterChips({
 
   return (
     <div className="flex flex-col gap-3 mb-5">
-      {/* Result count + clear all */}
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <p className="text-[14px] text-brand-body">
           {hasFiltersOrSearch ? (
@@ -106,7 +84,6 @@ export function FilterChips({
         </div>
       </div>
 
-      {/* Active chips */}
       {chips.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {chips.map(({ label, onRemove }) => (

@@ -599,3 +599,73 @@ export async function getXPAnalytics(
     "XP analytics retrieved successfully"
   );
 }
+
+// ── GET /api/v1/analytics/leaderboard ─────────────────────────────────────────
+/**
+ * Global XP leaderboard accessible to all authenticated users.
+ * Aggregates totalXpEarned across all active/completed enrollments.
+ */
+export async function getLeaderboard(
+  req: AuthenticatedRequest,
+  res: Response
+): Promise<void> {
+  const { limit = "50", timeframe } = req.query as {
+    limit?: string;
+    timeframe?: string;
+  };
+
+  const limitNum = Math.min(200, Math.max(1, parseInt(limit, 10) || 50));
+
+  const dateFilter: Record<string, unknown> = {};
+  if (timeframe === "week") {
+    const d = new Date();
+    d.setDate(d.getDate() - 7);
+    dateFilter.updatedAt = { $gte: d };
+  } else if (timeframe === "month") {
+    const d = new Date();
+    d.setMonth(d.getMonth() - 1);
+    dateFilter.updatedAt = { $gte: d };
+  }
+
+  const entries = await Enrollment.aggregate<{
+    studentId: string;
+    name: string;
+    avatar?: string;
+    totalXP: number;
+    courseCount: number;
+  }>([
+    { $match: { status: { $in: ["ACTIVE", "COMPLETED"] }, ...dateFilter } },
+    {
+      $group: {
+        _id:         "$studentId",
+        totalXP:     { $sum: "$totalXpEarned" },
+        courseCount: { $sum: 1 },
+      },
+    },
+    { $sort: { totalXP: -1 } },
+    { $limit: limitNum },
+    {
+      $lookup: {
+        from:         "users",
+        localField:   "_id",
+        foreignField: "_id",
+        as:           "user",
+      },
+    },
+    { $unwind: "$user" },
+    {
+      $project: {
+        _id:         0,
+        studentId:   { $toString: "$_id" },
+        name:        { $concat: ["$user.firstName", " ", "$user.lastName"] },
+        avatar:      "$user.avatar",
+        totalXP:     1,
+        courseCount: 1,
+      },
+    },
+  ]);
+
+  const ranked = entries.map((e, i) => ({ ...e, rank: i + 1 }));
+
+  sendSuccess(res, ranked, "Leaderboard retrieved successfully");
+}

@@ -58,15 +58,13 @@ const SORT_OPTIONS: { id: SortKey; label: string }[] = [
 
 // Level → gradient colour
 const LEVEL_GRADIENT: Record<string, string> = {
-  BEGINNER:     "from-emerald-500 to-teal-600",
-  INTERMEDIATE: "from-brand-blue to-blue-700",
-  ADVANCED:     "from-violet-500 to-purple-700",
+  BACHELOR: "from-brand-blue to-blue-700",
+  MASTERS:  "from-violet-500 to-purple-700",
 };
 
 const LEVEL_CHIP_COLOR: Record<string, "success" | "default" | "warning"> = {
-  BEGINNER:     "success",
-  INTERMEDIATE: "default",
-  ADVANCED:     "warning",
+  BACHELOR: "default",
+  MASTERS:  "warning",
 };
 
 // ─── CourseCard ───────────────────────────────────────────────────────────────

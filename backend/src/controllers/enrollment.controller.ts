@@ -148,7 +148,7 @@ export async function getMyEnrollments(
   const [enrollments, total] = await Promise.all([
     Enrollment.find(filter)
       .populate({
-        path: "course",
+        path: "courseId",
         select: "title shortDescription semester category level credits campus estimatedHours imageUrl teachers",
         populate: { path: "teachers", select: "firstName lastName avatar" },
       })

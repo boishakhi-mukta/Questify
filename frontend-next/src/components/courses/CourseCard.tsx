@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { HiStar, HiUserGroup } from "react-icons/hi2";
+import { HiUserGroup } from "react-icons/hi2";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import type { Course } from "@/types/api-response";
@@ -11,9 +11,8 @@ import { cn } from "@/lib/utils";
 
 /** Maps backend level enum to a human-readable label and badge colour class. */
 const LEVEL_META: Record<string, { label: string; classes: string }> = {
-  BEGINNER:     { label: "Beginner",     classes: "bg-emerald-50 text-emerald-600 border-emerald-200" },
-  INTERMEDIATE: { label: "Intermediate", classes: "bg-amber-50 text-amber-600 border-amber-200" },
-  ADVANCED:     { label: "Advanced",     classes: "bg-red-50 text-red-600 border-red-200" },
+  BACHELOR: { label: "Bachelor", classes: "bg-brand-blue/8 text-brand-blue border-brand-blue/20" },
+  MASTERS:  { label: "Masters",  classes: "bg-violet-50 text-violet-600 border-violet-200"       },
 };
 
 function levelMeta(level: string) {
@@ -28,26 +27,6 @@ function teacherName(teachers: Course["teachers"]): string {
   return `${t.firstName} ${t.lastName}`.trim();
 }
 
-function StarRating({ rating }: { rating: number }) {
-  const full = Math.floor(rating);
-  const half = rating - full >= 0.5;
-  return (
-    <div className="flex items-center gap-1">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <HiStar
-          key={i}
-          size={13}
-          className={cn(
-            i < full ? "text-amber-400" :
-            i === full && half ? "text-amber-300" :
-            "text-brand-border"
-          )}
-        />
-      ))}
-      <span className="text-[12px] font-semibold text-amber-600 ml-0.5">{rating.toFixed(1)}</span>
-    </div>
-  );
-}
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
@@ -82,14 +61,11 @@ export function CourseCard({ course }: { course: Course }) {
           {course.shortDescription ?? course.description}
         </p>
 
-        {/* Rating + enrollments */}
-        <div className="flex items-center gap-3">
-          <StarRating rating={course.averageRating ?? 0} />
-          <span className="flex items-center gap-1 text-[12px] text-brand-body/70">
-            <HiUserGroup size={13} />
-            {(course.enrollmentCount ?? 0).toLocaleString()}
-          </span>
-        </div>
+        {/* Enrollments */}
+        <span className="flex items-center gap-1 text-[12px] text-brand-body/70">
+          <HiUserGroup size={13} />
+          {(course.enrollmentCount ?? 0).toLocaleString()} enrolled
+        </span>
 
         {/* Bottom row: campus + credits */}
         <div className="flex items-center justify-between pt-3 border-t border-brand-border mt-auto">

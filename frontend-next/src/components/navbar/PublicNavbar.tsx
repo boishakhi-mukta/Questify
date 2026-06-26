@@ -131,14 +131,9 @@ export function PublicNavbar() {
     }
 
     return (
-      <div className="flex items-center gap-2">
-        <Button variant="ghost" size="sm" asChild>
-          <Link href="/login" onClick={onClose}>Sign In</Link>
-        </Button>
-        <Button variant="default" size="sm" asChild>
-          <Link href="/login" onClick={onClose}>Get Started</Link>
-        </Button>
-      </div>
+      <Button variant="default" size="sm" asChild>
+        <Link href="/login" onClick={onClose}>Sign In</Link>
+      </Button>
     );
   };
 

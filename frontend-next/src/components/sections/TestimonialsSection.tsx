@@ -123,17 +123,17 @@ export default function TestimonialsSection() {
       <div className="max-w-6xl mx-auto py-16 px-6 md:px-12">
 
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="flex flex-col items-center text-center mb-12">
           <p className="text-sm font-semibold text-brand-blue uppercase tracking-widest mb-3">
             What People Say
           </p>
           <h2
             id="testimonials-heading"
-            className="text-[32px] font-bold text-brand-dark text-center leading-tight mb-3.5"
+            className="text-[32px] font-bold text-brand-dark leading-tight mb-3.5"
           >
             Loved by students, teachers&nbsp;&amp;&nbsp;admins
           </h2>
-          <p className="text-[15px] text-brand-body text-center leading-relaxed max-w-[540px] mx-auto">
+          <p className="text-[15px] text-brand-body max-w-[540px]">
             Don&apos;t take our word for it — here&apos;s what students, teachers, and admins at our institution have to say.
           </p>
         </div>

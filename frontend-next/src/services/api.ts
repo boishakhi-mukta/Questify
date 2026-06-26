@@ -74,7 +74,7 @@ export const assignmentsApi = {
 
 export const leaderboardApi = {
   global: (params?: { timeframe?: string; limit?: number }) =>
-    get<LeaderboardEntry[]>("/analytics/xp", params as Record<string, unknown>),
+    get<LeaderboardEntry[]>("/analytics/leaderboard", params as Record<string, unknown>),
 };
 
 // ── Admin — Users ─────────────────────────────────────────────────────────────

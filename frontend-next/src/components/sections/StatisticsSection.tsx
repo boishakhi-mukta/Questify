@@ -177,17 +177,17 @@ export default function StatisticsSection() {
       <div className="max-w-6xl mx-auto py-16 px-6 md:px-12">
 
         {/* Section header */}
-        <div className="text-center mb-12">
+        <div className="flex flex-col items-center text-center mb-12">
           <p className="text-sm font-semibold text-brand-blue uppercase tracking-widest mb-3">
             By the Numbers
           </p>
           <h2
             id="stats-heading"
-            className="text-[32px] font-bold text-brand-dark text-center leading-tight mb-3.5"
+            className="text-[32px] font-bold text-brand-dark leading-tight mb-3.5"
           >
             Powering our campus community
           </h2>
-          <p className="text-[15px] text-brand-body text-center leading-relaxed max-w-[540px] mx-auto">
+          <p className="text-[15px] text-brand-body leading-relaxed max-w-[540px]">
             Students and faculty across our institution use Questify to make
             academic progress measurable, rewarding, and transparent.
           </p>

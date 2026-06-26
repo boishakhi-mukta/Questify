@@ -53,16 +53,14 @@ import { cn } from "@/lib/utils";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-const LEVEL_CHIP_COLOR = {
-  BEGINNER:     "success",
-  INTERMEDIATE: "default",
-  ADVANCED:     "warning",
+const LEVEL_CHIP_COLOR: Record<string, "default" | "warning" | "success" | "accent" | "danger"> = {
+  BACHELOR: "default",
+  MASTERS:  "warning",
 } as const;
 
-const LEVEL_GRADIENT = {
-  BEGINNER:     "from-emerald-500 to-teal-600",
-  INTERMEDIATE: "from-brand-blue to-blue-700",
-  ADVANCED:     "from-violet-500 to-purple-700",
+const LEVEL_GRADIENT: Record<string, string> = {
+  BACHELOR: "from-brand-blue to-blue-700",
+  MASTERS:  "from-violet-500 to-purple-700",
 } as const;
 
 const MATERIAL_ICON: Record<string, React.ElementType> = {
@@ -545,7 +543,7 @@ export default function CourseDetailPage() {
     );
   }
 
-  const gradient = LEVEL_GRADIENT[course.level] ?? LEVEL_GRADIENT.INTERMEDIATE;
+  const gradient = LEVEL_GRADIENT[course.level] ?? LEVEL_GRADIENT.BACHELOR;
   const chipColor = LEVEL_CHIP_COLOR[course.level] ?? "default";
 
   return (

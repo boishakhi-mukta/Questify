@@ -59,6 +59,21 @@ import { cn } from "@/lib/utils";
 
 const PAGE_SIZE = 20;
 
+const DEPARTMENTS = [
+  "Computer Science",
+  "Information Technology",
+  "Mathematics & Statistics",
+  "Natural Sciences",
+  "Business Administration",
+  "Engineering",
+  "Social Sciences",
+  "Humanities",
+  "Health Sciences",
+  "Arts & Design",
+  "Law",
+  "Economics",
+];
+
 type RoleFilter = "all" | UserRole;
 
 const ROLE_OPTIONS: { value: RoleFilter; label: string }[] = [
@@ -308,13 +323,17 @@ function UserFormModal({
                     />
                   </FormField>
                   <FormField label="Department">
-                    <input
-                      className={INPUT_CLS}
+                    <select
+                      className={SELECT_CLS}
                       value={form.department}
                       onChange={(e) => patch("department", e.target.value)}
-                      placeholder="Computer Science"
                       disabled={submitting}
-                    />
+                    >
+                      <option value="">— Select department —</option>
+                      {DEPARTMENTS.map((d) => (
+                        <option key={d} value={d}>{d}</option>
+                      ))}
+                    </select>
                   </FormField>
                 </div>
 

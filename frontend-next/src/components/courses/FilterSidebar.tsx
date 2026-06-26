@@ -1,25 +1,29 @@
 "use client";
 
-import { HiXMark, HiStar } from "react-icons/hi2";
+import { HiXMark } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
 import type { FilterState } from "@/hooks/useFilter";
 
 export const LEVEL_OPTIONS = [
-  { value: "BEGINNER",     label: "Beginner" },
-  { value: "INTERMEDIATE", label: "Intermediate" },
-  { value: "ADVANCED",     label: "Advanced" },
+  { value: "BACHELOR", label: "Bachelor" },
+  { value: "MASTERS",  label: "Masters"  },
 ] as const;
+
+export const SEMESTER_OPTIONS = [
+  "Spring 2025",
+  "Fall 2025",
+  "Spring 2026",
+  "Fall 2026",
+];
 
 interface FilterSidebarProps {
   filters: FilterState;
   categories: string[];
   onToggleCategory: (cat: string) => void;
   onSetDifficulty: (d: string) => void;
-  onSetMinRating: (r: number) => void;
-  onSetDateFilter: (d: FilterState["dateFilter"]) => void;
+  onSetSemester: (s: string) => void;
   onClearAll: () => void;
   activeCount: number;
-  // Mobile drawer props
   open?: boolean;
   onClose?: () => void;
 }
@@ -41,8 +45,7 @@ export function FilterSidebar({
   categories,
   onToggleCategory,
   onSetDifficulty,
-  onSetMinRating,
-  onSetDateFilter,
+  onSetSemester,
   onClearAll,
   activeCount,
   open,
@@ -86,10 +89,10 @@ export function FilterSidebar({
       {/* Scrollable filter body */}
       <div className="flex-1 overflow-y-auto">
 
-        {/* ── Category ──────────────────────────────────────── */}
+        {/* ── Department ──────────────────────────────────────── */}
         {categories.length > 0 && (
           <section>
-            <SectionLabel>Category</SectionLabel>
+            <SectionLabel>Department</SectionLabel>
             <div className="flex flex-col gap-2">
               {categories.map((cat) => (
                 <label key={cat} className="flex items-center gap-2.5 cursor-pointer group">
@@ -109,7 +112,7 @@ export function FilterSidebar({
           </section>
         )}
 
-        {/* ── Level / Difficulty ────────────────────────────── */}
+        {/* ── Level ───────────────────────────────────────────── */}
         <section>
           <SectionLabel>Level</SectionLabel>
           <div className="flex flex-col gap-2">
@@ -132,59 +135,31 @@ export function FilterSidebar({
 
         <Divider />
 
-        {/* ── Minimum Rating ────────────────────────────────── */}
+        {/* ── Semester ────────────────────────────────────────── */}
         <section>
-          <SectionLabel>Minimum Rating</SectionLabel>
-          <div className="flex flex-col gap-1.5">
-            {([4, 3, 2] as const).map((r) => (
-              <button
-                key={r}
-                type="button"
-                onClick={() => onSetMinRating(r)}
-                className={cn(
-                  "flex items-center gap-2 px-3 py-2 rounded-lg border text-[13px] font-medium transition-colors text-left",
-                  filters.minRating === r
-                    ? "border-brand-blue bg-brand-blue-light text-brand-blue"
-                    : "border-brand-border text-brand-body hover:border-brand-blue/40 hover:bg-brand-blue-light/40"
-                )}
-              >
-                <span className="flex items-center gap-0.5">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <HiStar
-                      key={i}
-                      size={13}
-                      className={i < r ? "text-amber-400" : "text-brand-border"}
-                    />
-                  ))}
+          <SectionLabel>Semester</SectionLabel>
+          <div className="flex flex-col gap-2">
+            {SEMESTER_OPTIONS.map((s) => (
+              <label key={s} className="flex items-center gap-2.5 cursor-pointer group">
+                <input
+                  type="radio"
+                  name="semester"
+                  checked={filters.semester === s}
+                  onChange={() => onSetSemester(s)}
+                  className="w-4 h-4 accent-brand-blue cursor-pointer"
+                />
+                <span className="text-[14px] text-brand-body group-hover:text-brand-dark transition-colors">
+                  {s}
                 </span>
-                <span>{r}★ & up</span>
-              </button>
+              </label>
             ))}
           </div>
-        </section>
-
-        <Divider />
-
-        {/* ── Date Added ────────────────────────────────────── */}
-        <section>
-          <SectionLabel>Date Added</SectionLabel>
-          <select
-            value={filters.dateFilter}
-            onChange={(e) => onSetDateFilter(e.target.value as FilterState["dateFilter"])}
-            className="w-full border border-brand-border rounded-lg px-3 py-2.5 text-[14px] text-brand-dark bg-white focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-colors cursor-pointer"
-          >
-            <option value="all">All time</option>
-            <option value="year">This year</option>
-            <option value="month">This month</option>
-            <option value="week">This week</option>
-          </select>
         </section>
 
       </div>
     </div>
   );
 
-  // ── Desktop sidebar (always visible, inline) ────────────────────────
   if (!isDrawer) {
     return (
       <div className="w-[240px] shrink-0 bg-white rounded-xl border border-brand-border p-5 sticky top-[80px] max-h-[calc(100vh-100px)] overflow-hidden flex flex-col">
@@ -193,10 +168,8 @@ export function FilterSidebar({
     );
   }
 
-  // ── Mobile drawer (conditional overlay) ────────────────────────────
   return (
     <>
-      {/* Backdrop */}
       <div
         className={cn(
           "fixed inset-0 z-40 bg-black/30 transition-opacity duration-200",
@@ -204,8 +177,6 @@ export function FilterSidebar({
         )}
         onClick={onClose}
       />
-
-      {/* Drawer panel */}
       <div
         className={cn(
           "fixed top-0 left-0 z-50 h-full w-[300px] bg-white shadow-2xl p-5 flex flex-col transition-transform duration-250 ease-out",

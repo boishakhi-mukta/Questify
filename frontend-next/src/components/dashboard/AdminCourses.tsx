@@ -24,8 +24,8 @@ const LEVEL_LABELS: Record<string, string> = {
   BACHELOR: "Bachelor",
   MASTERS:  "Masters",
 };
-const CAMPUSES    = ["Halden", "Fredrikstad", "Oslo"];
-const SEMESTERS   = ["Spring 2025", "Fall 2025", "Spring 2026", "Fall 2026"];
+const CAMPUSES  = ["Halden", "Fredrikstad", "Oslo"];
+const SEMESTERS = ["Spring 2025", "Fall 2025", "Spring 2026", "Fall 2026"];
 const DEPARTMENTS = [
   "Computer Science",
   "Information Technology",
@@ -40,6 +40,128 @@ const DEPARTMENTS = [
   "Law",
   "Economics",
 ];
+
+const DEPARTMENT_SUBJECTS: Record<string, string[]> = {
+  "Computer Science": [
+    "Introduction to Computer Science",
+    "Data Structures and Algorithms",
+    "Computer Networks",
+    "Operating Systems",
+    "Database Systems",
+    "Software Engineering",
+    "Artificial Intelligence",
+    "Machine Learning",
+    "Computer Security",
+    "Web Development",
+    "Mobile Application Development",
+    "Cloud Computing",
+  ],
+  "Information Technology": [
+    "IT Project Management",
+    "Systems Analysis and Design",
+    "Network Administration",
+    "Information Security",
+    "Enterprise Systems",
+    "Business Intelligence",
+    "IT Service Management",
+    "Digital Transformation",
+  ],
+  "Mathematics & Statistics": [
+    "Calculus I",
+    "Calculus II",
+    "Linear Algebra",
+    "Probability and Statistics",
+    "Discrete Mathematics",
+    "Numerical Analysis",
+    "Mathematical Modeling",
+    "Real Analysis",
+  ],
+  "Natural Sciences": [
+    "Physics I",
+    "Physics II",
+    "General Chemistry",
+    "Organic Chemistry",
+    "Biology",
+    "Environmental Science",
+    "Geology",
+    "Astrophysics",
+  ],
+  "Business Administration": [
+    "Business Management",
+    "Marketing Principles",
+    "Corporate Finance",
+    "Financial Accounting",
+    "Human Resource Management",
+    "Operations Management",
+    "Strategic Management",
+    "Entrepreneurship",
+    "Business Ethics",
+  ],
+  "Engineering": [
+    "Engineering Mathematics",
+    "Statics and Dynamics",
+    "Thermodynamics",
+    "Fluid Mechanics",
+    "Electrical Engineering Fundamentals",
+    "Civil Engineering Principles",
+    "Mechanical Design",
+    "Materials Science",
+  ],
+  "Social Sciences": [
+    "Introduction to Sociology",
+    "Social Psychology",
+    "Political Science",
+    "Cultural Anthropology",
+    "Social Research Methods",
+    "International Relations",
+    "Public Policy",
+  ],
+  "Humanities": [
+    "World History",
+    "Philosophy",
+    "World Literature",
+    "Linguistics",
+    "Ethics and Moral Theory",
+    "Cultural Studies",
+    "Comparative Religion",
+  ],
+  "Health Sciences": [
+    "Anatomy and Physiology",
+    "Health Informatics",
+    "Public Health",
+    "Nutrition Science",
+    "Epidemiology",
+    "Health Policy",
+    "Clinical Psychology",
+  ],
+  "Arts & Design": [
+    "Graphic Design",
+    "Digital Media Production",
+    "Photography",
+    "2D and 3D Animation",
+    "Interior Design",
+    "Fine Arts Studio",
+    "Design Thinking",
+  ],
+  "Law": [
+    "Constitutional Law",
+    "Criminal Law",
+    "Contract Law",
+    "International Law",
+    "Intellectual Property Law",
+    "Corporate Law",
+    "Human Rights Law",
+  ],
+  "Economics": [
+    "Microeconomics",
+    "Macroeconomics",
+    "Development Economics",
+    "International Economics",
+    "Econometrics",
+    "Financial Economics",
+    "Behavioral Economics",
+  ],
+};
 
 type CourseLevel = "BACHELOR" | "MASTERS";
 
@@ -295,13 +417,22 @@ export default function AdminCourses() {
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="c-subject">Subject</Label>
-              <Input
-                id="c-subject"
-                placeholder="e.g. Introduction to Algorithms"
-                value={form.subject}
-                onChange={(e) => setForm((f) => ({ ...f, subject: e.target.value }))}
-              />
+              <Label>Subject</Label>
+              <div className={!form.category ? "opacity-50 pointer-events-none" : ""}>
+                <Select
+                  value={form.subject}
+                  onValueChange={(v) => setForm((f) => ({ ...f, subject: v }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={form.category ? "Select a subject" : "Select a department first"} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {(DEPARTMENT_SUBJECTS[form.category] ?? []).map((s) => (
+                      <SelectItem key={s} value={s}>{s}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
@@ -319,7 +450,7 @@ export default function AdminCourses() {
 
               <div className="flex flex-col gap-1.5">
                 <Label>Department</Label>
-                <Select value={form.category} onValueChange={(v) => setForm((f) => ({ ...f, category: v }))}>
+                <Select value={form.category} onValueChange={(v) => setForm((f) => ({ ...f, category: v, subject: "" }))}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
                     {DEPARTMENTS.map((d) => <SelectItem key={d} value={d}>{d}</SelectItem>)}
