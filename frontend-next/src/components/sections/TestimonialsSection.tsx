@@ -134,7 +134,7 @@ export default function TestimonialsSection() {
             Loved by students, teachers&nbsp;&amp;&nbsp;admins
           </h2>
           <p className="text-[15px] text-brand-body text-center leading-relaxed max-w-[540px] mx-auto">
-            Don&apos;t take our word for it — here&apos;s what the Questify community has to say.
+            Don&apos;t take our word for it — here&apos;s what students, teachers, and admins at our institution have to say.
           </p>
         </div>
 

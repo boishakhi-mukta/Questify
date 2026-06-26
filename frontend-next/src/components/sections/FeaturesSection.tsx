@@ -59,9 +59,9 @@ const features: Feature[] = [
     cardTo: "#FDE8C4",
     title: "AI-Powered Learning",
     description:
-      "Smart recommendations adapt to your pace and learning history. Personalized study plans help you stay focused, identify gaps, and progress faster than ever.",
-    ctaLabel: "Get started",
-    ctaHref: "/auth/register",
+      "Smart insights surface your strongest and weakest areas based on your activity. See where you&apos;re excelling and where to focus so you never fall behind.",
+    ctaLabel: "View dashboard",
+    ctaHref: "/student",
   },
 ];
 
@@ -85,8 +85,8 @@ export default function FeaturesSection() {
             Everything you need to succeed
           </h2>
           <p className="text-[15px] text-brand-body leading-relaxed max-w-[600px] mx-auto">
-            Questify combines proven learning tools with gamification to keep
-            you engaged, motivated, and on track — every step of the way.
+            Questify brings gamification to your institution&apos;s courses —
+            keeping students engaged, motivated, and accountable every step of the way.
           </p>
         </header>
 

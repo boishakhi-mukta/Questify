@@ -36,8 +36,8 @@ export default function CoursesSection() {
         </h2>
 
         <p className="text-[15px] text-brand-body text-center leading-relaxed max-w-[600px] mx-auto mb-10">
-          Browse our catalogue and enroll in courses to start earning points
-          and climbing the leaderboard.
+          Browse your institution&apos;s course catalogue and enroll to start earning
+          XP and climbing the leaderboard.
         </p>
 
         {isLoading ? (

@@ -120,7 +120,7 @@ const statConfigs: StatConfig[] = [
     iconColor: "text-[#2563EB]",
     iconBg: "bg-[#DBEAFE]",
     label: "Total Students",
-    subtext: "Active learners on the platform",
+    subtext: "Enrolled students at our institution",
     key: "totalStudents",
   },
   {
@@ -128,7 +128,7 @@ const statConfigs: StatConfig[] = [
     iconColor: "text-[#7C3AED]",
     iconBg: "bg-[#EDE9FB]",
     label: "Total Courses",
-    subtext: "Published & available to enroll",
+    subtext: "Institutional courses offered this term",
     key: "totalCourses",
   },
   {
@@ -136,7 +136,7 @@ const statConfigs: StatConfig[] = [
     iconColor: "text-[#059669]",
     iconBg: "bg-[#D1FAE5]",
     label: "Total Teachers",
-    subtext: "Expert instructors worldwide",
+    subtext: "Faculty members at our institution",
     key: "totalTeachers",
   },
   {
@@ -144,7 +144,7 @@ const statConfigs: StatConfig[] = [
     iconColor: "text-[#D97706]",
     iconBg: "bg-[#FEF3C7]",
     label: "XP Distributed",
-    subtext: "Points earned by our community",
+    subtext: "Points earned across all courses",
     key: "totalXPDistributed",
     suffix: " XP",
   },
@@ -185,11 +185,11 @@ export default function StatisticsSection() {
             id="stats-heading"
             className="text-[32px] font-bold text-brand-dark text-center leading-tight mb-3.5"
           >
-            Trusted by learners worldwide
+            Powering our campus community
           </h2>
           <p className="text-[15px] text-brand-body text-center leading-relaxed max-w-[540px] mx-auto">
-            Join thousands of students and teachers already using Questify to
-            make learning measurable, rewarding, and fun.
+            Students and faculty across our institution use Questify to make
+            academic progress measurable, rewarding, and transparent.
           </p>
         </div>
 

@@ -12,12 +12,12 @@ export default function HeroBanner() {
         {/* Left column */}
         <div className="flex-1 flex flex-col gap-5">
           <h1 className="text-5xl font-bold text-brand-dark leading-[1.15]">
-            Learn the skills to <br /> shape your future
+            Your campus. <br /> Your courses. <br /> Your progress.
           </h1>
 
           <p className="text-base text-brand-body leading-relaxed max-w-[460px]">
-            Access world-class courses, earn certifications, and track your
-            progress with gamified learning. Taught by expert instructors.
+            Stay on top of your coursework, earn XP for every action, and track
+            your academic progress — all in one platform managed by your institution.
           </p>
 
           <div className="flex items-center gap-4 flex-wrap mt-1">
