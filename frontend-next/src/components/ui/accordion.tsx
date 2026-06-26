@@ -1,63 +1,89 @@
 "use client";
 
 import * as React from "react";
-import * as AccordionPrimitive from "@radix-ui/react-accordion";
-import { ChevronDown } from "lucide-react";
+import {
+  AccordionRoot,
+  AccordionItem as HeroAccordionItem,
+  AccordionTrigger as HeroAccordionTrigger,
+  AccordionHeading,
+  AccordionPanel,
+} from "@heroui/react";
+import { HiChevronDown } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
 
-const Accordion = AccordionPrimitive.Root;
+export function Accordion({
+  children,
+  className,
+  type: _type,
+  collapsible: _collapsible,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement> & {
+  type?: string;
+  collapsible?: boolean;
+}) {
+  return (
+    <AccordionRoot className={cn("flex flex-col", className)} {...(props as object)}>
+      {children}
+    </AccordionRoot>
+  );
+}
 
-const AccordionItem = React.forwardRef<
-  React.ElementRef<typeof AccordionPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>
->(({ className, ...props }, ref) => (
-  <AccordionPrimitive.Item
-    ref={ref}
-    className={cn("border border-brand-border rounded-md overflow-hidden", className)}
-    {...props}
-  />
-));
-AccordionItem.displayName = "AccordionItem";
-
-const AccordionTrigger = React.forwardRef<
-  React.ElementRef<typeof AccordionPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
-  <AccordionPrimitive.Header className="flex">
-    <AccordionPrimitive.Trigger
-      ref={ref}
-      className={cn(
-        "flex flex-1 items-center justify-between px-4 py-3.5 text-[15px] font-semibold text-brand-dark bg-white transition-colors hover:bg-brand-bg data-[state=open]:bg-brand-bg [&[data-state=open]>svg]:rotate-180",
-        className
-      )}
-      {...props}
+export function AccordionItem({
+  value,
+  children,
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement> & { value: string }) {
+  return (
+    <HeroAccordionItem
+      id={value}
+      className={cn("border border-brand-border rounded-md overflow-hidden", className)}
+      {...(props as object)}
     >
       {children}
-      <ChevronDown className="h-4 w-4 text-brand-body shrink-0 transition-transform duration-200" />
-    </AccordionPrimitive.Trigger>
-  </AccordionPrimitive.Header>
-));
-AccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName;
+    </HeroAccordionItem>
+  );
+}
 
-const AccordionContent = React.forwardRef<
-  React.ElementRef<typeof AccordionPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Content>
->(({ className, children, ...props }, ref) => (
-  <AccordionPrimitive.Content
-    ref={ref}
-    className="overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
-    {...props}
-  >
-    <div
-      className={cn(
-        "px-4 py-3 text-[14px] text-brand-body leading-relaxed border-t border-brand-border",
-        className
-      )}
-    >
-      {children}
-    </div>
-  </AccordionPrimitive.Content>
-));
-AccordionContent.displayName = AccordionPrimitive.Content.displayName;
+export function AccordionTrigger({
+  children,
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLButtonElement>) {
+  return (
+    <AccordionHeading className="flex">
+      <HeroAccordionTrigger
+        className={cn(
+          "flex flex-1 items-center justify-between px-4 py-3.5 text-[15px] font-semibold text-brand-dark bg-white transition-colors hover:bg-brand-bg data-[expanded=true]:bg-brand-bg",
+          className
+        )}
+        {...(props as object)}
+      >
+        {children}
+        <HiChevronDown
+          size={16}
+          className="text-brand-body shrink-0 transition-transform duration-200 group-data-[expanded=true]:rotate-180"
+        />
+      </HeroAccordionTrigger>
+    </AccordionHeading>
+  );
+}
 
-export { Accordion, AccordionItem, AccordionTrigger, AccordionContent };
+export function AccordionContent({
+  children,
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <AccordionPanel {...(props as object)}>
+      <div
+        className={cn(
+          "px-4 py-3 text-[14px] text-brand-body leading-relaxed border-t border-brand-border",
+          className
+        )}
+      >
+        {children}
+      </div>
+    </AccordionPanel>
+  );
+}

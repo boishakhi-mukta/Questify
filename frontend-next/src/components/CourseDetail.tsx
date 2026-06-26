@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { HiCheckCircle } from "react-icons/hi2";
-import { courses } from "@/lib/data";
+import { useCourse } from "@/hooks/api/useCourse";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -17,19 +17,11 @@ interface CourseDetailProps {
   id: string;
 }
 
-const objectives = [
-  "Understand core theoretical concepts and industry-standard practices",
-  "Apply problem-solving techniques to real-world scenarios",
-  "Collaborate effectively in team-based project environments",
-  "Analyse, evaluate, and improve existing solutions",
-  "Communicate technical findings clearly in written and oral form",
-];
-
-const modules = [
-  { id: "m1", title: "Module 1 — Foundations", body: "Introduction to the core concepts, terminology, and historical context of the subject. Includes readings and a short quiz." },
-  { id: "m2", title: "Module 2 — Core Techniques", body: "Deep-dive into primary methods and tools. Students complete lab exercises and submit a short reflective report." },
-  { id: "m3", title: "Module 3 — Applied Project", body: "Hands-on group project applying all techniques learned. Culminates in a presentation and peer-review session." },
-];
+const LEVEL_LABELS: Record<string, string> = {
+  BEGINNER:     "Beginner",
+  INTERMEDIATE: "Intermediate",
+  ADVANCED:     "Advanced",
+};
 
 function XpRow({ label, xp }: { label: string; xp: string }) {
   return (
@@ -41,18 +33,50 @@ function XpRow({ label, xp }: { label: string; xp: string }) {
 }
 
 export default function CourseDetail({ id }: CourseDetailProps) {
-  const course = courses.find((c) => c.id === Number(id));
+  const { course, isLoading, error } = useCourse(id);
 
-  if (!course) {
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-brand-bg">
+        <div className="bg-brand-dark">
+          <div className="max-w-[1100px] mx-auto px-12 pt-10 pb-12">
+            <div className="h-4 w-32 bg-white/10 rounded mb-7 animate-pulse" />
+            <div className="h-8 w-2/3 bg-white/10 rounded mb-5 animate-pulse" />
+            <div className="h-10 w-32 bg-white/20 rounded animate-pulse" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !course) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4">
-        <p className="text-lg font-semibold text-brand-dark">Course not found.</p>
-        <Link href="/" className="text-sm font-semibold text-brand-blue hover:text-brand-blue-dark no-underline transition-colors">
-          ← Back to Home
+        <p className="text-lg font-semibold text-brand-dark">
+          {error ?? "Course not found."}
+        </p>
+        <Link href="/courses" className="text-sm font-semibold text-brand-blue hover:text-brand-blue-dark no-underline transition-colors">
+          ← Back to Courses
         </Link>
       </div>
     );
   }
+
+  const objectives = course.metadata?.objectives?.length
+    ? course.metadata.objectives
+    : [
+        "Understand core theoretical concepts and industry-standard practices",
+        "Apply problem-solving techniques to real-world scenarios",
+        "Collaborate effectively in team-based project environments",
+        "Analyse, evaluate, and improve existing solutions",
+        "Communicate technical findings clearly in written and oral form",
+      ];
+
+  const modules = [
+    { id: "m1", title: "Module 1 — Foundations", body: "Introduction to the core concepts, terminology, and historical context of the subject. Includes readings and a short quiz." },
+    { id: "m2", title: "Module 2 — Core Techniques", body: "Deep-dive into primary methods and tools. Students complete lab exercises and submit a short reflective report." },
+    { id: "m3", title: "Module 3 — Applied Project", body: "Hands-on group project applying all techniques learned. Culminates in a presentation and peer-review session." },
+  ];
 
   return (
     <div className="min-h-screen bg-brand-bg">
@@ -69,18 +93,18 @@ export default function CourseDetail({ id }: CourseDetailProps) {
           </Link>
 
           <div className="mb-3">
-            <Badge variant="outline">{course.level}</Badge>
+            <Badge variant="outline">{LEVEL_LABELS[course.level] ?? course.level}</Badge>
           </div>
 
           <h1 className="text-[32px] font-bold text-white mb-5 leading-snug max-w-[700px]">
-            {course.name}
+            {course.title}
           </h1>
 
           <div className="flex flex-wrap gap-5 mb-8">
             {[
-              { label: "Campus", value: course.campus },
-              { label: "Credits", value: `${course.credit} ECTS` },
-              { label: "Semester", value: course.semester },
+              { label: "Campus",   value: course.campus },
+              { label: "Credits",  value: `${course.credits} ECTS` },
+              ...(course.semester ? [{ label: "Semester", value: course.semester }] : []),
               { label: "Category", value: course.category },
             ].map(({ label, value }) => (
               <span key={label} className="text-sm text-white/75">
@@ -102,13 +126,7 @@ export default function CourseDetail({ id }: CourseDetailProps) {
 
           <section>
             <h2 className="text-xl font-bold text-brand-dark mb-3.5">About This Course</h2>
-            <p className="text-[15px] text-brand-body leading-[1.8]">
-              This course provides students with a comprehensive introduction to the fundamental
-              principles and practices of the field. Through a combination of lectures, hands-on
-              exercises, and collaborative projects, students will develop both theoretical knowledge
-              and practical skills directly applicable in professional settings. The curriculum is
-              designed in close collaboration with industry partners to ensure relevance and employability.
-            </p>
+            <p className="text-[15px] text-brand-body leading-[1.8]">{course.description}</p>
           </section>
 
           <section>
@@ -122,6 +140,17 @@ export default function CourseDetail({ id }: CourseDetailProps) {
               ))}
             </ul>
           </section>
+
+          {course.metadata?.prerequisites && course.metadata.prerequisites.length > 0 && (
+            <section>
+              <h2 className="text-xl font-bold text-brand-dark mb-4">Prerequisites</h2>
+              <ul className="list-none p-0 m-0 flex flex-col gap-2">
+                {course.metadata.prerequisites.map((prereq, i) => (
+                  <li key={i} className="text-[15px] text-brand-body">• {prereq}</li>
+                ))}
+              </ul>
+            </section>
+          )}
 
           <section>
             <h2 className="text-xl font-bold text-brand-dark mb-4">Course Modules</h2>
@@ -146,9 +175,9 @@ export default function CourseDetail({ id }: CourseDetailProps) {
             </CardHeader>
             <CardContent className="pt-4">
 
-              <XpRow label="Attendance" xp="+10 XP" />
-              <XpRow label="Assignments" xp="+25 XP" />
-              <XpRow label="Reading" xp="+15 XP" />
+              <XpRow label="Attendance"   xp="+10 XP" />
+              <XpRow label="Assignments"  xp="+25 XP" />
+              <XpRow label="Reading"      xp="+15 XP" />
 
               <div className="mt-5">
                 <div className="flex justify-between mb-1.5">

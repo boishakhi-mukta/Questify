@@ -4,12 +4,33 @@ import Link from "next/link";
 import { HiStar, HiUserGroup } from "react-icons/hi2";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import type { Course } from "@/lib/data";
+import type { Course } from "@/types/api-response";
 import { cn } from "@/lib/utils";
 
+// ── Helpers ───────────────────────────────────────────────────────────────────
+
+/** Maps backend level enum to a human-readable label and badge colour class. */
+const LEVEL_META: Record<string, { label: string; classes: string }> = {
+  BEGINNER:     { label: "Beginner",     classes: "bg-emerald-50 text-emerald-600 border-emerald-200" },
+  INTERMEDIATE: { label: "Intermediate", classes: "bg-amber-50 text-amber-600 border-amber-200" },
+  ADVANCED:     { label: "Advanced",     classes: "bg-red-50 text-red-600 border-red-200" },
+};
+
+function levelMeta(level: string) {
+  return LEVEL_META[level] ?? { label: level, classes: "bg-gray-50 text-gray-600 border-gray-200" };
+}
+
+/** Returns the first teacher's full name, or a fallback. */
+function teacherName(teachers: Course["teachers"]): string {
+  if (!teachers || teachers.length === 0) return "—";
+  const t = teachers[0];
+  if (typeof t === "string") return t;
+  return `${t.firstName} ${t.lastName}`.trim();
+}
+
 function StarRating({ rating }: { rating: number }) {
-  const full  = Math.floor(rating);
-  const half  = rating - full >= 0.5;
+  const full = Math.floor(rating);
+  const half = rating - full >= 0.5;
   return (
     <div className="flex items-center gap-1">
       {Array.from({ length: 5 }).map((_, i) => (
@@ -28,62 +49,57 @@ function StarRating({ rating }: { rating: number }) {
   );
 }
 
-const difficultyColor: Record<string, string> = {
-  Beginner:     "bg-emerald-50 text-emerald-600 border-emerald-200",
-  Intermediate: "bg-amber-50 text-amber-600 border-amber-200",
-  Advanced:     "bg-red-50 text-red-600 border-red-200",
-};
+// ── Component ─────────────────────────────────────────────────────────────────
 
 export function CourseCard({ course }: { course: Course }) {
+  const meta = levelMeta(course.level);
+
   return (
-    <Link href={`/courses/${course.id}`} className="no-underline group block h-full">
+    <Link href={`/courses/${course._id}`} className="no-underline group block h-full">
       <Card className="p-5 flex flex-col gap-3 h-full cursor-pointer transition-all duration-200 group-hover:shadow-[0_6px_24px_rgba(0,0,0,0.10)] group-hover:-translate-y-0.5 border-brand-border">
 
-        {/* Category + difficulty badges */}
+        {/* Category + level badges */}
         <div className="flex flex-wrap gap-1.5">
           <Badge>{course.category}</Badge>
           <span className={cn(
             "inline-flex items-center rounded-full text-[11px] font-bold px-2.5 py-0.5 border",
-            difficultyColor[course.difficulty] ?? "bg-gray-50 text-gray-600 border-gray-200"
+            meta.classes
           )}>
-            {course.difficulty}
+            {meta.label}
           </span>
         </div>
 
         {/* Title */}
         <h3 className="text-[15px] font-bold text-brand-dark leading-snug line-clamp-2 group-hover:text-brand-blue transition-colors">
-          {course.name}
+          {course.title}
         </h3>
 
         {/* Instructor */}
-        <p className="text-[13px] text-brand-body">by {course.instructor}</p>
+        <p className="text-[13px] text-brand-body">by {teacherName(course.teachers)}</p>
 
         {/* Description */}
         <p className="text-[13px] text-brand-body leading-relaxed line-clamp-2 flex-1">
-          {course.description}
+          {course.shortDescription ?? course.description}
         </p>
 
         {/* Rating + enrollments */}
         <div className="flex items-center gap-3">
-          <StarRating rating={course.rating} />
+          <StarRating rating={course.averageRating ?? 0} />
           <span className="flex items-center gap-1 text-[12px] text-brand-body/70">
             <HiUserGroup size={13} />
-            {course.enrollments.toLocaleString()}
+            {(course.enrollmentCount ?? 0).toLocaleString()}
           </span>
         </div>
 
-        {/* Bottom row: level/credit + price */}
+        {/* Bottom row: campus + credits */}
         <div className="flex items-center justify-between pt-3 border-t border-brand-border mt-auto">
           <div className="flex items-center gap-2">
-            <Badge>{course.level}</Badge>
-            <span className="text-[12px] text-brand-body">{course.credit} ECTS</span>
+            <Badge variant="outline">{course.campus}</Badge>
+            <span className="text-[12px] text-brand-body">{course.credits} ECTS</span>
           </div>
-          <span className={cn(
-            "text-[15px] font-bold",
-            course.price === 0 ? "text-emerald-600" : "text-brand-dark"
-          )}>
-            {course.price === 0 ? "Free" : `$${course.price}`}
-          </span>
+          {course.semester && (
+            <span className="text-[12px] text-brand-body/70">{course.semester}</span>
+          )}
         </div>
 
       </Card>

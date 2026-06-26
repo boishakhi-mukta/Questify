@@ -15,70 +15,128 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { seedCourses, nextCourseId, type AdminCourse } from "@/lib/admin-store";
+import { useAdminCourses } from "@/hooks/api/useAdminCourses";
+import type { Course } from "@/types/api-response";
+import type { AdminCreateCoursePayload } from "@/services/api";
 
-const LEVELS     = ["Bachelor", "Master", "PhD"];
+const LEVELS     = ["BEGINNER", "INTERMEDIATE", "ADVANCED"] as const;
+const LEVEL_LABELS: Record<string, string> = {
+  BEGINNER:     "Beginner",
+  INTERMEDIATE: "Intermediate",
+  ADVANCED:     "Advanced",
+};
 const CAMPUSES   = ["Halden", "Fredrikstad", "Oslo"];
 const SEMESTERS  = ["Spring 2025", "Fall 2025", "Spring 2026", "Fall 2026"];
-const CATEGORIES = ["Technology", "CS", "Design", "AI", "Cloud", "Testing", "Math", "Business"];
+const CATEGORIES = ["Technology", "Computer Science", "Design", "AI & Machine Learning", "Cloud Computing", "Quality Assurance", "Mathematics", "Business"];
 
-const emptyCourse = (): Omit<AdminCourse, "id"> => ({
-  name: "",
-  level: "Bachelor",
-  campus: "Halden",
-  credit: 10,
-  semester: "Spring 2025",
-  category: "Technology",
+type CourseLevel = "BEGINNER" | "INTERMEDIATE" | "ADVANCED";
+
+interface CourseForm {
+  title:       string;
+  description: string;
+  category:    string;
+  level:       CourseLevel;
+  campus:      string;
+  credits:     number;
+  semester:    string;
+}
+
+const emptyCourse = (): CourseForm => ({
+  title:       "",
+  description: "",
+  category:    "Technology",
+  level:       "BEGINNER",
+  campus:      "Halden",
+  credits:     10,
+  semester:    "Spring 2025",
 });
 
 export default function AdminCourses() {
-  const [courses, setCourses] = useState<AdminCourse[]>(seedCourses);
   const [search, setSearch] = useState("");
+  const { courses, isLoading, error, create, update, remove } = useAdminCourses({ limit: 100 });
 
   // Dialog state
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [editingCourse, setEditingCourse] = useState<AdminCourse | null>(null);
-  const [form, setForm] = useState(emptyCourse());
-  const [deleteTarget, setDeleteTarget] = useState<AdminCourse | null>(null);
+  const [dialogOpen, setDialogOpen]       = useState(false);
+  const [editingCourse, setEditingCourse] = useState<Course | null>(null);
+  const [form, setForm]                   = useState(emptyCourse());
+  const [isSaving, setIsSaving]           = useState(false);
+  const [formError, setFormError]         = useState<string | null>(null);
 
-  // ── Derived list ────────────────────────────────────────
+  const [deleteTarget, setDeleteTarget] = useState<Course | null>(null);
+  const [isDeleting, setIsDeleting]     = useState(false);
+
+  // ── Derived list ────────────────────────────────────────────────────────────
   const filtered = courses.filter((c) => {
     const q = search.toLowerCase();
     return (
       !q ||
-      c.name.toLowerCase().includes(q) ||
+      c.title.toLowerCase().includes(q) ||
       c.category.toLowerCase().includes(q) ||
       c.level.toLowerCase().includes(q)
     );
   });
 
-  // ── Helpers ─────────────────────────────────────────────
+  // ── Helpers ──────────────────────────────────────────────────────────────────
   function openCreate() {
     setEditingCourse(null);
     setForm(emptyCourse());
+    setFormError(null);
     setDialogOpen(true);
   }
 
-  function openEdit(course: AdminCourse) {
+  function openEdit(course: Course) {
     setEditingCourse(course);
-    setForm({ name: course.name, level: course.level, campus: course.campus, credit: course.credit, semester: course.semester, category: course.category });
+    setForm({
+      title:       course.title,
+      description: course.description,
+      category:    course.category,
+      level:       course.level as CourseLevel,
+      campus:      course.campus,
+      credits:     course.credits,
+      semester:    course.semester ?? "",
+    });
+    setFormError(null);
     setDialogOpen(true);
   }
 
-  function handleSave() {
-    if (!form.name.trim()) return;
-    if (editingCourse) {
-      setCourses((prev) => prev.map((c) => c.id === editingCourse.id ? { ...c, ...form } : c));
-    } else {
-      setCourses((prev) => [...prev, { id: nextCourseId(prev), ...form }]);
+  async function handleSave() {
+    if (!form.title.trim() || !form.description.trim()) return;
+    setIsSaving(true);
+    setFormError(null);
+    try {
+      const payload: AdminCreateCoursePayload = {
+        title:       form.title,
+        description: form.description,
+        category:    form.category,
+        level:       form.level,
+        campus:      form.campus,
+        credits:     form.credits,
+        semester:    form.semester || undefined,
+      };
+      if (editingCourse) {
+        await update(editingCourse._id, payload);
+      } else {
+        await create(payload);
+      }
+      setDialogOpen(false);
+    } catch (err) {
+      setFormError(err instanceof Error ? err.message : "Failed to save course");
+    } finally {
+      setIsSaving(false);
     }
-    setDialogOpen(false);
   }
 
-  function handleDelete() {
+  async function handleDelete() {
     if (!deleteTarget) return;
-    setCourses((prev) => prev.filter((c) => c.id !== deleteTarget.id));
-    setDeleteTarget(null);
+    setIsDeleting(true);
+    try {
+      await remove(deleteTarget._id);
+      setDeleteTarget(null);
+    } catch {
+      // error surfaced by hook
+    } finally {
+      setIsDeleting(false);
+    }
   }
 
   return (
@@ -97,11 +155,18 @@ export default function AdminCourses() {
         </Button>
       </div>
 
+      {/* API error */}
+      {error && (
+        <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {error}
+        </div>
+      )}
+
       {/* Search */}
       <div className="relative max-w-xs">
         <HiMagnifyingGlass size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-body" />
         <Input
-          placeholder="Search by name or category…"
+          placeholder="Search by title or category…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="pl-8"
@@ -110,61 +175,72 @@ export default function AdminCourses() {
 
       {/* Table */}
       <Card className="overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-brand-border bg-brand-bg">
-                <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Course Name</th>
-                <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Level</th>
-                <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Category</th>
-                <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Credits</th>
-                <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Semester</th>
-                <th className="text-right px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.length === 0 ? (
-                <tr>
-                  <td colSpan={6} className="text-center py-12 text-brand-body text-sm">
-                    No courses found.
-                  </td>
+        {isLoading ? (
+          <div className="p-8 flex items-center justify-center text-sm text-brand-body">
+            Loading courses…
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-brand-border bg-brand-bg">
+                  <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Course Name</th>
+                  <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Level</th>
+                  <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Category</th>
+                  <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Credits</th>
+                  <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Semester</th>
+                  <th className="text-right px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Actions</th>
                 </tr>
-              ) : (
-                filtered.map((course, i) => (
-                  <tr
-                    key={course.id}
-                    className={cn("border-b border-brand-border last:border-0 transition-colors hover:bg-brand-bg/50", i % 2 === 0 ? "bg-white" : "bg-brand-bg/30")}
-                  >
-                    <td className="px-5 py-3.5 font-semibold text-brand-dark max-w-[260px]">{course.name}</td>
-                    <td className="px-5 py-3.5">
-                      <Badge variant={course.level === "Master" ? "blue" : "default"}>{course.level}</Badge>
-                    </td>
-                    <td className="px-5 py-3.5 text-brand-body">{course.category}</td>
-                    <td className="px-5 py-3.5 text-brand-body">{course.credit} ECTS</td>
-                    <td className="px-5 py-3.5 text-brand-body">{course.semester}</td>
-                    <td className="px-5 py-3.5">
-                      <div className="flex items-center justify-end gap-2">
-                        <Button variant="ghost" size="icon" onClick={() => openEdit(course)} aria-label="Edit course">
-                          <HiPencil size={15} />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="text-red-500 hover:text-red-600 hover:bg-red-50"
-                          onClick={() => setDeleteTarget(course)}
-                          aria-label="Delete course"
-                        >
-                          <HiTrash size={15} />
-                        </Button>
-                      </div>
+              </thead>
+              <tbody>
+                {filtered.length === 0 ? (
+                  <tr>
+                    <td colSpan={6} className="text-center py-12 text-brand-body text-sm">
+                      No courses found.
                     </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
-        {filtered.length > 0 && (
+                ) : (
+                  filtered.map((course, i) => (
+                    <tr
+                      key={course._id}
+                      className={cn(
+                        "border-b border-brand-border last:border-0 transition-colors hover:bg-brand-bg/50",
+                        i % 2 === 0 ? "bg-white" : "bg-brand-bg/30"
+                      )}
+                    >
+                      <td className="px-5 py-3.5 font-semibold text-brand-dark max-w-[260px]">{course.title}</td>
+                      <td className="px-5 py-3.5">
+                        <Badge variant={course.level === "ADVANCED" ? "blue" : "default"}>
+                          {LEVEL_LABELS[course.level] ?? course.level}
+                        </Badge>
+                      </td>
+                      <td className="px-5 py-3.5 text-brand-body">{course.category}</td>
+                      <td className="px-5 py-3.5 text-brand-body">{course.credits} ECTS</td>
+                      <td className="px-5 py-3.5 text-brand-body">{course.semester ?? "—"}</td>
+                      <td className="px-5 py-3.5">
+                        <div className="flex items-center justify-end gap-2">
+                          <Button variant="ghost" size="icon" onClick={() => openEdit(course)} aria-label="Edit course">
+                            <HiPencil size={15} />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="text-red-500 hover:text-red-600 hover:bg-red-50"
+                            onClick={() => setDeleteTarget(course)}
+                            aria-label="Delete course"
+                          >
+                            <HiTrash size={15} />
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        )}
+        {!isLoading && filtered.length > 0 && (
           <div className="px-5 py-3 border-t border-brand-border bg-brand-bg/30 text-[12px] text-brand-body">
             Showing {filtered.length} of {courses.length} courses
           </div>
@@ -182,30 +258,39 @@ export default function AdminCourses() {
           </DialogHeader>
 
           <div className="flex flex-col gap-4">
-            {/* Course name */}
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="c-name">Course Name</Label>
+              <Label htmlFor="c-title">Course Title</Label>
               <Input
-                id="c-name"
+                id="c-title"
                 placeholder="e.g. Introduction to Web Development"
-                value={form.name}
-                onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                value={form.title}
+                onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
+              />
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="c-desc">Description</Label>
+              <Input
+                id="c-desc"
+                placeholder="Brief course description (min 10 chars)"
+                value={form.description}
+                onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              {/* Level */}
               <div className="flex flex-col gap-1.5">
                 <Label>Level</Label>
-                <Select value={form.level} onValueChange={(v) => setForm((f) => ({ ...f, level: v }))}>
+                <Select value={form.level} onValueChange={(v) => setForm((f) => ({ ...f, level: v as CourseLevel }))}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
-                    {LEVELS.map((l) => <SelectItem key={l} value={l}>{l}</SelectItem>)}
+                    {LEVELS.map((l) => (
+                      <SelectItem key={l} value={l}>{LEVEL_LABELS[l]}</SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
 
-              {/* Category */}
               <div className="flex flex-col gap-1.5">
                 <Label>Category</Label>
                 <Select value={form.category} onValueChange={(v) => setForm((f) => ({ ...f, category: v }))}>
@@ -216,7 +301,6 @@ export default function AdminCourses() {
                 </Select>
               </div>
 
-              {/* Campus */}
               <div className="flex flex-col gap-1.5">
                 <Label>Campus</Label>
                 <Select value={form.campus} onValueChange={(v) => setForm((f) => ({ ...f, campus: v }))}>
@@ -227,38 +311,43 @@ export default function AdminCourses() {
                 </Select>
               </div>
 
-              {/* Semester */}
               <div className="flex flex-col gap-1.5">
                 <Label>Semester</Label>
                 <Select value={form.semester} onValueChange={(v) => setForm((f) => ({ ...f, semester: v }))}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectTrigger><SelectValue placeholder="Optional" /></SelectTrigger>
                   <SelectContent>
                     {SEMESTERS.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
                   </SelectContent>
                 </Select>
               </div>
 
-              {/* Credits */}
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor="c-credit">Credits (ECTS)</Label>
+                <Label htmlFor="c-credits">Credits (ECTS)</Label>
                 <Input
-                  id="c-credit"
+                  id="c-credits"
                   type="number"
                   min={1}
                   max={60}
-                  value={form.credit}
-                  onChange={(e) => setForm((f) => ({ ...f, credit: Number(e.target.value) }))}
+                  value={form.credits}
+                  onChange={(e) => setForm((f) => ({ ...f, credits: Number(e.target.value) }))}
                 />
               </div>
             </div>
+
+            {formError && (
+              <p className="text-sm text-red-600">{formError}</p>
+            )}
           </div>
 
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="secondary">Cancel</Button>
+              <Button variant="secondary" disabled={isSaving}>Cancel</Button>
             </DialogClose>
-            <Button onClick={handleSave} disabled={!form.name.trim()}>
-              {editingCourse ? "Save Changes" : "Create Course"}
+            <Button
+              onClick={handleSave}
+              disabled={isSaving || !form.title.trim() || form.description.trim().length < 10}
+            >
+              {isSaving ? "Saving…" : editingCourse ? "Save Changes" : "Create Course"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -271,13 +360,17 @@ export default function AdminCourses() {
             <DialogTitle>Delete Course</DialogTitle>
             <DialogDescription>
               Are you sure you want to delete{" "}
-              <span className="font-semibold text-brand-dark">{deleteTarget?.name}</span>?
-              This action cannot be undone.
+              <span className="font-semibold text-brand-dark">{deleteTarget?.title}</span>?
+              This will also remove all related enrollments, materials, and submissions.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button variant="secondary" onClick={() => setDeleteTarget(null)}>Cancel</Button>
-            <Button variant="destructive" onClick={handleDelete}>Delete</Button>
+            <Button variant="secondary" onClick={() => setDeleteTarget(null)} disabled={isDeleting}>
+              Cancel
+            </Button>
+            <Button variant="destructive" onClick={handleDelete} disabled={isDeleting}>
+              {isDeleting ? "Deleting…" : "Delete"}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

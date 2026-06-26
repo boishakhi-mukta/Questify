@@ -2,15 +2,20 @@
 
 import { HiXMark, HiStar } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
-import { CATEGORIES, DIFFICULTIES } from "@/lib/data";
 import type { FilterState } from "@/hooks/useFilter";
+
+export const LEVEL_OPTIONS = [
+  { value: "BEGINNER",     label: "Beginner" },
+  { value: "INTERMEDIATE", label: "Intermediate" },
+  { value: "ADVANCED",     label: "Advanced" },
+] as const;
 
 interface FilterSidebarProps {
   filters: FilterState;
+  categories: string[];
   onToggleCategory: (cat: string) => void;
   onSetDifficulty: (d: string) => void;
   onSetMinRating: (r: number) => void;
-  onSetPriceType: (t: FilterState["priceType"]) => void;
   onSetDateFilter: (d: FilterState["dateFilter"]) => void;
   onClearAll: () => void;
   activeCount: number;
@@ -33,10 +38,10 @@ function Divider() {
 
 export function FilterSidebar({
   filters,
+  categories,
   onToggleCategory,
   onSetDifficulty,
   onSetMinRating,
-  onSetPriceType,
   onSetDateFilter,
   onClearAll,
   activeCount,
@@ -82,42 +87,43 @@ export function FilterSidebar({
       <div className="flex-1 overflow-y-auto">
 
         {/* ── Category ──────────────────────────────────────── */}
-        <section>
-          <SectionLabel>Category</SectionLabel>
-          <div className="flex flex-col gap-2">
-            {CATEGORIES.map((cat) => (
-              <label key={cat} className="flex items-center gap-2.5 cursor-pointer group">
-                <input
-                  type="checkbox"
-                  checked={filters.categories.includes(cat)}
-                  onChange={() => onToggleCategory(cat)}
-                  className="w-4 h-4 rounded accent-brand-blue cursor-pointer"
-                />
-                <span className="text-[14px] text-brand-body group-hover:text-brand-dark transition-colors">
-                  {cat}
-                </span>
-              </label>
-            ))}
-          </div>
-        </section>
-
-        <Divider />
+        {categories.length > 0 && (
+          <section>
+            <SectionLabel>Category</SectionLabel>
+            <div className="flex flex-col gap-2">
+              {categories.map((cat) => (
+                <label key={cat} className="flex items-center gap-2.5 cursor-pointer group">
+                  <input
+                    type="checkbox"
+                    checked={filters.categories.includes(cat)}
+                    onChange={() => onToggleCategory(cat)}
+                    className="w-4 h-4 rounded accent-brand-blue cursor-pointer"
+                  />
+                  <span className="text-[14px] text-brand-body group-hover:text-brand-dark transition-colors">
+                    {cat}
+                  </span>
+                </label>
+              ))}
+            </div>
+            <Divider />
+          </section>
+        )}
 
         {/* ── Level / Difficulty ────────────────────────────── */}
         <section>
           <SectionLabel>Level</SectionLabel>
           <div className="flex flex-col gap-2">
-            {DIFFICULTIES.map((diff) => (
-              <label key={diff} className="flex items-center gap-2.5 cursor-pointer group">
+            {LEVEL_OPTIONS.map(({ value, label }) => (
+              <label key={value} className="flex items-center gap-2.5 cursor-pointer group">
                 <input
                   type="radio"
                   name="difficulty"
-                  checked={filters.difficulty === diff}
-                  onChange={() => onSetDifficulty(diff)}
+                  checked={filters.difficulty === value}
+                  onChange={() => onSetDifficulty(value)}
                   className="w-4 h-4 accent-brand-blue cursor-pointer"
                 />
                 <span className="text-[14px] text-brand-body group-hover:text-brand-dark transition-colors">
-                  {diff}
+                  {label}
                 </span>
               </label>
             ))}
@@ -152,30 +158,6 @@ export function FilterSidebar({
                   ))}
                 </span>
                 <span>{r}★ & up</span>
-              </button>
-            ))}
-          </div>
-        </section>
-
-        <Divider />
-
-        {/* ── Price ─────────────────────────────────────────── */}
-        <section>
-          <SectionLabel>Price</SectionLabel>
-          <div className="flex gap-2">
-            {(["all", "free", "paid"] as const).map((type) => (
-              <button
-                key={type}
-                type="button"
-                onClick={() => onSetPriceType(type)}
-                className={cn(
-                  "flex-1 py-2 text-[13px] rounded-lg border font-semibold transition-colors capitalize",
-                  filters.priceType === type
-                    ? "border-brand-blue bg-brand-blue-light text-brand-blue"
-                    : "border-brand-border text-brand-body hover:border-brand-blue/40 hover:bg-brand-bg"
-                )}
-              >
-                {type === "all" ? "All" : type.charAt(0).toUpperCase() + type.slice(1)}
               </button>
             ))}
           </div>

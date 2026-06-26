@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { AuthProvider } from "@/contexts/AuthContext";
+import { Providers } from "@/components/theme/Providers";
 import Footer from "@/components/layout/Footer";
 import "./globals.css";
 
@@ -11,12 +11,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className="flex flex-col min-h-screen">
-        <AuthProvider>
+        <Providers>
           <div className="flex-1">{children}</div>
           <Footer />
-        </AuthProvider>
+        </Providers>
       </body>
     </html>
   );

@@ -140,6 +140,8 @@ export interface Course {
   enrollmentCount:  number;
   maxCapacity:      number;
   estimatedHours:   number;
+  averageRating:    number;
+  totalReviews:     number;
   isPublished:      boolean;
   isFeatured:       boolean;
   metadata?:        CourseMetadata;
