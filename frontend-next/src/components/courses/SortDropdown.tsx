@@ -23,7 +23,7 @@ export function SortDropdown({ value, onChange }: SortDropdownProps) {
       >
         Sort by:
       </span>
-      <Select value={value} onValueChange={onChange}>
+      <Select value={value} onValueChange={(v) => onChange(v as SortKey)}>
         <SelectTrigger
           className="h-8 w-[148px] text-[13px]"
           aria-label="Sort courses"

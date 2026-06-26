@@ -1,6 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap');
 
+@layer theme, base, components, utilities;
+
 @import "tailwindcss";
+
+/* tw-animate-css — provides animate-in/fade-in-0/zoom-in-95 etc. used by HeroUI */
+@import "tw-animate-css";
+
+/* HeroUI v3 component styles (relative paths to bypass export condition checks) */
+@import "../../node_modules/@heroui/styles/dist/base/base.css" layer(base);
+@import "../../node_modules/@heroui/styles/dist/components/index.css" layer(components);
+@import "../../node_modules/@heroui/styles/dist/themes/default/index.css" layer(theme);
+@import "../../node_modules/@heroui/styles/dist/utilities/index.css";
+@import "../../node_modules/@heroui/styles/dist/variants/index.css";
 
 /* ── Class-based dark mode (required for next-themes) ──────── */
 @custom-variant dark (&:where(.dark, .dark *));
