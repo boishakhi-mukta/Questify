@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Providers } from "@/components/theme/Providers";
+import { ChatAssistant } from "@/components/ai/ChatAssistant";
 import { Toaster } from "sonner";
 import "./globals.css";
 
@@ -16,6 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Providers>
           <div className="flex-1">{children}</div>
           <Toaster position="bottom-right" richColors theme="system" />
+          <ChatAssistant />
         </Providers>
       </body>
     </html>
