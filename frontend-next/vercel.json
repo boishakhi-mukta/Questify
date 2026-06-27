@@ -1,15 +1,5 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": ".next",
-  "installCommand": "npm ci",
-  "env": {
-    "NEXT_PUBLIC_OLLAMA_API_URL": {
-      "description": "Ollama API URL (production)",
-      "required": true
-    },
-    "NEXT_PUBLIC_OLLAMA_MODEL": {
-      "description": "Ollama model name",
-      "default": "mistral"
-    }
-  }
+  "installCommand": "npm ci"
 }
