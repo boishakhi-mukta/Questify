@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "@/hooks/useAuth";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { Badge } from "@/components/ui/badge";
@@ -28,39 +29,39 @@ import {
 // ── Nav definitions ──────────────────────────────────────────────────────────
 
 interface NavItem {
-  href:  string;
-  label: string;
-  icon:  React.ElementType;
-  exact?: boolean;
+  href:     string;
+  labelKey: string;
+  icon:     React.ElementType;
+  exact?:   boolean;
 }
 
 const navByRole: Record<UserRole, NavItem[]> = {
   admin: [
-    { href: "/admin",           label: "Dashboard",  icon: HiSquares2X2,       exact: true },
-    { href: "/admin/users",     label: "Users",      icon: HiUsers                         },
-    { href: "/admin/courses",   label: "Courses",    icon: HiBookOpen                      },
-    { href: "/admin/analytics", label: "Analytics",  icon: HiChartBar                      },
-    { href: "/admin/reports",   label: "Reports",    icon: HiDocumentChartBar              },
-    { href: "/admin/profile",   label: "Profile",    icon: HiUser                          },
-    { href: "/admin/settings",  label: "Settings",   icon: HiCog6Tooth                     },
+    { href: "/admin",           labelKey: "sidebar.dashboard", icon: HiSquares2X2,       exact: true },
+    { href: "/admin/users",     labelKey: "sidebar.users",     icon: HiUsers                         },
+    { href: "/admin/courses",   labelKey: "sidebar.courses",   icon: HiBookOpen                      },
+    { href: "/admin/analytics", labelKey: "sidebar.analytics", icon: HiChartBar                      },
+    { href: "/admin/reports",   labelKey: "sidebar.reports",   icon: HiDocumentChartBar              },
+    { href: "/admin/profile",   labelKey: "sidebar.profile",   icon: HiUser                          },
+    { href: "/admin/settings",  labelKey: "sidebar.settings",  icon: HiCog6Tooth                     },
   ],
   teacher: [
-    { href: "/teacher",               label: "Dashboard",       icon: HiSquares2X2,        exact: true },
-    { href: "/teacher/courses",       label: "My Courses",      icon: HiBookOpen                       },
-    { href: "/teacher/materials",     label: "Materials",       icon: HiDocumentArrowUp                },
-    { href: "/teacher/assignments",   label: "Assignments",     icon: HiClipboardDocumentList          },
-    { href: "/teacher/attendance",    label: "Attendance",      icon: HiCalendarDays                   },
-    { href: "/teacher/analytics",     label: "Analytics",       icon: HiChartBar                       },
-    { href: "/teacher/profile",       label: "Profile",         icon: HiUser                           },
-    { href: "/teacher/settings",      label: "Settings",        icon: HiCog6Tooth                      },
+    { href: "/teacher",             labelKey: "sidebar.dashboard",   icon: HiSquares2X2,        exact: true },
+    { href: "/teacher/courses",     labelKey: "sidebar.myCourses",   icon: HiBookOpen                       },
+    { href: "/teacher/materials",   labelKey: "sidebar.materials",   icon: HiDocumentArrowUp                },
+    { href: "/teacher/assignments", labelKey: "sidebar.assignments", icon: HiClipboardDocumentList          },
+    { href: "/teacher/attendance",  labelKey: "sidebar.attendance",  icon: HiCalendarDays                   },
+    { href: "/teacher/analytics",   labelKey: "sidebar.analytics",   icon: HiChartBar                       },
+    { href: "/teacher/profile",     labelKey: "sidebar.profile",     icon: HiUser                           },
+    { href: "/teacher/settings",    labelKey: "sidebar.settings",    icon: HiCog6Tooth                      },
   ],
   student: [
-    { href: "/student",               label: "Dashboard",       icon: HiSquares2X2,        exact: true },
-    { href: "/student/courses",       label: "My Courses",      icon: HiBookOpen                       },
-    { href: "/student/leaderboard",   label: "Leaderboard",     icon: HiTrophy                         },
-    { href: "/student/profile",       label: "Profile",         icon: HiUser                           },
-    { href: "/student/settings",      label: "Settings",        icon: HiCog6Tooth                      },
-    { href: "/student/help",          label: "Help & Support",  icon: HiQuestionMarkCircle             },
+    { href: "/student",             labelKey: "sidebar.dashboard",   icon: HiSquares2X2,        exact: true },
+    { href: "/student/courses",     labelKey: "sidebar.myCourses",   icon: HiBookOpen                       },
+    { href: "/student/leaderboard", labelKey: "sidebar.leaderboard", icon: HiTrophy                         },
+    { href: "/student/profile",     labelKey: "sidebar.profile",     icon: HiUser                           },
+    { href: "/student/settings",    labelKey: "sidebar.settings",    icon: HiCog6Tooth                      },
+    { href: "/student/help",        labelKey: "sidebar.helpSupport", icon: HiQuestionMarkCircle             },
   ],
 };
 
@@ -70,10 +71,10 @@ const roleBadge: Record<UserRole, "admin" | "teacher" | "student"> = {
   student: "student",
 };
 
-const roleLabel: Record<UserRole, string> = {
-  admin:   "Admin",
-  teacher: "Faculty",
-  student: "Student",
+const roleLabelKey: Record<UserRole, string> = {
+  admin:   "sidebar.admin",
+  teacher: "sidebar.faculty",
+  student: "sidebar.student",
 };
 
 const roleActiveBg: Record<UserRole, string> = {
@@ -84,20 +85,13 @@ const roleActiveBg: Record<UserRole, string> = {
 
 // ── NavLink item ─────────────────────────────────────────────────────────────
 
-function SidebarLink({
-  item,
-  role,
-  onClick,
-}: {
-  item:    NavItem;
-  role:    UserRole;
-  onClick: () => void;
-}) {
-  const pathname  = usePathname();
-  const isActive  = item.exact
+function SidebarLink({ item, role, onClick }: { item: NavItem; role: UserRole; onClick: () => void }) {
+  const pathname = usePathname();
+  const { t }    = useTranslation();
+  const isActive = item.exact
     ? pathname === item.href
     : pathname === item.href || pathname.startsWith(`${item.href}/`);
-  const Icon      = item.icon;
+  const Icon = item.icon;
 
   return (
     <li>
@@ -113,7 +107,7 @@ function SidebarLink({
         )}
       >
         <Icon size={17} className="shrink-0" />
-        {item.label}
+        {t(item.labelKey)}
       </Link>
     </li>
   );
@@ -131,12 +125,13 @@ function SidebarContent({
   demoUser?: { name: string; email: string };
 }) {
   const { user, logout } = useAuth();
+  const { t }            = useTranslation();
   const navItems         = navByRole[role];
 
   const fullFromParts = `${user?.firstName ?? ""} ${user?.lastName ?? ""}`.trim();
-  const displayName = demoUser?.name ?? (user?.fullName || fullFromParts || "User");
-  const displaySub  = demoUser?.email ?? user?.email ?? "";
-  const isDemo      = displaySub.endsWith("@demo.com");
+  const displayName   = demoUser?.name ?? (user?.fullName || fullFromParts || "User");
+  const displaySub    = demoUser?.email ?? user?.email ?? "";
+  const isDemo        = displaySub.endsWith("@demo.com");
 
   function handleSignOut() {
     if (demoUser) { window.location.href = "/login"; return; }
@@ -149,23 +144,17 @@ function SidebarContent({
       {/* Logo */}
       <div className="px-5 pt-6 pb-4 shrink-0">
         <Link href="/" aria-label="Questify home">
-          <Image
-            src="/logo.svg"
-            alt="Questify"
-            width={110}
-            height={28}
-            className="h-7 w-auto brightness-0 invert"
-          />
+          <Image src="/logo.svg" alt="Questify" width={110} height={28} className="h-7 w-auto brightness-0 invert" />
         </Link>
       </div>
 
       {/* Role badge */}
       <div className="px-5 pb-4 shrink-0">
-        <Badge variant={roleBadge[role]}>{roleLabel[role]}</Badge>
+        <Badge variant={roleBadge[role]}>{t(roleLabelKey[role])}</Badge>
       </div>
 
       {/* Nav items */}
-      <nav aria-label={`${roleLabel[role]} navigation`} className="flex-1 min-h-0 px-3">
+      <nav aria-label={`${t(roleLabelKey[role])} navigation`} className="flex-1 min-h-0 px-3">
         <ScrollShadow className="h-full" hideScrollBar>
           <ul className="list-none m-0 p-0 py-1 flex flex-col gap-0.5">
             {navItems.map((item) => (
@@ -177,17 +166,14 @@ function SidebarContent({
 
       {/* Bottom section: theme toggle + user + sign out */}
       <div className="px-3 py-4 border-t border-white/8 shrink-0 space-y-1">
-        {/* Theme toggle */}
         <ThemeToggle />
-
-        {/* Divider */}
         <div className="h-px bg-white/8 my-2" />
 
         {/* Demo badge */}
         {isDemo && (
           <div className="px-2 py-1 bg-amber-400/15 border border-amber-400/25 rounded-md flex items-center justify-center mb-2">
             <span className="text-[10px] font-bold text-amber-300 uppercase tracking-wider">
-              Demo Account
+              {t("sidebar.demoAccount")}
             </span>
           </div>
         )}
@@ -196,11 +182,7 @@ function SidebarContent({
         <div className="flex items-center gap-2.5 px-1 py-1.5">
           <div className="w-8 h-8 rounded-full bg-brand-blue flex items-center justify-center shrink-0">
             {user?.avatar ? (
-              <img
-                src={user.avatar}
-                alt={displayName}
-                className="w-8 h-8 rounded-full object-cover"
-              />
+              <img src={user.avatar} alt={displayName} className="w-8 h-8 rounded-full object-cover" />
             ) : (
               <HiUser size={16} className="text-white" />
             )}
@@ -218,7 +200,7 @@ function SidebarContent({
           className="w-full flex items-center gap-2 px-3 py-2 rounded-md text-[13px] font-semibold text-white/55 border border-white/10 hover:border-red-500 hover:text-red-400 transition-colors duration-150"
         >
           <HiArrowRightOnRectangle size={15} />
-          {demoUser ? "Exit Demo" : "Sign Out"}
+          {demoUser ? t("sidebar.exitDemo") : t("sidebar.signOut")}
         </button>
       </div>
     </div>
@@ -237,7 +219,6 @@ interface SidebarProps {
 export function Sidebar({ role, open, onClose, demoUser }: SidebarProps) {
   return (
     <>
-      {/* Mobile backdrop */}
       {open && (
         <div
           aria-hidden
@@ -245,19 +226,13 @@ export function Sidebar({ role, open, onClose, demoUser }: SidebarProps) {
           onClick={onClose}
         />
       )}
-
-      {/* Sidebar panel */}
       <aside
         id="app-sidebar"
         aria-label="Application sidebar"
         className={cn(
-          // Desktop: always visible, sticky
           "hidden lg:flex lg:flex-col lg:w-[240px] lg:shrink-0 lg:sticky lg:top-0 lg:h-screen",
-          // Mobile/tablet: fixed overlay
           "lg:!flex",
-          open
-            ? "flex fixed inset-y-0 left-0 z-50 w-[240px]"
-            : "hidden",
+          open ? "flex fixed inset-y-0 left-0 z-50 w-[240px]" : "hidden",
         )}
       >
         <SidebarContent role={role} onClose={onClose} demoUser={demoUser} />

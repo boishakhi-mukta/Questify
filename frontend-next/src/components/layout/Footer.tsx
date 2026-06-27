@@ -6,51 +6,23 @@ import Image from "next/image";
 import { Send, CheckCircle } from "lucide-react";
 import { FaXTwitter, FaLinkedin, FaFacebook, FaInstagram } from "react-icons/fa6";
 import type { IconType } from "react-icons";
-
-// ── Data ──────────────────────────────────────────────────────────────────────
-interface FooterLink {
-  label: string;
-  href: string;
-  external?: boolean;
-}
-
-const productLinks: FooterLink[] = [
-  { label: "Courses", href: "/courses" },
-  { label: "Leaderboard", href: "/leaderboard" },
-  { label: "XP System", href: "/xp" },
-  { label: "Pricing", href: "/pricing" },
-];
-
-const resourceLinks: FooterLink[] = [
-  { label: "Documentation", href: "/docs", external: true },
-  { label: "API Docs", href: "/api-docs", external: true },
-  { label: "Blog", href: "/blog" },
-  { label: "Help Center", href: "/help" },
-];
-
-const legalLinks: FooterLink[] = [
-  { label: "Privacy Policy", href: "/privacy" },
-  { label: "Terms of Service", href: "/terms" },
-  { label: "Cookie Policy", href: "/cookies" },
-  { label: "Contact Us", href: "/contact" },
-];
+import { useTranslation } from "react-i18next";
 
 interface SocialItem {
   label: string;
-  href: string;
-  icon: IconType;
+  href:  string;
+  icon:  IconType;
 }
 
 const socialLinks: SocialItem[] = [
-  { label: "Twitter / X",  href: "https://twitter.com/questify",           icon: FaXTwitter  },
-  { label: "LinkedIn",     href: "https://linkedin.com/company/questify",  icon: FaLinkedin  },
-  { label: "Facebook",     href: "https://facebook.com/questify",          icon: FaFacebook  },
-  { label: "Instagram",    href: "https://instagram.com/questify",         icon: FaInstagram },
+  { label: "Twitter / X", href: "https://twitter.com/questify",          icon: FaXTwitter  },
+  { label: "LinkedIn",    href: "https://linkedin.com/company/questify", icon: FaLinkedin  },
+  { label: "Facebook",    href: "https://facebook.com/questify",         icon: FaFacebook  },
+  { label: "Instagram",   href: "https://instagram.com/questify",        icon: FaInstagram },
 ];
 
 const techStack = ["Next.js 15", "TypeScript", "Node.js", "MongoDB"];
 
-// ── Shared primitives ──────────────────────────────────────────────────────────
 function ColHeading({ children }: { children: React.ReactNode }) {
   return (
     <h3 className="text-xs font-bold text-white uppercase tracking-[0.12em] mb-5">
@@ -59,30 +31,6 @@ function ColHeading({ children }: { children: React.ReactNode }) {
   );
 }
 
-function LinkList({ links }: { links: FooterLink[] }) {
-  return (
-    <ul className="flex flex-col gap-3.5" role="list">
-      {links.map(({ label, href, external }) => (
-        <li key={label}>
-          <Link
-            href={href}
-            {...(external
-              ? { target: "_blank", rel: "noopener noreferrer" }
-              : {})}
-            className="text-[#9EA3A8] text-sm leading-none hover:text-white transition-colors duration-150 hover:underline underline-offset-2"
-          >
-            {label}
-            {external && (
-              <span className="sr-only"> (opens in new tab)</span>
-            )}
-          </Link>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-// ── Social icon button ─────────────────────────────────────────────────────────
 function SocialButton({ label, href, icon: Icon }: SocialItem) {
   return (
     <a
@@ -97,8 +45,8 @@ function SocialButton({ label, href, icon: Icon }: SocialItem) {
   );
 }
 
-// ── Newsletter form ────────────────────────────────────────────────────────────
 function NewsletterForm() {
+  const { t } = useTranslation();
   const [email, setEmail]   = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
 
@@ -106,7 +54,6 @@ function NewsletterForm() {
     e.preventDefault();
     if (!email.trim() || status !== "idle") return;
     setStatus("loading");
-    // Stub — swap for real API call once newsletter endpoint exists
     await new Promise<void>((r) => setTimeout(r, 600));
     setStatus("success");
     setEmail("");
@@ -116,7 +63,7 @@ function NewsletterForm() {
     return (
       <div className="flex items-center gap-2.5 text-sm text-[#34D399]" role="status">
         <CheckCircle size={16} aria-hidden="true" />
-        <span>You&apos;re subscribed! Welcome to the Questify community.</span>
+        <span>{t("footer.subscribed")}</span>
       </div>
     );
   }
@@ -125,14 +72,14 @@ function NewsletterForm() {
     <form onSubmit={handleSubmit} noValidate aria-label="Newsletter signup">
       <div className="flex items-stretch h-10">
         <label htmlFor="newsletter-email" className="sr-only">
-          Email address
+          {t("common.email")}
         </label>
         <input
           id="newsletter-email"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="you@example.com"
+          placeholder={t("footer.emailPlaceholder")}
           required
           disabled={status === "loading"}
           className="
@@ -146,7 +93,7 @@ function NewsletterForm() {
         <button
           type="submit"
           disabled={status === "loading"}
-          aria-label="Subscribe"
+          aria-label={t("footer.subscribe")}
           className="
             bg-brand-blue hover:bg-[#004182] active:scale-95
             text-white px-4
@@ -157,81 +104,84 @@ function NewsletterForm() {
           "
         >
           {status === "loading" ? (
-            <span
-              className="w-3.5 h-3.5 border-2 border-white/40 border-t-white rounded-full animate-spin"
-              aria-label="Sending…"
-            />
+            <span className="w-3.5 h-3.5 border-2 border-white/40 border-t-white rounded-full animate-spin" aria-label="Sending…" />
           ) : (
             <Send size={14} aria-hidden="true" />
           )}
         </button>
       </div>
-      <p className="mt-2 text-[11px] text-[#6B7280]">
-        No spam, ever. Unsubscribe any time.
-      </p>
+      <p className="mt-2 text-[11px] text-[#6B7280]">{t("footer.noSpam")}</p>
     </form>
   );
 }
 
-// ── Footer ─────────────────────────────────────────────────────────────────────
 export default function Footer() {
+  const { t } = useTranslation();
+
+  const platformLinks = [
+    { label: t("footer.linkHome"),    href: "/" },
+    { label: t("footer.linkCourses"), href: "/courses" },
+    { label: t("footer.linkAbout"),   href: "/about" },
+  ];
+
+  const supportLinks = [
+    { label: t("footer.linkHelp"),    href: "/help" },
+    { label: t("footer.linkContact"), href: "/contact" },
+  ];
+
   return (
     <footer className="w-full bg-brand-dark" aria-label="Site footer">
 
-      {/* ── Main grid ─────────────────────────────────────────────────────── */}
+      {/* Main grid */}
       <div className="max-w-6xl mx-auto px-6 md:px-12 pt-16 pb-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-x-8 gap-y-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
 
-          {/* Column 1 — About (spans 2 on sm so description breathes) */}
+          {/* Column 1 — About */}
           <div className="sm:col-span-2 lg:col-span-1">
             <Link href="/" className="inline-block mb-5" aria-label="Questify — go to homepage">
-              <Image
-                src="/logo.svg"
-                alt="Questify"
-                width={120}
-                height={32}
-                className="h-8 w-auto object-contain brightness-0 invert"
-              />
+              <Image src="/logo.svg" alt="Questify" width={120} height={32} className="h-8 w-auto object-contain brightness-0 invert" />
             </Link>
-
             <p className="text-[#9EA3A8] text-sm leading-relaxed mb-6">
-              A gamified learning management system that makes education
-              measurable, rewarding, and fun. Earn XP, climb leaderboards,
-              and watch your skills grow.
+              {t("footer.description")}
             </p>
-
-            {/* Social icons */}
             <div className="flex items-center gap-2.5" aria-label="Questify on social media">
-              {socialLinks.map((s) => (
-                <SocialButton key={s.label} {...s} />
-              ))}
+              {socialLinks.map((s) => <SocialButton key={s.label} {...s} />)}
             </div>
           </div>
 
-          {/* Column 2 — Product */}
+          {/* Column 2 — Platform */}
           <div>
-            <ColHeading>Product</ColHeading>
-            <LinkList links={productLinks} />
+            <ColHeading>{t("footer.platform")}</ColHeading>
+            <ul className="flex flex-col gap-3.5" role="list">
+              {platformLinks.map(({ label, href }) => (
+                <li key={href}>
+                  <Link href={href} className="text-[#9EA3A8] text-sm leading-none hover:text-white transition-colors duration-150 hover:underline underline-offset-2">
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {/* Column 3 — Resources */}
+          {/* Column 3 — Support */}
           <div>
-            <ColHeading>Resources</ColHeading>
-            <LinkList links={resourceLinks} />
+            <ColHeading>{t("footer.support")}</ColHeading>
+            <ul className="flex flex-col gap-3.5" role="list">
+              {supportLinks.map(({ label, href }) => (
+                <li key={href}>
+                  <Link href={href} className="text-[#9EA3A8] text-sm leading-none hover:text-white transition-colors duration-150 hover:underline underline-offset-2">
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {/* Column 4 — Legal */}
-          <div>
-            <ColHeading>Legal</ColHeading>
-            <LinkList links={legalLinks} />
-          </div>
-
-          {/* Column 5 — Newsletter */}
+          {/* Column 4 — Newsletter */}
           <div className="sm:col-span-2 lg:col-span-1">
-            <ColHeading>Stay Updated</ColHeading>
+            <ColHeading>{t("footer.stayUpdated")}</ColHeading>
             <p className="text-[#9EA3A8] text-sm leading-relaxed mb-4">
-              Product news, learning tips, and community spotlights — delivered
-              straight to your inbox.
+              {t("footer.newsletterText")}
             </p>
             <NewsletterForm />
           </div>
@@ -239,17 +189,17 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* ── Divider ───────────────────────────────────────────────────────── */}
+      {/* Divider */}
       <div className="border-t border-[#2A2F33]" />
 
-      {/* ── Bottom bar ────────────────────────────────────────────────────── */}
+      {/* Bottom bar */}
       <div className="bg-[#141719]">
         <div className="max-w-6xl mx-auto px-6 md:px-12 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5">
           <p className="text-[#6B7280] text-xs">
-            © 2026 Questify. All rights reserved.
+            © 2026 Questify. {t("footer.allRightsReserved")}
           </p>
           <p className="text-[#6B7280] text-xs">
-            Built with{" "}
+            {t("footer.builtWith")}{" "}
             {techStack.map((name, i) => (
               <span key={name}>
                 <span className="text-[#9EA3A8]">{name}</span>

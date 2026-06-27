@@ -41,16 +41,63 @@
   --radius: 0.25rem;
 }
 
-/* ── Questify brand tokens (Tailwind v4 @theme) ──────────── */
-@theme {
-  --color-brand-blue: #0A66C2;
-  --color-brand-blue-dark: #004182;
-  --color-brand-dark: #1D2226;
-  --color-brand-body: #434649;
-  --color-brand-bg: #F3F2EE;
-  --color-brand-border: #E0DFDC;
-  --color-brand-white: #FFFFFF;
-  --color-brand-blue-light: #EBF3FF;
+/*
+ * ── Questify brand tokens ──────────────────────────────────────────────────
+ *
+ * Light palette: warm cream + professional LinkedIn-style blue
+ *   bg        #F3F2EE  warm off-white page background
+ *   body text #434649  warm dark gray
+ *   headings  #1D2226  near-black (also used as sidebar bg — not flipped)
+ *   borders   #E0DFDC  warm light separator
+ *   surfaces  #FFFFFF  cards and panels
+ *
+ * Dark palette: warm neutral dark — NOT cold slate/blue
+ *   Inspired by Notion Dark / Bear Dark: warm charcoal tones
+ *   bg        #1C1B18  dark warm limestone
+ *   body text #9A9893  muted warm gray (AA contrast on dark bg)
+ *   headings  #E9E6E0  warm off-white  (separate CSS rule — see below)
+ *   borders   #2E2D2A  subtle warm divider
+ *   surfaces  #252420  dark warm card  (handled via .bg-white override)
+ *   blue-light#162840  deep blue accent bg
+ *
+ * Tokens NOT flipped in dark (dual use — text AND background):
+ *   --brand-dark   #1D2226  sidebar bg stays dark; headings overridden separately
+ *   --brand-white  #FFFFFF  white text on dark surfaces stays; surfaces overridden separately
+ */
+
+:root {
+  --brand-blue:        #0A66C2;
+  --brand-blue-dark:   #004182;
+  --brand-dark:        #1D2226;   /* sidebar bg — do NOT flip */
+  --brand-body:        #434649;
+  --brand-bg:          #F3F2EE;
+  --brand-border:      #E0DFDC;
+  --brand-white:       #FFFFFF;   /* white text on dark surfaces — do NOT flip */
+  --brand-blue-light:  #EBF3FF;
+
+  /* surface token — safe to flip (bg-brand-surface if needed) */
+  --brand-surface:     #FFFFFF;
+}
+
+/* ── Dark mode token overrides ─────────────────────────────── */
+.dark {
+  --brand-body:        #9A9893;   /* muted warm gray */
+  --brand-bg:          #1C1B18;   /* dark warm limestone */
+  --brand-border:      #2E2D2A;   /* subtle warm divider */
+  --brand-blue-light:  #162840;   /* deep blue accent */
+  --brand-surface:     #252420;   /* dark warm card surface */
+}
+
+/* ── Tailwind v4 @theme inline ─────────────────────────────── */
+@theme inline {
+  --color-brand-blue:        var(--brand-blue);
+  --color-brand-blue-dark:   var(--brand-blue-dark);
+  --color-brand-dark:        var(--brand-dark);
+  --color-brand-body:        var(--brand-body);
+  --color-brand-bg:          var(--brand-bg);
+  --color-brand-border:      var(--brand-border);
+  --color-brand-white:       var(--brand-white);
+  --color-brand-blue-light:  var(--brand-blue-light);
 }
 
 /* ── Base styles ─────────────────────────────────────────── */
@@ -59,22 +106,66 @@ body {
   font-size: 16px;
   font-weight: 400;
   line-height: 1.5;
-  color: #434649;
-  background-color: #F3F2EE;
+  color: var(--brand-body);
+  background-color: var(--brand-bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Source Sans 3', 'Source Sans Pro', system-ui, sans-serif;
   font-weight: 700;
-  color: #1D2226;
+  color: var(--brand-dark);
   line-height: 1.2;
   margin: 0;
 }
 
 p {
   margin: 0;
+}
+
+/*
+ * ── Dark mode surface & heading overrides ──────────────────────────────────
+ *
+ * --brand-dark is intentionally NOT flipped (sidebar background).
+ * We override heading text color and Tailwind's bg-white/bg-gray-50
+ * separately so surfaces adapt without touching the sidebar.
+ */
+
+/* Headings become warm off-white in dark */
+.dark h1, .dark h2, .dark h3,
+.dark h4, .dark h5, .dark h6 {
+  color: #E9E6E0;
+}
+
+/* bg-white → dark warm card surface */
+.dark .bg-white {
+  background-color: var(--brand-surface);
+}
+
+/* bg-gray-50 → slightly darker warm surface */
+.dark .bg-gray-50 {
+  background-color: #1F1E1B;
+}
+
+/* White borders become subtle in dark */
+.dark .border-white {
+  border-color: #2E2D2A;
+}
+
+/* shadcn/ui card & input vars in dark */
+.dark {
+  --background: 26 25% 10%;
+  --foreground: 40 15% 92%;
+  --card: 26 24% 13%;
+  --card-foreground: 40 15% 92%;
+  --popover: 26 24% 13%;
+  --popover-foreground: 40 15% 92%;
+  --muted: 26 20% 18%;
+  --muted-foreground: 40 8% 58%;
+  --border: 40 6% 18%;
+  --input: 40 6% 18%;
 }
 
 /* ── Utility ─────────────────────────────────────────────── */
