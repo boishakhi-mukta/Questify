@@ -14,25 +14,15 @@ interface FooterLink {
   external?: boolean;
 }
 
-const productLinks: FooterLink[] = [
+const platformLinks: FooterLink[] = [
+  { label: "Home",    href: "/" },
   { label: "Courses", href: "/courses" },
-  { label: "Leaderboard", href: "/leaderboard" },
-  { label: "XP System", href: "/xp" },
-  { label: "Pricing", href: "/pricing" },
+  { label: "About",   href: "/about" },
 ];
 
-const resourceLinks: FooterLink[] = [
-  { label: "Documentation", href: "/docs", external: true },
-  { label: "API Docs", href: "/api-docs", external: true },
-  { label: "Blog", href: "/blog" },
+const supportLinks: FooterLink[] = [
   { label: "Help Center", href: "/help" },
-];
-
-const legalLinks: FooterLink[] = [
-  { label: "Privacy Policy", href: "/privacy" },
-  { label: "Terms of Service", href: "/terms" },
-  { label: "Cookie Policy", href: "/cookies" },
-  { label: "Contact Us", href: "/contact" },
+  { label: "Contact Us",  href: "/contact" },
 ];
 
 interface SocialItem {
@@ -180,7 +170,7 @@ export default function Footer() {
 
       {/* ── Main grid ─────────────────────────────────────────────────────── */}
       <div className="max-w-6xl mx-auto px-6 md:px-12 pt-16 pb-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-x-8 gap-y-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
 
           {/* Column 1 — About (spans 2 on sm so description breathes) */}
           <div className="sm:col-span-2 lg:col-span-1">
@@ -208,22 +198,16 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Column 2 — Product */}
+          {/* Column 2 — Platform */}
           <div>
-            <ColHeading>Product</ColHeading>
-            <LinkList links={productLinks} />
+            <ColHeading>Platform</ColHeading>
+            <LinkList links={platformLinks} />
           </div>
 
-          {/* Column 3 — Resources */}
+          {/* Column 3 — Support */}
           <div>
-            <ColHeading>Resources</ColHeading>
-            <LinkList links={resourceLinks} />
-          </div>
-
-          {/* Column 4 — Legal */}
-          <div>
-            <ColHeading>Legal</ColHeading>
-            <LinkList links={legalLinks} />
+            <ColHeading>Support</ColHeading>
+            <LinkList links={supportLinks} />
           </div>
 
           {/* Column 5 — Newsletter */}

@@ -3,6 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { HiBars3, HiXMark } from "react-icons/hi2";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { UserDropdown } from "./UserDropdown";
 
 interface AuthenticatedNavbarProps {
@@ -47,8 +49,12 @@ export function AuthenticatedNavbar({ sidebarOpen, onMenuToggle }: Authenticated
         </Link>
       </div>
 
-      {/* ── Right: user dropdown ── */}
-      <UserDropdown />
+      {/* ── Right: language + theme toggle + user dropdown ── */}
+      <div className="flex items-center gap-1">
+        <LanguageSwitcher />
+        <ThemeToggle variant="icon" />
+        <UserDropdown />
+      </div>
     </header>
   );
 }
