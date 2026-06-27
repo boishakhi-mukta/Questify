@@ -1,10 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 import { useCourses } from "@/hooks/api/useCourses";
 import type { Course } from "@/types/api-response";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import { StaggerContainer, StaggerItem } from "@/components/animations/StaggerContainer";
 
 function CourseCard({ course }: { course: Course }) {
   return (
@@ -25,6 +28,7 @@ function CourseCard({ course }: { course: Course }) {
 }
 
 export default function CoursesSection() {
+  const { t } = useTranslation();
   const { courses, isLoading } = useCourses({ limit: 6, sort: "featured" });
 
   return (
@@ -32,18 +36,17 @@ export default function CoursesSection() {
       <div className="max-w-6xl mx-auto py-16 px-6 md:px-12">
 
         {/* Section header */}
-        <div className="flex flex-col items-center text-center mb-12">
+        <ScrollReveal direction="up" className="flex flex-col items-center text-center mb-12">
           <p className="text-sm font-semibold text-brand-blue uppercase tracking-widest mb-3">
-            Course Catalogue
+            {t("coursesSection.eyebrow")}
           </p>
           <h2 className="text-[32px] font-bold text-brand-dark mb-3.5 leading-tight">
-            Explore Courses
+            {t("coursesSection.heading")}
           </h2>
           <p className="text-[15px] text-brand-body leading-relaxed max-w-[600px]">
-            Browse your institution&apos;s course catalogue and enroll to start
-            earning XP and climbing the leaderboard.
+            {t("coursesSection.body")}
           </p>
-        </div>
+        </ScrollReveal>
 
         {isLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -52,11 +55,17 @@ export default function CoursesSection() {
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <StaggerContainer
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
+            staggerChildren={0.08}
+            delayChildren={0.05}
+          >
             {courses.map((course) => (
-              <CourseCard key={course._id} course={course} />
+              <StaggerItem key={course._id}>
+                <CourseCard course={course} />
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerContainer>
         )}
 
       </div>
