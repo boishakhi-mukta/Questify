@@ -5,35 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/layout/Footer";
 import { Mail, Phone, MapPin, Send, CheckCircle, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-// ── Contact info items ─────────────────────────────────────────────────────────
-
-const contactInfo = [
-  {
-    icon: Mail,
-    label: "IT Helpdesk Email",
-    value: "it.support@questify.edu",
-    href: "mailto:it.support@questify.edu",
-  },
-  {
-    icon: Phone,
-    label: "Support Line",
-    value: "+47 22 85 50 00",
-    href: "tel:+4722855000",
-  },
-  {
-    icon: MapPin,
-    label: "Office Location",
-    value: "IT Services Building, Main Campus — Room 201",
-    href: undefined,
-  },
-  {
-    icon: Clock,
-    label: "Office Hours",
-    value: "Monday–Friday, 08:00–16:00 CET",
-    href: undefined,
-  },
-];
+import { useTranslation } from "react-i18next";
 
 // ── Form ───────────────────────────────────────────────────────────────────────
 
@@ -46,17 +18,19 @@ interface FormState {
   message: string;
 }
 
-const SUBJECTS = [
-  "Account Access Problem",
-  "Technical Issue / Bug Report",
-  "Course or Enrollment Query",
-  "Attendance Record Issue",
-  "XP or Grade Discrepancy",
-  "Feedback & Suggestions",
-  "Other",
-];
-
 function ContactForm() {
+  const { t } = useTranslation();
+
+  const SUBJECTS = [
+    { key: "contact.subjectAccountAccess",  value: "Account Access Problem" },
+    { key: "contact.subjectTechnicalIssue", value: "Technical Issue / Bug Report" },
+    { key: "contact.subjectCourseQuery",    value: "Course or Enrollment Query" },
+    { key: "contact.subjectAttendanceIssue",value: "Attendance Record Issue" },
+    { key: "contact.subjectXpDiscrepancy",  value: "XP or Grade Discrepancy" },
+    { key: "contact.subjectFeedback",       value: "Feedback & Suggestions" },
+    { key: "contact.subjectOther",          value: "Other" },
+  ];
+
   const [form, setForm] = useState<FormState>({
     name: "",
     email: "",
@@ -68,17 +42,17 @@ function ContactForm() {
 
   function validate(): boolean {
     const next: Partial<FormState> = {};
-    if (!form.name.trim()) next.name = "Name is required.";
+    if (!form.name.trim()) next.name = t("contact.nameRequired");
     if (!form.email.trim()) {
-      next.email = "Email is required.";
+      next.email = t("contact.emailRequired");
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
-      next.email = "Please enter a valid email.";
+      next.email = t("contact.emailInvalid");
     }
-    if (!form.subject) next.subject = "Please select a subject.";
+    if (!form.subject) next.subject = t("contact.subjectRequired");
     if (!form.message.trim()) {
-      next.message = "Message is required.";
+      next.message = t("contact.messageRequired");
     } else if (form.message.trim().length < 20) {
-      next.message = "Message must be at least 20 characters.";
+      next.message = t("contact.messageTooShort");
     }
     setErrors(next);
     return Object.keys(next).length === 0;
@@ -98,7 +72,6 @@ function ContactForm() {
     e.preventDefault();
     if (!validate()) return;
     setStatus("loading");
-    // Stub — replace with real API call
     await new Promise<void>((r) => setTimeout(r, 800));
     setStatus("success");
   }
@@ -109,17 +82,16 @@ function ContactForm() {
         <div className="w-16 h-16 rounded-full bg-emerald-500/15 flex items-center justify-center">
           <CheckCircle size={32} className="text-emerald-500" />
         </div>
-        <h3 className="text-xl font-bold text-brand-dark dark:text-white">Request Submitted</h3>
+        <h3 className="text-xl font-bold text-brand-dark dark:text-white">{t("contact.successTitle")}</h3>
         <p className="text-brand-body dark:text-white/60 max-w-sm">
-          Your message has been sent to the IT helpdesk. We aim to respond
-          within one working day during office hours.
+          {t("contact.successBody")}
         </p>
         <button
           type="button"
           onClick={() => { setStatus("idle"); setForm({ name: "", email: "", subject: "", message: "" }); }}
           className="text-sm font-semibold text-brand-blue hover:underline underline-offset-2 mt-2"
         >
-          Send another message
+          {t("contact.sendAnother")}
         </button>
       </div>
     );
@@ -138,7 +110,7 @@ function ContactForm() {
       <div className="grid sm:grid-cols-2 gap-5">
         <div>
           <label htmlFor="name" className="block text-sm font-semibold text-brand-dark dark:text-white mb-1.5">
-            Full Name <span className="text-red-400">*</span>
+            {t("contact.fullName")} <span className="text-red-400">*</span>
           </label>
           <input
             id="name"
@@ -155,7 +127,7 @@ function ContactForm() {
         </div>
         <div>
           <label htmlFor="email" className="block text-sm font-semibold text-brand-dark dark:text-white mb-1.5">
-            University Email <span className="text-red-400">*</span>
+            {t("contact.universityEmail")} <span className="text-red-400">*</span>
           </label>
           <input
             id="email"
@@ -175,7 +147,7 @@ function ContactForm() {
       {/* Subject */}
       <div>
         <label htmlFor="subject" className="block text-sm font-semibold text-brand-dark dark:text-white mb-1.5">
-          Subject <span className="text-red-400">*</span>
+          {t("contact.subject")} <span className="text-red-400">*</span>
         </label>
         <select
           id="subject"
@@ -185,9 +157,9 @@ function ContactForm() {
           disabled={status === "loading"}
           className={fieldClass(!!errors.subject)}
         >
-          <option value="">Select a subject…</option>
-          {SUBJECTS.map((s) => (
-            <option key={s} value={s}>{s}</option>
+          <option value="">{t("contact.selectSubject")}</option>
+          {SUBJECTS.map(({ key, value }) => (
+            <option key={value} value={value}>{t(key)}</option>
           ))}
         </select>
         {errors.subject && <p className="mt-1 text-xs text-red-400">{errors.subject}</p>}
@@ -196,13 +168,13 @@ function ContactForm() {
       {/* Message */}
       <div>
         <label htmlFor="message" className="block text-sm font-semibold text-brand-dark dark:text-white mb-1.5">
-          Message <span className="text-red-400">*</span>
+          {t("contact.message")} <span className="text-red-400">*</span>
         </label>
         <textarea
           id="message"
           name="message"
           rows={6}
-          placeholder="Describe your issue or question in detail…"
+          placeholder={t("contact.messagePlaceholder")}
           value={form.message}
           onChange={handleChange}
           disabled={status === "loading"}
@@ -215,7 +187,7 @@ function ContactForm() {
             <span />
           )}
           <span className="text-xs text-brand-body/50 dark:text-white/30">
-            {form.message.length} chars
+            {form.message.length} {t("contact.chars")}
           </span>
         </div>
       </div>
@@ -228,18 +200,18 @@ function ContactForm() {
         {status === "loading" ? (
           <>
             <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
-            Sending…
+            {t("contact.sending")}
           </>
         ) : (
           <>
             <Send size={15} />
-            Submit Request
+            {t("contact.submitBtn")}
           </>
         )}
       </Button>
 
       <p className="text-xs text-center text-brand-body/50 dark:text-white/30">
-        We aim to respond within one working day (Mon–Fri, 08:00–16:00 CET).
+        {t("contact.responseNote")}
       </p>
     </form>
   );
@@ -248,6 +220,15 @@ function ContactForm() {
 // ── Page ───────────────────────────────────────────────────────────────────────
 
 export default function ContactPage() {
+  const { t } = useTranslation();
+
+  const contactInfo = [
+    { icon: Mail,   labelKey: "contact.contactInfoEmail",    value: "it.support@questify.edu",                    href: "mailto:it.support@questify.edu" },
+    { icon: Phone,  labelKey: "contact.contactInfoPhone",    value: "+47 22 85 50 00",                            href: "tel:+4722855000" },
+    { icon: MapPin, labelKey: "contact.contactInfoLocation", value: "IT Services Building, Main Campus — Room 201", href: undefined },
+    { icon: Clock,  labelKey: "contact.contactInfoHours",    value: "Monday–Friday, 08:00–16:00 CET",              href: undefined },
+  ];
+
   return (
     <>
       <Navbar />
@@ -257,14 +238,13 @@ export default function ContactPage() {
         <section className="bg-gradient-to-b from-brand-bg to-white dark:from-slate-950 dark:to-slate-900 pt-16 pb-14 px-6 text-center">
           <div className="max-w-2xl mx-auto">
             <span className="inline-block mb-4 px-3.5 py-1 rounded-full bg-brand-blue/10 text-brand-blue text-xs font-bold uppercase tracking-widest">
-              IT Support
+              {t("contact.badge")}
             </span>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-brand-dark dark:text-white mb-4 leading-tight">
-              Contact the Helpdesk
+              {t("contact.title")}
             </h1>
             <p className="text-brand-body dark:text-white/60 text-lg leading-relaxed">
-              Having trouble logging in, a missing enrollment, or a platform issue?
-              Submit a request and the IT support team will get back to you.
+              {t("contact.subtitle")}
             </p>
           </div>
         </section>
@@ -277,24 +257,22 @@ export default function ContactPage() {
             <div className="space-y-8">
               <div>
                 <h2 className="text-xl font-bold text-brand-dark dark:text-white mb-2">
-                  IT Helpdesk
+                  {t("contact.itHelpdeskTitle")}
                 </h2>
                 <p className="text-brand-body dark:text-white/60 text-sm leading-relaxed">
-                  The helpdesk handles all Questify platform issues for students, faculty,
-                  and staff. For urgent account problems (locked out, wrong role), email
-                  directly and include your student or employee ID.
+                  {t("contact.itHelpdeskDesc")}
                 </p>
               </div>
 
               <ul className="space-y-5 list-none m-0 p-0">
-                {contactInfo.map(({ icon: Icon, label, value, href }) => (
-                  <li key={label} className="flex items-start gap-4">
+                {contactInfo.map(({ icon: Icon, labelKey, value, href }) => (
+                  <li key={labelKey} className="flex items-start gap-4">
                     <div className="w-10 h-10 rounded-lg bg-brand-blue/10 flex items-center justify-center shrink-0 mt-0.5">
                       <Icon size={18} className="text-brand-blue" />
                     </div>
                     <div>
                       <p className="text-xs font-semibold text-brand-body dark:text-white/40 uppercase tracking-widest mb-0.5">
-                        {label}
+                        {t(labelKey)}
                       </p>
                       {href ? (
                         <a
@@ -314,17 +292,17 @@ export default function ContactPage() {
               {/* Response time badge */}
               <div className="rounded-xl border border-brand-border dark:border-white/10 p-5 bg-brand-bg dark:bg-slate-800/50">
                 <p className="text-[13px] font-semibold text-brand-dark dark:text-white mb-1">
-                  Typical Response Time
+                  {t("contact.typicalResponseTime")}
                 </p>
                 <p className="text-2xl font-extrabold text-brand-blue mb-1">
-                  &lt; 1 working day
+                  {t("contact.lessThanOneDay")}
                 </p>
                 <p className="text-xs text-brand-body dark:text-white/50">
-                  During office hours only. Check our{" "}
+                  {t("contact.officeHoursNote")}{" "}
                   <a href="/help" className="text-brand-blue hover:underline underline-offset-2">
-                    Help Center
+                    {t("contact.helpCenter")}
                   </a>{" "}
-                  for quick answers before submitting a ticket.
+                  {t("contact.beforeTicket")}
                 </p>
               </div>
             </div>
@@ -332,7 +310,7 @@ export default function ContactPage() {
             {/* Right — form */}
             <div className="bg-white dark:bg-slate-800/60 border border-brand-border dark:border-white/10 rounded-2xl p-8 shadow-sm">
               <h2 className="text-lg font-bold text-brand-dark dark:text-white mb-6">
-                Submit a Support Request
+                {t("contact.submitRequestTitle")}
               </h2>
               <ContactForm />
             </div>

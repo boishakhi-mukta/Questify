@@ -30,17 +30,11 @@ import {
 } from "react-icons/hi2";
 import { useAuth } from "@/hooks/useAuth";
 import { useChangePassword } from "@/hooks/useChangePassword";
+import { useTranslation } from "react-i18next";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 type Tab = "profile" | "notifications" | "privacy" | "display" | "account";
-
-const NAV_MAIN: { id: Tab; label: string; icon: React.ElementType }[] = [
-  { id: "profile", label: "Profile Settings", icon: HiUser },
-  { id: "notifications", label: "Notifications", icon: HiBell },
-  { id: "privacy", label: "Privacy", icon: HiEye },
-  { id: "display", label: "Display", icon: HiPaintBrush },
-];
 
 // ── Small reusable pieces ─────────────────────────────────────────────────────
 
@@ -178,6 +172,14 @@ export default function SettingsPage() {
   const { user, isLoading } = useAuth();
   const { theme, setTheme } = useTheme();
   const { changePassword, isPending: pwPending } = useChangePassword();
+  const { t } = useTranslation();
+
+  const NAV_MAIN: { id: Tab; label: string; icon: React.ElementType }[] = [
+    { id: "profile",       label: t("settingsPage.profileSettings"), icon: HiUser },
+    { id: "notifications", label: t("settingsPage.notifications"),   icon: HiBell },
+    { id: "privacy",       label: t("settingsPage.privacy"),         icon: HiEye },
+    { id: "display",       label: t("settingsPage.display"),         icon: HiPaintBrush },
+  ];
 
   const [activeTab, setActiveTab] = useState<Tab>("profile");
 
@@ -329,7 +331,7 @@ export default function SettingsPage() {
                   }`}
               >
                 <HiShieldCheck className="w-4 h-4 shrink-0" />
-                Account & Security
+                {t("settingsPage.accountSecurity")}
               </button>
             </nav>
           </CardContent>
@@ -342,35 +344,35 @@ export default function SettingsPage() {
         {activeTab === "profile" && (
           <Card>
             <CardHeader>
-              <CardTitle>Profile Settings</CardTitle>
+              <CardTitle>{t("settingsPage.profileSettings")}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-5 pb-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <Field label="First Name">
+                <Field label={t("settingsPage.firstName")}>
                   <input
                     className={inputCls}
                     value={profile.firstName}
                     onChange={(e) =>
                       setProfile((p) => ({ ...p, firstName: e.target.value }))
                     }
-                    placeholder="First name"
+                    placeholder={t("settingsPage.firstName")}
                   />
                 </Field>
-                <Field label="Last Name">
+                <Field label={t("settingsPage.lastName")}>
                   <input
                     className={inputCls}
                     value={profile.lastName}
                     onChange={(e) =>
                       setProfile((p) => ({ ...p, lastName: e.target.value }))
                     }
-                    placeholder="Last name"
+                    placeholder={t("settingsPage.lastName")}
                   />
                 </Field>
               </div>
 
               <Field
-                label="Email"
-                hint="Contact support to change your email address."
+                label={t("common.email")}
+                hint={t("settingsPage.emailHint")}
               >
                 <input
                   className={disabledInputCls}
@@ -380,7 +382,7 @@ export default function SettingsPage() {
                 />
               </Field>
 
-              <Field label="Phone Number">
+              <Field label={t("settingsPage.phoneNumber")}>
                 <input
                   className={inputCls}
                   type="tel"
@@ -396,9 +398,9 @@ export default function SettingsPage() {
                 <>
                   <div className="h-px bg-brand-border dark:bg-white/8" />
                   <p className="text-xs font-semibold text-brand-muted dark:text-white/50 uppercase tracking-wide">
-                    Office Information
+                    {t("settingsPage.officeInformation")}
                   </p>
-                  <Field label="Office Location">
+                  <Field label={t("settingsPage.officeLocation")}>
                     <input
                       className={inputCls}
                       value={profile.officeLocation}
@@ -411,7 +413,7 @@ export default function SettingsPage() {
                       placeholder="e.g., Room 204, Engineering Building"
                     />
                   </Field>
-                  <Field label="Office Hours">
+                  <Field label={t("settingsPage.officeHours")}>
                     <input
                       className={inputCls}
                       value={profile.officeHours}
@@ -427,7 +429,7 @@ export default function SettingsPage() {
                 </>
               )}
 
-              <Field label="Bio">
+              <Field label={t("settingsPage.bio")}>
                 <textarea
                   className={`${inputCls} resize-none`}
                   rows={4}
@@ -444,14 +446,14 @@ export default function SettingsPage() {
                   onClick={handleProfileSave}
                   disabled={profileSaving}
                 >
-                  {profileSaving ? "Saving..." : "Save Changes"}
+                  {profileSaving ? t("settingsPage.saving") : t("settingsPage.saveChanges")}
                 </Button>
                 <Button
                   variant="ghost"
                   disabled={profileSaving}
                   onClick={handleProfileCancel}
                 >
-                  Cancel
+                  {t("settingsPage.cancel")}
                 </Button>
               </div>
             </CardContent>
@@ -462,37 +464,37 @@ export default function SettingsPage() {
         {activeTab === "notifications" && (
           <Card>
             <CardHeader>
-              <CardTitle>Notification Preferences</CardTitle>
+              <CardTitle>{t("settingsPage.notificationPreferences")}</CardTitle>
             </CardHeader>
             <CardContent className="pb-6">
               <div className="divide-y divide-brand-border dark:divide-white/8">
                 <NotifRow
-                  title="Course Announcements"
-                  desc="Receive updates when teachers post course announcements"
+                  title={t("settingsPage.courseAnnouncements")}
+                  desc={t("settingsPage.courseAnnouncementsDesc")}
                   checked={notifs.courseAnnouncements}
                   onChange={(v) =>
                     setNotifs((n) => ({ ...n, courseAnnouncements: v }))
                   }
                 />
                 <NotifRow
-                  title="Assignment Reminders"
-                  desc="Get notified about upcoming assignment deadlines"
+                  title={t("settingsPage.assignmentReminders")}
+                  desc={t("settingsPage.assignmentRemindersDesc")}
                   checked={notifs.assignmentReminders}
                   onChange={(v) =>
                     setNotifs((n) => ({ ...n, assignmentReminders: v }))
                   }
                 />
                 <NotifRow
-                  title="XP Notifications"
-                  desc="Show a toast when you earn XP points"
+                  title={t("settingsPage.xpNotifications")}
+                  desc={t("settingsPage.xpNotificationsDesc")}
                   checked={notifs.xpNotifications}
                   onChange={(v) =>
                     setNotifs((n) => ({ ...n, xpNotifications: v }))
                   }
                 />
                 <NotifRow
-                  title="Grade Updates"
-                  desc="Be notified when your assignments are graded"
+                  title={t("settingsPage.gradeUpdates")}
+                  desc={t("settingsPage.gradeUpdatesDesc")}
                   checked={notifs.gradeUpdates}
                   onChange={(v) =>
                     setNotifs((n) => ({ ...n, gradeUpdates: v }))
@@ -500,8 +502,8 @@ export default function SettingsPage() {
                 />
                 {(user.role === "teacher" || user.role === "admin") && (
                   <NotifRow
-                    title="Student Enrollments"
-                    desc="Alert when a student enrolls in your course"
+                    title={t("settingsPage.studentEnrollments")}
+                    desc={t("settingsPage.studentEnrollmentsDesc")}
                     checked={notifs.enrollments}
                     onChange={(v) =>
                       setNotifs((n) => ({ ...n, enrollments: v }))
@@ -509,8 +511,8 @@ export default function SettingsPage() {
                   />
                 )}
                 <NotifRow
-                  title="Weekly Email Digest"
-                  desc="Receive a weekly summary of your activity"
+                  title={t("settingsPage.weeklyEmailDigest")}
+                  desc={t("settingsPage.weeklyEmailDigestDesc")}
                   checked={notifs.emailDigest}
                   onChange={(v) =>
                     setNotifs((n) => ({ ...n, emailDigest: v }))
@@ -521,7 +523,7 @@ export default function SettingsPage() {
                 <Button
                   onClick={() => toast.success("Notification preferences saved")}
                 >
-                  Save Preferences
+                  {t("settingsPage.savePreferences")}
                 </Button>
               </div>
             </CardContent>
@@ -532,37 +534,37 @@ export default function SettingsPage() {
         {activeTab === "privacy" && (
           <Card>
             <CardHeader>
-              <CardTitle>Privacy Settings</CardTitle>
+              <CardTitle>{t("settingsPage.privacySettings")}</CardTitle>
             </CardHeader>
             <CardContent className="pb-6">
               <div className="divide-y divide-brand-border dark:divide-white/8">
                 <NotifRow
-                  title="Public Profile"
-                  desc="Make your profile visible to other users on the platform"
+                  title={t("settingsPage.publicProfile")}
+                  desc={t("settingsPage.publicProfileDesc")}
                   checked={privacy.profileVisible}
                   onChange={(v) =>
                     setPrivacy((p) => ({ ...p, profileVisible: v }))
                   }
                 />
                 <NotifRow
-                  title="Show Email Address"
-                  desc="Display your email on your public profile page"
+                  title={t("settingsPage.showEmail")}
+                  desc={t("settingsPage.showEmailDesc")}
                   checked={privacy.showEmail}
                   onChange={(v) =>
                     setPrivacy((p) => ({ ...p, showEmail: v }))
                   }
                 />
                 <NotifRow
-                  title="Show Activity Status"
-                  desc="Let others see when you were last active"
+                  title={t("settingsPage.showActivity")}
+                  desc={t("settingsPage.showActivityDesc")}
                   checked={privacy.showActivity}
                   onChange={(v) =>
                     setPrivacy((p) => ({ ...p, showActivity: v }))
                   }
                 />
                 <NotifRow
-                  title="Searchable Profile"
-                  desc="Allow your profile to appear in platform search results"
+                  title={t("settingsPage.searchable")}
+                  desc={t("settingsPage.searchableDesc")}
                   checked={privacy.searchable}
                   onChange={(v) =>
                     setPrivacy((p) => ({ ...p, searchable: v }))
@@ -573,7 +575,7 @@ export default function SettingsPage() {
                 <Button
                   onClick={() => toast.success("Privacy settings saved")}
                 >
-                  Save Settings
+                  {t("settingsPage.saveSettings")}
                 </Button>
               </div>
             </CardContent>
@@ -585,33 +587,33 @@ export default function SettingsPage() {
           <div className="space-y-5">
             <Card>
               <CardHeader>
-                <CardTitle>Theme</CardTitle>
+                <CardTitle>{t("settingsPage.theme")}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2 pb-6">
                 <RadioOption
                   value="light"
                   selected={theme === "light"}
                   onSelect={setTheme}
-                  label="☀️  Light"
+                  label={t("settingsPage.lightTheme")}
                 />
                 <RadioOption
                   value="dark"
                   selected={theme === "dark"}
                   onSelect={setTheme}
-                  label="🌙  Dark"
+                  label={t("settingsPage.darkTheme")}
                 />
                 <RadioOption
                   value="system"
                   selected={!theme || theme === "system"}
                   onSelect={setTheme}
-                  label="💻  Auto (Follow System)"
+                  label={t("settingsPage.autoTheme")}
                 />
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
-                <CardTitle>Language</CardTitle>
+                <CardTitle>{t("settingsPage.language")}</CardTitle>
               </CardHeader>
               <CardContent className="pb-6">
                 <Select value={language} onValueChange={setLanguage}>
@@ -630,26 +632,26 @@ export default function SettingsPage() {
 
             <Card>
               <CardHeader>
-                <CardTitle>Font Size</CardTitle>
+                <CardTitle>{t("settingsPage.fontSize")}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2 pb-6">
                 <RadioOption
                   value="small"
                   selected={fontSize === "small"}
                   onSelect={setFontSize}
-                  label="Small — compact, more content on screen"
+                  label={t("settingsPage.fontSmall")}
                 />
                 <RadioOption
                   value="normal"
                   selected={fontSize === "normal"}
                   onSelect={setFontSize}
-                  label="Normal — default reading size"
+                  label={t("settingsPage.fontNormal")}
                 />
                 <RadioOption
                   value="large"
                   selected={fontSize === "large"}
                   onSelect={setFontSize}
-                  label="Large — easier to read"
+                  label={t("settingsPage.fontLarge")}
                 />
               </CardContent>
             </Card>
@@ -664,11 +666,11 @@ export default function SettingsPage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <HiKey className="w-5 h-5" />
-                  Change Password
+                  {t("settingsPage.changePassword")}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4 pb-6">
-                <Field label="Current Password">
+                <Field label={t("settingsPage.currentPassword")}>
                   <input
                     className={inputCls}
                     type="password"
@@ -683,7 +685,7 @@ export default function SettingsPage() {
                     autoComplete="current-password"
                   />
                 </Field>
-                <Field label="New Password">
+                <Field label={t("settingsPage.newPassword")}>
                   <input
                     className={inputCls}
                     type="password"
@@ -695,7 +697,7 @@ export default function SettingsPage() {
                     autoComplete="new-password"
                   />
                 </Field>
-                <Field label="Confirm New Password">
+                <Field label={t("settingsPage.confirmNewPassword")}>
                   <input
                     className={inputCls}
                     type="password"
@@ -715,7 +717,7 @@ export default function SettingsPage() {
                   disabled={pwPending}
                   className="mt-1"
                 >
-                  {pwPending ? "Updating..." : "Update Password"}
+                  {pwPending ? t("settingsPage.updating") : t("settingsPage.updatePassword")}
                 </Button>
               </CardContent>
             </Card>
@@ -724,7 +726,7 @@ export default function SettingsPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="text-red-600 dark:text-red-400">
-                  Danger Zone
+                  {t("settingsPage.dangerZone")}
                 </CardTitle>
               </CardHeader>
               <CardContent className="pb-6">
@@ -733,10 +735,10 @@ export default function SettingsPage() {
                   <div className="flex items-start justify-between gap-4 p-4">
                     <div className="min-w-0">
                       <p className="text-sm font-medium text-brand-dark dark:text-white">
-                        Log Out All Devices
+                        {t("settingsPage.logOutAllDevices")}
                       </p>
                       <p className="text-xs text-brand-muted dark:text-white/50 mt-0.5">
-                        Revoke access from all other active sessions immediately.
+                        {t("settingsPage.logOutAllDevicesDesc")}
                       </p>
                     </div>
                     <Button
@@ -746,7 +748,7 @@ export default function SettingsPage() {
                       onClick={() => toast.success("Logged out from all devices")}
                     >
                       <HiArrowRightOnRectangle className="w-4 h-4" />
-                      Log Out All
+                      {t("settingsPage.logOutAll")}
                     </Button>
                   </div>
 
@@ -754,11 +756,10 @@ export default function SettingsPage() {
                   <div className="flex items-start justify-between gap-4 p-4">
                     <div className="min-w-0">
                       <p className="text-sm font-semibold text-red-600 dark:text-red-400">
-                        Delete Account
+                        {t("settingsPage.deleteAccount")}
                       </p>
                       <p className="text-xs text-brand-muted dark:text-white/50 mt-0.5">
-                        Permanently delete your account and all data. This
-                        cannot be undone.
+                        {t("settingsPage.deleteAccountDesc")}
                       </p>
                     </div>
                     <Button
@@ -772,7 +773,7 @@ export default function SettingsPage() {
                       }
                     >
                       <HiTrash className="w-4 h-4" />
-                      Delete
+                      {t("settingsPage.delete")}
                     </Button>
                   </div>
                 </div>

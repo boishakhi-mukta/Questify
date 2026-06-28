@@ -7,6 +7,7 @@ import { useChangePassword }     from "@/hooks/useChangePassword";
 import { useAuthContext }         from "@/contexts/AuthContext";
 import PasswordStrengthMeter     from "@/components/auth/PasswordStrengthMeter";
 import type { UserRole }          from "@/types/auth";
+import { useTranslation }        from "react-i18next";
 
 const ROLE_REDIRECT: Record<UserRole, string> = {
   admin:   "/admin",
@@ -22,6 +23,7 @@ export default function ForcePasswordChangeModal({ userRole }: Props) {
   const router                           = useRouter();
   const { updateUser }                   = useAuthContext();
   const { changePassword, isPending, error } = useChangePassword();
+  const { t }                            = useTranslation();
 
   const [current,  setCurrent]  = useState("");
   const [next,     setNext]     = useState("");
@@ -30,20 +32,20 @@ export default function ForcePasswordChangeModal({ userRole }: Props) {
   const [showNext, setShowNext] = useState(false);
   const [localErr, setLocalErr] = useState<string | null>(null);
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
     setLocalErr(null);
 
     if (!current || !next || !confirm) {
-      setLocalErr("All fields are required.");
+      setLocalErr(t("auth.allFieldsRequired"));
       return;
     }
     if (next !== confirm) {
-      setLocalErr("New password and confirmation do not match.");
+      setLocalErr(t("auth.passwordMismatch"));
       return;
     }
     if (next.length < 8) {
-      setLocalErr("New password must be at least 8 characters.");
+      setLocalErr(t("auth.passwordTooShort"));
       return;
     }
 
@@ -69,10 +71,9 @@ export default function ForcePasswordChangeModal({ userRole }: Props) {
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
             </svg>
           </div>
-          <h2 className="text-xl font-bold text-brand-dark">Create a permanent password</h2>
+          <h2 className="text-xl font-bold text-brand-dark">{t("auth.createPermanentPassword")}</h2>
           <p className="text-sm text-brand-body mt-1.5">
-            Your account was set up with a temporary password.
-            Please create a new one to continue.
+            {t("auth.temporaryPasswordNote")}
           </p>
         </div>
 
@@ -87,13 +88,13 @@ export default function ForcePasswordChangeModal({ userRole }: Props) {
 
           {/* Current (temp) password */}
           <div className="space-y-1">
-            <label className="text-sm font-semibold text-brand-dark">Temporary password</label>
+            <label className="text-sm font-semibold text-brand-dark">{t("auth.temporaryPassword")}</label>
             <div className="relative">
               <input
                 type={showCur ? "text" : "password"}
                 value={current}
                 onChange={(e) => setCurrent(e.target.value)}
-                placeholder="Enter the password from your email"
+                placeholder={t("auth.tempPasswordPlaceholder")}
                 className="w-full h-11 px-4 pr-10 border border-brand-border rounded-lg text-[15px] text-brand-dark placeholder:text-brand-body/40 focus:outline-none focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/15 transition-colors"
                 disabled={isPending}
                 required
@@ -111,13 +112,13 @@ export default function ForcePasswordChangeModal({ userRole }: Props) {
 
           {/* New password */}
           <div className="space-y-1">
-            <label className="text-sm font-semibold text-brand-dark">New password</label>
+            <label className="text-sm font-semibold text-brand-dark">{t("auth.newPassword")}</label>
             <div className="relative">
               <input
                 type={showNext ? "text" : "password"}
                 value={next}
                 onChange={(e) => setNext(e.target.value)}
-                placeholder="Create a strong password"
+                placeholder={t("auth.newPasswordPlaceholder")}
                 className="w-full h-11 px-4 pr-10 border border-brand-border rounded-lg text-[15px] text-brand-dark placeholder:text-brand-body/40 focus:outline-none focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/15 transition-colors"
                 disabled={isPending}
                 required
@@ -136,18 +137,18 @@ export default function ForcePasswordChangeModal({ userRole }: Props) {
 
           {/* Confirm */}
           <div className="space-y-1">
-            <label className="text-sm font-semibold text-brand-dark">Confirm new password</label>
+            <label className="text-sm font-semibold text-brand-dark">{t("auth.confirmNewPassword")}</label>
             <input
               type="password"
               value={confirm}
               onChange={(e) => setConfirm(e.target.value)}
-              placeholder="Repeat new password"
+              placeholder={t("auth.confirmPasswordPlaceholder")}
               className="w-full h-11 px-4 border border-brand-border rounded-lg text-[15px] text-brand-dark placeholder:text-brand-body/40 focus:outline-none focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/15 transition-colors"
               disabled={isPending}
               required
             />
             {confirm && next && confirm !== next && (
-              <p className="text-[11px] text-red-500 mt-1">Passwords do not match</p>
+              <p className="text-[11px] text-red-500 mt-1">{t("auth.passwordsDoNotMatch")}</p>
             )}
           </div>
 
@@ -156,7 +157,7 @@ export default function ForcePasswordChangeModal({ userRole }: Props) {
             disabled={isPending}
             className="w-full h-11 bg-brand-blue hover:bg-[#004182] disabled:opacity-60 text-white font-bold rounded-lg transition-colors duration-150 mt-2"
           >
-            {isPending ? "Saving…" : "Set new password"}
+            {isPending ? t("auth.saving") : t("auth.setNewPassword")}
           </button>
         </form>
 

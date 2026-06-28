@@ -13,6 +13,7 @@ import {
 import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
 import type { UserRole } from "@/types/auth";
+import { useTranslation } from "react-i18next";
 
 const roleDashboard: Record<UserRole, string> = {
   admin:   "/admin",
@@ -24,6 +25,7 @@ export function UserDropdown() {
   const [open, setOpen] = useState(false);
   const containerRef   = useRef<HTMLDivElement>(null);
   const { user, logout } = useAuth();
+  const { t } = useTranslation();
 
   // Close on outside click
   useEffect(() => {
@@ -115,7 +117,7 @@ export function UserDropdown() {
               className="flex items-center gap-2.5 px-4 py-2.5 text-[13px] text-brand-dark dark:text-white/80 hover:bg-brand-bg dark:hover:bg-white/8 transition-colors no-underline"
             >
               <HiUser size={15} className="text-brand-body dark:text-white/40 shrink-0" />
-              Profile
+              {t("navbar.profile")}
             </Link>
             <Link
               href={dashboardHref}
@@ -124,7 +126,7 @@ export function UserDropdown() {
               className="flex items-center gap-2.5 px-4 py-2.5 text-[13px] text-brand-dark dark:text-white/80 hover:bg-brand-bg dark:hover:bg-white/8 transition-colors no-underline"
             >
               <HiSquares2X2 size={15} className="text-brand-body dark:text-white/40 shrink-0" />
-              Dashboard
+              {t("navbar.dashboard")}
             </Link>
             <Link
               href={`${dashboardHref}/settings`}
@@ -133,7 +135,7 @@ export function UserDropdown() {
               className="flex items-center gap-2.5 px-4 py-2.5 text-[13px] text-brand-dark dark:text-white/80 hover:bg-brand-bg dark:hover:bg-white/8 transition-colors no-underline"
             >
               <HiCog6Tooth size={15} className="text-brand-body dark:text-white/40 shrink-0" />
-              Settings
+              {t("navbar.settings")}
             </Link>
           </div>
 
@@ -146,7 +148,7 @@ export function UserDropdown() {
               className="w-full flex items-center gap-2.5 px-4 py-2.5 text-[13px] text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors"
             >
               <HiArrowRightOnRectangle size={15} className="shrink-0" />
-              Sign Out
+              {t("navbar.logout")}
             </button>
           </div>
         </div>

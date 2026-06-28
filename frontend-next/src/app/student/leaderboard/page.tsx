@@ -43,6 +43,7 @@ import { useMyEnrollments } from "@/hooks/api/useMyEnrollments";
 import { useAuthContext } from "@/contexts/AuthContext";
 import type { LeaderboardEntry } from "@/types/api-response";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -50,10 +51,10 @@ const PAGE_SIZE = 20;
 
 type Period = "week" | "month" | "all";
 
-const PERIOD_LABEL: Record<Period, string> = {
-  week:  "This Week",
-  month: "This Month",
-  all:   "All Time",
+const PERIOD_KEY: Record<Period, string> = {
+  week:  "leaderboardPage.thisWeek",
+  month: "leaderboardPage.thisMonth",
+  all:   "leaderboardPage.allTime",
 };
 
 const RANK_MEDALS = ["🥇", "🥈", "🥉"];
@@ -127,6 +128,7 @@ function YourRankCard({
   total:  number;
   period: Period;
 }) {
+  const { t } = useTranslation();
   const pct         = percentile(entry.rank, total);
   const progressVal = Math.min((entry.totalXP / Math.max(entry.totalXP, 5000)) * 100, 100);
 
@@ -141,16 +143,16 @@ function YourRankCard({
             <HiTrophy size={24} className="text-brand-blue" />
           </div>
           <div>
-            <p className="text-lg font-bold text-brand-dark">Your Rank</p>
+            <p className="text-lg font-bold text-brand-dark">{t("leaderboardPage.yourRank")}</p>
             <p className="text-sm text-brand-body">
-              {PERIOD_LABEL[period]} · {total} participants
+              {t(PERIOD_KEY[period])} · {total} {t("leaderboardPage.participants")}
             </p>
           </div>
           <div className="ml-auto text-right">
             <p className="text-3xl font-black text-brand-dark leading-none">
               {rankDisplay(entry.rank)}
             </p>
-            <p className="text-xs text-brand-body mt-0.5">position</p>
+            <p className="text-xs text-brand-body mt-0.5">{t("leaderboardPage.position")}</p>
           </div>
         </div>
       </CardHeader>
@@ -161,7 +163,7 @@ function YourRankCard({
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
           <div>
             <p className="text-xs text-brand-body uppercase tracking-wide font-medium mb-1">
-              Total XP
+              {t("leaderboardPage.totalXp")}
             </p>
             <p className="flex items-center gap-1.5 text-2xl font-black text-brand-dark">
               <HiStar size={18} className="text-amber-500" />
@@ -170,7 +172,7 @@ function YourRankCard({
           </div>
           <div>
             <p className="text-xs text-brand-body uppercase tracking-wide font-medium mb-1">
-              Percentile
+              {t("leaderboardPage.percentile")}
             </p>
             <Chip
               size="sm"
@@ -178,13 +180,13 @@ function YourRankCard({
               color={pct >= 90 ? "success" : pct >= 50 ? "default" : "warning"}
               className="text-sm font-bold"
             >
-              Top {100 - pct + 1}%
+              {t("leaderboardPage.top")} {100 - pct + 1}%
             </Chip>
           </div>
           {entry.courseCount !== undefined && (
             <div>
               <p className="text-xs text-brand-body uppercase tracking-wide font-medium mb-1">
-                Courses
+                {t("leaderboardPage.courses")}
               </p>
               <p className="text-lg font-bold text-brand-dark">{entry.courseCount}</p>
             </div>
@@ -194,7 +196,7 @@ function YourRankCard({
         {/* XP progress toward top 10% */}
         <div>
           <div className="flex justify-between text-xs text-brand-body mb-1.5">
-            <span>XP Progress</span>
+            <span>{t("leaderboardPage.xpProgress")}</span>
             <span className="font-semibold text-brand-dark">
               {entry.totalXP.toLocaleString()} XP
             </span>
@@ -210,9 +212,9 @@ function YourRankCard({
             </ProgressBarTrack>
           </ProgressBar>
           <p className="text-xs text-brand-body mt-1.5">
-            You are in the top{" "}
+            {t("leaderboardPage.youAreInTop")}{" "}
             <span className="font-semibold text-brand-dark">{100 - pct + 1}%</span>{" "}
-            of all students
+            {t("leaderboardPage.ofAllStudents")}
           </p>
         </div>
       </CardContent>
@@ -231,6 +233,7 @@ function LeaderboardRow({
   isCurrent: boolean;
   topXP:     number;
 }) {
+  const { t } = useTranslation();
   const barWidth = topXP > 0 ? Math.round((entry.totalXP / topXP) * 100) : 0;
 
   return (
@@ -276,7 +279,7 @@ function LeaderboardRow({
               {entry.name}
               {isCurrent && (
                 <span className="ml-2 text-xs font-normal text-brand-blue/70">
-                  (you)
+                  {t("leaderboardPage.you")}
                 </span>
               )}
             </p>
@@ -336,6 +339,7 @@ function PaginationStrip({
   total:  number;
   onPage: (p: number) => void;
 }) {
+  const { t } = useTranslation();
   if (total <= 1) return null;
 
   // Clamp visible page buttons to a window around current page
@@ -353,7 +357,7 @@ function PaginationStrip({
         className="flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-brand-border text-sm text-brand-body hover:bg-brand-bg disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
       >
         <HiChevronLeft size={14} />
-        Prev
+        {t("leaderboardPage.prev")}
       </button>
 
       {start > 1 && (
@@ -404,7 +408,7 @@ function PaginationStrip({
         onClick={() => onPage(page + 1)}
         className="flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-brand-border text-sm text-brand-body hover:bg-brand-bg disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
       >
-        Next
+        {t("leaderboardPage.next")}
         <HiChevronRight size={14} />
       </button>
     </div>
@@ -422,10 +426,11 @@ function CourseFilter({
   onChange: (v: string) => void;
   courses:  { id: string; title: string }[];
 }) {
+  const { t } = useTranslation();
   return (
     <div className="flex flex-col gap-1 min-w-[180px]">
       <label className="text-xs font-semibold text-brand-body uppercase tracking-wide">
-        Filter by Course
+        {t("leaderboardPage.filterByCourse")}
       </label>
       <Select selectedKey={value} onSelectionChange={(key) => onChange(key as string)}>
         <SelectTrigger className="h-9 rounded-md border border-brand-border bg-white px-3 text-sm text-brand-dark flex items-center justify-between gap-2 hover:border-brand-blue transition-colors focus:outline-none">
@@ -437,7 +442,7 @@ function CourseFilter({
               id="all"
               className="flex items-center px-3 py-2 text-sm rounded-sm cursor-pointer outline-none transition-colors text-brand-dark hover:bg-brand-bg"
             >
-              All Courses
+              {t("leaderboardPage.allCourses")}
             </ListBoxItem>
             {courses.map((c) => (
               <ListBoxItem
@@ -459,6 +464,7 @@ function CourseFilter({
 
 export default function LeaderboardPage() {
   const { user } = useAuthContext();
+  const { t } = useTranslation();
 
   const [period,         setPeriod]         = useState<Period>("all");
   const [selectedCourse, setSelectedCourse] = useState<string>("all");
@@ -513,9 +519,9 @@ export default function LeaderboardPage() {
 
       {/* ── Page header ── */}
       <div>
-        <h1 className="text-2xl font-bold text-brand-dark">XP Leaderboard</h1>
+        <h1 className="text-2xl font-bold text-brand-dark">{t("leaderboardPage.title")}</h1>
         <p className="text-sm text-brand-body mt-1">
-          Track your progress and see how you rank against fellow students.
+          {t("leaderboardPage.subtitle")}
         </p>
       </div>
 
@@ -523,13 +529,13 @@ export default function LeaderboardPage() {
       {error && (
         <div className="flex items-center gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
           <HiExclamationTriangle size={16} className="shrink-0" />
-          <span className="flex-1">Failed to load leaderboard: {error}</span>
+          <span className="flex-1">{t("leaderboardPage.failedToLoad")} {error}</span>
           <button
             onClick={refetch}
             className="flex items-center gap-1 font-semibold shrink-0 hover:text-red-900 transition-colors"
           >
             <HiArrowPath size={14} />
-            Retry
+            {t("leaderboardPage.retry")}
           </button>
         </div>
       )}
@@ -539,7 +545,7 @@ export default function LeaderboardPage() {
         {/* Period tabs */}
         <div className="flex flex-col gap-1">
           <label className="text-xs font-semibold text-brand-body uppercase tracking-wide">
-            Time Period
+            {t("leaderboardPage.timePeriod")}
           </label>
           <Tabs
             variant="primary"
@@ -558,7 +564,7 @@ export default function LeaderboardPage() {
                       "text-brand-body hover:text-brand-dark"
                     )}
                   >
-                    {PERIOD_LABEL[p]}
+                    {t(PERIOD_KEY[p])}
                   </Tab>
                 ))}
               </TabList>
@@ -584,7 +590,7 @@ export default function LeaderboardPage() {
             <span className="font-semibold text-brand-dark">
               {entries.length}
             </span>{" "}
-            students
+            {t("leaderboardPage.students")}
           </span>
         </div>
       </div>
@@ -598,9 +604,9 @@ export default function LeaderboardPage() {
       {entries.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 gap-3 text-center">
           <HiTrophy size={40} className="text-brand-body/30" />
-          <p className="text-base font-semibold text-brand-dark">No data yet</p>
+          <p className="text-base font-semibold text-brand-dark">{t("leaderboardPage.noDataYet")}</p>
           <p className="text-sm text-brand-body">
-            Leaderboard data will appear once students start earning XP.
+            {t("leaderboardPage.noDataDesc")}
           </p>
         </div>
       ) : (
@@ -609,7 +615,7 @@ export default function LeaderboardPage() {
             {/* Table header */}
             <div className="bg-brand-bg border-b border-brand-border px-4 py-2.5">
               <p className="text-xs font-bold uppercase tracking-wider text-brand-body">
-                Rankings — {PERIOD_LABEL[period]}
+                {t("leaderboardPage.rankings")} — {t(PERIOD_KEY[period])}
                 {selectedCourse !== "all" && (
                   <span className="ml-2 font-normal normal-case text-brand-blue">
                     · {courseOptions.find((c) => c.id === selectedCourse)?.title ?? "Course"}
@@ -622,16 +628,16 @@ export default function LeaderboardPage() {
               <thead>
                 <tr className="border-b border-brand-border">
                   <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-wider text-brand-body w-16 text-center">
-                    Rank
+                    {t("leaderboardPage.rank")}
                   </th>
                   <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-wider text-brand-body">
-                    Student
+                    {t("leaderboardPage.student")}
                   </th>
                   <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-wider text-brand-body">
-                    XP
+                    {t("leaderboardPage.xp")}
                   </th>
                   <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-wider text-brand-body hidden sm:table-cell text-center">
-                    Courses
+                    {t("leaderboardPage.courses")}
                   </th>
                 </tr>
               </thead>
@@ -649,14 +655,14 @@ export default function LeaderboardPage() {
 
             {/* Table footer */}
             <div className="border-t border-brand-border bg-brand-bg/50 px-4 py-2.5 text-xs text-brand-body">
-              Showing{" "}
+              {t("leaderboardPage.showing")}{" "}
               <span className="font-semibold text-brand-dark">
                 {(page - 1) * PAGE_SIZE + 1}–
                 {Math.min(page * PAGE_SIZE, filtered.length)}
               </span>{" "}
-              of{" "}
+              {t("leaderboardPage.of")}{" "}
               <span className="font-semibold text-brand-dark">{filtered.length}</span>{" "}
-              students
+              {t("leaderboardPage.students")}
             </div>
           </div>
 
@@ -676,7 +682,7 @@ export default function LeaderboardPage() {
       {entries.length >= 3 && page === 1 && (
         <div className="flex flex-col gap-3">
           <h2 className="text-sm font-bold text-brand-body uppercase tracking-wide">
-            Top Performers
+            {t("leaderboardPage.topPerformers")}
           </h2>
           <div className="grid grid-cols-3 gap-3">
             {entries.slice(0, 3).map((entry, i) => {

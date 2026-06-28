@@ -24,6 +24,7 @@ import {
 } from "@heroui/react";
 import { Button } from "@/components/ui/button";
 import { HiPencil, HiEnvelope, HiCalendarDays } from "react-icons/hi2";
+import { useTranslation } from "react-i18next";
 
 import type { AuthUser } from "@/types/api-response";
 
@@ -68,13 +69,15 @@ export default function ProfileLayout({
   headerExtra,
   statsCards,
   achievements,
-  editModalTitle = "Edit Profile",
+  editModalTitle,
   editFormContent,
   onSave,
   isSaving = false,
   children,
 }: ProfileLayoutProps) {
   const editState = useOverlayState();
+  const { t } = useTranslation();
+  const resolvedEditModalTitle = editModalTitle ?? t("profileLayout.editProfile");
   const initials = `${user.firstName[0] ?? ""}${user.lastName[0] ?? ""}`.toUpperCase();
 
   return (
@@ -114,7 +117,7 @@ export default function ProfileLayout({
                 </span>
                 <span className="flex items-center gap-1.5">
                   <HiCalendarDays className="w-4 h-4 shrink-0" />
-                  Joined {fmtDate(user.createdAt)}
+                  {t("profileLayout.joined")} {fmtDate(user.createdAt)}
                 </span>
               </div>
               {headerExtra && <div className="mt-3">{headerExtra}</div>}
@@ -127,7 +130,7 @@ export default function ProfileLayout({
               className="gap-1.5 shrink-0"
             >
               <HiPencil className="w-3.5 h-3.5" />
-              Edit Profile
+              {t("profileLayout.editProfile")}
             </Button>
           </div>
         </CardContent>
@@ -164,7 +167,7 @@ export default function ProfileLayout({
       <Card>
         <CardContent className="pt-5 pb-5">
           <h2 className="font-semibold text-brand-dark dark:text-white mb-4">
-            Achievements
+            {t("profileLayout.achievements")}
           </h2>
           <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-3">
             {achievements.map((a) => (
@@ -201,18 +204,18 @@ export default function ProfileLayout({
         <ModalContainer size="md" placement="center">
           <ModalDialog>
             <ModalHeader>
-              <ModalHeading>{editModalTitle}</ModalHeading>
+              <ModalHeading>{resolvedEditModalTitle}</ModalHeading>
               <ModalCloseTrigger />
             </ModalHeader>
             <ModalBody>{editFormContent}</ModalBody>
             <ModalFooter>
               <ModalCloseTrigger>
                 <Button variant="outline" disabled={isSaving}>
-                  Cancel
+                  {t("profileLayout.cancel")}
                 </Button>
               </ModalCloseTrigger>
               <Button onClick={onSave} disabled={isSaving}>
-                {isSaving ? "Saving..." : "Save Changes"}
+                {isSaving ? t("profileLayout.saving") : t("profileLayout.saveChanges")}
               </Button>
             </ModalFooter>
           </ModalDialog>

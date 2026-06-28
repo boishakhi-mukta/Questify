@@ -17,6 +17,7 @@ import { useSort, type SortKey } from "@/hooks/useSort";
 import { usePagination, PAGE_SIZES, type PageSize } from "@/hooks/usePagination";
 import { useCourses } from "@/hooks/api/useCourses";
 import type { Course } from "@/types/api-response";
+import { useTranslation } from "react-i18next";
 
 // ── Sort ───────────────────────────────────────────────────────────────────────
 
@@ -161,6 +162,8 @@ export default function CoursesPageClient() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
+  const { t } = useTranslation();
+
   const handleClearAll = () => { clearFilters(); clearSearch(); };
 
   const handlePageChange = (p: number) => {
@@ -185,9 +188,9 @@ export default function CoursesPageClient() {
       {/* ── Page header ──────────────────────────────────────────────────────── */}
       <div className="bg-white border-b border-brand-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-          <h1 className="text-[28px] font-bold text-brand-dark mb-1">Browse Courses</h1>
+          <h1 className="text-[28px] font-bold text-brand-dark mb-1">{t("coursesPage.title")}</h1>
           <p className="text-[15px] text-brand-body mb-6">
-            Discover courses across departments offered at our institution.
+            {t("coursesPage.subtitle")}
           </p>
           <SearchBar value={input} onChange={setInput} onClear={clearSearch} />
         </div>
@@ -199,8 +202,7 @@ export default function CoursesPageClient() {
         {/* Mobile: filter toggle */}
         <div className="flex items-center justify-between mb-5 lg:hidden">
           <p className="text-[14px] text-brand-body">
-            <span className="font-bold text-brand-dark">{sorted.length}</span>{" "}
-            course{sorted.length !== 1 ? "s" : ""}
+            {t("coursesPage.courseCount", { count: sorted.length })}
           </p>
           <div className="flex items-center gap-2">
             <SortDropdown value={sort} onChange={setSort} />
@@ -211,7 +213,7 @@ export default function CoursesPageClient() {
               className="flex items-center gap-2"
             >
               <HiAdjustmentsHorizontal size={16} />
-              Filters
+              {t("coursesPage.filters")}
               {activeCount > 0 && (
                 <span className="ml-1 w-5 h-5 rounded-full bg-brand-blue text-white text-[11px] font-bold flex items-center justify-center">
                   {activeCount}
@@ -272,15 +274,15 @@ export default function CoursesPageClient() {
                   <HiBookOpen size={32} className="text-brand-blue/60" />
                 </div>
                 <div>
-                  <p className="text-[18px] font-bold text-brand-dark">No courses found</p>
+                  <p className="text-[18px] font-bold text-brand-dark">{t("coursesPage.noCoursesFound")}</p>
                   <p className="text-[14px] text-brand-body mt-1.5 max-w-xs">
                     {query
-                      ? `No results for "${query}". Try different keywords or clear your filters.`
-                      : "No courses match the selected filters. Try adjusting or clearing them."}
+                      ? t("coursesPage.noResultsFor", { query })
+                      : t("coursesPage.noMatchFilters")}
                   </p>
                 </div>
                 <Button variant="outline" onClick={handleClearAll}>
-                  Clear search &amp; filters
+                  {t("coursesPage.clearFilters")}
                 </Button>
               </div>
             )}

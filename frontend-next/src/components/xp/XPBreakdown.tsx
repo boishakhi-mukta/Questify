@@ -2,6 +2,7 @@
 
 import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@heroui/react";
+import { useTranslation } from "react-i18next";
 
 export interface XPBreakdownEntry {
   name:  string;
@@ -34,11 +35,12 @@ function CustomTooltip({ active, payload }: { active?: boolean; payload?: Array<
 
 export function XPBreakdown({ data, height = 280 }: XPBreakdownProps) {
   const total = data.reduce((s, d) => s + d.value, 0);
+  const { t } = useTranslation();
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>XP Breakdown</CardTitle>
+        <CardTitle>{t("xpBreakdown.title")}</CardTitle>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={height}>
@@ -73,7 +75,7 @@ export function XPBreakdown({ data, height = 280 }: XPBreakdownProps) {
         </ResponsiveContainer>
 
         <p className="text-center text-[11px] text-brand-body/55 dark:text-white/35 mt-1">
-          Total: {total.toLocaleString()} XP
+          {t("xpBreakdown.total")} {total.toLocaleString()} XP
         </p>
       </CardContent>
     </Card>

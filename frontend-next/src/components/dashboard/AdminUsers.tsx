@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { useAdminUsers } from "@/hooks/api/useAdminUsers";
+import { useTranslation } from "react-i18next";
 import type { User } from "@/types/api-response";
 import type { AdminCreateUserPayload, AdminUpdateUserPayload } from "@/services/api";
 
@@ -57,6 +58,7 @@ export default function AdminUsers() {
   const [isDeleting, setIsDeleting]       = useState(false);
 
   const [tempPasswordInfo, setTempPasswordInfo] = useState<{ name: string; password: string } | null>(null);
+  const { t } = useTranslation();
 
   // ── Derived list ────────────────────────────────────────────────────────────
   const filtered = users.filter((u) => {
@@ -143,9 +145,9 @@ export default function AdminUsers() {
   }
 
   const tabs: { key: RoleFilter; label: string; icon: React.ElementType }[] = [
-    { key: "all",     label: "All Users", icon: HiUsers },
-    { key: "teacher", label: "Teachers",  icon: HiUserCircle },
-    { key: "student", label: "Students",  icon: HiAcademicCap },
+    { key: "all",     label: t("adminUsers.allUsers"), icon: HiUsers },
+    { key: "teacher", label: t("adminUsers.teachers"), icon: HiUserCircle },
+    { key: "student", label: t("adminUsers.students"), icon: HiAcademicCap },
   ];
 
   return (
@@ -153,14 +155,14 @@ export default function AdminUsers() {
       {/* Header */}
       <div className="flex items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-brand-dark">Users</h1>
+          <h1 className="text-2xl font-bold text-brand-dark">{t("adminUsers.title")}</h1>
           <p className="text-sm text-brand-body mt-0.5">
-            Create and manage teacher and student accounts.
+            {t("adminUsers.subtitle")}
           </p>
         </div>
         <Button onClick={openCreate} className="shrink-0">
           <HiPlus size={16} />
-          Add User
+          {t("adminUsers.addUser")}
         </Button>
       </div>
 
@@ -194,7 +196,7 @@ export default function AdminUsers() {
         <div className="relative flex-1 max-w-xs">
           <HiMagnifyingGlass size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-body" />
           <Input
-            placeholder="Search by name or email…"
+            placeholder={t("adminUsers.searchPlaceholder")}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="pl-8"
@@ -206,24 +208,24 @@ export default function AdminUsers() {
       <Card className="overflow-hidden">
         {isLoading ? (
           <div className="p-8 flex items-center justify-center text-sm text-brand-body">
-            Loading users…
+            {t("adminUsers.loadingUsers")}
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-brand-border bg-brand-bg">
-                  <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Name</th>
-                  <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Email</th>
-                  <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Role</th>
-                  <th className="text-right px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Actions</th>
+                  <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">{t("adminUsers.name")}</th>
+                  <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">{t("adminUsers.email")}</th>
+                  <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">{t("adminUsers.role")}</th>
+                  <th className="text-right px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">{t("adminUsers.actions")}</th>
                 </tr>
               </thead>
               <tbody>
                 {filtered.length === 0 ? (
                   <tr>
                     <td colSpan={4} className="text-center py-12 text-brand-body text-sm">
-                      No users found.
+                      {t("adminUsers.noUsersFound")}
                     </td>
                   </tr>
                 ) : (
@@ -248,12 +250,12 @@ export default function AdminUsers() {
                             variant="ghost"
                             size="icon"
                             onClick={() => handleResetPassword(user)}
-                            aria-label="Reset password"
-                            title="Reset password"
+                            aria-label={t("adminUsers.resetPassword")}
+                            title={t("adminUsers.resetPassword")}
                           >
                             <HiClipboardDocument size={15} />
                           </Button>
-                          <Button variant="ghost" size="icon" onClick={() => openEdit(user)} aria-label="Edit user">
+                          <Button variant="ghost" size="icon" onClick={() => openEdit(user)} aria-label={t("adminUsers.editUser")}>
                             <HiPencil size={15} />
                           </Button>
                           <Button
@@ -261,7 +263,7 @@ export default function AdminUsers() {
                             size="icon"
                             className="text-red-500 hover:text-red-600 hover:bg-red-50"
                             onClick={() => setDeleteTarget(user)}
-                            aria-label="Delete user"
+                            aria-label={t("adminUsers.deleteUser")}
                           >
                             <HiTrash size={15} />
                           </Button>
@@ -276,7 +278,7 @@ export default function AdminUsers() {
         )}
         {!isLoading && filtered.length > 0 && (
           <div className="px-5 py-3 border-t border-brand-border bg-brand-bg/30 text-[12px] text-brand-body">
-            Showing {filtered.length} of {users.length} users
+            {t("adminUsers.showing", { count: filtered.length, total: users.length })}
           </div>
         )}
       </Card>
@@ -285,18 +287,16 @@ export default function AdminUsers() {
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{editingUser ? "Edit User" : "Add New User"}</DialogTitle>
+            <DialogTitle>{editingUser ? t("adminUsers.editUserTitle") : t("adminUsers.addNewUser")}</DialogTitle>
             <DialogDescription>
-              {editingUser
-                ? "Update the user's details below."
-                : "Fill in the details to create a new account. A temporary password will be generated."}
+              {editingUser ? t("adminUsers.editUserDesc") : t("adminUsers.addUserDesc")}
             </DialogDescription>
           </DialogHeader>
 
           <div className="flex flex-col gap-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor="form-first">First Name</Label>
+                <Label htmlFor="form-first">{t("adminUsers.firstName")}</Label>
                 <Input
                   id="form-first"
                   placeholder="e.g. Alice"
@@ -305,7 +305,7 @@ export default function AdminUsers() {
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor="form-last">Last Name</Label>
+                <Label htmlFor="form-last">{t("adminUsers.lastName")}</Label>
                 <Input
                   id="form-last"
                   placeholder="e.g. Hansen"
@@ -316,7 +316,7 @@ export default function AdminUsers() {
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="form-email">Email</Label>
+              <Label htmlFor="form-email">{t("adminUsers.email")}</Label>
               <Input
                 id="form-email"
                 type="email"
@@ -328,17 +328,17 @@ export default function AdminUsers() {
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <Label>Role</Label>
+              <Label>{t("adminUsers.role")}</Label>
               <Select
                 value={form.role}
                 onValueChange={(v) => setForm((f) => ({ ...f, role: v as "teacher" | "student" }))}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Select role" />
+                  <SelectValue placeholder={t("adminUsers.selectRole")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="teacher">Teacher</SelectItem>
-                  <SelectItem value="student">Student</SelectItem>
+                  <SelectItem value="teacher">{t("adminUsers.teacher")}</SelectItem>
+                  <SelectItem value="student">{t("adminUsers.student")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -350,13 +350,13 @@ export default function AdminUsers() {
 
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="secondary" disabled={isSaving}>Cancel</Button>
+              <Button variant="secondary" disabled={isSaving}>{t("adminUsers.cancel")}</Button>
             </DialogClose>
             <Button
               onClick={handleSave}
               disabled={isSaving || !form.firstName || !form.lastName || !form.email}
             >
-              {isSaving ? "Saving…" : editingUser ? "Save Changes" : "Create User"}
+              {isSaving ? t("adminUsers.saving") : editingUser ? t("adminUsers.saveChanges") : t("adminUsers.createUser")}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -366,17 +366,16 @@ export default function AdminUsers() {
       <Dialog open={!!tempPasswordInfo} onOpenChange={(o) => { if (!o) setTempPasswordInfo(null); }}>
         <DialogContent className="max-w-sm">
           <DialogHeader>
-            <DialogTitle>Temporary Password</DialogTitle>
+            <DialogTitle>{t("adminUsers.tempPasswordTitle")}</DialogTitle>
             <DialogDescription>
-              Share this password with <span className="font-semibold text-brand-dark">{tempPasswordInfo?.name}</span>.
-              They will be prompted to change it on first login.
+              {t("adminUsers.tempPasswordDesc", { name: tempPasswordInfo?.name ?? "" })}
             </DialogDescription>
           </DialogHeader>
           <div className="rounded-lg bg-brand-bg border border-brand-border px-4 py-3 font-mono text-sm text-brand-dark select-all">
             {tempPasswordInfo?.password}
           </div>
           <DialogFooter>
-            <Button onClick={() => setTempPasswordInfo(null)}>Done</Button>
+            <Button onClick={() => setTempPasswordInfo(null)}>{t("adminUsers.done")}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -385,19 +384,17 @@ export default function AdminUsers() {
       <Dialog open={!!deleteTarget} onOpenChange={(o) => { if (!o) setDeleteTarget(null); }}>
         <DialogContent className="max-w-sm">
           <DialogHeader>
-            <DialogTitle>Deactivate User</DialogTitle>
+            <DialogTitle>{t("adminUsers.deactivateTitle")}</DialogTitle>
             <DialogDescription>
-              Are you sure you want to deactivate{" "}
-              <span className="font-semibold text-brand-dark">{deleteTarget?.fullName}</span>?
-              Their account will be disabled.
+              {t("adminUsers.deactivateDesc", { name: deleteTarget?.fullName ?? "" })}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button variant="secondary" onClick={() => setDeleteTarget(null)} disabled={isDeleting}>
-              Cancel
+              {t("adminUsers.cancel")}
             </Button>
             <Button variant="destructive" onClick={handleDelete} disabled={isDeleting}>
-              {isDeleting ? "Deactivating…" : "Deactivate"}
+              {isDeleting ? t("adminUsers.deactivating") : t("adminUsers.deactivate")}
             </Button>
           </DialogFooter>
         </DialogContent>

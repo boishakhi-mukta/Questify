@@ -12,7 +12,6 @@ import {
 } from "react-icons/hi2";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
@@ -161,17 +160,15 @@ export function PublicNavbar() {
           ))}
         </ul>
 
-        {/* Desktop right: language + theme + auth */}
+        {/* Desktop right: language + auth */}
         <div className="hidden md:flex items-center gap-1">
           <LanguageSwitcher />
-          <ThemeToggle variant="icon" />
           <AuthSection />
         </div>
 
-        {/* Mobile: language + theme + hamburger */}
+        {/* Mobile: language + hamburger */}
         <div className="md:hidden flex items-center gap-1">
           <LanguageSwitcher />
-          <ThemeToggle variant="icon" />
           <button
             type="button"
             className="flex items-center justify-center w-9 h-9 rounded-md text-brand-body dark:text-white/55 hover:text-brand-dark dark:hover:text-white hover:bg-brand-bg dark:hover:bg-white/8 transition-colors"
