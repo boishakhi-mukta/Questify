@@ -3,6 +3,7 @@
 import { HiXMark } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
 import type { FilterState } from "@/hooks/useFilter";
+import { useTranslation } from "react-i18next";
 
 export const LEVEL_OPTIONS = [
   { value: "BACHELOR", label: "Bachelor" },
@@ -51,6 +52,7 @@ export function FilterSidebar({
   open,
   onClose,
 }: FilterSidebarProps) {
+  const { t } = useTranslation();
   const isDrawer = onClose !== undefined;
 
   const content = (
@@ -58,7 +60,7 @@ export function FilterSidebar({
       {/* Sidebar header */}
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-2">
-          <span className="text-[15px] font-bold text-brand-dark">Filters</span>
+          <span className="text-[15px] font-bold text-brand-dark">{t("filterSidebar.filters")}</span>
           {activeCount > 0 && (
             <span className="w-5 h-5 rounded-full bg-brand-blue text-white text-[11px] font-bold flex items-center justify-center">
               {activeCount}
@@ -71,7 +73,7 @@ export function FilterSidebar({
               onClick={onClearAll}
               className="text-xs font-semibold text-brand-blue hover:text-brand-dark transition-colors"
             >
-              Clear all
+              {t("filterSidebar.clearAll")}
             </button>
           )}
           {isDrawer && (
@@ -92,7 +94,7 @@ export function FilterSidebar({
         {/* ── Department ──────────────────────────────────────── */}
         {categories.length > 0 && (
           <section>
-            <SectionLabel>Department</SectionLabel>
+            <SectionLabel>{t("filterSidebar.department")}</SectionLabel>
             <div className="flex flex-col gap-2">
               {categories.map((cat) => (
                 <label key={cat} className="flex items-center gap-2.5 cursor-pointer group">
@@ -114,7 +116,7 @@ export function FilterSidebar({
 
         {/* ── Level ───────────────────────────────────────────── */}
         <section>
-          <SectionLabel>Level</SectionLabel>
+          <SectionLabel>{t("filterSidebar.level")}</SectionLabel>
           <div className="flex flex-col gap-2">
             {LEVEL_OPTIONS.map(({ value, label }) => (
               <label key={value} className="flex items-center gap-2.5 cursor-pointer group">
@@ -137,7 +139,7 @@ export function FilterSidebar({
 
         {/* ── Semester ────────────────────────────────────────── */}
         <section>
-          <SectionLabel>Semester</SectionLabel>
+          <SectionLabel>{t("filterSidebar.semester")}</SectionLabel>
           <div className="flex flex-col gap-2">
             {SEMESTER_OPTIONS.map((s) => (
               <label key={s} className="flex items-center gap-2.5 cursor-pointer group">

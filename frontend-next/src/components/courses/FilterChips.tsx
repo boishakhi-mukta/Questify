@@ -3,6 +3,7 @@
 import type React from "react";
 import { HiXMark } from "react-icons/hi2";
 import type { FilterState } from "@/hooks/useFilter";
+import { useTranslation } from "react-i18next";
 
 interface Chip {
   label: string;
@@ -35,6 +36,7 @@ export function FilterChips({
   query,
   rightSlot,
 }: FilterChipsProps) {
+  const { t } = useTranslation();
   const chips: Chip[] = [
     ...filters.categories.map((cat) => ({
       label: cat,
@@ -55,18 +57,13 @@ export function FilterChips({
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <p className="text-[14px] text-brand-body">
           {hasFiltersOrSearch ? (
-            <>
-              <span className="font-bold text-brand-dark">{resultCount}</span>
-              {query ? (
-                <> result{resultCount !== 1 ? "s" : ""} for &ldquo;<span className="font-semibold text-brand-dark">{query}</span>&rdquo;</>
-              ) : (
-                <> course{resultCount !== 1 ? "s" : ""} found</>
-              )}
-            </>
+            query ? (
+              <>{t("filterChips.resultsFor", { count: resultCount })} &ldquo;<span className="font-semibold text-brand-dark">{query}</span>&rdquo;</>
+            ) : (
+              t("filterChips.coursesFound", { count: resultCount })
+            )
           ) : (
-            <>
-              <span className="font-bold text-brand-dark">{resultCount}</span> course{resultCount !== 1 ? "s" : ""} available
-            </>
+            t("filterChips.coursesAvailable", { count: resultCount })
           )}
         </p>
 
@@ -78,7 +75,7 @@ export function FilterChips({
               onClick={onClearAll}
               className="text-[13px] font-semibold text-brand-blue hover:text-brand-dark transition-colors shrink-0"
             >
-              Clear all filters
+              {t("filterChips.clearAllFilters")}
             </button>
           )}
         </div>

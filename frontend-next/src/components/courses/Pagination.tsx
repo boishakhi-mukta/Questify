@@ -2,6 +2,7 @@
 
 import { useState, useCallback, type KeyboardEvent } from "react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
+import { useTranslation } from "react-i18next";
 import {
   Select,
   SelectContent,
@@ -77,6 +78,7 @@ export function Pagination({
   onPageChange,
   onPageSizeChange,
 }: PaginationProps) {
+  const { t } = useTranslation();
   const [jumpValue, setJumpValue] = useState("");
 
   const handleJump = useCallback(() => {
@@ -98,11 +100,11 @@ export function Pagination({
 
       {/* ── "Showing X–Y of N" ── */}
       <p className="text-[13px] text-brand-body text-center">
-        Showing{" "}
+        {t("pagination.showing")}{" "}
         <span className="font-bold text-brand-dark">{rangeStart}–{rangeEnd}</span>{" "}
-        of{" "}
+        {t("pagination.of")}{" "}
         <span className="font-bold text-brand-dark">{totalItems}</span>{" "}
-        courses
+        {t("pagination.courses")}
       </p>
 
       {/* ── Controls row ── */}
@@ -110,7 +112,7 @@ export function Pagination({
 
         {/* Page size selector — left */}
         <div className="flex items-center gap-2 order-2 sm:order-1">
-          <span className="text-[13px] text-brand-body whitespace-nowrap">Show:</span>
+          <span className="text-[13px] text-brand-body whitespace-nowrap">{t("pagination.show")}</span>
           <Select
             value={String(pageSize)}
             onValueChange={(v) => onPageSizeChange(Number(v) as PageSize)}
@@ -129,7 +131,7 @@ export function Pagination({
               ))}
             </SelectContent>
           </Select>
-          <span className="text-[13px] text-brand-body">per page</span>
+          <span className="text-[13px] text-brand-body">{t("pagination.perPage")}</span>
         </div>
 
         {/* ── Navigation — centre ── */}
@@ -193,7 +195,7 @@ export function Pagination({
         {/* Jump to page — right (desktop only) */}
         {totalPages > 1 && (
           <div className="hidden sm:flex items-center gap-2 order-3">
-            <span className="text-[13px] text-brand-body whitespace-nowrap">Go to:</span>
+            <span className="text-[13px] text-brand-body whitespace-nowrap">{t("pagination.goTo")}</span>
             <input
               type="number"
               min={1}
