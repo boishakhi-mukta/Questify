@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/layout/Footer";
+import { useTranslation } from "react-i18next";
 import {
   Target,
   Lightbulb,
@@ -15,87 +18,6 @@ import {
   ClipboardList,
   UserCog,
 } from "lucide-react";
-
-// ── Data ───────────────────────────────────────────────────────────────────────
-
-const stats = [
-  { value: "2,400+", label: "Enrolled Students" },
-  { value: "120+",   label: "Active Courses" },
-  { value: "85+",    label: "Faculty Members" },
-  { value: "12",     label: "Departments" },
-];
-
-const values = [
-  {
-    icon: GraduationCap,
-    color: "bg-brand-blue/10 text-brand-blue",
-    title: "Academic Excellence First",
-    body:
-      "Every feature exists to support academic goals. Gamification is a tool, not the goal — the goal is stronger student outcomes and a more engaged campus.",
-  },
-  {
-    icon: Trophy,
-    color: "bg-amber-400/15 text-amber-500",
-    title: "Progress Should Be Visible",
-    body:
-      "When effort feels invisible, motivation drops. XP, levels, and leaderboards make academic progress concrete — turning daily study into a rewarding, trackable journey.",
-  },
-  {
-    icon: Shield,
-    color: "bg-emerald-500/15 text-emerald-500",
-    title: "Institutional Trust & Privacy",
-    body:
-      "All accounts are managed by university administration. Student data stays within the institution — no third-party marketing, no external data sharing, ever.",
-  },
-  {
-    icon: Users,
-    color: "bg-violet-500/15 text-violet-500",
-    title: "Faculty Empowerment",
-    body:
-      "Teachers get real tools: attendance tracking, material uploads, assignment management, and per-student analytics — all in one place, no spreadsheets needed.",
-  },
-  {
-    icon: TrendingUp,
-    color: "bg-rose-500/15 text-rose-500",
-    title: "Data-Driven Decisions",
-    body:
-      "Admins and faculty get honest, real-time data. Enrollment trends, attendance patterns, XP distribution — the insights needed to act early and act well.",
-  },
-  {
-    icon: Lightbulb,
-    color: "bg-sky-500/15 text-sky-500",
-    title: "Continuous Improvement",
-    body:
-      "The platform evolves with the university. Feedback from students, faculty, and admin shapes every update. No feature is fixed — everything can get better.",
-  },
-];
-
-const roles = [
-  {
-    icon: GraduationCap,
-    color: "bg-brand-blue/10 text-brand-blue",
-    border: "border-brand-blue/20",
-    title: "Students",
-    desc: "Access enrolled courses, download materials, submit assignments, track XP progress, climb the leaderboard, and earn badges for academic achievements.",
-    features: ["Course materials & assignments", "XP tracking & leaderboard", "Attendance records", "Achievement badges"],
-  },
-  {
-    icon: ClipboardList,
-    color: "bg-emerald-500/15 text-emerald-500",
-    border: "border-emerald-500/20",
-    title: "Faculty",
-    desc: "Manage course materials, create and review assignments, record daily attendance, and monitor per-student performance with built-in analytics.",
-    features: ["Attendance recording", "Material & assignment management", "Student performance analytics", "XP award automation"],
-  },
-  {
-    icon: UserCog,
-    color: "bg-violet-500/15 text-violet-500",
-    border: "border-violet-500/20",
-    title: "Administration",
-    desc: "Provision all user accounts, manage courses and enrollments, generate institutional reports, and oversee the health of the entire platform.",
-    features: ["User & course management", "Enrollment oversight", "Platform-wide analytics", "Report generation"],
-  },
-];
 
 // ── Section heading ────────────────────────────────────────────────────────────
 
@@ -128,6 +50,58 @@ function SectionHeading({
 // ── Page ───────────────────────────────────────────────────────────────────────
 
 export default function AboutPage() {
+  const { t } = useTranslation();
+
+  const stats = [
+    { value: "2,400+", labelKey: "about.statsStudents" },
+    { value: "120+",   labelKey: "about.statsCourses" },
+    { value: "85+",    labelKey: "about.statsFaculty" },
+    { value: "12",     labelKey: "about.statsDepartments" },
+  ];
+
+  const values = [
+    { icon: GraduationCap, color: "bg-brand-blue/10 text-brand-blue",   titleKey: "about.value1Title", bodyKey: "about.value1Body" },
+    { icon: Trophy,        color: "bg-amber-400/15 text-amber-500",      titleKey: "about.value2Title", bodyKey: "about.value2Body" },
+    { icon: Shield,        color: "bg-emerald-500/15 text-emerald-500",  titleKey: "about.value3Title", bodyKey: "about.value3Body" },
+    { icon: Users,         color: "bg-violet-500/15 text-violet-500",    titleKey: "about.value4Title", bodyKey: "about.value4Body" },
+    { icon: TrendingUp,    color: "bg-rose-500/15 text-rose-500",        titleKey: "about.value5Title", bodyKey: "about.value5Body" },
+    { icon: Lightbulb,     color: "bg-sky-500/15 text-sky-500",          titleKey: "about.value6Title", bodyKey: "about.value6Body" },
+  ];
+
+  const roles = [
+    {
+      icon: GraduationCap,
+      color: "bg-brand-blue/10 text-brand-blue",
+      border: "border-brand-blue/20",
+      titleKey: "about.studentRole",
+      descKey: "about.studentRoleDesc",
+      featureKeys: ["about.studentFeature1", "about.studentFeature2", "about.studentFeature3", "about.studentFeature4"],
+    },
+    {
+      icon: ClipboardList,
+      color: "bg-emerald-500/15 text-emerald-500",
+      border: "border-emerald-500/20",
+      titleKey: "about.facultyRole",
+      descKey: "about.facultyRoleDesc",
+      featureKeys: ["about.facultyFeature1", "about.facultyFeature2", "about.facultyFeature3", "about.facultyFeature4"],
+    },
+    {
+      icon: UserCog,
+      color: "bg-violet-500/15 text-violet-500",
+      border: "border-violet-500/20",
+      titleKey: "about.adminRole",
+      descKey: "about.adminRoleDesc",
+      featureKeys: ["about.adminFeature1", "about.adminFeature2", "about.adminFeature3", "about.adminFeature4"],
+    },
+  ];
+
+  const missionCards = [
+    { icon: Target,     bg: "bg-brand-blue/10",  color: "text-brand-blue",  labelKey: "about.missionCard1" },
+    { icon: Zap,        bg: "bg-amber-400/15",   color: "text-amber-500",   labelKey: "about.missionCard2" },
+    { icon: BarChart3,  bg: "bg-emerald-500/15", color: "text-emerald-500", labelKey: "about.missionCard3" },
+    { icon: BookMarked, bg: "bg-violet-500/15",  color: "text-violet-500",  labelKey: "about.missionCard4" },
+  ];
+
   return (
     <>
       <Navbar />
@@ -139,30 +113,26 @@ export default function AboutPage() {
           <div className="max-w-3xl mx-auto">
             <span className="inline-flex items-center gap-2 mb-5 px-3.5 py-1 rounded-full bg-brand-blue/10 text-brand-blue text-xs font-bold uppercase tracking-widest">
               <Zap size={12} />
-              About Questify
+              {t("about.badge")}
             </span>
             <h1 className="text-4xl sm:text-5xl font-extrabold text-brand-dark dark:text-white mb-5 leading-tight">
-              Your University&apos;s{" "}
-              <span className="text-brand-blue">Gamified</span>{" "}
-              Learning Platform
+              {t("about.heroTitle")}
             </h1>
             <p className="text-brand-body dark:text-white/60 text-lg leading-relaxed mb-8 max-w-2xl mx-auto">
-              Questify is the university&apos;s internal learning management system — purpose-built
-              for students, faculty, and administration. It brings XP, badges, and leaderboards into
-              academic life to make coursework more engaging without sacrificing rigour.
+              {t("about.heroBody")}
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3">
               <Link
                 href="/login"
                 className="inline-flex items-center px-6 py-3 rounded-xl bg-brand-blue text-white text-sm font-bold hover:bg-[#004182] transition-colors no-underline"
               >
-                Log In to Your Account
+                {t("about.logIn")}
               </Link>
               <Link
                 href="/contact"
                 className="inline-flex items-center px-6 py-3 rounded-xl border border-brand-border dark:border-white/15 text-brand-dark dark:text-white text-sm font-bold hover:border-brand-blue hover:text-brand-blue dark:hover:text-brand-blue transition-colors no-underline"
               >
-                Contact Support
+                {t("about.contactSupport")}
               </Link>
             </div>
           </div>
@@ -171,10 +141,10 @@ export default function AboutPage() {
         {/* ── Stats ────────────────────────────────────────────────────────── */}
         <section className="py-12 px-6 border-y border-brand-border dark:border-white/8 bg-white dark:bg-slate-900">
           <div className="max-w-4xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
-            {stats.map(({ value, label }) => (
-              <div key={label}>
+            {stats.map(({ value, labelKey }) => (
+              <div key={labelKey}>
                 <p className="text-3xl sm:text-4xl font-extrabold text-brand-blue mb-1">{value}</p>
-                <p className="text-sm font-semibold text-brand-body dark:text-white/50">{label}</p>
+                <p className="text-sm font-semibold text-brand-body dark:text-white/50">{t(labelKey)}</p>
               </div>
             ))}
           </div>
@@ -185,47 +155,28 @@ export default function AboutPage() {
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div>
               <SectionHeading
-                tag="Our Mission"
-                title="Make Academic Progress Impossible to Ignore"
+                tag={t("about.missionTag")}
+                title={t("about.missionTitle")}
                 center={false}
               />
               <div className="space-y-4 text-brand-body dark:text-white/60 text-[15px] leading-relaxed">
-                <p>
-                  Questify was built because traditional LMS platforms put administration
-                  first. Students stared at static course pages with no sense of progress,
-                  and faculty spent hours juggling attendance sheets, email threads, and
-                  separate grade trackers.
-                </p>
-                <p>
-                  We took a different approach: combine everything a university needs —
-                  course management, materials, assignments, attendance — with the
-                  engagement mechanics that actually work. XP for attendance, badges for
-                  milestones, a live leaderboard that turns studying into a shared experience.
-                </p>
-                <p>
-                  The result is a platform where students know exactly where they stand,
-                  faculty have real data at a glance, and administration can manage the
-                  entire institution from one dashboard.
-                </p>
+                <p>{t("about.missionP1")}</p>
+                <p>{t("about.missionP2")}</p>
+                <p>{t("about.missionP3")}</p>
               </div>
             </div>
 
             {/* Visual accent */}
             <div className="grid grid-cols-2 gap-4">
-              {[
-                { icon: Target,      bg: "bg-brand-blue/10",  color: "text-brand-blue",  label: "Structured academic paths"  },
-                { icon: Zap,         bg: "bg-amber-400/15",   color: "text-amber-500",   label: "XP for every achievement"   },
-                { icon: BarChart3,   bg: "bg-emerald-500/15", color: "text-emerald-500", label: "Real-time faculty analytics" },
-                { icon: BookMarked,  bg: "bg-violet-500/15",  color: "text-violet-500",  label: "Centralised course content"  },
-              ].map(({ icon: Icon, bg, color, label }) => (
+              {missionCards.map(({ icon: Icon, bg, color, labelKey }) => (
                 <div
-                  key={label}
+                  key={labelKey}
                   className="rounded-2xl border border-brand-border dark:border-white/10 p-6 bg-white dark:bg-slate-800/50 flex flex-col gap-3"
                 >
                   <div className={`w-10 h-10 rounded-xl ${bg} flex items-center justify-center`}>
                     <Icon size={20} className={color} />
                   </div>
-                  <p className="text-[13px] font-semibold text-brand-dark dark:text-white leading-snug">{label}</p>
+                  <p className="text-[13px] font-semibold text-brand-dark dark:text-white leading-snug">{t(labelKey)}</p>
                 </div>
               ))}
             </div>
@@ -236,26 +187,26 @@ export default function AboutPage() {
         <section className="bg-brand-bg dark:bg-slate-950 py-20 px-6 md:px-12">
           <div className="max-w-6xl mx-auto">
             <SectionHeading
-              tag="Three Roles, One Platform"
-              title="Built for Everyone on Campus"
-              subtitle="Questify is designed around the real workflows of students, faculty, and university administration."
+              tag={t("about.rolesTag")}
+              title={t("about.rolesTitle")}
+              subtitle={t("about.rolesSubtitle")}
             />
             <div className="grid sm:grid-cols-3 gap-6">
-              {roles.map(({ icon: Icon, color, border, title, desc, features }) => (
+              {roles.map(({ icon: Icon, color, border, titleKey, descKey, featureKeys }) => (
                 <div
-                  key={title}
+                  key={titleKey}
                   className={`bg-white dark:bg-slate-800/60 border ${border} dark:border-white/10 rounded-2xl p-6`}
                 >
                   <div className={`w-11 h-11 rounded-xl ${color} flex items-center justify-center mb-4`}>
                     <Icon size={22} />
                   </div>
-                  <h3 className="text-[16px] font-bold text-brand-dark dark:text-white mb-2">{title}</h3>
-                  <p className="text-sm text-brand-body dark:text-white/55 leading-relaxed mb-4">{desc}</p>
+                  <h3 className="text-[16px] font-bold text-brand-dark dark:text-white mb-2">{t(titleKey)}</h3>
+                  <p className="text-sm text-brand-body dark:text-white/55 leading-relaxed mb-4">{t(descKey)}</p>
                   <ul className="space-y-1.5">
-                    {features.map((f) => (
-                      <li key={f} className="flex items-center gap-2 text-[13px] text-brand-body dark:text-white/60">
+                    {featureKeys.map((fk) => (
+                      <li key={fk} className="flex items-center gap-2 text-[13px] text-brand-body dark:text-white/60">
                         <span className="w-1.5 h-1.5 rounded-full bg-brand-blue shrink-0" />
-                        {f}
+                        {t(fk)}
                       </li>
                     ))}
                   </ul>
@@ -268,21 +219,21 @@ export default function AboutPage() {
         {/* ── Values ───────────────────────────────────────────────────────── */}
         <section className="max-w-6xl mx-auto px-6 md:px-12 py-20">
           <SectionHeading
-            tag="What We Believe"
-            title="The Principles Behind Questify"
-            subtitle="Six ideas that guide every decision made in the design and operation of this platform."
+            tag={t("about.valuesTag")}
+            title={t("about.valuesTitle")}
+            subtitle={t("about.valuesSubtitle")}
           />
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {values.map(({ icon: Icon, color, title, body }) => (
+            {values.map(({ icon: Icon, color, titleKey, bodyKey }) => (
               <div
-                key={title}
+                key={titleKey}
                 className="bg-white dark:bg-slate-800/60 border border-brand-border dark:border-white/10 rounded-2xl p-6"
               >
                 <div className={`w-10 h-10 rounded-xl ${color} flex items-center justify-center mb-4`}>
                   <Icon size={20} />
                 </div>
-                <h3 className="text-[15px] font-bold text-brand-dark dark:text-white mb-2">{title}</h3>
-                <p className="text-sm text-brand-body dark:text-white/55 leading-relaxed">{body}</p>
+                <h3 className="text-[15px] font-bold text-brand-dark dark:text-white mb-2">{t(titleKey)}</h3>
+                <p className="text-sm text-brand-body dark:text-white/55 leading-relaxed">{t(bodyKey)}</p>
               </div>
             ))}
           </div>
@@ -293,25 +244,23 @@ export default function AboutPage() {
           <div className="max-w-xl mx-auto">
             <Shield size={32} className="text-brand-blue mx-auto mb-4" />
             <h2 className="text-2xl font-extrabold text-white mb-3">
-              University Access Only
+              {t("about.accessTitle")}
             </h2>
             <p className="text-white/60 text-sm mb-7 leading-relaxed">
-              Questify accounts are created exclusively by university administration.
-              If you are an enrolled student or faculty member and do not yet have
-              access, contact your department office or the IT helpdesk.
+              {t("about.accessBody")}
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3">
               <Link
                 href="/login"
                 className="inline-flex items-center px-6 py-3 rounded-xl bg-brand-blue text-white text-sm font-bold hover:bg-[#004182] transition-colors no-underline"
               >
-                Log In
+                {t("about.logInBtn")}
               </Link>
               <Link
                 href="/contact"
                 className="inline-flex items-center px-6 py-3 rounded-xl border border-white/20 text-white text-sm font-bold hover:border-white/50 transition-colors no-underline"
               >
-                Contact the Helpdesk
+                {t("about.contactHelpdesk")}
               </Link>
             </div>
           </div>

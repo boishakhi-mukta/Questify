@@ -8,14 +8,15 @@ import { HiEye, HiEyeSlash }     from "react-icons/hi2";
 import { useAuth }                from "@/hooks/useAuth";
 import ForcePasswordChangeModal   from "@/components/auth/ForcePasswordChangeModal";
 import type { UserRole }           from "@/types/auth";
+import { useTranslation }         from "react-i18next";
 
 // ── Demo shortcut accounts ─────────────────────────────────────────────────────
 const DEMO_PASSWORD = "DemoPass123!";
 
 const DEMO_ACCOUNTS = [
-  { label: "Demo Student", email: "student@demo.com",  role: "student" as UserRole },
-  { label: "Demo Teacher", email: "faculty@demo.com",  role: "teacher" as UserRole },
-  { label: "Demo Admin",   email: "admin@demo.com",    role: "admin"   as UserRole },
+  { labelKey: "auth.demoStudent", email: "student@demo.com",  role: "student" as UserRole },
+  { labelKey: "auth.demoTeacher", email: "faculty@demo.com",  role: "teacher" as UserRole },
+  { labelKey: "auth.demoAdmin",   email: "admin@demo.com",    role: "admin"   as UserRole },
 ] as const;
 
 
@@ -28,6 +29,7 @@ const DEMO_BADGE: Record<UserRole, string> = {
 
 export default function LoginPage() {
   const { login, isLoggingIn, loginError, user } = useAuth();
+  const { t } = useTranslation();
 
   const [email,          setEmail]          = useState("");
   const [password,       setPassword]       = useState("");
@@ -87,8 +89,8 @@ export default function LoginPage() {
             <div className="flex-1 w-full max-w-[420px]">
               <div className="bg-white rounded-2xl shadow-[0_4px_32px_rgba(0,0,0,0.09)] p-8 md:p-9">
 
-                <h1 className="text-2xl font-bold text-brand-dark mb-1.5">Welcome back</h1>
-                <p className="text-[15px] text-brand-body mb-7">Sign in to your Questify account</p>
+                <h1 className="text-2xl font-bold text-brand-dark mb-1.5">{t("auth.welcomeBack")}</h1>
+                <p className="text-[15px] text-brand-body mb-7">{t("auth.signInSubtitle")}</p>
 
                 {/* Error banner */}
                 {loginError && (
@@ -101,7 +103,7 @@ export default function LoginPage() {
 
                   {/* Email */}
                   <div className="space-y-1.5">
-                    <label className="text-sm font-semibold text-brand-dark">Email address</label>
+                    <label className="text-sm font-semibold text-brand-dark">{t("auth.emailAddress")}</label>
                     <input
                       type="email"
                       value={email}
@@ -117,12 +119,12 @@ export default function LoginPage() {
                   {/* Password */}
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between">
-                      <label className="text-sm font-semibold text-brand-dark">Password</label>
+                      <label className="text-sm font-semibold text-brand-dark">{t("auth.password")}</label>
                       <Link
                         href="/forgot-password"
                         className="text-[13px] text-brand-blue hover:text-[#004182] font-medium transition-colors"
                       >
-                        Forgot password?
+                        {t("auth.forgotPassword")}
                       </Link>
                     </div>
                     <div className="relative">
@@ -156,10 +158,10 @@ export default function LoginPage() {
                     {isLoggingIn ? (
                       <>
                         <span className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
-                        Signing in…
+                        {t("auth.signingIn")}
                       </>
                     ) : (
-                      "Sign in"
+                      t("auth.signIn")
                     )}
                   </button>
                 </form>
@@ -169,13 +171,13 @@ export default function LoginPage() {
                   <div className="flex items-center gap-3 mb-4">
                     <div className="flex-1 h-px bg-brand-border" />
                     <span className="text-[12px] font-semibold text-brand-body/50 uppercase tracking-wider whitespace-nowrap">
-                      Try Demo Accounts
+                      {t("auth.tryDemoAccounts")}
                     </span>
                     <div className="flex-1 h-px bg-brand-border" />
                   </div>
 
                   <div className="flex flex-col gap-2">
-                    {DEMO_ACCOUNTS.map(({ label, email: dEmail, role }) => (
+                    {DEMO_ACCOUNTS.map(({ labelKey, email: dEmail, role }) => (
                       <button
                         key={role}
                         type="button"
@@ -187,7 +189,7 @@ export default function LoginPage() {
                           {demoLoading === role && (
                             <span className="w-3.5 h-3.5 rounded-full border-2 border-brand-blue/30 border-t-brand-blue animate-spin" />
                           )}
-                          {label}
+                          {t(labelKey)}
                         </span>
                         <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border ${DEMO_BADGE[role]}`}>
                           {role}
@@ -197,7 +199,7 @@ export default function LoginPage() {
                   </div>
 
                   <p className="mt-3 text-center text-[11px] text-brand-body/45">
-                    Demo accounts are pre-configured for testing purposes.
+                    {t("auth.demoAccountsNote")}
                   </p>
                 </div>
 

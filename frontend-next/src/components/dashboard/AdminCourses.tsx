@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { useAdminCourses } from "@/hooks/api/useAdminCourses";
+import { useTranslation } from "react-i18next";
 import type { Course } from "@/types/api-response";
 import type { AdminCreateCoursePayload } from "@/services/api";
 
@@ -190,6 +191,7 @@ const emptyCourse = (): CourseForm => ({
 export default function AdminCourses() {
   const [search, setSearch] = useState("");
   const { courses, isLoading, error, create, update, remove } = useAdminCourses({ limit: 100 });
+  const { t } = useTranslation();
 
   // Dialog state
   const [dialogOpen, setDialogOpen]       = useState(false);
@@ -282,14 +284,14 @@ export default function AdminCourses() {
       {/* Header */}
       <div className="flex items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-brand-dark">Courses</h1>
+          <h1 className="text-2xl font-bold text-brand-dark">{t("adminCourses.title")}</h1>
           <p className="text-sm text-brand-body mt-0.5">
-            Add, update, and remove courses from the platform catalogue.
+            {t("adminCourses.subtitle")}
           </p>
         </div>
         <Button onClick={openCreate} className="shrink-0">
           <HiPlus size={16} />
-          Add Course
+          {t("adminCourses.addCourse")}
         </Button>
       </div>
 
@@ -304,7 +306,7 @@ export default function AdminCourses() {
       <div className="relative max-w-xs">
         <HiMagnifyingGlass size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-body" />
         <Input
-          placeholder="Search by title or category…"
+          placeholder={t("adminCourses.searchPlaceholder")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="pl-8"
@@ -315,26 +317,26 @@ export default function AdminCourses() {
       <Card className="overflow-hidden">
         {isLoading ? (
           <div className="p-8 flex items-center justify-center text-sm text-brand-body">
-            Loading courses…
+            {t("adminCourses.loadingCourses")}
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-brand-border bg-brand-bg">
-                  <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Course Name</th>
-                  <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Level</th>
-                  <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Department</th>
-                  <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Credits</th>
-                  <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Semester</th>
-                  <th className="text-right px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">Actions</th>
+                  <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">{t("adminCourses.courseName")}</th>
+                  <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">{t("adminCourses.level")}</th>
+                  <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">{t("adminCourses.department")}</th>
+                  <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">{t("adminCourses.credits")}</th>
+                  <th className="text-left px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">{t("adminCourses.semester")}</th>
+                  <th className="text-right px-5 py-3 text-[12px] font-semibold text-brand-body uppercase tracking-wider">{t("adminCourses.actions")}</th>
                 </tr>
               </thead>
               <tbody>
                 {filtered.length === 0 ? (
                   <tr>
                     <td colSpan={6} className="text-center py-12 text-brand-body text-sm">
-                      No courses found.
+                      {t("adminCourses.noCoursesFound")}
                     </td>
                   </tr>
                 ) : (
@@ -357,7 +359,7 @@ export default function AdminCourses() {
                       <td className="px-5 py-3.5 text-brand-body">{course.semester ?? "—"}</td>
                       <td className="px-5 py-3.5">
                         <div className="flex items-center justify-end gap-2">
-                          <Button variant="ghost" size="icon" onClick={() => openEdit(course)} aria-label="Edit course">
+                          <Button variant="ghost" size="icon" onClick={() => openEdit(course)} aria-label={t("adminCourses.editCourse")}>
                             <HiPencil size={15} />
                           </Button>
                           <Button
@@ -365,7 +367,7 @@ export default function AdminCourses() {
                             size="icon"
                             className="text-red-500 hover:text-red-600 hover:bg-red-50"
                             onClick={() => setDeleteTarget(course)}
-                            aria-label="Delete course"
+                            aria-label={t("adminCourses.deleteCourse")}
                           >
                             <HiTrash size={15} />
                           </Button>
@@ -380,7 +382,7 @@ export default function AdminCourses() {
         )}
         {!isLoading && filtered.length > 0 && (
           <div className="px-5 py-3 border-t border-brand-border bg-brand-bg/30 text-[12px] text-brand-body">
-            Showing {filtered.length} of {courses.length} courses
+            {t("adminCourses.showing", { count: filtered.length, total: courses.length })}
           </div>
         )}
       </Card>
@@ -389,42 +391,42 @@ export default function AdminCourses() {
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="max-w-xl">
           <DialogHeader>
-            <DialogTitle>{editingCourse ? "Edit Course" : "Add New Course"}</DialogTitle>
+            <DialogTitle>{editingCourse ? t("adminCourses.editCourseTitle") : t("adminCourses.addNewCourse")}</DialogTitle>
             <DialogDescription>
-              {editingCourse ? "Update the course details below." : "Fill in the details to create a new course."}
+              {editingCourse ? t("adminCourses.editCourseDesc") : t("adminCourses.addCourseDesc")}
             </DialogDescription>
           </DialogHeader>
 
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="c-title">Course Title</Label>
+              <Label htmlFor="c-title">{t("adminCourses.courseTitle")}</Label>
               <Input
                 id="c-title"
-                placeholder="e.g. Introduction to Web Development"
+                placeholder={t("adminCourses.courseTitlePlaceholder")}
                 value={form.title}
                 onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
               />
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="c-desc">Description</Label>
+              <Label htmlFor="c-desc">{t("adminCourses.description")}</Label>
               <Input
                 id="c-desc"
-                placeholder="Brief course description (min 10 chars)"
+                placeholder={t("adminCourses.descriptionPlaceholder")}
                 value={form.description}
                 onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
               />
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <Label>Subject</Label>
+              <Label>{t("adminCourses.subject")}</Label>
               <div className={!form.category ? "opacity-50 pointer-events-none" : ""}>
                 <Select
                   value={form.subject}
                   onValueChange={(v) => setForm((f) => ({ ...f, subject: v }))}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder={form.category ? "Select a subject" : "Select a department first"} />
+                    <SelectValue placeholder={form.category ? t("adminCourses.selectSubject") : t("adminCourses.selectDepartmentFirst")} />
                   </SelectTrigger>
                   <SelectContent>
                     {(DEPARTMENT_SUBJECTS[form.category] ?? []).map((s) => (
@@ -437,7 +439,7 @@ export default function AdminCourses() {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-1.5">
-                <Label>Level</Label>
+                <Label>{t("adminCourses.level")}</Label>
                 <Select value={form.level} onValueChange={(v) => setForm((f) => ({ ...f, level: v as CourseLevel }))}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
@@ -449,7 +451,7 @@ export default function AdminCourses() {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <Label>Department</Label>
+                <Label>{t("adminCourses.department")}</Label>
                 <Select value={form.category} onValueChange={(v) => setForm((f) => ({ ...f, category: v, subject: "" }))}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
@@ -459,7 +461,7 @@ export default function AdminCourses() {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <Label>Campus</Label>
+                <Label>{t("adminCourses.campus")}</Label>
                 <Select value={form.campus} onValueChange={(v) => setForm((f) => ({ ...f, campus: v }))}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
@@ -469,9 +471,9 @@ export default function AdminCourses() {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <Label>Semester</Label>
+                <Label>{t("adminCourses.semester")}</Label>
                 <Select value={form.semester} onValueChange={(v) => setForm((f) => ({ ...f, semester: v }))}>
-                  <SelectTrigger><SelectValue placeholder="Optional" /></SelectTrigger>
+                  <SelectTrigger><SelectValue placeholder={t("adminCourses.optional")} /></SelectTrigger>
                   <SelectContent>
                     {SEMESTERS.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
                   </SelectContent>
@@ -479,7 +481,7 @@ export default function AdminCourses() {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor="c-credits">Credits (ECTS)</Label>
+                <Label htmlFor="c-credits">{t("adminCourses.credits")} (ECTS)</Label>
                 <Input
                   id="c-credits"
                   type="number"
@@ -498,13 +500,13 @@ export default function AdminCourses() {
 
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="secondary" disabled={isSaving}>Cancel</Button>
+              <Button variant="secondary" disabled={isSaving}>{t("adminCourses.cancel")}</Button>
             </DialogClose>
             <Button
               onClick={handleSave}
               disabled={isSaving || !form.title.trim() || form.description.trim().length < 10}
             >
-              {isSaving ? "Saving…" : editingCourse ? "Save Changes" : "Create Course"}
+              {isSaving ? t("adminCourses.saving") : editingCourse ? t("adminCourses.saveChanges") : t("adminCourses.createCourse")}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -514,19 +516,17 @@ export default function AdminCourses() {
       <Dialog open={!!deleteTarget} onOpenChange={(o) => { if (!o) setDeleteTarget(null); }}>
         <DialogContent className="max-w-sm">
           <DialogHeader>
-            <DialogTitle>Delete Course</DialogTitle>
+            <DialogTitle>{t("adminCourses.deleteCourseTitle")}</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete{" "}
-              <span className="font-semibold text-brand-dark">{deleteTarget?.title}</span>?
-              This will also remove all related enrollments, materials, and submissions.
+              {t("adminCourses.deleteCourseConfirm", { title: deleteTarget?.title ?? "" })}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button variant="secondary" onClick={() => setDeleteTarget(null)} disabled={isDeleting}>
-              Cancel
+              {t("adminCourses.cancel")}
             </Button>
             <Button variant="destructive" onClick={handleDelete} disabled={isDeleting}>
-              {isDeleting ? "Deleting…" : "Delete"}
+              {isDeleting ? t("adminCourses.deleting") : t("adminCourses.delete")}
             </Button>
           </DialogFooter>
         </DialogContent>
