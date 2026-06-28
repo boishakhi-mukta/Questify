@@ -37,6 +37,10 @@
     "winston-daily-rotate-file": "^5.0.0",
     "zod": "^3.23.8"
   },
+  "engines": {
+    "node": ">=18",
+    "npm": ">=9"
+  },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/compression": "^1.8.1",
