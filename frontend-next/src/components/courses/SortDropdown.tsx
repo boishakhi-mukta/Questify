@@ -8,6 +8,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { SORT_OPTIONS, type SortKey } from "@/hooks/useSort";
+import { useTranslation } from "react-i18next";
 
 interface SortDropdownProps {
   value: SortKey;
@@ -15,13 +16,14 @@ interface SortDropdownProps {
 }
 
 export function SortDropdown({ value, onChange }: SortDropdownProps) {
+  const { t } = useTranslation();
   return (
     <div className="flex items-center gap-2 shrink-0">
       <span
         className="text-[13px] text-brand-body font-medium whitespace-nowrap hidden sm:block"
         aria-hidden
       >
-        Sort by:
+        {t("sortDropdown.sortBy")}
       </span>
       <Select value={value} onValueChange={(v) => onChange(v as SortKey)}>
         <SelectTrigger
@@ -33,7 +35,7 @@ export function SortDropdown({ value, onChange }: SortDropdownProps) {
         <SelectContent>
           {SORT_OPTIONS.map((opt) => (
             <SelectItem key={opt.value} value={opt.value}>
-              {opt.label}
+              {t(opt.labelKey)}
             </SelectItem>
           ))}
         </SelectContent>

@@ -7,15 +7,16 @@ export type SortKey = "newest" | "popular" | "az" | "za" | "credits-asc" | "cred
 export interface SortOption {
   value: SortKey;
   label: string;
+  labelKey: string;
 }
 
 export const SORT_OPTIONS: SortOption[] = [
-  { value: "newest",       label: "Newest"              },
-  { value: "popular",      label: "Most Enrolled"       },
-  { value: "az",           label: "A–Z"                 },
-  { value: "za",           label: "Z–A"                 },
-  { value: "credits-desc", label: "Credits: High to Low"},
-  { value: "credits-asc",  label: "Credits: Low to High"},
+  { value: "newest",       label: "Newest",               labelKey: "sortDropdown.newest"          },
+  { value: "popular",      label: "Most Enrolled",        labelKey: "sortDropdown.mostEnrolled"    },
+  { value: "az",           label: "A–Z",                  labelKey: "sortDropdown.az"              },
+  { value: "za",           label: "Z–A",                  labelKey: "sortDropdown.za"              },
+  { value: "credits-desc", label: "Credits: High to Low", labelKey: "sortDropdown.creditsHighToLow"},
+  { value: "credits-asc",  label: "Credits: Low to High", labelKey: "sortDropdown.creditsLowToHigh"},
 ];
 
 const VALID_KEYS = new Set<string>(SORT_OPTIONS.map((o) => o.value));

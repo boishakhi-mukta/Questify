@@ -4,6 +4,7 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import { Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTestimonials } from "@/hooks/useTestimonials";
 import type { Testimonial } from "@/hooks/useTestimonials";
+import { useTranslation } from "react-i18next";
 
 // ── Star rating ────────────────────────────────────────────────────────────────
 function StarRating({ rating }: { rating: number }) {
@@ -27,6 +28,7 @@ function StarRating({ rating }: { rating: number }) {
 
 // ── Testimonial card ───────────────────────────────────────────────────────────
 function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
+  const { t } = useTranslation();
   return (
     <article
       className="h-full bg-white rounded-[10px] border border-brand-border p-7 flex flex-col gap-5 shadow-sm"
@@ -34,12 +36,11 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
     >
       <blockquote className="flex-1">
         <p className="text-[18px] italic leading-relaxed text-brand-dark">
-          &ldquo;{testimonial.quote}&rdquo;
+          &ldquo;{t(testimonial.quoteKey)}&rdquo;
         </p>
       </blockquote>
 
       <footer className="flex items-center gap-4">
-        {/* Initials avatar — 60 px */}
         <div
           className="w-[60px] h-[60px] rounded-full flex items-center justify-center text-white text-base font-bold shrink-0 select-none"
           style={{ backgroundColor: testimonial.avatarColor }}
@@ -54,7 +55,7 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
             {testimonial.name}
           </p>
           <p className="text-xs text-brand-body/70 leading-snug">
-            {testimonial.role}
+            {t(testimonial.roleKey)}
           </p>
         </div>
       </footer>
@@ -64,6 +65,7 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
 
 // ── Main section ───────────────────────────────────────────────────────────────
 export default function TestimonialsSection() {
+  const { t } = useTranslation();
   const { testimonials } = useTestimonials();
   const trackRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -71,7 +73,6 @@ export default function TestimonialsSection() {
   const [isPaused, setIsPaused] = useState(false);
   const total = testimonials.length;
 
-  // Scroll track to a specific card index
   const goTo = useCallback(
     (index: number) => {
       const clamped = ((index % total) + total) % total;
@@ -87,7 +88,6 @@ export default function TestimonialsSection() {
   const next = useCallback(() => goTo(activeIndex + 1), [activeIndex, goTo]);
   const prev = useCallback(() => goTo(activeIndex - 1), [activeIndex, goTo]);
 
-  // Auto-advance every 4.5 s; pause on hover/focus
   useEffect(() => {
     if (isPaused) return;
     const id = setInterval(() => {
@@ -104,7 +104,6 @@ export default function TestimonialsSection() {
     return () => clearInterval(id);
   }, [isPaused, total]);
 
-  // Sync active dot on native scroll (touch swipe)
   useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
@@ -125,16 +124,16 @@ export default function TestimonialsSection() {
         {/* Header */}
         <div className="flex flex-col items-center text-center mb-12">
           <p className="text-sm font-semibold text-brand-blue uppercase tracking-widest mb-3">
-            What People Say
+            {t("testimonials.eyebrow")}
           </p>
           <h2
             id="testimonials-heading"
             className="text-[32px] font-bold text-brand-dark leading-tight mb-3.5"
           >
-            Loved by students, teachers&nbsp;&amp;&nbsp;admins
+            {t("testimonials.heading")}
           </h2>
           <p className="text-[15px] text-brand-body max-w-[540px]">
-            Don&apos;t take our word for it — here&apos;s what students, teachers, and admins at our institution have to say.
+            {t("testimonials.subheading")}
           </p>
         </div>
 
@@ -150,15 +149,14 @@ export default function TestimonialsSection() {
           aria-label="Testimonials carousel"
           aria-live="polite"
         >
-          {testimonials.map((t, i) => (
+          {testimonials.map((item, i) => (
             <div
-              key={t.id}
+              key={item.id}
               ref={(el) => { cardRefs.current[i] = el; }}
-              /* mobile: full width · tablet: 2 cards · desktop: 3 cards */
               className="snap-start shrink-0 w-full sm:w-[calc(50%-10px)] lg:w-[calc(33.333%-14px)]"
               aria-hidden={i !== activeIndex}
             >
-              <TestimonialCard testimonial={t} />
+              <TestimonialCard testimonial={item} />
             </div>
           ))}
         </div>
@@ -186,9 +184,9 @@ export default function TestimonialsSection() {
 
           {/* Dot indicators */}
           <div className="flex items-center gap-2" role="tablist" aria-label="Testimonial indicators">
-            {testimonials.map((t, i) => (
+            {testimonials.map((item, i) => (
               <button
-                key={t.id}
+                key={item.id}
                 role="tab"
                 aria-selected={activeIndex === i}
                 aria-label={`Go to testimonial ${i + 1}`}
@@ -202,7 +200,7 @@ export default function TestimonialsSection() {
             ))}
           </div>
 
-          {/* Counter (hidden on mobile to avoid clutter) */}
+          {/* Counter (hidden on mobile) */}
           <p className="hidden sm:block text-sm text-brand-body/60 font-medium tabular-nums w-10 text-right">
             {activeIndex + 1}&thinsp;/&thinsp;{total}
           </p>

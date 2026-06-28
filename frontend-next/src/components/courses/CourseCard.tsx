@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import type { Course } from "@/types/api-response";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -31,6 +32,7 @@ function teacherName(teachers: Course["teachers"]): string {
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export function CourseCard({ course }: { course: Course }) {
+  const { t } = useTranslation();
   const meta = levelMeta(course.level);
 
   return (
@@ -54,7 +56,7 @@ export function CourseCard({ course }: { course: Course }) {
         </h3>
 
         {/* Instructor */}
-        <p className="text-[13px] text-brand-body">by {teacherName(course.teachers)}</p>
+        <p className="text-[13px] text-brand-body">{t("courseCard.by")} {teacherName(course.teachers)}</p>
 
         {/* Description */}
         <p className="text-[13px] text-brand-body leading-relaxed line-clamp-2 flex-1">
@@ -64,7 +66,7 @@ export function CourseCard({ course }: { course: Course }) {
         {/* Enrollments */}
         <span className="flex items-center gap-1 text-[12px] text-brand-body/70">
           <HiUserGroup size={13} />
-          {(course.enrollmentCount ?? 0).toLocaleString()} enrolled
+          {(course.enrollmentCount ?? 0).toLocaleString()} {t("courseCard.enrolled")}
         </span>
 
         {/* Bottom row: campus + credits */}
