@@ -280,7 +280,7 @@ function AssignmentsList({ enrollments }: { enrollments: EnrollmentWithCourse[] 
 
 const RANK_MEDALS: Record<number, string> = { 1: "🥇", 2: "🥈", 3: "🥉" };
 
-function LeaderboardPreview({ entries, currentUserId }: { entries: LeaderboardEntry[]; currentUserId?: string }) {
+function LeaderboardPreview({ entries, currentUserId, isLoading }: { entries: LeaderboardEntry[]; currentUserId?: string; isLoading?: boolean }) {
   const { t } = useTranslation();
   const top5  = entries.slice(0, 5);
 
@@ -297,7 +297,18 @@ function LeaderboardPreview({ entries, currentUserId }: { entries: LeaderboardEn
       </div>
       <Card className="bg-white">
         <CardContent className="p-0">
-          {top5.length === 0 ? (
+          {isLoading ? (
+            <div className="flex flex-col gap-2 p-4">
+              {[1,2,3,4,5].map((i) => (
+                <div key={i} className="flex items-center gap-3 py-1">
+                  <div className="w-6 h-4 rounded bg-brand-bg animate-pulse" />
+                  <div className="w-8 h-8 rounded-full bg-brand-bg animate-pulse" />
+                  <div className="flex-1 h-4 rounded bg-brand-bg animate-pulse" />
+                  <div className="w-12 h-4 rounded bg-brand-bg animate-pulse" />
+                </div>
+              ))}
+            </div>
+          ) : top5.length === 0 ? (
             <div className="text-center py-10 text-sm text-brand-body">
               {t("studentDashboard.noLeaderboard")}
             </div>
@@ -393,8 +404,7 @@ export default function StudentDashboard() {
   const { enrollments, isLoading: enrollLoading, error: enrollError, refetch: refetchEnroll } = useMyEnrollments();
   const { entries: leaderboard, isLoading: lbLoading } = useLeaderboard({ timeframe: "month", limit: 10 });
 
-  const isLoading = enrollLoading || lbLoading;
-  if (isLoading) return <DashboardSkeleton />;
+  if (enrollLoading) return <DashboardSkeleton />;
 
   const active    = enrollments.filter((e) => e.status === "ACTIVE");
   const completed = enrollments.filter((e) => e.status === "COMPLETED");
@@ -408,7 +418,7 @@ export default function StudentDashboard() {
     { label: t("studentDashboard.totalXp"),         value: totalXP.toLocaleString(), sub: t("studentDashboard.keepEarning"),         icon: "⭐", accent: totalXP > 0 },
     { label: t("studentDashboard.enrolledCourses"),  value: active.length,            sub: t("studentDashboard.completed", { count: completed.length }), icon: "📚" },
     { label: t("studentDashboard.avgProgress"),      value: `${avgProg}%`,            sub: t("studentDashboard.acrossActiveCourses"), icon: "📈", accent: avgProg > 50 },
-    { label: t("studentDashboard.leaderboardLabel"), value: myRank ? `#${myRank}` : "—", sub: t("studentDashboard.yourRank"),        icon: "🏆", accent: !!myRank && myRank <= 10 },
+    { label: t("studentDashboard.leaderboardLabel"), value: lbLoading ? "…" : myRank ? `#${myRank}` : "—", sub: t("studentDashboard.yourRank"), icon: "🏆", accent: !!myRank && myRank <= 10 },
   ];
 
   return (
@@ -430,7 +440,7 @@ export default function StudentDashboard() {
       <AssignmentsList enrollments={enrollments} />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <LeaderboardPreview entries={leaderboard} currentUserId={user?._id} />
+        <LeaderboardPreview entries={leaderboard} currentUserId={user?._id} isLoading={lbLoading} />
         <RecentActivity enrollments={enrollments} />
       </div>
     </div>
