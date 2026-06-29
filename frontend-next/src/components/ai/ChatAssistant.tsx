@@ -182,7 +182,7 @@ export function ChatAssistant() {
             </p>
             <div className="flex items-center gap-1.5 mt-0.5">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" aria-hidden />
-              <p className="text-[11px] text-white/70 leading-none">Powered by Ollama</p>
+              <p className="text-[11px] text-white/70 leading-none">Powered by Gemini</p>
             </div>
           </div>
         </div>
