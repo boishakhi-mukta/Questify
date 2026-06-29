@@ -13,7 +13,7 @@ const PUBLIC_PREFIXES = [
   "/contact",
   "/help",
   "/demo",
-  "/api/webhooks",
+  "/api/",
   "/_next",
   "/favicon",
 ];
