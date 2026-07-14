@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY CUSTOM HOOK: useActiveLink
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Checks if a menu button points to the page the user is currently viewing.
+ * 
+ * WHY IT EXISTS:
+ * Highlights active navigation items.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Matches paths against current Router window settings.
+ * ============================================================================
+ */
+
 import { usePathname } from "next/navigation";
 
 /**

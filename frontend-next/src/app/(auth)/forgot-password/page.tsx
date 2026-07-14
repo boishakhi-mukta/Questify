@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY PAGE ROUTE: Forgotten Password Request
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Form page requesting password reset triggers.
+ * 
+ * WHY IT EXISTS:
+ * Allows user-level credential updates.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Standard verification page.
+ * ============================================================================
+ */
+
 import { useState }  from "react";
 import Link           from "next/link";
 import Image          from "next/image";

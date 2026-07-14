@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY CUSTOM HOOK: useTestimonials
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Custom query hook fetching landing page review quotes.
+ * 
+ * WHY IT EXISTS:
+ * Loads review strings.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Fetches static reviews.
+ * ============================================================================
+ */
+
 export interface Testimonial {
   id: string;
   name: string;

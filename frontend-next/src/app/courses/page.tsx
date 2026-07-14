@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY PAGE ROUTE: Courses Directory Search Engine
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Page where users search, sort, and filter available courses.
+ * 
+ * WHY IT EXISTS:
+ * Prompts interactive search configurations.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Renders CoursesPageClient, managing course filters state.
+ * ============================================================================
+ */
+
 import { Suspense } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/layout/Footer";

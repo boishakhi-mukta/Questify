@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY PAGE ROUTE: Admin Users Directory
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Page list where admins add, update, and toggle user roles.
+ * 
+ * WHY IT EXISTS:
+ * Gateway to manage user credentials and configurations.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Wrapper page launching AdminUsers components.
+ * ============================================================================
+ */
+
 import { useState, useEffect, useMemo } from "react";
 import {
   Card,

@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY UTILITY: Clerk Admin Linker
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Syncs user accounts created in Questify with our external authentication provider (Clerk).
+ * 
+ * WHY IT EXISTS:
+ * Ensures logins, roles, and profiles are synced between databases and authentication providers.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Uses the Clerk Backend SDK API to create, modify, and terminate accounts.
+ * ============================================================================
+ */
+
 import { env } from "@/config/environment";
 
 const CLERK_BASE = "https://api.clerk.com/v1";

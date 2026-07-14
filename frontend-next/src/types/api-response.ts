@@ -1,4 +1,19 @@
 /**
+ * ============================================================================
+ * QUESTIFY TYPES: API Response Interfaces
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Sets structural rules for server responses.
+ * 
+ * WHY IT EXISTS:
+ * Guides developers during API data extraction tasks.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Exports TypeScript schemas defining response formats.
+ * ============================================================================
+ */
+
+/**
  * Frontend type definitions that mirror the Questify backend API contract.
  * All shapes here correspond to what the backend's `sendSuccess` /
  * `sendPaginated` / `sendError` functions emit.

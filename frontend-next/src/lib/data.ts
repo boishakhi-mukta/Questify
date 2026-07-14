@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY LIBRARY: Mock Layout Data
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Static definitions (FAQ arrays, features) used to fill public layouts.
+ * 
+ * WHY IT EXISTS:
+ * Avoids hardcoding layout details, keeping layouts clean.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Exports structured JSON arrays containing marketing content strings.
+ * ============================================================================
+ */
+
 export interface Course {
   id: number;
   name: string;

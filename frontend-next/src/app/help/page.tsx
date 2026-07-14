@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY PAGE ROUTE: FAQ & Support
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Public help directory listing answers to common questions.
+ * 
+ * WHY IT EXISTS:
+ * Simplifies user support.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Accordion layout mapping static FAQ strings.
+ * ============================================================================
+ */
+
 import { useState } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";

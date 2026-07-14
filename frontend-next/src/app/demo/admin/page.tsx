@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY PAGE ROUTE: Admin Demo Dashboard
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * An interactive sandbox page displaying mock admin dashboards.
+ * 
+ * WHY IT EXISTS:
+ * Helps developers verify UI updates without logging in manually.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Page component supplying mockup props to AdminDashboard wrappers.
+ * ============================================================================
+ */
+
 import Layout from "@/components/layout/Layout";
 import AdminDashboard from "@/components/dashboard/AdminDashboard";
 

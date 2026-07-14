@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY PAGE ROUTE: Student Active Courses
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Displays courses the logged-in student is currently enrolled in.
+ * 
+ * WHY IT EXISTS:
+ * Quick access dashboard for student active courses.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Queries current enrollments endpoints, loading layouts grids.
+ * ============================================================================
+ */
+
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";

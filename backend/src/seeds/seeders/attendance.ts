@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY SEEDER: Attendance Seeder
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Logs mock classroom attendance logs.
+ * 
+ * WHY IT EXISTS:
+ * Populates charts monitoring student attendance trends.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Inserts attendance logs matching course IDs and dates.
+ * ============================================================================
+ */
+
 import { Types } from "mongoose";
 import { Attendance } from "@/models/Attendance";
 import type { IEnrollment } from "@/models/Enrollment";

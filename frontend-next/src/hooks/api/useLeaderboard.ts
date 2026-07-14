@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY CUSTOM HOOK: useLeaderboard
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Custom query hook loading student standings.
+ * 
+ * WHY IT EXISTS:
+ * Powers leaderboard score tables.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Queries leaderboard endpoints.
+ * ============================================================================
+ */
+
 import { useState, useEffect, useCallback } from "react";
 import { leaderboardApi } from "@/services/api";
 import type { LeaderboardEntry } from "@/types/api-response";

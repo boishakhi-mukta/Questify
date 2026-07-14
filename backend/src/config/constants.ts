@@ -1,3 +1,19 @@
+/**
+ * ============================================================================
+ * QUESTIFY CONFIGURATION: Global Constants
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * A central dictionary of constant values (like default course limits and
+ * system error code names).
+ * 
+ * WHY IT EXISTS:
+ * Helps developers avoid typing the same numbers/codes in multiple places.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Exports read-only configuration objects mapping boundaries like pagination parameters.
+ * ============================================================================
+ */
+
 // ── Roles ──────────────────────────────────────────────────────────────────────
 export const ROLES = {
   ADMIN: "admin",

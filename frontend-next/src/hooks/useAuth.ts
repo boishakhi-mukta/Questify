@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY CUSTOM HOOK: useAuth
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Hook querying login contexts to return user login states.
+ * 
+ * WHY IT EXISTS:
+ * Lets components check log-in states.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Directly wraps AuthContext getters.
+ * ============================================================================
+ */
+
 import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import api from "@/lib/api";

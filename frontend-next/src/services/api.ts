@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY SERVICE: HTTP API Client
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * The central adapter that routes requests from the browser to the backend database.
+ * 
+ * WHY IT EXISTS:
+ * Bundles fetch credentials and access tokens, saving duplicate code.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Extends HTTP client utilities with custom authorization headers.
+ * ============================================================================
+ */
+
 import { get, post, patch, del, getPaginated } from "@/utils/http-client";
 import type {
   Course,

@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY CUSTOM HOOK: useMyEnrollments
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Custom query hook loading enrolled courses.
+ * 
+ * WHY IT EXISTS:
+ * Populates student dashboards.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Queries student enrollments routes.
+ * ============================================================================
+ */
+
 import { useState, useEffect, useCallback } from "react";
 import { enrollmentsApi } from "@/services/api";
 import type { EnrollmentWithCourse } from "@/types/api-response";

@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY LIBRARY: Ollama Client Client
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Connects the chat screen to a locally hosted Ollama AI model.
+ * 
+ * WHY IT EXISTS:
+ * Allows running and testing chat helpers locally.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Connects prompts to local server API urls.
+ * ============================================================================
+ */
+
 export type ChatMessage = {
   role: "user" | "assistant";
   content: string;

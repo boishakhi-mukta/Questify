@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY PAGE ROUTE: About Page
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Informational page detailing company credentials and goals.
+ * 
+ * WHY IT EXISTS:
+ * Promotes public interest.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Static layout styled with Tailwind.
+ * ============================================================================
+ */
+
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/layout/Footer";

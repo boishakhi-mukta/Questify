@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY SEEDER: Assignments Seeder
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Adds sample homework items, deadlines, and point rewards to seeded courses.
+ * 
+ * WHY IT EXISTS:
+ * Populates dashboards with tasks for student and grading flows.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * References seeded course IDs to create matching assignment collections.
+ * ============================================================================
+ */
+
 import { Assignment } from "@/models/Assignment";
 import type { IAssignment, SubmissionType } from "@/models/Assignment";
 import type { ICourse } from "@/models/Course";

@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY PAGE ROUTE: Teacher Profile
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Profile credentials screen for teachers.
+ * 
+ * WHY IT EXISTS:
+ * Displays active courses taught by the teacher.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Maps profile layouts.
+ * ============================================================================
+ */
+
 import { useState, useMemo } from "react";
 import {
   Card,

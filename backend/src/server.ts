@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY SERVER STARTUP: Server Listener
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * The startup script that boots up the server and listens for incoming web requests.
+ * 
+ * WHY IT EXISTS:
+ * The entryway trigger script that starts the node service and establishes database connections.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Calls database wrappers and boots Express on configuration ports (process.env.PORT).
+ * ============================================================================
+ */
+
 import { env } from "./config/environment";
 import { connectDB, disconnectDB } from "./config/database";
 import { logger } from "./utils/logger";

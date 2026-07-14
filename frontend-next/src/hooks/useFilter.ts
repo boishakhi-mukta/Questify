@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY CUSTOM HOOK: useFilter
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Manages checkbox filter settings (category, level).
+ * 
+ * WHY IT EXISTS:
+ * Powers the course filter sidebar.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Handles array operations toggling active filter lists.
+ * ============================================================================
+ */
+
 import { useState, useCallback, useMemo } from "react";
 
 export interface FilterState {

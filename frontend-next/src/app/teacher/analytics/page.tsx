@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY PAGE ROUTE: Teacher Class Analytics
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Displays charts monitoring class grade averages and homework submission rates.
+ * 
+ * WHY IT EXISTS:
+ * Helps teachers identify students needing support.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Computes analytics filters to plot performance trends.
+ * ============================================================================
+ */
+
 import { useState, useEffect, useMemo } from "react";
 import {
   Card,

@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY SEEDER: Departments Seeder
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Creates academic departments (like Computer Science and Mathematics).
+ * 
+ * WHY IT EXISTS:
+ * Provides category tags used to organize courses.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Inserts mock Department records into the database collection.
+ * ============================================================================
+ */
+
 import { Types } from "mongoose";
 import { Department } from "@/models/Department";
 import type { IDepartment } from "@/models/Department";

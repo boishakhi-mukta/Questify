@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY CUSTOM HOOK: useAdminStats
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Loads global usage metrics (student counts, course counts).
+ * 
+ * WHY IT EXISTS:
+ * Supplies dashboard widgets with aggregated stats.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Queries administrative analytics routes.
+ * ============================================================================
+ */
+
 import { useState, useEffect, useCallback } from "react";
 
 export interface AdminStats {

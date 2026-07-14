@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY LAYOUT ROUTE: Teacher Layout
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Sidebar wrapper that outlines dashboards spacing for teachers.
+ * 
+ * WHY IT EXISTS:
+ * Ensures teacher dashboard pages share consistent layouts.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Layout framework routing teacher routes.
+ * ============================================================================
+ */
+
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Layout from "@/components/layout/Layout";

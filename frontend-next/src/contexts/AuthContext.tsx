@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY GLOBAL CONTEXT: Auth Session Context
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Keeps user session keys and role details loaded in browser memory.
+ * 
+ * WHY IT EXISTS:
+ * Bypasses redundant logins and ensures user info is shared across pages.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Wraps pages in standard React Context Providers, caching JWT payloads.
+ * ============================================================================
+ */
+
 import {
   createContext,
   useContext,

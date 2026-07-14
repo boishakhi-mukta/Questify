@@ -1,3 +1,19 @@
+/**
+ * ============================================================================
+ * QUESTIFY CONFIGURATION: Database Configuration
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Tells the backend application how to locate and safely connect to our
+ * MongoDB database server.
+ * 
+ * WHY IT EXISTS:
+ * Essential link establishing connection pathways for storage retrievals.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Reads connection strings from environment profiles to configure Mongoose options.
+ * ============================================================================
+ */
+
 import mongoose from "mongoose";
 import { env } from "./environment";
 import { logger } from "@/utils/logger";

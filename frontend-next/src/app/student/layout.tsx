@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY LAYOUT ROUTE: Student Layout
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Sidebar wrapper that outlines dashboards spacing for students.
+ * 
+ * WHY IT EXISTS:
+ * Ensures student dashboard sub-pages share uniform layouts.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Layout framework providing context views and side navigation links.
+ * ============================================================================
+ */
+
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Layout from "@/components/layout/Layout";

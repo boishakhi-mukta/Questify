@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY UTILITY: Encryption
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Scrambles and unscrambles sensitive configuration settings so they can be securely stored.
+ * 
+ * WHY IT EXISTS:
+ * Protects database records and secrets from unauthorized decryption.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Uses node crypto APIs (like AES-256-CBC) to encrypt configuration strings.
+ * ============================================================================
+ */
+
 import bcrypt from "bcryptjs";
 import { randomBytes, createHash } from "crypto";
 import { env } from "@/config/environment";

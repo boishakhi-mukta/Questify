@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY API ROUTE: AI Tutor Chat API
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Gateway forwarding chat inquiries to our local/remote AI model.
+ * 
+ * WHY IT EXISTS:
+ * Powers the interactive AI teaching assistant.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Next.js API routing handler using model prompts to parse replies.
+ * ============================================================================
+ */
+
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextRequest, NextResponse } from "next/server";
 

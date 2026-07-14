@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY TYPES: Authentication Interfaces
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Sets structural rules for user credential properties.
+ * 
+ * WHY IT EXISTS:
+ * Guides developers during user data extraction tasks.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Exports TypeScript schemas defining credential models.
+ * ============================================================================
+ */
+
 export type UserRole = "admin" | "teacher" | "student";
 
 export interface AuthUser {

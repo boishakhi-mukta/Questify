@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY PAGE ROUTE: Teacher Homepage
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Landing page dashboard for teachers.
+ * 
+ * WHY IT EXISTS:
+ * Greets teachers, highlighting items requiring grading.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Binds page inputs to TeacherDashboard components.
+ * ============================================================================
+ */
+
 import { useMemo } from "react";
 import Link from "next/link";
 import {

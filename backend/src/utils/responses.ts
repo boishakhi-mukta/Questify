@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY UTILITY: Enhanced Responses
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * A collection of response formatters supporting pagination and CSV data layouts.
+ * 
+ * WHY IT EXISTS:
+ * Used for exporting user records and paging course listings.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Extends basic response formatting, appending pagination meta headers.
+ * ============================================================================
+ */
+
 import { Response } from "express";
 import { HTTP } from "@/config/constants";
 import type { PaginationMeta } from "@/types";

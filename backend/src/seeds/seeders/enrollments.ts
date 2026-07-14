@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY SEEDER: Enrollments Seeder
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Registers mock students into mock courses.
+ * 
+ * WHY IT EXISTS:
+ * Ensures mock dashboards display active classes upon login.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Inserts links matching mock student IDs with course IDs.
+ * ============================================================================
+ */
+
 import { Enrollment } from "@/models/Enrollment";
 import { Course } from "@/models/Course";
 import type { IEnrollment, EnrollmentStatus } from "@/models/Enrollment";

@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY PAGE ROUTE: Authentication Login Gate
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Login credentials layout.
+ * 
+ * WHY IT EXISTS:
+ * Directs traffic to credential forms.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Redirects auth prompts.
+ * ============================================================================
+ */
+
 import { useState }              from "react";
 import Link                       from "next/link";
 import Image                      from "next/image";

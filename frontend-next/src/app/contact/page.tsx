@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY PAGE ROUTE: Contact Page
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * The public page where visitors fill out support forms.
+ * 
+ * WHY IT EXISTS:
+ * Allows anonymous guests to contact administrators.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Static client layout with input elements submitting data.
+ * ============================================================================
+ */
+
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/layout/Footer";

@@ -1,3 +1,19 @@
+/**
+ * ============================================================================
+ * QUESTIFY UTILITY: Mock Email Handler
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * A placeholder helper to log alerts instead of sending emails, as email notifications
+ * are disabled.
+ * 
+ * WHY IT EXISTS:
+ * Adheres to system constraints: enrollment, profile changes, and resets remain silent.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Stub function printing logs instead of executing SMTP request dispatches.
+ * ============================================================================
+ */
+
 import nodemailer, { type Transporter } from "nodemailer";
 import { env } from "@/config/environment";
 

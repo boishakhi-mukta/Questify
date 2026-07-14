@@ -1,3 +1,19 @@
+/**
+ * ============================================================================
+ * QUESTIFY ROOT APP: Express Configuration
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Assembles the Express application, configuring endpoints, logging, security checkpoints,
+ * and JSON parsers.
+ * 
+ * WHY IT EXISTS:
+ * The primary constructor linking web routers to database operations.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Configures CORS, security headers, rate-limiting, and error-catching, mounting path routers.
+ * ============================================================================
+ */
+
 import "express-async-errors";
 import express from "express";
 import compression from "compression";

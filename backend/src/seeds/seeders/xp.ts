@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY SEEDER: XP Logs Seeder
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Populates sample XP transactions showing how mock users earned their points.
+ * 
+ * WHY IT EXISTS:
+ * Populates progress breakdown lists and leaderboard standing tables.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Generates audit events linked to student IDs.
+ * ============================================================================
+ */
+
 import { Types } from "mongoose";
 import { XPModel, XP_POINT_VALUES } from "@/models/XP";
 import type { XPActivityType } from "@/models/XP";

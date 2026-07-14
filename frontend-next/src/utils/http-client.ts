@@ -1,4 +1,19 @@
 /**
+ * ============================================================================
+ * QUESTIFY UTILITY: HTTP Fetch Client
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * A custom HTTP helper sending clean browser requests.
+ * 
+ * WHY IT EXISTS:
+ * Unifies fetch behaviors, automatically logging connection warnings.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Custom fetch wraps parsing JSON payloads.
+ * ============================================================================
+ */
+
+/**
  * Questify API HTTP client.
  *
  * Features:

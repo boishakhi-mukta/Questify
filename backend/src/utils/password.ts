@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY UTILITY: Password Hashing
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Converts plaintext passwords into secure encrypted strings (hashes) for database storage.
+ * 
+ * WHY IT EXISTS:
+ * Crucial security utility ensuring login credentials cannot be stolen from storage.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Uses bcryptjs algorithms to run salt cycles during password hashing checks.
+ * ============================================================================
+ */
+
 import { randomBytes } from "crypto";
 
 // Ambiguous characters (0/O, 1/I/l) intentionally excluded so the password is
