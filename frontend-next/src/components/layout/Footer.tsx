@@ -53,7 +53,7 @@ function SocialButton({ label, href, icon: Icon }: SocialItem) {
       target="_blank"
       rel="noopener noreferrer"
       aria-label={`${label} (opens in new tab)`}
-      className="w-9 h-9 rounded-full bg-[#2A2F33] border border-[#3D4448] flex items-center justify-center text-[#9EA3A8] hover:bg-brand-blue hover:border-brand-blue hover:text-white transition-all duration-200"
+      className="w-9 h-9 rounded-full bg-[#1A2E25] border border-[#2A4035] flex items-center justify-center text-[#8AADA0] hover:bg-brand-blue hover:border-brand-blue hover:text-white transition-all duration-200"
     >
       <Icon size={15} aria-hidden="true" />
     </a>
@@ -76,7 +76,7 @@ function NewsletterForm() {
 
   if (status === "success") {
     return (
-      <div className="flex items-center gap-2.5 text-sm text-[#34D399]" role="status">
+      <div className="flex items-center gap-2.5 text-sm text-[#2DCE9A]" role="status">
         <CheckCircle size={16} aria-hidden="true" />
         <span>{t("footer.subscribed")}</span>
       </div>
@@ -98,8 +98,8 @@ function NewsletterForm() {
           required
           disabled={status === "loading"}
           className="
-            flex-1 min-w-0 bg-[#2A2F33] border border-[#3D4448] border-r-0
-            text-white placeholder:text-[#6B7280] text-sm
+            flex-1 min-w-0 bg-[#1A2E25] border border-[#2A4035] border-r-0
+            text-white placeholder:text-[#5A8070] text-sm
             rounded-l-lg px-3.5
             outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-inset
             disabled:opacity-50 transition-all
@@ -110,7 +110,7 @@ function NewsletterForm() {
           disabled={status === "loading"}
           aria-label={t("footer.subscribe")}
           className="
-            bg-brand-blue hover:bg-[#004182] active:scale-95
+            bg-brand-blue hover:bg-brand-blue-dark active:scale-95
             text-white px-4
             rounded-r-lg border border-brand-blue
             flex items-center justify-center
@@ -125,7 +125,7 @@ function NewsletterForm() {
           )}
         </button>
       </div>
-      <p className="mt-2 text-[11px] text-[#6B7280]">{t("footer.noSpam")}</p>
+      <p className="mt-2 text-[11px] text-[#5A8070]">{t("footer.noSpam")}</p>
     </form>
   );
 }
@@ -156,7 +156,7 @@ export default function Footer() {
             <Link href="/" className="inline-block mb-5" aria-label="Questify — go to homepage">
               <Image src="/logo.svg" alt="Questify" width={120} height={32} className="h-8 w-auto object-contain brightness-0 invert" />
             </Link>
-            <p className="text-[#9EA3A8] text-sm leading-relaxed mb-6">
+            <p className="text-[#8AADA0] text-sm leading-relaxed mb-6">
               {t("footer.description")}
             </p>
             <div className="flex items-center gap-2.5" aria-label="Questify on social media">
@@ -170,7 +170,7 @@ export default function Footer() {
             <ul className="flex flex-col gap-3.5" role="list">
               {platformLinks.map(({ label, href }) => (
                 <li key={href}>
-                  <Link href={href} className="text-[#9EA3A8] text-sm leading-none hover:text-white transition-colors duration-150 hover:underline underline-offset-2">
+                  <Link href={href} className="text-[#8AADA0] text-sm leading-none hover:text-white transition-colors duration-150 hover:underline underline-offset-2">
                     {label}
                   </Link>
                 </li>
@@ -184,7 +184,7 @@ export default function Footer() {
             <ul className="flex flex-col gap-3.5" role="list">
               {supportLinks.map(({ label, href }) => (
                 <li key={href}>
-                  <Link href={href} className="text-[#9EA3A8] text-sm leading-none hover:text-white transition-colors duration-150 hover:underline underline-offset-2">
+                  <Link href={href} className="text-[#8AADA0] text-sm leading-none hover:text-white transition-colors duration-150 hover:underline underline-offset-2">
                     {label}
                   </Link>
                 </li>
@@ -195,7 +195,7 @@ export default function Footer() {
           {/* Column 4 — Newsletter */}
           <div className="sm:col-span-2 lg:col-span-1">
             <ColHeading>{t("footer.stayUpdated")}</ColHeading>
-            <p className="text-[#9EA3A8] text-sm leading-relaxed mb-4">
+            <p className="text-[#8AADA0] text-sm leading-relaxed mb-4">
               {t("footer.newsletterText")}
             </p>
             <NewsletterForm />
@@ -205,19 +205,19 @@ export default function Footer() {
       </div>
 
       {/* Divider */}
-      <div className="border-t border-[#2A2F33]" />
+      <div className="border-t border-[#1A3028]" />
 
       {/* Bottom bar */}
-      <div className="bg-[#141719]">
+      <div className="bg-[#0C1E15]">
         <div className="max-w-6xl mx-auto px-6 md:px-12 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5">
-          <p className="text-[#6B7280] text-xs">
+          <p className="text-[#5A8070] text-xs">
             © 2026 Questify. {t("footer.allRightsReserved")}
           </p>
-          <p className="text-[#6B7280] text-xs">
+          <p className="text-[#5A8070] text-xs">
             {t("footer.builtWith")}{" "}
             {techStack.map((name, i) => (
               <span key={name}>
-                <span className="text-[#9EA3A8]">{name}</span>
+                <span className="text-[#8AADA0]">{name}</span>
                 {i < techStack.length - 1 && (
                   <span className="mx-1.5 text-[#3D4448]" aria-hidden="true">·</span>
                 )}

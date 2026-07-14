@@ -384,9 +384,7 @@
     "deactivate": "Deaktiver"
   },
   "teacherDashboard": {
-    "title": "Lærerpanel",
-    "subtitle": "Dette panelet er under konstruksjon. Kom tilbake snart — kursadministrasjon, studentsporing og mer er på vei.",
-    "comingSoon": "Kommer snart"
+    "title": "Lærerpanel"
   },
   "profileLayout": {
     "joined": "Ble med",
@@ -636,7 +634,7 @@
   },
   "testimonials": {
     "eyebrow": "Hva folk sier",
-    "heading": "Elsket av studenter, lærere og administratorer",
+    "heading": "What Our Students Say About Us",
     "subheading": "Ikke bare ta vårt ord for det — her er hva studenter, lærere og administratorer ved institusjonen vår har å si.",
     "quote1": "Questify forandret hvordan jeg tilnærmer meg læring. XP-systemet fikk meg til å faktisk glede meg til å levere oppgaver — jeg gikk fra å slite til å toppe ledertavlen på seks uker.",
     "role1": "Student, informatikk",

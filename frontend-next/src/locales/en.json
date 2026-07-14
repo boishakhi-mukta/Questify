@@ -384,9 +384,7 @@
     "deactivate": "Deactivate"
   },
   "teacherDashboard": {
-    "title": "Teacher Dashboard",
-    "subtitle": "This dashboard is under construction. Check back soon — course management, student tracking, and more are on the way.",
-    "comingSoon": "Coming Soon"
+    "title": "Teacher Dashboard"
   },
   "profileLayout": {
     "joined": "Joined",
@@ -636,7 +634,7 @@
   },
   "testimonials": {
     "eyebrow": "What People Say",
-    "heading": "Loved by students, teachers & admins",
+    "heading": "What Our Students Say About Us",
     "subheading": "Don't take our word for it — here's what students, teachers, and admins at our institution have to say.",
     "quote1": "Questify transformed how I approach learning. The XP system made me actually look forward to submitting assignments — I went from struggling to topping the leaderboard in six weeks.",
     "role1": "Computer Science Student",

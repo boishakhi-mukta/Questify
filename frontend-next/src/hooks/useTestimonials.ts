@@ -24,12 +24,12 @@ export interface Testimonial {
 }
 
 const TESTIMONIALS: Testimonial[] = [
-  { id: "1", name: "Emily Chen",        quoteKey: "testimonials.quote1", roleKey: "testimonials.role1", initials: "EC", avatarColor: "#2563EB", rating: 5 },
-  { id: "2", name: "Marcus Williams",   quoteKey: "testimonials.quote2", roleKey: "testimonials.role2", initials: "MW", avatarColor: "#7C3AED", rating: 5 },
-  { id: "3", name: "Dr. Sarah Johnson", quoteKey: "testimonials.quote3", roleKey: "testimonials.role3", initials: "SJ", avatarColor: "#059669", rating: 5 },
-  { id: "4", name: "Prof. David Kim",   quoteKey: "testimonials.quote4", roleKey: "testimonials.role4", initials: "DK", avatarColor: "#D97706", rating: 5 },
-  { id: "5", name: "Aisha Patel",       quoteKey: "testimonials.quote5", roleKey: "testimonials.role5", initials: "AP", avatarColor: "#DC2626", rating: 5 },
-  { id: "6", name: "Lena Müller",       quoteKey: "testimonials.quote6", roleKey: "testimonials.role6", initials: "LM", avatarColor: "#0891B2", rating: 5 },
+  { id: "1", name: "Emily Chen",        quoteKey: "testimonials.quote1", roleKey: "testimonials.role1", initials: "EC", avatarColor: "#2DCE9A", rating: 5 },
+  { id: "2", name: "Marcus Williams",   quoteKey: "testimonials.quote2", roleKey: "testimonials.role2", initials: "MW", avatarColor: "#1B7A5A", rating: 5 },
+  { id: "3", name: "Dr. Sarah Johnson", quoteKey: "testimonials.quote3", roleKey: "testimonials.role3", initials: "SJ", avatarColor: "#1B4332", rating: 5 },
+  { id: "4", name: "Prof. David Kim",   quoteKey: "testimonials.quote4", roleKey: "testimonials.role4", initials: "DK", avatarColor: "#25B585", rating: 5 },
+  { id: "5", name: "Aisha Patel",       quoteKey: "testimonials.quote5", roleKey: "testimonials.role5", initials: "AP", avatarColor: "#0F6E4A", rating: 5 },
+  { id: "6", name: "Lena Müller",       quoteKey: "testimonials.quote6", roleKey: "testimonials.role6", initials: "LM", avatarColor: "#3DD6A1", rating: 5 },
 ];
 
 export function useTestimonials() {

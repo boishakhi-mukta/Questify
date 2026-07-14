@@ -29,9 +29,9 @@ export default function Home() {
       <HeroBanner />
       <FeaturesSection />
       <StatisticsSection />
-      <TestimonialsSection />
       <HowItWorks />
       <CoursesSection />
+      <TestimonialsSection />
       <Footer />
     </>
   );

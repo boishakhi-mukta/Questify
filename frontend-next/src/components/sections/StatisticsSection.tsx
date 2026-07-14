@@ -73,7 +73,7 @@ function StatCard({ icon: Icon, iconColor, iconBg, label, subtext, value, suffix
 
   return (
     <div
-      className="bg-white rounded-[10px] border border-brand-border p-6 flex items-center gap-5 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
+      className="bg-white rounded-xl border border-brand-border p-6 flex items-center gap-5 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
       style={{ animationDelay: `${delay}ms` }}
     >
       <div className={`w-14 h-14 rounded-xl flex items-center justify-center shrink-0 ${iconBg}`} aria-hidden="true">
@@ -115,32 +115,32 @@ interface StatConfig {
 const statConfigs: StatConfig[] = [
   {
     icon:       GraduationCap,
-    iconColor:  "text-[#2563EB]",
-    iconBg:     "bg-[#DBEAFE]",
+    iconColor:  "text-brand-blue",
+    iconBg:     "bg-brand-blue-light",
     labelKey:   "stats.totalStudents",
     subtextKey: "stats.totalStudentsSub",
     key:        "totalStudents",
   },
   {
     icon:       BookOpen,
-    iconColor:  "text-[#7C3AED]",
-    iconBg:     "bg-[#EDE9FB]",
+    iconColor:  "text-[#1B7A5A]",
+    iconBg:     "bg-[#E0F5ED]",
     labelKey:   "stats.totalCourses",
     subtextKey: "stats.totalCoursesSub",
     key:        "totalCourses",
   },
   {
     icon:       Users,
-    iconColor:  "text-[#059669]",
-    iconBg:     "bg-[#D1FAE5]",
+    iconColor:  "text-brand-blue-dark",
+    iconBg:     "bg-[#D6EFE5]",
     labelKey:   "stats.totalTeachers",
     subtextKey: "stats.totalTeachersSub",
     key:        "totalTeachers",
   },
   {
     icon:       Zap,
-    iconColor:  "text-[#D97706]",
-    iconBg:     "bg-[#FEF3C7]",
+    iconColor:  "text-[#25B585]",
+    iconBg:     "bg-[#E8FAF4]",
     labelKey:   "stats.xpDistributed",
     subtextKey: "stats.xpDistributedSub",
     key:        "totalXPDistributed",
@@ -186,7 +186,7 @@ export default function StatisticsSection() {
         {/* Error state */}
         {error && (
           <div
-            className="flex items-center justify-between bg-white border border-brand-border rounded-[10px] px-6 py-4 mb-8 text-sm text-brand-body"
+            className="flex items-center justify-between bg-white border border-brand-border rounded-xl px-6 py-4 mb-8 text-sm text-brand-body"
             role="alert"
           >
             <span>{t("stats.errorMsg")}</span>

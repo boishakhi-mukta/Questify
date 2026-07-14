@@ -52,7 +52,7 @@ export function AccordionItem({
   return (
     <HeroAccordionItem
       id={value}
-      className={cn("border border-brand-border rounded-md overflow-hidden", className)}
+      className={cn("border border-brand-border rounded-xl overflow-hidden", className)}
       {...(props as object)}
     >
       {children}

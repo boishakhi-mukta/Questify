@@ -139,7 +139,7 @@ export default function AboutPage() {
             <div className="flex flex-wrap items-center justify-center gap-3">
               <Link
                 href="/login"
-                className="inline-flex items-center px-6 py-3 rounded-xl bg-brand-blue text-white text-sm font-bold hover:bg-[#004182] transition-colors no-underline"
+                className="inline-flex items-center px-6 py-3 rounded-xl bg-brand-blue text-white text-sm font-bold hover:bg-brand-blue-dark transition-colors no-underline"
               >
                 {t("about.logIn")}
               </Link>
@@ -267,7 +267,7 @@ export default function AboutPage() {
             <div className="flex flex-wrap items-center justify-center gap-3">
               <Link
                 href="/login"
-                className="inline-flex items-center px-6 py-3 rounded-xl bg-brand-blue text-white text-sm font-bold hover:bg-[#004182] transition-colors no-underline"
+                className="inline-flex items-center px-6 py-3 rounded-xl bg-brand-blue text-white text-sm font-bold hover:bg-brand-blue-dark transition-colors no-underline"
               >
                 {t("about.logInBtn")}
               </Link>

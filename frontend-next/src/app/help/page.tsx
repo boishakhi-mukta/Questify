@@ -285,7 +285,7 @@ export default function HelpPage() {
                   </p>
                   <Link
                     href="/contact"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-blue text-white text-sm font-semibold hover:bg-[#004182] transition-colors no-underline"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-blue text-white text-sm font-semibold hover:bg-brand-blue-dark transition-colors no-underline"
                   >
                     <Headphones size={15} />
                     {t("helpPage.contactHelpdeskLink")}
@@ -313,7 +313,7 @@ export default function HelpPage() {
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-blue text-white text-sm font-bold hover:bg-[#004182] transition-colors no-underline"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-blue text-white text-sm font-bold hover:bg-brand-blue-dark transition-colors no-underline"
             >
               <Headphones size={15} />
               {t("helpPage.ctaBtn")}

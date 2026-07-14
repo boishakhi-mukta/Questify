@@ -44,48 +44,51 @@
 /*
  * ── Questify brand tokens ──────────────────────────────────────────────────
  *
- * Light palette: warm cream + professional LinkedIn-style blue
- *   bg        #F3F2EE  warm off-white page background
- *   body text #434649  warm dark gray
- *   headings  #1D2226  near-black (also used as sidebar bg — not flipped)
- *   borders   #E0DFDC  warm light separator
+ * 3-primary palette (SmartLearn-inspired teal/forest-green)
+ *   accent    #2DCE9A  bright teal-mint — buttons, links, active states
+ *   dark      #1B4332  deep forest green — sidebar, footer, dark surfaces
+ *   light     #EDFAF5  light mint tint — page bg tint, light fills
+ *
+ * Light surface palette:
+ *   bg        #F2FAF7  soft mint-white page background
+ *   body text #3A4D44  green-tinted dark gray
+ *   headings  #1B4332  deep forest green (dual-use — also sidebar bg)
+ *   borders   #C8E6D8  mint-tinted light separator
  *   surfaces  #FFFFFF  cards and panels
  *
- * Dark palette: warm neutral dark — NOT cold slate/blue
- *   Inspired by Notion Dark / Bear Dark: warm charcoal tones
- *   bg        #1C1B18  dark warm limestone
- *   body text #9A9893  muted warm gray (AA contrast on dark bg)
- *   headings  #E9E6E0  warm off-white  (separate CSS rule — see below)
- *   borders   #2E2D2A  subtle warm divider
- *   surfaces  #252420  dark warm card  (handled via .bg-white override)
- *   blue-light#162840  deep blue accent bg
+ * Dark palette:
+ *   bg        #0F1E17  very dark forest
+ *   body text #8AADA0  muted mint-gray
+ *   headings  #D8F0E8  light mint off-white
+ *   borders   #1E3628  subtle forest divider
+ *   surfaces  #162B21  dark forest card
  *
  * Tokens NOT flipped in dark (dual use — text AND background):
- *   --brand-dark   #1D2226  sidebar bg stays dark; headings overridden separately
- *   --brand-white  #FFFFFF  white text on dark surfaces stays; surfaces overridden separately
+ *   --brand-dark   #1B4332  sidebar bg stays dark; headings overridden separately
+ *   --brand-white  #FFFFFF  white text on dark surfaces — do NOT flip
  */
 
 :root {
-  --brand-blue:        #0A66C2;
-  --brand-blue-dark:   #004182;
-  --brand-dark:        #1D2226;   /* sidebar bg — do NOT flip */
-  --brand-body:        #434649;
-  --brand-bg:          #F3F2EE;
-  --brand-border:      #E0DFDC;
+  --brand-blue:        #2DCE9A;   /* bright teal-mint accent */
+  --brand-blue-dark:   #1B4332;   /* deep forest green — hover/dark variant */
+  --brand-dark:        #1B4332;   /* sidebar bg — do NOT flip */
+  --brand-body:        #3A4D44;   /* green-tinted body text */
+  --brand-bg:          #F2FAF7;   /* soft mint-white background */
+  --brand-border:      #C8E6D8;   /* mint-tinted border */
   --brand-white:       #FFFFFF;   /* white text on dark surfaces — do NOT flip */
-  --brand-blue-light:  #EBF3FF;
+  --brand-blue-light:  #EDFAF5;   /* light mint tint */
 
-  /* surface token — safe to flip (bg-brand-surface if needed) */
+  /* surface token — safe to flip */
   --brand-surface:     #FFFFFF;
 }
 
 /* ── Dark mode token overrides ─────────────────────────────── */
 .dark {
-  --brand-body:        #9A9893;   /* muted warm gray */
-  --brand-bg:          #1C1B18;   /* dark warm limestone */
-  --brand-border:      #2E2D2A;   /* subtle warm divider */
-  --brand-blue-light:  #162840;   /* deep blue accent */
-  --brand-surface:     #252420;   /* dark warm card surface */
+  --brand-body:        #8AADA0;   /* muted mint-gray */
+  --brand-bg:          #0F1E17;   /* very dark forest */
+  --brand-border:      #1E3628;   /* subtle forest divider */
+  --brand-blue-light:  #0A2E1E;   /* deep dark mint accent bg */
+  --brand-surface:     #162B21;   /* dark forest card surface */
 }
 
 /* ── Tailwind v4 @theme inline ─────────────────────────────── */
@@ -133,39 +136,39 @@ p {
  * separately so surfaces adapt without touching the sidebar.
  */
 
-/* Headings become warm off-white in dark */
+/* Headings become light mint-white in dark */
 .dark h1, .dark h2, .dark h3,
 .dark h4, .dark h5, .dark h6 {
-  color: #E9E6E0;
+  color: #D8F0E8;
 }
 
-/* bg-white → dark warm card surface */
+/* bg-white → dark forest card surface */
 .dark .bg-white {
   background-color: var(--brand-surface);
 }
 
-/* bg-gray-50 → slightly darker warm surface */
+/* bg-gray-50 → slightly darker forest surface */
 .dark .bg-gray-50 {
-  background-color: #1F1E1B;
+  background-color: #131F19;
 }
 
 /* White borders become subtle in dark */
 .dark .border-white {
-  border-color: #2E2D2A;
+  border-color: #1E3628;
 }
 
 /* shadcn/ui card & input vars in dark */
 .dark {
-  --background: 26 25% 10%;
-  --foreground: 40 15% 92%;
-  --card: 26 24% 13%;
-  --card-foreground: 40 15% 92%;
-  --popover: 26 24% 13%;
-  --popover-foreground: 40 15% 92%;
-  --muted: 26 20% 18%;
-  --muted-foreground: 40 8% 58%;
-  --border: 40 6% 18%;
-  --input: 40 6% 18%;
+  --background: 150 25% 8%;
+  --foreground: 150 30% 90%;
+  --card: 150 24% 13%;
+  --card-foreground: 150 30% 90%;
+  --popover: 150 24% 13%;
+  --popover-foreground: 150 30% 90%;
+  --muted: 150 18% 18%;
+  --muted-foreground: 150 10% 58%;
+  --border: 150 12% 18%;
+  --input: 150 12% 18%;
 }
 
 /* ── Utility ─────────────────────────────────────────────── */

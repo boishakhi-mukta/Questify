@@ -150,7 +150,7 @@ export function ChatAssistant() {
         className={cn(
           "fixed bottom-6 right-6 z-50",
           "w-14 h-14 rounded-full",
-          "bg-brand-blue hover:bg-[#004182]",
+          "bg-brand-blue hover:bg-brand-blue-dark",
           "text-white shadow-[0_4px_24px_rgba(37,99,235,0.45)]",
           "flex items-center justify-center",
           "transition-all duration-200 hover:scale-105 active:scale-95",
@@ -318,7 +318,7 @@ export function ChatAssistant() {
           aria-label="Send message"
           className={cn(
             "w-9 h-9 rounded-full shrink-0 flex items-center justify-center",
-            "bg-brand-blue hover:bg-[#004182]",
+            "bg-brand-blue hover:bg-brand-blue-dark",
             "disabled:opacity-40 disabled:cursor-not-allowed",
             "text-white transition-colors",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2"

@@ -170,7 +170,7 @@ export default function ForcePasswordChangeModal({ userRole }: Props) {
           <button
             type="submit"
             disabled={isPending}
-            className="w-full h-11 bg-brand-blue hover:bg-[#004182] disabled:opacity-60 text-white font-bold rounded-lg transition-colors duration-150 mt-2"
+            className="w-full h-11 bg-brand-blue hover:bg-brand-blue-dark disabled:opacity-60 text-white font-bold rounded-lg transition-colors duration-150 mt-2"
           >
             {isPending ? t("auth.saving") : t("auth.setNewPassword")}
           </button>

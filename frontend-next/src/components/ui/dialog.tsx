@@ -87,7 +87,7 @@ export function DialogContent({
         role="dialog"
         aria-modal="true"
         className={cn(
-          "fixed left-1/2 top-1/2 z-50 w-full max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-xl bg-white shadow-xl border border-brand-border p-6",
+          "fixed left-1/2 top-1/2 z-50 w-full max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-xl bg-white dark:bg-[#162B21] shadow-xl border border-brand-border p-6",
           className
         )}
         onClick={(e) => e.stopPropagation()}
@@ -95,7 +95,7 @@ export function DialogContent({
       >
         {children}
         <button
-          className="absolute right-4 top-4 rounded-sm opacity-60 hover:opacity-100 transition-opacity focus:outline-none cursor-pointer"
+          className="absolute right-4 top-4 rounded-lg opacity-60 hover:opacity-100 transition-opacity focus:outline-none cursor-pointer"
           onClick={() => setOpen(false)}
           aria-label="Close"
         >
