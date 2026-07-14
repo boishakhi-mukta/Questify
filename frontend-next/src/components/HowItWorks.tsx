@@ -1,5 +1,23 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: HowItWorks
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * A visual step-by-step guide on the landing page showing how Questify functions
+ * (Sign Up, Learn, Earn XP, Unlock Badges).
+ * 
+ * WHY IT EXISTS:
+ * To clearly explain the gamified LMS concepts to new users (students, teachers, parents)
+ * using simple instructions and diagrams.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Static UI section split into columns, styled with custom CSS/Tailwind grid layout,
+ * featuring interactive micro-animations when hovered.
+ * ============================================================================
+ */
+
 import { HiCalendar, HiDocumentCheck, HiBookOpen, HiTrophy } from "react-icons/hi2";
 import type { IconType } from "react-icons";
 import { useTranslation } from "react-i18next";

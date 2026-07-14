@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY LIBRARY: Badges Metadata
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Connects badge name identifiers to asset icons and descriptions.
+ * 
+ * WHY IT EXISTS:
+ * Keeps badge specifications structured in a single location.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Exports lookup tables mapping names to badge properties.
+ * ============================================================================
+ */
+
 export type BadgeRarity = "common" | "rare" | "epic" | "legendary";
 export type BadgeColor = "success" | "warning" | "accent" | "danger" | "default";
 

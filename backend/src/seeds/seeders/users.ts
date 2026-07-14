@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY SEEDER: Users Seeder
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Creates sample student, teacher, and administrator accounts.
+ * 
+ * WHY IT EXISTS:
+ * Sets up credentials used to log in and demo role dashboards.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Creates User records with role designations and pre-hashed passwords.
+ * ============================================================================
+ */
+
 import { User } from "@/models/User";
 import type { IUser } from "@/models/User";
 import type { UserRole } from "@/types";

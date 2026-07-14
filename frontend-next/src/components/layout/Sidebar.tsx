@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: Sidebar
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * The side navigation menu showing buttons for Dashboard, Courses, Grades, and Settings.
+ * 
+ * WHY IT EXISTS:
+ * Provides a standardized, permanent map to travel around the portal after logging in.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Client component that highlights active links based on the current Next.js route path.
+ * ============================================================================
+ */
+
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY UTILITY: Structured System Errors
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * A collection of custom error messages (like "Email not found" or "Access Denied").
+ * 
+ * WHY IT EXISTS:
+ * Helps the server respond with clear explanations when something goes wrong.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Declares classes extending standard JS errors to supply specific HTTP status codes.
+ * ============================================================================
+ */
+
 import { AppError } from "./AppError";
 import { ERROR_CODES, HTTP } from "@/config/constants";
 import type { ErrorCode } from "@/config/constants";

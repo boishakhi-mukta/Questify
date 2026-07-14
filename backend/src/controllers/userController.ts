@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY CONTROLLER: Legacy User Controller
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Older user data endpoints kept for compatibility checks.
+ * 
+ * WHY IT EXISTS:
+ * Legacy path fallback.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Traditional CRUD operations for user accounts.
+ * ============================================================================
+ */
+
 import { Request, Response } from "express";
 import { User } from "@/models/User";
 import { NotFoundError } from "@/utils/errors";

@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY PAGE ROUTE: Student Assignment Detail & Uploads
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * The page where a student views homework instructions and submits solutions.
+ * 
+ * WHY IT EXISTS:
+ * Entry point for homework submissions.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Inspects courseId/assignmentId URL parameters, loading instructions and form states.
+ * ============================================================================
+ */
+
 import { useState, useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import {

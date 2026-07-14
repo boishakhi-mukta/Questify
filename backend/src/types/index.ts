@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY TYPE DEFINITIONS: Backend Types
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * A central collection of code types used to guide IDE suggestions.
+ * 
+ * WHY IT EXISTS:
+ * Prevents developer typing errors and enforces data consistency.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Declares and exports type aliases and schemas (like Request extensions).
+ * ============================================================================
+ */
+
 import { Request } from "express";
 import { Types } from "mongoose";
 

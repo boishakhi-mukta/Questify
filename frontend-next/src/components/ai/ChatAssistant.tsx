@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: ChatAssistant
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * A sidebar chat window connecting you to an AI learning tutor.
+ * 
+ * WHY IT EXISTS:
+ * Offers students 24/7 academic assistance directly in the LMS.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Connects via WebSocket or fetch requests to AI routes, updating chat history lists.
+ * ============================================================================
+ */
+
 import { useState, useRef, useEffect, useCallback } from "react";
 import { ScrollShadow, Chip } from "@heroui/react";
 import { HiPaperAirplane, HiXMark, HiSparkles, HiArrowPath } from "react-icons/hi2";

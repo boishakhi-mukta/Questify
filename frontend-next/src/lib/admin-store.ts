@@ -1,4 +1,19 @@
 /**
+ * ============================================================================
+ * QUESTIFY LIBRARY: Administrative Store
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Manages admin settings layout configurations in memory.
+ * 
+ * WHY IT EXISTS:
+ * Shares visual states across dashboard panels.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Custom reactive store caching active panel selections.
+ * ============================================================================
+ */
+
+/**
  * Client-side mock store for admin CRUD operations.
  * Swap the arrays and functions below with real API calls when a backend is ready.
  */

@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY PAGE ROUTE: Platform Statistics
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Visual charts demonstrating platform metrics (grades, attendance).
+ * 
+ * WHY IT EXISTS:
+ * Helps managers track engagement trends.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Connects analytics hooks to chart rendering grids.
+ * ============================================================================
+ */
+
 import { useState, useMemo } from "react";
 import {
   Card,

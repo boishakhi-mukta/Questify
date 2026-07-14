@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY MIDDLEWARE: Request ID
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Tags every request with a unique tracking number.
+ * 
+ * WHY IT EXISTS:
+ * Simplifies tracing logs when debugging issues.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Appends a unique UUID to request contexts and responses.
+ * ============================================================================
+ */
+
 import { Request, Response, NextFunction } from "express";
 import { randomBytes } from "crypto";
 

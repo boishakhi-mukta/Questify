@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY PAGE ROUTE: Admin Profile
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Administrator profile page.
+ * 
+ * WHY IT EXISTS:
+ * Displays admin settings and info.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Renders layout cards containing administrator details.
+ * ============================================================================
+ */
+
 import { useState } from "react";
 import {
   Card,

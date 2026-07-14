@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY LAYOUT ROUTE: Admin Layout
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Sidebar wrapper that outlines dashboards spacing for admins.
+ * 
+ * WHY IT EXISTS:
+ * Ensures admin dashboard pages share consistent layouts.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * General layout wrapper routing admin layouts.
+ * ============================================================================
+ */
+
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Layout from "@/components/layout/Layout";

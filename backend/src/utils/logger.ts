@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY UTILITY: Event Logger
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Records server actions and warnings into rolling text files on the disk.
+ * 
+ * WHY IT EXISTS:
+ * Helps developers diagnose issues by reviewing log histories.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Implements Winston loggers with rotating transport rules, printing formatted outputs.
+ * ============================================================================
+ */
+
 import winston from "winston";
 import DailyRotateFile from "winston-daily-rotate-file";
 import path from "path";

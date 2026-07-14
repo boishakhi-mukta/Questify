@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY BACKEND MODEL: User
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Defines user accounts, roles (Admin, Teacher, Student), credentials, and gamified XP.
+ * 
+ * WHY IT EXISTS:
+ * Stores account login information, identity parameters, and engagement metrics.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Mongoose schema using bcrypt password hashing hooks and Clerk ID fields.
+ * ============================================================================
+ */
+
 import { Schema, model, Document, Types } from "mongoose";
 import bcrypt from "bcryptjs";
 import { env } from "@/config/environment";

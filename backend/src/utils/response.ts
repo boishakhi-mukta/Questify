@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY UTILITY: Response Layout Helper
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Standardizes API responses with consistent properties like success flags and messages.
+ * 
+ * WHY IT EXISTS:
+ * Helps the frontend easily understand and parse replies from the backend.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Exports response builder functions that serialize server data cleanly.
+ * ============================================================================
+ */
+
 import { Response } from "express";
 import type { ApiResponse, PaginationMeta } from "@/types";
 

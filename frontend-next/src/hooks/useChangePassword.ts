@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY CUSTOM HOOK: useChangePassword
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Custom hook handling password update submissions.
+ * 
+ * WHY IT EXISTS:
+ * Centralizes password update workflows.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Submits credential changes to authentication APIs.
+ * ============================================================================
+ */
+
 import { useState, useCallback } from "react";
 import api from "@/lib/api";
 

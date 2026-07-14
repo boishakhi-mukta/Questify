@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY CUSTOM HOOK: usePagination
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Custom hook managing pagination offsets.
+ * 
+ * WHY IT EXISTS:
+ * Powers page navigation arrays.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Calculates offsets for paginated queries.
+ * ============================================================================
+ */
+
 import { useState, useCallback, useEffect } from "react";
 
 export const PAGE_SIZES = [12, 24, 48] as const;

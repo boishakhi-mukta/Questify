@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY CUSTOM HOOK: useSort
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Hook managing sort parameters (A-Z, date).
+ * 
+ * WHY IT EXISTS:
+ * Powers catalog sorting.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Manages search parameters updating sort configurations.
+ * ============================================================================
+ */
+
 import { useState, useCallback, useEffect } from "react";
 
 export type SortKey = "newest" | "popular" | "az" | "za" | "credits-asc" | "credits-desc";

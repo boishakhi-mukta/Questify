@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY MIDDLEWARE: Auth (Security check)
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Checks if requests contain a valid user identity token (JWT) before proceeding.
+ * 
+ * WHY IT EXISTS:
+ * Block unauthorized access to private data.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Extracts token headers and decodes parameters.
+ * ============================================================================
+ */
+
 import { Response, NextFunction } from "express";
 import { verifyAccessToken } from "@/utils/jwt";
 import type { AuthenticatedRequest } from "@/types";

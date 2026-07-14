@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY CONFIGURATION: Database Starter
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * The active adapter that connects the running server to our database storage.
+ * 
+ * WHY IT EXISTS:
+ * Starts the connection logic and prints success logs once database storage connects.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Triggers mongoose.connect() and binds event checks on success/failure hooks.
+ * ============================================================================
+ */
+
 import mongoose from "mongoose";
 import { logger } from "@/utils/logger";
 

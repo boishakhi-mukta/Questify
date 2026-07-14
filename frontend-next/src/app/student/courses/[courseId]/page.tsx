@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY PAGE ROUTE: Student Course Syllabus
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * The syllabus page displaying materials, grades, and assignments for a course.
+ * 
+ * WHY IT EXISTS:
+ * Central directory for enrolled student coursework.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Pulls course information based on URL parameters to load details.
+ * ============================================================================
+ */
+
 import { useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";

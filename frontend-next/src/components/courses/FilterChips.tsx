@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: FilterChips
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Small clickable tags above search result lists showing what filters are active.
+ * 
+ * WHY IT EXISTS:
+ * Let users visually see active filters and clear them with a single click (X).
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Maps over active filter keys, rendering buttons that trigger clean reset actions.
+ * ============================================================================
+ */
+
 import type React from "react";
 import { HiXMark } from "react-icons/hi2";
 import type { FilterState } from "@/hooks/useFilter";

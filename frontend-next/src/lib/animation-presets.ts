@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY LIBRARY: Motion Curves Presets
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Defines visual speeds and curves used by components during animations.
+ * 
+ * WHY IT EXISTS:
+ * Guarantees animations remain uniform, preserving aesthetics.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Exports transition settings utilized by Framer Motion divs.
+ * ============================================================================
+ */
+
 import type { Variants, Transition } from "framer-motion";
 
 // ── Reusable Framer Motion variants ───────────────────────────────────────────

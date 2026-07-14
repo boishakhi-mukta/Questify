@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY BACKEND MODEL: XP (Experience Points Log)
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Logs every experience point earned by students (attendance, tasks).
+ * 
+ * WHY IT EXISTS:
+ * Provides an audit trail for the student's progress and levels.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Links event definitions (ATTENDANCE, SUBMISSION) to User IDs and point counts.
+ * ============================================================================
+ */
+
 import { Schema, model, Document, Types, Model, type PipelineStage } from "mongoose";
 import { Enrollment } from "./Enrollment";
 import type { LeaderboardEntry } from "@/types";

@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY PAGE ROUTE: Teacher Attendance Sheets
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Interactive roster check sheet used by teachers to mark class attendance.
+ * 
+ * WHY IT EXISTS:
+ * Streamlines roll call and rewards present students with points.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Maps students list to checklist grids that post records to backend attendance APIs.
+ * ============================================================================
+ */
+
 import { useState, useEffect, useMemo, useCallback } from "react";
 import {
   Card,

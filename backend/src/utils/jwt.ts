@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY UTILITY: JWT (JSON Web Tokens Handler)
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Creates and verifies digital keys (session cookies) that keep users logged in.
+ * 
+ * WHY IT EXISTS:
+ * Bypasses the need for typing passwords on every click by utilizing secure temp keys.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Uses jsonwebtoken algorithms to sign user identity details, verifying expiration parameters.
+ * ============================================================================
+ */
+
 import jwt from "jsonwebtoken";
 import { env } from "@/config/environment";
 import { AuthenticationError, TokenExpiredError } from "./errors";

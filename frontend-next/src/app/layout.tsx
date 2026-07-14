@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY ROOT LAYOUT: Global Page Wrapper
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * The master wrapper template setting global themes and layouts.
+ * 
+ * WHY IT EXISTS:
+ * Standardizes metadata configuration and global CSS across the app.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Implements HTML schemas and wraps Next.js pages inside providers.
+ * ============================================================================
+ */
+
 import type { Metadata } from "next";
 import { Providers } from "@/components/theme/Providers";
 import { ChatAssistant } from "@/components/ai/ChatAssistant";

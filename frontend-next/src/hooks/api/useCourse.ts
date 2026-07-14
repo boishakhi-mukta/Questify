@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY CUSTOM HOOK: useCourse
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Custom query hook loading course details.
+ * 
+ * WHY IT EXISTS:
+ * Powers details pages.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Queries course details by ID.
+ * ============================================================================
+ */
+
 import { useState, useEffect } from "react";
 import { coursesApi } from "@/services/api";
 import type { Course } from "@/types/api-response";

@@ -1,5 +1,23 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: BadgeEarnedModal
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * A pop-up celebration window that displays when a student successfully unlocks
+ * a new badge (like "Attendance Champion" or "A+ Submitter").
+ * 
+ * WHY IT EXISTS:
+ * To provide instant feedback and validate student hard work with a pleasant
+ * visual reward.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Uses Framer Motion for entering/leaving animations and overlays a backdrop over
+ * the page, showcasing the badge image, title, and unlock description.
+ * ============================================================================
+ */
+
 import React from "react";
 import {
   ModalRoot,

@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY PAGE ROUTE: Mandatory Password Reset Form
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Settings page checking credentials updates.
+ * 
+ * WHY IT EXISTS:
+ * Enforces security updates on first login.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Renders ChangePassword modules.
+ * ============================================================================
+ */
+
 import { useState, useEffect }    from "react";
 import { useRouter }               from "next/navigation";
 import Link                        from "next/link";

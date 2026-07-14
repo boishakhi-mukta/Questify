@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: PublicNavbar
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * The main header navigation bar displayed when the user is anonymous or logged out.
+ * 
+ * WHY IT EXISTS:
+ * Guides visitors with links explaining features, alongside Login and Join buttons.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Static and client links referencing auth triggers and public informational pages.
+ * ============================================================================
+ */
+
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";

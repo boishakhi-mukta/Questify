@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY LIBRARY: i18n Configuration
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Configures the multi-language translator modules.
+ * 
+ * WHY IT EXISTS:
+ * Manages localization definitions globally.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Initializes i18next libraries linking language translation templates.
+ * ============================================================================
+ */
+
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";

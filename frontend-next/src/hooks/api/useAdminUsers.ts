@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY CUSTOM HOOK: useAdminUsers
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Custom command hook executing admin users operations.
+ * 
+ * WHY IT EXISTS:
+ * Powers admin dashboards user profiles directory.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Wraps POST/PATCH/DELETE calls to users resources.
+ * ============================================================================
+ */
+
 import { useState, useEffect, useCallback } from "react";
 import {
   adminUsersApi,

@@ -1,5 +1,23 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: LanguageSwitcher
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * A drop-down menu that lets users switch the visual language of the entire website
+ * (e.g., between English, Spanish, etc.).
+ * 
+ * WHY IT EXISTS:
+ * To support accessibility and internationalization, making the learning portal
+ * welcoming to speakers of different languages.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Integrates with `react-i18next` to set locale preferences in the browser's context
+ * and re-render translated strings instantly.
+ * ============================================================================
+ */
+
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";

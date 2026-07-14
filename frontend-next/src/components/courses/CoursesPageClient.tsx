@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: CoursesPageClient
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * The coordinator for search, sort, filter, and pagination panels on the courses page.
+ * 
+ * WHY IT EXISTS:
+ * Handles the logic required to browse, search, and manage course lists.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Gathers filter, sorting, and search inputs, fetches courses, and manages results.
+ * ============================================================================
+ */
+
 import { useState, useEffect, useMemo, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { HiAdjustmentsHorizontal, HiBookOpen } from "react-icons/hi2";

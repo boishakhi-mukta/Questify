@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY BACKEND MODEL: Course
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Stores course records (titles, descriptions, levels, semesters, instructors).
+ * 
+ * WHY IT EXISTS:
+ * Serves as the central entity connecting assignments, enrollments, and materials.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Mongoose schema with relationships linking courses to their instructor User models.
+ * ============================================================================
+ */
+
 import { Schema, model, Document, Types } from "mongoose";
 
 // ── Level enum ─────────────────────────────────────────────────────────────────

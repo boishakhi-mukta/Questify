@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY CUSTOM HOOK: useBadges
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Custom hook returning earned badges.
+ * 
+ * WHY IT EXISTS:
+ * Powers achievements displays.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Queries badges API endpoints.
+ * ============================================================================
+ */
+
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useOverlayState } from "@heroui/react";
 import { toast } from "sonner";

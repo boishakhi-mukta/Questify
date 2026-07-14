@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: TeacherDashboard
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * The panel for instructors to upload files, review submissions, and manage courses.
+ * 
+ * WHY IT EXISTS:
+ * Allows teachers to track class materials, assignments, and grade students easily.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Combines tab views for Courses, Assignments, Submissions, and Attendance tracking.
+ * ============================================================================
+ */
+
 import { HiWrenchScrewdriver } from "react-icons/hi2";
 import { useTranslation } from "react-i18next";
 

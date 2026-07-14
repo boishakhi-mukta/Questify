@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY CONTROLLER: Auth Controller
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Coordinates user log-ins, session extensions, security updates, and sign-outs.
+ * 
+ * WHY IT EXISTS:
+ * The entryway check point ensuring only authorized users access systems.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Queries DB passwords, issues secure tokens, and logs authorization events.
+ * ============================================================================
+ */
+
 import { Request, Response } from "express";
 import { User } from "@/models/User";
 import { generateTokenPair, verifyRefreshToken } from "@/utils/jwt";

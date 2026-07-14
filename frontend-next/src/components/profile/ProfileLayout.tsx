@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: ProfileLayout
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Renders profile pages, showcasing XP history, user stats, and details.
+ * 
+ * WHY IT EXISTS:
+ * Gives users an overview of their achievements and academic accomplishments.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Integrates tabs containing XPProgress, earned badges grids, and user details.
+ * ============================================================================
+ */
+
 import React from "react";
 import {
   Card,

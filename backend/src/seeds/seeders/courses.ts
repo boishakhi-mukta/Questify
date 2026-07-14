@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY SEEDER: Courses Seeder
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * populates the database with sample courses and descriptions.
+ * 
+ * WHY IT EXISTS:
+ * Populates lists for dashboard grids and course catalogs.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Iterates through mock items, linking them to instructors.
+ * ============================================================================
+ */
+
 import { Types } from "mongoose";
 import { Course } from "@/models/Course";
 import type { ICourse, CourseLevel } from "@/models/Course";

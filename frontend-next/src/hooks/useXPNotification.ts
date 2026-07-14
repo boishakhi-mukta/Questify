@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY CUSTOM HOOK: useXPNotification
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Listens for earned experience points, showing popup notifications on success.
+ * 
+ * WHY IT EXISTS:
+ * Instantly alerts users to game rewards (XP) as they complete tasks.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Sets event triggers displaying point milestones.
+ * ============================================================================
+ */
+
 import { toast } from "sonner";
 
 export type XPEventType = "attendance" | "material" | "assignment" | "quiz" | "bonus";

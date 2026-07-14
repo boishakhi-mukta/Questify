@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: AdminUsers
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * The administration panel list for adding, disabling, and editing user accounts.
+ * 
+ * WHY IT EXISTS:
+ * Allows administrators to manage logins and assign system roles (Admin, Teacher, Student).
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Makes API calls to the users endpoints, lists accounts in a grid, and opens forms.
+ * ============================================================================
+ */
+
 import { useState } from "react";
 import {
   HiPlus, HiPencil, HiTrash, HiMagnifyingGlass,

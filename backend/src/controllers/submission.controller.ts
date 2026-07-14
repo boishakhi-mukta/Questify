@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY CONTROLLER: Submission Controller
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Accepts student solution files and processes teacher grading/feedback.
+ * 
+ * WHY IT EXISTS:
+ * Connects assignments to grades and triggers game point awards (XP).
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Saves student answers and logs experience points when grades are posted.
+ * ============================================================================
+ */
+
 import { Response } from "express";
 import { Types } from "mongoose";
 import { Course } from "@/models/Course";

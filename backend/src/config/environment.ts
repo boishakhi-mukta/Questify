@@ -1,3 +1,21 @@
+/**
+ * ============================================================================
+ * QUESTIFY CONFIGURATION: Environment Validator
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Reads and verifies configuration variables (like database passwords and 
+ * connection keys) to make sure they are correct before the server starts.
+ * 
+ * WHY IT EXISTS:
+ * Ensures the website doesn't run with missing configuration settings, which
+ * prevents unexpected shut-downs.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Uses a library called Zod to check environmental values (process.env) against
+ * predefined patterns, raising errors for incorrect setups.
+ * ============================================================================
+ */
+
 import "dotenv/config";
 import { z } from "zod";
 

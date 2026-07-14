@@ -1,4 +1,19 @@
 /**
+ * ============================================================================
+ * QUESTIFY UTILITY: Input Zod Validators
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Checks input forms (like signup details or avatar links) to ensure they are valid.
+ * 
+ * WHY IT EXISTS:
+ * Prevents corrupted or malicious inputs from reaching backend databases.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Defines schemas with Zod constraints checking properties like lengths and formats.
+ * ============================================================================
+ */
+
+/**
  * Central Zod validation schemas for all API endpoints.
  * Route files import from here; never define schemas inline in routes.
  */

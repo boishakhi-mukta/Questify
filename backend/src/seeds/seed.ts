@@ -1,4 +1,19 @@
 /**
+ * ============================================================================
+ * QUESTIFY SEEDER: Master Data Runner
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Wipes the database and loads fresh mock accounts, courses, and badges for testing.
+ * 
+ * WHY IT EXISTS:
+ * Gives developers a populated sandbox database for testing and demos.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Connects to MongoDB, wipes tables, and runs individual seeders in sequence.
+ * ============================================================================
+ */
+
+/**
  * Questify database seed script.
  *
  * Usage:

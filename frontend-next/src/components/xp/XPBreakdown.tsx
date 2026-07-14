@@ -1,5 +1,23 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: XPBreakdown
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Displays a detailed list or table showing exactly how a student earned their
+ * points (e.g., 10 XP for attending class, 25 XP for submitting a homework).
+ * 
+ * WHY IT EXISTS:
+ * To provide full transparency so students understand where their points came
+ * from and how their efforts translate to progress.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Receives an array of XP event logs from the backend and maps them to a
+ * structured UI list showing event names, dates, and point values.
+ * ============================================================================
+ */
+
 import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@heroui/react";
 import { useTranslation } from "react-i18next";

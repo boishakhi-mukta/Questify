@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY BACKEND MODEL: Department
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Defines academic categories (e.g. Computer Science, Math).
+ * 
+ * WHY IT EXISTS:
+ * Groups courses under specific academic sectors.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Schema with unique name keys and description strings.
+ * ============================================================================
+ */
+
 import { Schema, model, Document, Types } from "mongoose";
 
 export interface IDepartment extends Document {

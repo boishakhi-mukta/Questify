@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY ROUTES: Courses Router
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Maps courses catalog URLs.
+ * 
+ * WHY IT EXISTS:
+ * Gateway to fetch course catalogs.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Sets permission checks before letting users read/write course details.
+ * ============================================================================
+ */
+
 import { Router } from "express";
 import { verifyJWT } from "@/middleware/auth";
 import { requireAdmin, requireTeacherOrAdmin } from "@/middleware/rbac";

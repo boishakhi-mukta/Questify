@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY PAGE ROUTE: Reports Export
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Page allowing admins to download CSV/PDF spreadsheet reports.
+ * 
+ * WHY IT EXISTS:
+ * Helps managers export data logs.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Calls reports utilities returning spreadsheet data streams.
+ * ============================================================================
+ */
+
 import { useState, useId } from "react";
 import {
   Card,

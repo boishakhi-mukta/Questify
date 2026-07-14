@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY BACKEND MODEL: Attendance
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Tracks student daily attendance (present, absent, late).
+ * 
+ * WHY IT EXISTS:
+ * Records attendance and rewards students with XP for showing up.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Maps Course IDs, Student IDs, dates, and attendance flags.
+ * ============================================================================
+ */
+
 import { Schema, model, Document, Types, Model, type PipelineStage } from "mongoose";
 import { XPModel } from "./XP";
 

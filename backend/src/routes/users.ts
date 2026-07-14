@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY ROUTES: Users Router
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Configures user directory management endpoints.
+ * 
+ * WHY IT EXISTS:
+ * Controls user-profile URLs.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Enforces admin authorization check checks for users.
+ * ============================================================================
+ */
+
 import { Router, Response, NextFunction } from "express";
 import { verifyJWT } from "@/middleware/auth";
 import { requireAdmin } from "@/middleware/rbac";

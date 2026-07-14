@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: ThemeToggle
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * A small toggle button (usually showing a sun or moon icon) to switch dark/light mode.
+ * 
+ * WHY IT EXISTS:
+ * Comfort configuration for users to adjust layout brightness to their environments.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Inspects and modifies the theme state using next-themes' useTheme hook.
+ * ============================================================================
+ */
+
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { HiSun, HiMoon } from "react-icons/hi2";

@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY PAGE ROUTE: Student Profile
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Student profile details page showcasing XP level milestones.
+ * 
+ * WHY IT EXISTS:
+ * Gives students a visual overview of their learning achievements.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Integrates profile layout components displaying student stats.
+ * ============================================================================
+ */
+
 import { useState, useMemo, useEffect } from "react";
 import {
   Card,

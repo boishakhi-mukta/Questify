@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY ROUTES: Materials Router
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Maps URLs for course documents and links.
+ * 
+ * WHY IT EXISTS:
+ * Coordinates material downloads and uploads.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Standard controller routing mappings.
+ * ============================================================================
+ */
+
 import { Router } from "express";
 import { verifyJWT } from "@/middleware/auth";
 import { requireTeacherOrAdmin } from "@/middleware/rbac";

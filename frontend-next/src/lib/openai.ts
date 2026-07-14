@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY LIBRARY: OpenAI Client Client
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Connects the chat screen to cloud OpenAI LLM models.
+ * 
+ * WHY IT EXISTS:
+ * Provides chatbot tutor services in cloud deployments.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Connects user questions to chat completion endpoint services.
+ * ============================================================================
+ */
+
 import OpenAI from "openai";
 
 export type ChatMessage = {

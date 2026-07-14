@@ -1,5 +1,23 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: BadgeGrid
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Displays a catalog or grid of academic achievements (badges), highlighting the
+ * ones the student has unlocked and showing locked ones in greyscale.
+ * 
+ * WHY IT EXISTS:
+ * To gamify the curriculum, encouraging students to participate and complete
+ * tasks to collect special awards.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Renders a grid layout that maps over a list of system badges, comparing them
+ * against the student's earned badges list to toggle color/greyscale status.
+ * ============================================================================
+ */
+
 import React from "react";
 import { Chip, Tooltip, TooltipTrigger, TooltipContent } from "@heroui/react";
 import {

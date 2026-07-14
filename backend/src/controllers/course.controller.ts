@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY CONTROLLER: Course Controller
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Processes course creations, instructor assignments, list updates, and deletions.
+ * 
+ * WHY IT EXISTS:
+ * Allows teachers and admins to coordinate courses catalog definitions.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Handles database course listings with search criteria filters.
+ * ============================================================================
+ */
+
 import { Request, Response } from "express";
 import { Types } from "mongoose";
 import { Course } from "@/models/Course";

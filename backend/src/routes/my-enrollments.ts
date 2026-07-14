@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY ROUTES: My-Enrollments Router
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Routes matching the user's specific course list.
+ * 
+ * WHY IT EXISTS:
+ * Simplifies access to personal enrollments.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Binds requests to the current student's ID.
+ * ============================================================================
+ */
+
 import { Router } from "express";
 import { verifyJWT } from "@/middleware/auth";
 import { requireStudent } from "@/middleware/rbac";

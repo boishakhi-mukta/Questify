@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY CUSTOM HOOK: useEnrollCourse
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Custom command hook executing self-enroll calls.
+ * 
+ * WHY IT EXISTS:
+ * Enables self-enrollment.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Submits POST requests to course enrollment endpoints.
+ * ============================================================================
+ */
+
 import { useState } from "react";
 import { enrollmentsApi } from "@/services/api";
 

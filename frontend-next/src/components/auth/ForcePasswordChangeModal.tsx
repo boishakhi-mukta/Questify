@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: ForcePasswordChangeModal
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * A pop-up form that forces users to replace temporary passwords on first login.
+ * 
+ * WHY IT EXISTS:
+ * Guarantees that administrator-assigned temp credentials are immediately updated.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Modal checking user properties and blocking access until password change succeeds.
+ * ============================================================================
+ */
+
 import { useState }             from "react";
 import { useRouter }             from "next/navigation";
 import { HiEye, HiEyeSlash }    from "react-icons/hi2";

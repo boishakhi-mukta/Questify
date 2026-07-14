@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY CONTROLLER: Admin Controller
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Coordinates administrative features like bulk registration and password overrides.
+ * 
+ * WHY IT EXISTS:
+ * Core hub for site management.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Syncs user data to external Clerk systems and performs database operations.
+ * ============================================================================
+ */
+
 import { Request, Response } from "express";
 import { Types, type FilterQuery, type PipelineStage } from "mongoose";
 import { User } from "@/models/User";

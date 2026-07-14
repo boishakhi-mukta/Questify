@@ -1,5 +1,23 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: LevelUpModal
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * A celebratory pop-up window (modal) that bursts onto the screen when a
+ * student increases their level, complete with encouraging animations.
+ * 
+ * WHY IT EXISTS:
+ * To reward student progress and build excitement around leveling up, making
+ * the learning experience feel like a fun educational quest.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Listens for state changes in level/experience, uses Framer Motion for
+ * transition animations, and displays the congratulatory screen using dialog overlays.
+ * ============================================================================
+ */
+
 import {
   ModalRoot,
   ModalBackdrop,

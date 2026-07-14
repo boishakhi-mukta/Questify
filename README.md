@@ -29,8 +29,8 @@ Whether you're a student chasing the top of the leaderboard or an admin keeping 
 |---|---|
 | **Objective** | Build a gamified LMS that motivates students through points, leaderboards, and course progress tracking. |
 | **Target Audience** | University students, teachers, and administrators. |
-| **Status** | 🚧 Actively in development — more features coming soon! |
-| **Deployment** | Hosted on Vercel with a CI/CD pipeline. |
+| **Status** | ✅ Core features fully implemented and verified. |
+| **Deployment** | Hosted on Vercel (Frontend) and Railway (Backend). |
 
 **Key Metrics (targets):**
 - Points earned per session: tracked in real-time
@@ -58,12 +58,12 @@ Whether you're a student chasing the top of the leaderboard or an admin keeping 
 - Filter by level (Bachelor / Master), semester, campus, and category.
 - View detailed course information before enrolling.
 
-### 4. Student Dashboard *(coming soon)*
+### 4. Student Dashboard
 - Track personal XP, course progress, and leaderboard standing.
 - View assignment history and attendance records.
 - All your academic activity in one place.
 
-### 5. Teacher Dashboard *(coming soon)*
+### 5. Teacher Dashboard
 - Manage enrolled students and course content.
 - Record attendance and grade assignments.
 - Monitor class-level leaderboard standings.
@@ -75,15 +75,15 @@ Whether you're a student chasing the top of the leaderboard or an admin keeping 
 - Role-based access control throughout.
 
 ### 7. Authentication & Role-Based Access
-- Secure sign-in with NextAuth (JWT-based sessions).
+- Secure sign-in with Clerk integration (`@clerk/nextjs`).
 - Three distinct roles: **Student**, **Teacher**, **Admin** — each with their own protected routes and dashboards.
 - Middleware-level route protection.
 
 ### 8. Additional Features
+- **AI Tutor Chatbot:** Connect with a virtual teaching assistant powered by LLM APIs.
 - **Fully Responsive:** Accessible on desktop, tablet, and mobile devices.
-- **Modern UI:** Built with Tailwind CSS v4 and Radix UI primitives.
+- **Modern UI:** Built with Tailwind CSS v4 and HeroUI (nextui) components.
 - **Lottie Animations:** Smooth, lightweight animations on the landing page.
-- **Scalable Infrastructure:** Hosted on Vercel for reliability and speed.
 
 ---
 
@@ -92,32 +92,57 @@ Whether you're a student chasing the top of the leaderboard or an admin keeping 
 | Layer | Technology |
 |---|---|
 | **Frontend** | Next.js 15, React 19, TypeScript |
-| **Styling** | Tailwind CSS v4, Radix UI, shadcn/ui |
-| **Authentication** | NextAuth v5 (Auth.js), JWT |
+| **Styling** | Tailwind CSS v4, HeroUI, Radix UI |
+| **Authentication** | Clerk Authentication (`@clerk/nextjs`) |
+| **Backend API** | Node.js, Express, MongoDB, Mongoose |
 | **Icons / Animation** | Lucide React, React Icons, Lottie (dotlottie-react) |
-| **Deployment** | Vercel |
+| **Deployment** | Vercel (Frontend) and Railway (Backend) |
 
 ---
 
 ## Installation ⚙️
 
-Clone the repo and install dependencies:
+Clone the repo and set up both the backend and frontend:
 
 ```bash
 git clone https://github.com/boishakhi-mukta/Questify
-cd Questify/frontend-next
+cd Questify
+```
+
+### 1. Set up the Backend
+```bash
+cd backend
 npm install
 ```
-
-Set up environment variables by creating a `.env.local` file in `frontend-next/`:
-
+Configure backend environment variables by creating a `.env` file in `backend/`:
 ```env
-NEXTAUTH_SECRET=your_nextauth_secret
-NEXTAUTH_URL=http://localhost:3000
+PORT=8000
+MONGODB_URI=mongodb://localhost:27017/questify
+JWT_SECRET=your_32_character_jwt_secret_key
+JWT_REFRESH_SECRET=your_32_character_refresh_secret
+CLERK_SECRET_KEY=your_clerk_secret_key
+```
+Seed the database with default accounts and mock courses:
+```bash
+npm run seed
+```
+Run the backend server:
+```bash
+npm run dev
 ```
 
+### 2. Set up the Frontend
+```bash
+cd ../frontend-next
+npm install
+```
+Configure frontend environment variables by creating a `.env.local` file in `frontend-next/`:
+```env
+NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+CLERK_SECRET_KEY=your_clerk_secret_key
+```
 Run the development server:
-
 ```bash
 npm run dev
 ```
@@ -154,4 +179,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
 
-> 🚧 This project is actively being developed. More features — including the full Student Dashboard, Teacher Dashboard, XP tracking, and leaderboard functionality — are coming soon!
+> 🌟 All core modules — including the Student Dashboard, Teacher Dashboard, XP tracking, and leaderboard functionality — are fully implemented and verified.

@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: Input (UI Base)
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * A standardized text input field.
+ * 
+ * WHY IT EXISTS:
+ * Ensures text fields look uniform across forms.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Wraps basic inputs, passing styles like borders, focus-outlines, and disabled status.
+ * ============================================================================
+ */
+
 import * as React from "react";
 import { cn } from "@/lib/utils";
 

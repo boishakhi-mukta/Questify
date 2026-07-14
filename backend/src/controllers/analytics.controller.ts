@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY CONTROLLER: Analytics Controller
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Compiles performance trends, class attendance rates, and badge progress.
+ * 
+ * WHY IT EXISTS:
+ * Feeds dashboards with charts and metrics.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Computes database aggregate values to return to clients.
+ * ============================================================================
+ */
+
 import { Response } from "express";
 import { Types, type PipelineStage } from "mongoose";
 import { Course }      from "@/models/Course";

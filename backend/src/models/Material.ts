@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY BACKEND MODEL: Material
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Defines class material resources (handouts, PDFs, lecture video URLs).
+ * 
+ * WHY IT EXISTS:
+ * Allows teachers to share content references directly within courses.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Connects Course IDs to physical files or external links.
+ * ============================================================================
+ */
+
 import { Schema, model, Document, Types } from "mongoose";
 
 // ── Material type enum ─────────────────────────────────────────────────────────

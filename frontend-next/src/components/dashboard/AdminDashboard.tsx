@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: AdminDashboard
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * The admin control panel displaying platform-wide usage metrics and management tabs.
+ * 
+ * WHY IT EXISTS:
+ * Allows administrators to monitor system health, active users, and global courses.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Integrates overall analytics APIs and routes to user and course administration lists.
+ * ============================================================================
+ */
+
 import Link from "next/link";
 import { HiUsers, HiAcademicCap, HiBookOpen, HiUserCircle, HiArrowPath } from "react-icons/hi2";
 import { Card, CardContent } from "@/components/ui/card";

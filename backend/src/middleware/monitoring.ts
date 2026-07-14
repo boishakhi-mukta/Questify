@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY MIDDLEWARE: System Monitoring
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Tracks performance times and details.
+ * 
+ * WHY IT EXISTS:
+ * Alerts developers to slow database calls or rising error rates.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Computes average response latency and reports database check statuses.
+ * ============================================================================
+ */
+
 import { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
 import { logger } from "@/utils/logger";

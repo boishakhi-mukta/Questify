@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: FeaturesSection
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Displays cards detailing benefits like gamification, analytics, and instant feedback.
+ * 
+ * WHY IT EXISTS:
+ * Prompts interest on public landing pages by highlighting product capabilities.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Static grid layout styled with custom Tailwind CSS rules.
+ * ============================================================================
+ */
+
 import Link from "next/link";
 import { Zap, TrendingUp, Trophy, Sparkles } from "lucide-react";
 import type { LucideIcon } from "lucide-react";

@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: Layout
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * A layout shell that positions the Navbar, Sidebar, and core page contents correctly.
+ * 
+ * WHY IT EXISTS:
+ * Saves code repetition by structuring all application sub-views inside one main skeleton.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Integrates sidebar positioning, desktop/mobile responsive spacing, and standard styling.
+ * ============================================================================
+ */
+
 import { useState } from "react";
 import type { ReactNode } from "react";
 import { Sidebar } from "./Sidebar";

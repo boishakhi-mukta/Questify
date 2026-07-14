@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY CUSTOM HOOK: useCourseMaterials
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Custom query hook loading syllabus documents list.
+ * 
+ * WHY IT EXISTS:
+ * Powers files widgets.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Queries materials API endpoints.
+ * ============================================================================
+ */
+
 import { useState, useEffect, useCallback } from "react";
 import { materialsApi } from "@/services/api";
 import type { Material } from "@/types/api-response";

@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: PasswordStrengthMeter
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * A visual indicator checking password complexity as you type.
+ * 
+ * WHY IT EXISTS:
+ * Encourages users to pick secure passwords, preventing easily guessed accounts.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Measures string characteristics (length, numbers, symbols) to update score levels.
+ * ============================================================================
+ */
+
 import { cn } from "@/lib/utils";
 
 interface Check {

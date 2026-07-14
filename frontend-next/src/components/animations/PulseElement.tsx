@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: PulseElement
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Adds a gentle, repetitive pulsing effect to any button or icon to grab interest.
+ * 
+ * WHY IT EXISTS:
+ * To highlight key components without being overly distracting to the user.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Wraps child elements in a Framer Motion div configured with looping scale transitions.
+ * ============================================================================
+ */
+
 import { motion, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";
 

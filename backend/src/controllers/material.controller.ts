@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY CONTROLLER: Material Controller
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Manages uploading lecture notes and file handouts.
+ * 
+ * WHY IT EXISTS:
+ * Enables teachers to supply resources and lets students fetch materials.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Links upload files to course databases.
+ * ============================================================================
+ */
+
 import { Response } from "express";
 import { Types } from "mongoose";
 import { Course } from "@/models/Course";

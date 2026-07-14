@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: FilterSidebar
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * A side menu panel to filter courses by level (Beginner/Expert), semester, or department.
+ * 
+ * WHY IT EXISTS:
+ * Simplifies discovery by narrowing catalog lists down to the user's specific interest.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Houses checkboxes and selectors that feed active configurations to parent queries.
+ * ============================================================================
+ */
+
 import { HiXMark } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
 import type { FilterState } from "@/hooks/useFilter";

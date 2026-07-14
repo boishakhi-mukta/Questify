@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY PAGE ROUTE: Teacher Assignments Panel
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Dashboard for teachers to post assignments and deadlines.
+ * 
+ * WHY IT EXISTS:
+ * Central manager for teacher-generated tasks.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Direct query loader populating assignments list forms.
+ * ============================================================================
+ */
+
 import { useState, useEffect, useCallback, useId } from "react";
 import {
   Card,

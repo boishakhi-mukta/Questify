@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: SettingsPage
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * The dashboard area where users edit profile descriptions, change avatars, and edit settings.
+ * 
+ * WHY IT EXISTS:
+ * Provides control over account details and UI language configurations.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Submits form updates via Clerk authentication endpoints or local backend profiles APIs.
+ * ============================================================================
+ */
+
 import React, { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import {

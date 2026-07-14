@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY CUSTOM HOOK: useAdminCourses
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Custom command hook executing admin course CRUD calls.
+ * 
+ * WHY IT EXISTS:
+ * Powers courses admin portals.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Wraps POST/PATCH/DELETE API calls to courses.
+ * ============================================================================
+ */
+
 import { useState, useEffect, useCallback } from "react";
 import {
   adminCoursesApi,

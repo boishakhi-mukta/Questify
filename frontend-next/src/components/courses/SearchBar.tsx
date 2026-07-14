@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: SearchBar
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * An input text box where users can type keywords to quickly find courses by title.
+ * 
+ * WHY IT EXISTS:
+ * Helps users bypass long pages and target specific classes immediately.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Controls a local text state with custom delays (debouncing) before triggering searches.
+ * ============================================================================
+ */
+
 import { HiMagnifyingGlass, HiXMark } from "react-icons/hi2";
 
 interface SearchBarProps {

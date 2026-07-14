@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY PAGE ROUTE: Student Leaderboard
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * A leaderboard display ranking students by their earned XP scores.
+ * 
+ * WHY IT EXISTS:
+ * Encourages learning engagement through friendly gamified competition.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Fetches rankings list and maps them to a leaderboard interface.
+ * ============================================================================
+ */
+
 import { useState, useMemo } from "react";
 import {
   Card,

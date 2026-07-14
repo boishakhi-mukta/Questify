@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY CUSTOM HOOK: useCourseAssignments
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Custom query hook loading course tasks.
+ * 
+ * WHY IT EXISTS:
+ * Powers assignments displays.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Queries course assignment deadlines.
+ * ============================================================================
+ */
+
 import { useState, useEffect, useCallback } from "react";
 import { assignmentsApi, type SubmitAssignmentPayload } from "@/services/api";
 import type { Assignment, Submission } from "@/types/api-response";

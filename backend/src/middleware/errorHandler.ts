@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY MIDDLEWARE: Global Error Handler
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Safety net catching unexpected issues and returning clean warnings.
+ * 
+ * WHY IT EXISTS:
+ * Prevents the application from crashing and hides technical details.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Formats errors and logs them to files before responding with clean HTTP codes.
+ * ============================================================================
+ */
+
 import { Request, Response, NextFunction } from "express";
 import { Error as MongooseError } from "mongoose";
 import { JsonWebTokenError, TokenExpiredError as JwtTokenExpiredError } from "jsonwebtoken";

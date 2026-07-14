@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY SEEDER: Materials Seeder
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Uploads mock lecture guides, handouts, and video links.
+ * 
+ * WHY IT EXISTS:
+ * Populates the materials drawer for courses page testing.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Inserts mock Material documents connected to course IDs.
+ * ============================================================================
+ */
+
 import { Types } from "mongoose";
 import { Material } from "@/models/Material";
 import type { MaterialType } from "@/models/Material";

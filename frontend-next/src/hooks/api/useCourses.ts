@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY CUSTOM HOOK: useCourses
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Custom query hook loading the courses list.
+ * 
+ * WHY IT EXISTS:
+ * Fetches course catalogs.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Queries courses listing search API routes.
+ * ============================================================================
+ */
+
 import { useState, useEffect, useRef } from "react";
 import { coursesApi, type CourseListParams } from "@/services/api";
 import type { Course, PaginationMeta } from "@/types/api-response";

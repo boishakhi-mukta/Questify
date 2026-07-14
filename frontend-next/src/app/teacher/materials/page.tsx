@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY PAGE ROUTE: Teacher Materials Management
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * List page showing study files uploaded by a teacher.
+ * 
+ * WHY IT EXISTS:
+ * Lets teachers upload new PDF/video handouts.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Integrates material dropzone forms with delete API buttons.
+ * ============================================================================
+ */
+
 import { useState, useEffect, useRef, useCallback, useId } from "react";
 import {
   Card,

@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY BACKEND MODEL: Assignment
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Holds student tasks (prompts, due dates, maximum points).
+ * 
+ * WHY IT EXISTS:
+ * Allows teachers to outline coursework and evaluate student submissions.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Mongoose schema connected to course models, containing list references.
+ * ============================================================================
+ */
+
 import { Schema, model, Document, Types, Model } from "mongoose";
 import type { ISubmission } from "./Submission";
 
