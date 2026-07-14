@@ -1,5 +1,23 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: CourseDetail
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * A comprehensive detail view showing everything about a course (syllabus, materials,
+ * instructor details, semester, and enrollment state).
+ * 
+ * WHY IT EXISTS:
+ * To allow a student to research a course before self-enrolling, and to review
+ * course content once enrolled.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Connects to the courses API service, handles self-enrollment trigger buttons,
+ * and lists downloadable PDFs/lecture videos.
+ * ============================================================================
+ */
+
 import Link from "next/link";
 import { HiCheckCircle } from "react-icons/hi2";
 import { useCourse } from "@/hooks/api/useCourse";

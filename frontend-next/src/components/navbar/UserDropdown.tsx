@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: UserDropdown
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * The drop-down menu that opens when clicking your profile image, letting you sign out.
+ * 
+ * WHY IT EXISTS:
+ * Safe and space-efficient home for personal account triggers.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Leverages HeroUI dropdown UI wrapper and Clerk SDK sign-out function.
+ * ============================================================================
+ */
+
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";

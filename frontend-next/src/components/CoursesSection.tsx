@@ -1,5 +1,23 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: CoursesSection
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * A section on the home page that showcases a highlighted list of courses
+ * currently available.
+ * 
+ * WHY IT EXISTS:
+ * To display the main educational offerings of the platform immediately on the
+ * landing page so visitors can quickly browse what is taught.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Queries or receives a preview list of course objects and renders them inside
+ * a grid layout using CourseCard components.
+ * ============================================================================
+ */
+
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { useCourses } from "@/hooks/api/useCourses";

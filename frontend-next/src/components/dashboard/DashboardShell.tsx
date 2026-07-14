@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: DashboardShell
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * The outer canvas container setting grid layout margins for dashboard metrics.
+ * 
+ * WHY IT EXISTS:
+ * Standardizes layout styling across admin, teacher, and student dashboards.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Simply wraps layout children with consistent flex styling, widths, and paddings.
+ * ============================================================================
+ */
+
 import Link              from "next/link";
 import Image             from "next/image";
 import { usePathname }   from "next/navigation";

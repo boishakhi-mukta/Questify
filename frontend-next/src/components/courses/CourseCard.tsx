@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: CourseCard
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * A visual box display representing a course, showing instructor names and semesters.
+ * 
+ * WHY IT EXISTS:
+ * Renders brief summaries in search layouts to let users review options before enrolling.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Displays details inside an interactive, hoverable container linking to detail pages.
+ * ============================================================================
+ */
+
 import Link from "next/link";
 import { HiUserGroup } from "react-icons/hi2";
 import { Card } from "@/components/ui/card";

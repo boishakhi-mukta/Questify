@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY MIDDLEWARE: Request Input Validator
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Checks incoming form details against expected data requirements.
+ * 
+ * WHY IT EXISTS:
+ * Rejects invalid form formats immediately.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Validates request bodies, params, or query parameters.
+ * ============================================================================
+ */
+
 import { Request, Response, NextFunction } from "express";
 import { ZodSchema, ZodError } from "zod";
 import { ValidationError } from "@/utils/errors";

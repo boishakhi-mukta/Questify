@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: Button (UI Base)
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * A standardized clickable button supporting colors and loading indicators.
+ * 
+ * WHY IT EXISTS:
+ * Unifies action-button styles across the application.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Wraps primitive HTML buttons, extending variants like primary, secondary, and outline.
+ * ============================================================================
+ */
+
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";

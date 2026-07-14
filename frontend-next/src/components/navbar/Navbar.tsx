@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: Navbar
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * The main header router that decides whether to show the Guest or Authenticated header.
+ * 
+ * WHY IT EXISTS:
+ * Dynamically switches top navigation layouts automatically without page reloads.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Checks Clerk's useUser or useAuth hook status to toggle the rendered child component.
+ * ============================================================================
+ */
+
 import { useAuth } from "@/hooks/useAuth";
 import { PublicNavbar } from "./PublicNavbar";
 import { AuthenticatedNavbar } from "./AuthenticatedNavbar";

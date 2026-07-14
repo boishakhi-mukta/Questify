@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY ROUTES: Enrollments Router
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Configures class enrollment URLs.
+ * 
+ * WHY IT EXISTS:
+ * Connects registration requests to controllers.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Exposes methods to view and create enrollments.
+ * ============================================================================
+ */
+
 import { Router } from "express";
 import { verifyJWT } from "@/middleware/auth";
 import { requireAdmin } from "@/middleware/rbac";

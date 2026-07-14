@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY CONTROLLER: User Controller
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Updates avatar graphics, bios, and gets profile information.
+ * 
+ * WHY IT EXISTS:
+ * Allows users to fetch and update details.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Directly manages user collection details.
+ * ============================================================================
+ */
+
 import { Response } from "express";
 import { Types, type PipelineStage, type FilterQuery } from "mongoose";
 import { User } from "@/models/User";

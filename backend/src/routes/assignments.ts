@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY ROUTES: Assignments Router
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Maps endpoints to read and write homework/task deadlines.
+ * 
+ * WHY IT EXISTS:
+ * Connects assignments updates to controllers.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Limits assignment edits to teachers/admins.
+ * ============================================================================
+ */
+
 import { Router } from "express";
 import { verifyJWT } from "@/middleware/auth";
 import { requireTeacherOrAdmin } from "@/middleware/rbac";

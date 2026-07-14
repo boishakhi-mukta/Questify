@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: Footer
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * The bar at the absolute bottom of pages containing copyright info and legal terms.
+ * 
+ * WHY IT EXISTS:
+ * A standard design anchor for visual page endings and basic information links.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Simple static footer styled using Tailwind layout definitions.
+ * ============================================================================
+ */
+
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";

@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: Card (UI Base)
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * A standardized styled border and container box used to display content cards.
+ * 
+ * WHY IT EXISTS:
+ * Standardizes visual aesthetics across pages.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Custom container applying Tailwind card border classes.
+ * ============================================================================
+ */
+
 import * as React from "react";
 import { cn } from "@/lib/utils";
 

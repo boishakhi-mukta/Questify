@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: Label (UI Base)
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * A text label that sits next to form inputs describing what they ask for.
+ * 
+ * WHY IT EXISTS:
+ * Crucial tool for form accessibility.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Wraps primitive HTML labels styled using Tailwind classes.
+ * ============================================================================
+ */
+
 import * as React from "react";
 import { cn } from "@/lib/utils";
 

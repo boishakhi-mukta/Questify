@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: Select (UI Base)
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * A drop-down selection list.
+ * 
+ * WHY IT EXISTS:
+ * Guarantees users select options from pre-approved lists.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Form control wrapping dropdown structures.
+ * ============================================================================
+ */
+
 import * as React from "react";
 import { HiChevronDown } from "react-icons/hi2";
 import { cn } from "@/lib/utils";

@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY ROUTES: Analytics Router
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Configures analytics dashboard statistics endpoints.
+ * 
+ * WHY IT EXISTS:
+ * Gateway to fetch aggregated platform statistics.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Limits statistics access to teachers and administrators.
+ * ============================================================================
+ */
+
 import { Router } from "express";
 import { verifyJWT } from "@/middleware/auth";
 import { requireAdmin, requireTeacherOrAdmin, requireStudent } from "@/middleware/rbac";

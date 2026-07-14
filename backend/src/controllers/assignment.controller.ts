@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY CONTROLLER: Assignment Controller
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Creates homework/tests prompts and deadlines.
+ * 
+ * WHY IT EXISTS:
+ * Lets teachers post course deadlines and requirements.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Validates deadlines, updates assignment schemas, and registers points.
+ * ============================================================================
+ */
+
 import { Response } from "express";
 import { Types } from "mongoose";
 import { Course } from "@/models/Course";

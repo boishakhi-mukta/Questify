@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: Accordion (UI Base)
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * A stack of headers that expand when clicked to reveal content.
+ * 
+ * WHY IT EXISTS:
+ * Condenses long documents (FAQs, syllabi) into readable formats.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Manages item visibility states with toggle event controls.
+ * ============================================================================
+ */
+
 import * as React from "react";
 import {
   AccordionRoot,

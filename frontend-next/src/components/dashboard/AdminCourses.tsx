@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: AdminCourses
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * The administration panel list for creating, deleting, and editing course catalogs.
+ * 
+ * WHY IT EXISTS:
+ * Allows administrators to configure courses and assign their instructors.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Uses forms and modal overlays interacting with the backend courses REST endpoints.
+ * ============================================================================
+ */
+
 import { useState } from "react";
 import { HiPlus, HiPencil, HiTrash, HiMagnifyingGlass } from "react-icons/hi2";
 import { Button } from "@/components/ui/button";

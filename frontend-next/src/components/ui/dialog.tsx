@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: Dialog / Modal (UI Base)
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * An overlay window blocking other interactions until dismissed or confirmed.
+ * 
+ * WHY IT EXISTS:
+ * Draws user focus to crucial decisions (deletes, submissions, updates).
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Implements accessible React overlays.
+ * ============================================================================
+ */
+
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { HiXMark } from "react-icons/hi2";

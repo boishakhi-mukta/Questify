@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY MIDDLEWARE: Role-Based Access Control
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Verifies if user accounts have required permissions (Admin, Teacher, Student).
+ * 
+ * WHY IT EXISTS:
+ * Restricts access to roles (e.g. preventing students from grading papers).
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Checks token roles against page route rules.
+ * ============================================================================
+ */
+
 import { Response, NextFunction } from "express";
 import { AuthorizationError } from "@/utils/errors";
 import type { AuthenticatedRequest, UserRole } from "@/types";

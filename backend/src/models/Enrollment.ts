@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY BACKEND MODEL: Enrollment
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Registers students to specific courses, tracking performance and progress.
+ * 
+ * WHY IT EXISTS:
+ * Connects students to courses, preventing access to classes they haven't enrolled in.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Join collection linking User IDs to Course IDs with validation metrics.
+ * ============================================================================
+ */
+
 import { Schema, model, Document, Types } from "mongoose";
 import type { ICourse } from "./Course";
 import type { IUser } from "./User";

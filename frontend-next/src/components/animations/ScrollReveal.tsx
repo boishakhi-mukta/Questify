@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: ScrollReveal
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Causes parts of the webpage to smoothly slide or fade in as you scroll down.
+ * 
+ * WHY IT EXISTS:
+ * Enhances aesthetics, making the platform feel high-end, responsive, and alive.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Uses Framer Motion's intersection observer hooks to detect when elements enter the screen.
+ * ============================================================================
+ */
+
 import { useRef } from "react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";

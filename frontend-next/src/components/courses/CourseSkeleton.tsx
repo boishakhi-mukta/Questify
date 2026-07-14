@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: CourseSkeleton
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Animated gray block shapes resembling course cards shown while data is downloading.
+ * 
+ * WHY IT EXISTS:
+ * Reduces perceived wait times by indicating to users that content is loading.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Renders mockup card structures styled with gray flashing pulsing animations.
+ * ============================================================================
+ */
+
 export function CourseSkeleton() {
   return (
     <div className="bg-white rounded-xl border border-brand-border p-5 flex flex-col gap-3 animate-pulse">

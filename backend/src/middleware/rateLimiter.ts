@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY MIDDLEWARE: Rate Limiter
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Blocks users from sending too many requests in a short time.
+ * 
+ * WHY IT EXISTS:
+ * Prevents system overload and brute-force login attempts.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Tracks request counts per IP using sliding window limiters.
+ * ============================================================================
+ */
+
 import rateLimit, { Options, RateLimitRequestHandler } from "express-rate-limit";
 import type { Request } from "express";
 import type { AuthenticatedRequest } from "@/types";

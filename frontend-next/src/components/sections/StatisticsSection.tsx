@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: StatisticsSection
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Visual counters tracking active users, total courses, and graded tasks.
+ * 
+ * WHY IT EXISTS:
+ * Demonstrates platform usage and reach using stats metrics.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Renders summary metrics fetched from server stats endpoints.
+ * ============================================================================
+ */
+
 import { useRef, useState, useEffect } from "react";
 import { Users, BookOpen, GraduationCap, Zap, RefreshCw } from "lucide-react";
 import type { LucideIcon } from "lucide-react";

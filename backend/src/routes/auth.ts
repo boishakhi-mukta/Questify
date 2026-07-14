@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY ROUTES: Auth Router
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Maps URLs like "/login" and "/logout" to the authentication coordinator.
+ * 
+ * WHY IT EXISTS:
+ * Directs traffic to authentication processes.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Configures rate-limiters and maps endpoints to controller handlers.
+ * ============================================================================
+ */
+
 import { Router } from "express";
 import { verifyJWT } from "@/middleware/auth";
 import { validateBody } from "@/middleware/validation";

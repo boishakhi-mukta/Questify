@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: PageTransition
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Animates the screen smoothly when navigating from one link/page to another.
+ * 
+ * WHY IT EXISTS:
+ * Eliminates harsh page flashes, maintaining visual continuity during navigation.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Uses Framer Motion's AnimatePresence to animate entry and exit states during route changes.
+ * ============================================================================
+ */
+
 import { motion, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";
 

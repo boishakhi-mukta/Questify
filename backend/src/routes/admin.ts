@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY ROUTES: Admin Router
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Configures global control options for administrators.
+ * 
+ * WHY IT EXISTS:
+ * Restricts access to administrative endpoints.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Enforces admin role credentials check before forwarding requests.
+ * ============================================================================
+ */
+
 import { Router } from "express";
 import { verifyJWT } from "@/middleware/auth";
 import { requireAdmin } from "@/middleware/rbac";

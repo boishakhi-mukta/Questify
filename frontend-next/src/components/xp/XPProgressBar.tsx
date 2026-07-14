@@ -1,5 +1,23 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: XPProgressBar
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Displays a colorful progress bar showing how many Experience Points (XP) a
+ * student has earned compared to the total points needed for the next level.
+ * 
+ * WHY IT EXISTS:
+ * To give students a visual sense of achievement and let them see at a glance
+ * how close they are to reaching their next academic goal/level.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Takes 'current' and 'total' numbers, calculates the percentage, and uses
+ * HeroUI's ProgressBar elements to animate the fill of the track.
+ * ============================================================================
+ */
+
 import {
   Card,
   CardContent,

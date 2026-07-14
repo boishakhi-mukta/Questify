@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: StaggerContainer
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Coordinates list items so they fade in one after the other in rapid succession.
+ * 
+ * WHY IT EXISTS:
+ * Avoids abrupt pops of layout lists, creating a smooth visual load sequence.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Utilizes motion container parent-child stagger transitions (staggerChildren).
+ * ============================================================================
+ */
+
 import { motion, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";
 import { staggerContainer, fadeInUp, easeOut } from "@/lib/animation-presets";

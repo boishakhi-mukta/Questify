@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: AnimatedCard
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * A card container that tilts or elevates slightly when you hover your mouse pointer over it.
+ * 
+ * WHY IT EXISTS:
+ * Adds pleasant interactivity and immediate feedback to user mouse movements.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Leverages Framer Motion hover scale and transition props on a customized div container.
+ * ============================================================================
+ */
+
 import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import type { ReactNode } from "react";

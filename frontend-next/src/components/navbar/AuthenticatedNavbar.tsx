@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: AuthenticatedNavbar
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * The header navigation bar displayed once a user has securely logged into the app.
+ * 
+ * WHY IT EXISTS:
+ * Displays user profile greetings, current level/points, and quick utility drop-downs.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Displays Clerk authentication state, user information context, and language selection controls.
+ * ============================================================================
+ */
+
 import Image from "next/image";
 import Link from "next/link";
 import { HiBars3, HiXMark } from "react-icons/hi2";

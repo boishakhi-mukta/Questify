@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY MIDDLEWARE: Alternate Validator
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * An alternate validation parser helper.
+ * 
+ * WHY IT EXISTS:
+ * Provides flexible query/param validation helpers.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Checks query parameters against schema specifications.
+ * ============================================================================
+ */
+
 import { Request, Response, NextFunction } from "express";
 import { validationResult } from "express-validator";
 

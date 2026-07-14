@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY CONTROLLER: Enrollment Controller
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Handles student self-enrollments in courses.
+ * 
+ * WHY IT EXISTS:
+ * Coordinates the links connecting students to classes.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Checks course vacancies, inserts enrollments, and grants initial status details.
+ * ============================================================================
+ */
+
 import { Response } from "express";
 import { Types, type PipelineStage } from "mongoose";
 import { Course } from "@/models/Course";

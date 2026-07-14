@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: DemoLoginButtons
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * A set of helper buttons to automatically log in as an Admin, Teacher, or Student.
+ * 
+ * WHY IT EXISTS:
+ * Speeds up internal development and client demonstrations by bypassing credential typing.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Submits preconfigured credentials to authentication services on single clicks.
+ * ============================================================================
+ */
+
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 

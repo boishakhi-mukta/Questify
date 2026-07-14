@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: Pagination
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Interactive page switching buttons at the bottom of long lists (like course directories).
+ * 
+ * WHY IT EXISTS:
+ * Avoids long pages and slow loading speeds by displaying results in chunks.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Calculates total page counts, page sizes, and handles clicks to request next chunks.
+ * ============================================================================
+ */
+
 import { useState, useCallback, type KeyboardEvent } from "react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
 import { useTranslation } from "react-i18next";

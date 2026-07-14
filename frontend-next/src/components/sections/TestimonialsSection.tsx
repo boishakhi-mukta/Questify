@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: TestimonialsSection
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Displays a carousel of feedback quotes from student users.
+ * 
+ * WHY IT EXISTS:
+ * Builds credibility using real feedback.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Styled review cards arranged in a grid or horizontal layout list.
+ * ============================================================================
+ */
+
 import { useRef, useState, useEffect, useCallback } from "react";
 import { Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTestimonials } from "@/hooks/useTestimonials";

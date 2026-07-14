@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY ROUTES: Submissions Router
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Configures homework submission and grading endpoints.
+ * 
+ * WHY IT EXISTS:
+ * Gateway for submitting answers and returning feedback.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Exposes submission create, read, and patch (grade) endpoints.
+ * ============================================================================
+ */
+
 import { Router } from "express";
 import { verifyJWT } from "@/middleware/auth";
 import { requireStudent, requireTeacherOrAdmin } from "@/middleware/rbac";

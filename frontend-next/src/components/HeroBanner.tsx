@@ -1,5 +1,23 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: HeroBanner
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * The big, attractive top banner on the home page with welcoming text, a
+ * colorful learning animation, and buttons to explore courses.
+ * 
+ * WHY IT EXISTS:
+ * To make a premium first impression, introducing visitors to Questify's core value
+ * proposition and guiding them on their next action.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Implements Framer Motion for text/button entrance animations, uses next-intl
+ * for multi-language translation text, and loads a Lottie animation file.
+ * ============================================================================
+ */
+
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { useTranslation } from "react-i18next";

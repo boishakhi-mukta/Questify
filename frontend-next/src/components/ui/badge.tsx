@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: Badge (UI Base Tag)
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * A small status tag (e.g., green for "Active", blue for "Beginner").
+ * 
+ * WHY IT EXISTS:
+ * Highlights item categories or states without cluttering UI.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Styled inline text tags.
+ * ============================================================================
+ */
+
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";

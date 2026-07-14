@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: SortDropdown
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * A drop-down menu that lets you choose how to sort listings (alphabetical, date).
+ * 
+ * WHY IT EXISTS:
+ * Allows organizing course search outcomes in the order most helpful to you.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Modifies search query parameters for sorting filters and tells lists to reload.
+ * ============================================================================
+ */
+
 import {
   Select,
   SelectContent,

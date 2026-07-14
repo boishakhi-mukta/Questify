@@ -1,5 +1,20 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: StudentDashboard
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * The student dashboard displaying their current courses, progress, grades, and XP.
+ * 
+ * WHY IT EXISTS:
+ * Gives students a motivational view of their studies, assignments, and badges.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Calls student APIs, renders courses grids, badge collections, and XP progress bars.
+ * ============================================================================
+ */
+
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import {

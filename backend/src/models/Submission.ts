@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY BACKEND MODEL: Submission
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Holds work student submit, along with instructor feedback and grades.
+ * 
+ * WHY IT EXISTS:
+ * Keeps historical records of student coursework, feedback, and grading.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Connects Assignment, Course, and Student IDs, storing submission files/text.
+ * ============================================================================
+ */
+
 import { Schema, model, Document, Types } from "mongoose";
 import { XPModel } from "./XP";
 

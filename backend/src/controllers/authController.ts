@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * QUESTIFY CONTROLLER: Legacy Auth Controller
+ * 
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Older authentication functions kept for reference.
+ * 
+ * WHY IT EXISTS:
+ * Preserved for system stability checks.
+ * 
+ * HOW IT WORKS (Technical Overview):
+ * Traditional login/register endpoint actions.
+ * ============================================================================
+ */
+
 import { Request, Response } from "express";
 import { User } from "@/models/User";
 import { generateTokenPair } from "@/utils/jwt";
