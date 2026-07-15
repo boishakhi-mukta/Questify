@@ -655,7 +655,11 @@
     "quote5": "Managing 50+ courses and 2 000+ students used to be a nightmare. Questify's admin dashboard gives me full visibility over every enrollment, grade, and performance metric in one place.",
     "role5": "Platform Administrator",
     "quote6": "The personalised course recommendations are eerily accurate. Questify suggested a study path I wouldn't have found on my own — and it aligned perfectly with my thesis topic.",
-    "role6": "Master's Student, AI & Machine Learning"
+    "role6": "Master's Student, AI & Machine Learning",
+    "quote7": "The gamified leaderboard kept me motivated all semester. I studied more consistently than ever and actually enjoyed every step of the process.",
+    "role7": "Bachelor's Student, Information Systems",
+    "quote8": "Real-time analytics helped me spot struggling students early. Questify's intervention tools let me step in before anyone fell behind.",
+    "role8": "Course Coordinator, Software Engineering"
   },
   "filterSidebar": {
     "filters": "Filters",
