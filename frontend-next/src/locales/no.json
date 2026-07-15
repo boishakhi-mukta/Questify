@@ -39,16 +39,19 @@
     "help": "Hjelp / FAQ",
     "login": "Logg inn",
     "logout": "Logg ut",
+    "getStarted": "Kom i gang",
     "profile": "Profil",
     "settings": "Innstillinger",
     "dashboard": "Instrumentbord"
   },
   "home": {
-    "badge": "Velkommen til Questify",
-    "title": "Hvert klikk teller. Hver prestasjon betyr noe.",
-    "subtitle": "Lær, delta og tjen belønninger gjennom en engasjerende læringsopplevelse designet for å holde studenter motiverte og vellykkede.",
-    "exploreCourses": "Utforsk kurs",
-    "learnMore": "Les mer"
+    "badge": "Mer enn 5000+ studenter lærer",
+    "subtitle": "Lær, delta og tjen belønninger gjennom en engasjerende læringsopplevelse designet for å holde studentene motiverte og vellykkede.",
+    "exploreCourses": "Utforsk Kurs",
+    "learnMore": "Lær Mer",
+    "titleLine1": "Hvert Klikk",
+    "titleAccent": "Teller.",
+    "titleLine2": "Hvert Mål Betyr Noe."
   },
   "features": {
     "eyebrow": "Hvorfor Questify",

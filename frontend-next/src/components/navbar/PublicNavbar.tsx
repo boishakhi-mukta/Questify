@@ -1,30 +1,10 @@
 "use client";
 
-/**
- * ============================================================================
- * QUESTIFY COMPONENT: PublicNavbar
- * 
- * WHAT IT DOES (For Non-Technical Readers):
- * The main header navigation bar displayed when the user is anonymous or logged out.
- * 
- * WHY IT EXISTS:
- * Guides visitors with links explaining features, alongside Login and Join buttons.
- * 
- * HOW IT WORKS (Technical Overview):
- * Static and client links referencing auth triggers and public informational pages.
- * ============================================================================
- */
-
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import {
-  HiBars3,
-  HiXMark,
-  HiUser,
-  HiArrowRightOnRectangle,
-} from "react-icons/hi2";
+import { HiBars3, HiXMark, HiUser, HiArrowRightOnRectangle } from "react-icons/hi2";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
@@ -79,7 +59,7 @@ export function PublicNavbar() {
         <button
           key={link.id}
           type="button"
-          className="text-[15px] font-semibold bg-transparent border-0 p-0 cursor-pointer text-brand-body dark:text-white/70 hover:text-brand-blue dark:hover:text-white transition-colors"
+          className="text-[14px] font-medium bg-transparent border-0 p-0 cursor-pointer text-brand-body hover:text-brand-blue transition-colors"
           onClick={() => { scrollToSection(link.id!); onClickExtra?.(); }}
         >
           {link.label}
@@ -93,10 +73,10 @@ export function PublicNavbar() {
         href={link.to!}
         onClick={onClickExtra}
         className={cn(
-          "text-[15px] font-semibold no-underline transition-colors",
+          "text-[14px] font-medium no-underline transition-colors",
           isActive
-            ? "text-brand-blue underline decoration-brand-blue underline-offset-4"
-            : "text-brand-body dark:text-white/70 hover:text-brand-blue dark:hover:text-white",
+            ? "text-brand-blue font-semibold"
+            : "text-brand-body hover:text-brand-blue",
         )}
         aria-current={isActive ? "page" : undefined}
       >
@@ -107,7 +87,7 @@ export function PublicNavbar() {
 
   const AuthSection = ({ onClose }: { onClose?: () => void }) => {
     if (isLoading) {
-      return <div className="w-20 h-8 rounded-md bg-brand-border/50 animate-pulse" />;
+      return <div className="w-20 h-8 rounded-xl bg-white/30 animate-pulse" />;
     }
 
     if (isAuthenticated && user) {
@@ -119,10 +99,10 @@ export function PublicNavbar() {
           <Link
             href={dashboardHref}
             onClick={onClose}
-            className="flex items-center gap-2 no-underline text-brand-body dark:text-white/70 hover:text-brand-blue dark:hover:text-white transition-colors text-[14px] font-semibold"
+            className="flex items-center gap-2 no-underline text-brand-body hover:text-brand-blue transition-colors text-[13px] font-semibold"
           >
             {user.avatar ? (
-              <Image src={user.avatar} alt={displayName} width={28} height={28} className="w-7 h-7 rounded-full object-cover" />
+              <Image src={user.avatar} alt={displayName} width={28} height={28} className="w-7 h-7 rounded-full object-cover ring-2 ring-brand-blue/30" />
             ) : (
               <div className="w-7 h-7 rounded-full bg-brand-blue flex items-center justify-center shrink-0">
                 <HiUser size={13} className="text-white" />
@@ -133,7 +113,7 @@ export function PublicNavbar() {
           <button
             type="button"
             onClick={() => { logout(); onClose?.(); }}
-            className="flex items-center gap-1.5 text-[13px] font-semibold text-brand-body dark:text-white/55 hover:text-red-600 dark:hover:text-red-400 transition-colors"
+            className="flex items-center gap-1.5 text-[13px] font-semibold text-brand-body hover:text-red-600 transition-colors"
           >
             <HiArrowRightOnRectangle size={15} />
             {t("navbar.logout")}
@@ -143,73 +123,95 @@ export function PublicNavbar() {
     }
 
     return (
-      <Button variant="default" size="sm" asChild>
-        <Link href="/login" onClick={onClose}>{t("navbar.login")}</Link>
-      </Button>
+      <div className="flex items-center gap-2">
+        <Button
+          size="sm"
+          asChild
+          className="rounded-full px-5 text-[13px] shadow-sm shadow-brand-blue/25 hover:-translate-y-0.5 transition-transform"
+        >
+          <Link href="/login" onClick={onClose}>{t("navbar.login")}</Link>
+        </Button>
+      </div>
     );
   };
 
   return (
-    <nav
-      className="sticky top-0 z-50 bg-white dark:bg-slate-900 border-b border-brand-border dark:border-white/10"
-      aria-label="Main navigation"
-    >
+    <div className="sticky top-4 z-50 px-4 md:px-10">
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-3 focus:py-1.5 focus:rounded-md focus:bg-brand-blue focus:text-white focus:text-[13px] focus:font-semibold"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-3 focus:py-1.5 focus:rounded-xl focus:bg-brand-blue focus:text-white focus:text-[13px] focus:font-semibold"
       >
         Skip to content
       </a>
 
-      <div className="h-14 flex items-center justify-between px-6 max-w-7xl mx-auto">
+      {/* ── Glassmorphism floating card ── */}
+      <nav
+        style={{
+          background:    "rgba(255, 255, 255, 0.55)",
+          backdropFilter: "blur(24px) saturate(180%)",
+          WebkitBackdropFilter: "blur(24px) saturate(180%)",
+          boxShadow:     "0 4px 24px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.75)",
+          border:        "1px solid rgba(255, 255, 255, 0.55)",
+        }}
+        className="max-w-6xl mx-auto rounded-[28px] dark:!bg-[rgba(22,43,33,0.50)] dark:[border-color:rgba(255,255,255,0.08)] dark:[box-shadow:0_4px_24px_rgba(0,0,0,0.24),inset_0_1px_0_rgba(255,255,255,0.06)]"
+        aria-label="Main navigation"
+      >
+        <div className="h-[60px] flex items-center justify-between px-5 relative">
 
-        {/* Logo */}
-        <Link href="/" className="flex items-center shrink-0" aria-label="Questify home">
-          <Image src="/logo.svg" alt="Questify" width={120} height={32} className="h-8 w-auto object-contain dark:brightness-0 dark:invert" />
-        </Link>
+          {/* Logo */}
+          <Link href="/" className="flex items-center shrink-0" aria-label="Questify home">
+            <Image
+              src="/logo.svg"
+              alt="Questify"
+              width={120}
+              height={32}
+              className="h-8 w-auto object-contain"
+            />
+          </Link>
 
-        {/* Desktop nav links */}
-        <ul className="hidden lg:flex items-center gap-7 list-none m-0 p-0">
-          {navLinks.map((link) => (
-            <li key={link.to ?? link.id}>{renderLink(link)}</li>
-          ))}
-        </ul>
+          {/* Desktop nav links — absolute center */}
+          <ul className="hidden lg:flex items-center gap-8 list-none m-0 p-0 absolute left-1/2 -translate-x-1/2">
+            {navLinks.map((link) => (
+              <li key={link.to ?? link.id}>{renderLink(link)}</li>
+            ))}
+          </ul>
 
-        {/* Desktop right: language + auth */}
-        <div className="hidden md:flex items-center gap-1">
-          <LanguageSwitcher />
-          <AuthSection />
-        </div>
+          {/* Desktop right: language + auth */}
+          <div className="hidden md:flex items-center gap-2">
+            <LanguageSwitcher />
+            <AuthSection />
+          </div>
 
-        {/* Mobile: language + hamburger */}
-        <div className="md:hidden flex items-center gap-1">
-          <LanguageSwitcher />
-          <button
-            type="button"
-            className="flex items-center justify-center w-9 h-9 rounded-md text-brand-body dark:text-white/55 hover:text-brand-dark dark:hover:text-white hover:bg-brand-bg dark:hover:bg-white/8 transition-colors"
-            onClick={() => setOpen((v) => !v)}
-            aria-label={open ? "Close menu" : "Open menu"}
-            aria-expanded={open}
-            aria-controls="public-mobile-menu"
-          >
-            {open ? <HiXMark size={22} /> : <HiBars3 size={22} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile drawer */}
-      {open && (
-        <div
-          id="public-mobile-menu"
-          className="md:hidden border-t border-brand-border dark:border-white/10 bg-white dark:bg-slate-900 px-6 py-5 flex flex-col gap-4"
-        >
-          {navLinks.map((link) => renderLink(link, () => setOpen(false)))}
-          <div className="mt-2 pt-4 border-t border-brand-border dark:border-white/10">
-            <AuthSection onClose={() => setOpen(false)} />
+          {/* Mobile: language + hamburger */}
+          <div className="md:hidden flex items-center gap-1">
+            <LanguageSwitcher />
+            <button
+              type="button"
+              className="flex items-center justify-center w-9 h-9 rounded-xl text-brand-body hover:bg-white/40 dark:text-white/60 dark:hover:bg-white/10 transition-colors"
+              onClick={() => setOpen((v) => !v)}
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
+              aria-controls="public-mobile-menu"
+            >
+              {open ? <HiXMark size={22} /> : <HiBars3 size={22} />}
+            </button>
           </div>
         </div>
-      )}
-    </nav>
+
+        {/* Mobile drawer — inherits glass from parent */}
+        {open && (
+          <div
+            id="public-mobile-menu"
+            className="md:hidden border-t border-white/30 dark:border-white/8 px-5 py-5 flex flex-col gap-4 rounded-b-2xl"
+          >
+            {navLinks.map((link) => renderLink(link, () => setOpen(false)))}
+            <div className="pt-4 border-t border-white/30 dark:border-white/8">
+              <AuthSection onClose={() => setOpen(false)} />
+            </div>
+          </div>
+        )}
+      </nav>
+    </div>
   );
 }
 

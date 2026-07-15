@@ -39,16 +39,19 @@
     "help": "Help / FAQ",
     "login": "Sign In",
     "logout": "Sign Out",
+    "getStarted": "Get Started",
     "profile": "Profile",
     "settings": "Settings",
     "dashboard": "Dashboard"
   },
   "home": {
-    "badge": "Welcome to Questify",
-    "title": "Every Click Counts. Every Achievement Matters.",
+    "badge": "More Than 5k+ Students Learning",
     "subtitle": "Learn, participate, and earn rewards through an engaging learning experience designed to keep students motivated and successful.",
     "exploreCourses": "Explore Courses",
-    "learnMore": "Learn More"
+    "learnMore": "Learn More",
+    "titleLine1": "Every Click",
+    "titleAccent": "Counts.",
+    "titleLine2": "Every Achievement Matters."
   },
   "features": {
     "eyebrow": "Why Questify",

@@ -119,12 +119,17 @@ export default function AboutPage() {
 
   return (
     <>
-      <Navbar />
+      <div style={{ background: "radial-gradient(120% 90% at 50% 78%, rgba(238,250,244,0.9) 0%, rgba(238,250,244,0) 60%), linear-gradient(180deg, #b7d3c5 0%, #c4dcd0 30%, #cfe4d7 62%, #d9eee0 100%)" }}>
+        <Navbar />
+      </div>
 
       <main id="main-content" tabIndex={-1} className="outline-none">
 
         {/* ── Hero ─────────────────────────────────────────────────────────── */}
-        <section className="bg-gradient-to-b from-brand-bg to-white dark:from-slate-950 dark:to-slate-900 pt-20 pb-16 px-6 text-center">
+        <section
+          className="pt-[90px] pb-16 px-6 text-center"
+          style={{ background: "linear-gradient(180deg, #c4dcd0 0%, #d4ede3 22%, #eef8f4 52%, #eef8f4 78%, #F2FAF7 100%)" }}
+        >
           <div className="max-w-3xl mx-auto">
             <span className="inline-flex items-center gap-2 mb-5 px-3.5 py-1 rounded-full bg-brand-blue/10 text-brand-blue text-xs font-bold uppercase tracking-widest">
               <Zap size={12} />
