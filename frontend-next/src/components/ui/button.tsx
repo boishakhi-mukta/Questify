@@ -19,7 +19,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-sm text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
@@ -30,9 +30,9 @@ const buttonVariants = cva(
         destructive: "bg-red-600 text-white hover:bg-red-700",
         secondary: "bg-brand-bg text-brand-body border border-brand-border hover:border-brand-blue hover:text-brand-dark",
         sidebar:
-          "w-full justify-start gap-2.5 rounded-md text-white/55 font-medium hover:bg-white/8 hover:text-white",
+          "w-full justify-start gap-2.5 rounded-xl text-white/55 font-medium hover:bg-white/8 hover:text-white",
         "sidebar-active":
-          "w-full justify-start gap-2.5 rounded-md text-white font-bold",
+          "w-full justify-start gap-2.5 rounded-xl text-white font-bold",
       },
       size: {
         default: "h-10 px-6 py-2",

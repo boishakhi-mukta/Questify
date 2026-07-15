@@ -60,7 +60,7 @@ export function SelectTrigger({
   return (
     <div
       className={cn(
-        "flex h-10 w-full items-center justify-between rounded-md border border-brand-border bg-white px-3.5 py-2 text-sm text-brand-dark",
+        "flex h-10 w-full items-center justify-between rounded-xl border border-brand-border bg-white dark:bg-[#162B21] px-3.5 py-2 text-sm text-brand-dark dark:text-[#D8F0E8]",
         className
       )}
       {...props}

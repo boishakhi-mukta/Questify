@@ -39,16 +39,19 @@
     "help": "Hjelp / FAQ",
     "login": "Logg inn",
     "logout": "Logg ut",
+    "getStarted": "Kom i gang",
     "profile": "Profil",
     "settings": "Innstillinger",
     "dashboard": "Instrumentbord"
   },
   "home": {
-    "badge": "Velkommen til Questify",
-    "title": "Hvert klikk teller. Hver prestasjon betyr noe.",
-    "subtitle": "Lær, delta og tjen belønninger gjennom en engasjerende læringsopplevelse designet for å holde studenter motiverte og vellykkede.",
-    "exploreCourses": "Utforsk kurs",
-    "learnMore": "Les mer"
+    "badge": "Mer enn 5000+ studenter lærer",
+    "subtitle": "Lær, delta og tjen belønninger gjennom en engasjerende læringsopplevelse designet for å holde studentene motiverte og vellykkede.",
+    "exploreCourses": "Utforsk Kurs",
+    "learnMore": "Lær Mer",
+    "titleLine1": "Hvert Klikk",
+    "titleAccent": "Teller.",
+    "titleLine2": "Hvert Mål Betyr Noe."
   },
   "features": {
     "eyebrow": "Hvorfor Questify",
@@ -116,6 +119,11 @@
     "eyebrow": "Kurskatalog",
     "heading": "Utforsk kurs",
     "body": "Bla gjennom institusjonens kurskatalog og meld deg på for å begynne å tjene XP og klatre på rangeringen."
+  },
+  "admission": {
+    "heading": "Vurderer du å bli med i Questify?",
+    "body": "Ta kontakt med opptaksteamet vårt og start Questify-reisen din i dag.",
+    "cta": "Kontakt opptak"
   },
   "courses": {
     "title": "Kurs",
@@ -384,9 +392,7 @@
     "deactivate": "Deaktiver"
   },
   "teacherDashboard": {
-    "title": "Lærerpanel",
-    "subtitle": "Dette panelet er under konstruksjon. Kom tilbake snart — kursadministrasjon, studentsporing og mer er på vei.",
-    "comingSoon": "Kommer snart"
+    "title": "Lærerpanel"
   },
   "profileLayout": {
     "joined": "Ble med",
@@ -636,7 +642,7 @@
   },
   "testimonials": {
     "eyebrow": "Hva folk sier",
-    "heading": "Elsket av studenter, lærere og administratorer",
+    "heading": "What Our Students Say About Us",
     "subheading": "Ikke bare ta vårt ord for det — her er hva studenter, lærere og administratorer ved institusjonen vår har å si.",
     "quote1": "Questify forandret hvordan jeg tilnærmer meg læring. XP-systemet fikk meg til å faktisk glede meg til å levere oppgaver — jeg gikk fra å slite til å toppe ledertavlen på seks uker.",
     "role1": "Student, informatikk",

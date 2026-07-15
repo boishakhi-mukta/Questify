@@ -50,8 +50,6 @@ import {
   HiEye,
   HiUsers,
   HiClock,
-  HiCheckCircle,
-  HiXCircle,
 } from "react-icons/hi2";
 import {
   Select,
@@ -462,24 +460,6 @@ function SubmissionsModal({
   state:  ReturnType<typeof useOverlayState>;
   target: Assignment | null;
 }) {
-  // Simulated submission rows
-  const MOCK_SUBMISSIONS = [
-    { name: "Alice Johnson",   status: "GRADED",    score: 92, submittedAt: "Jun 24, 9:12 AM" },
-    { name: "Bob Martinez",    status: "SUBMITTED",  score: null, submittedAt: "Jun 24, 11:03 AM" },
-    { name: "Carol White",     status: "GRADED",    score: 78, submittedAt: "Jun 23, 8:55 PM" },
-    { name: "David Chen",      status: "LATE",      score: 65, submittedAt: "Jun 25, 2:30 AM" },
-    { name: "Eva Gonzalez",    status: "SUBMITTED",  score: null, submittedAt: "Jun 24, 6:17 PM" },
-  ];
-
-  const statusChip = (status: string, score: number | null) => {
-    if (status === "GRADED")    return <Chip color="success" variant="soft" size="sm">{score}%</Chip>;
-    if (status === "LATE")      return <Chip color="warning" variant="soft" size="sm">Late</Chip>;
-    return <Chip color="default" variant="soft" size="sm">Pending review</Chip>;
-  };
-
-  const TH = "px-4 py-2 text-[11px] font-bold uppercase tracking-wide text-brand-body/60 dark:text-white/40 text-left";
-  const TD = "px-4 py-3 text-[13px]";
-
   return (
     <ModalRoot state={state}>
       <ModalBackdrop />
@@ -492,41 +472,19 @@ function SubmissionsModal({
             </div>
             <ModalCloseTrigger />
           </ModalHeader>
-          <ModalBody className="py-4">
-            <div className="flex gap-4 mb-4">
-              {[
-                { icon: HiUsers,        label: "Total",    value: MOCK_SUBMISSIONS.length, color: "text-brand-blue" },
-                { icon: HiCheckCircle,  label: "Graded",   value: MOCK_SUBMISSIONS.filter(s => s.status === "GRADED").length, color: "text-emerald-500" },
-                { icon: HiClock,        label: "Pending",  value: MOCK_SUBMISSIONS.filter(s => s.status === "SUBMITTED").length, color: "text-amber-500" },
-                { icon: HiXCircle,      label: "Late",     value: MOCK_SUBMISSIONS.filter(s => s.status === "LATE").length, color: "text-red-500" },
-              ].map(({ icon: Icon, label, value, color }) => (
-                <div key={label} className="flex-1 text-center p-2 rounded-lg bg-brand-bg dark:bg-white/4">
-                  <Icon size={16} className={cn("mx-auto mb-0.5", color)} />
-                  <p className="text-[15px] font-black text-brand-dark dark:text-white">{value}</p>
-                  <p className="text-[10px] text-brand-body/55 dark:text-white/35">{label}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="overflow-x-auto rounded-md border border-brand-border dark:border-white/8">
-              <table className="w-full border-collapse">
-                <thead>
-                  <tr className="border-b border-brand-border dark:border-white/8 bg-brand-bg dark:bg-white/3">
-                    <th className={TH}>Student</th>
-                    <th className={TH}>Submitted</th>
-                    <th className={TH}>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {MOCK_SUBMISSIONS.map((s, i) => (
-                    <tr key={i} className="border-b border-brand-border/40 dark:border-white/5 last:border-0">
-                      <td className={cn(TD, "font-medium text-brand-dark dark:text-white")}>{s.name}</td>
-                      <td className={cn(TD, "text-brand-body dark:text-white/60 text-[12px]")}>{s.submittedAt}</td>
-                      <td className={TD}>{statusChip(s.status, s.score)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+          <ModalBody className="py-6">
+            <div className="flex flex-col items-center gap-3 text-center py-4">
+              <div className="w-12 h-12 rounded-xl bg-brand-blue-light flex items-center justify-center">
+                <HiUsers size={22} className="text-brand-blue" />
+              </div>
+              <p className="text-sm font-semibold text-brand-dark dark:text-[#D8F0E8]">
+                Submissions are tracked in the student portal
+              </p>
+              <p className="text-xs text-brand-body/70 dark:text-white/45 max-w-xs leading-relaxed">
+                Student submissions for <span className="font-semibold">{target?.title ?? "this assignment"}</span> are
+                recorded when students complete the assignment in their dashboard. View them via the
+                student progress report in Analytics.
+              </p>
             </div>
           </ModalBody>
           <ModalFooter>

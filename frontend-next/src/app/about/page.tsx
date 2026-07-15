@@ -119,12 +119,17 @@ export default function AboutPage() {
 
   return (
     <>
-      <Navbar />
+      <div style={{ background: "radial-gradient(120% 90% at 50% 78%, rgba(238,250,244,0.9) 0%, rgba(238,250,244,0) 60%), linear-gradient(180deg, #b7d3c5 0%, #c4dcd0 30%, #cfe4d7 62%, #d9eee0 100%)" }}>
+        <Navbar />
+      </div>
 
       <main id="main-content" tabIndex={-1} className="outline-none">
 
         {/* ── Hero ─────────────────────────────────────────────────────────── */}
-        <section className="bg-gradient-to-b from-brand-bg to-white dark:from-slate-950 dark:to-slate-900 pt-20 pb-16 px-6 text-center">
+        <section
+          className="pt-[90px] pb-16 px-6 text-center"
+          style={{ background: "linear-gradient(180deg, #c4dcd0 0%, #d4ede3 22%, #eef8f4 52%, #eef8f4 78%, #F2FAF7 100%)" }}
+        >
           <div className="max-w-3xl mx-auto">
             <span className="inline-flex items-center gap-2 mb-5 px-3.5 py-1 rounded-full bg-brand-blue/10 text-brand-blue text-xs font-bold uppercase tracking-widest">
               <Zap size={12} />
@@ -139,7 +144,7 @@ export default function AboutPage() {
             <div className="flex flex-wrap items-center justify-center gap-3">
               <Link
                 href="/login"
-                className="inline-flex items-center px-6 py-3 rounded-xl bg-brand-blue text-white text-sm font-bold hover:bg-[#004182] transition-colors no-underline"
+                className="inline-flex items-center px-6 py-3 rounded-xl bg-brand-blue text-white text-sm font-bold hover:bg-brand-blue-dark transition-colors no-underline"
               >
                 {t("about.logIn")}
               </Link>
@@ -166,7 +171,7 @@ export default function AboutPage() {
         </section>
 
         {/* ── Mission ──────────────────────────────────────────────────────── */}
-        <section className="max-w-6xl mx-auto px-6 md:px-12 py-20">
+        <section className="max-w-6xl mx-auto px-4 md:px-6 py-20">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div>
               <SectionHeading
@@ -199,7 +204,7 @@ export default function AboutPage() {
         </section>
 
         {/* ── Who Uses Questify ─────────────────────────────────────────────── */}
-        <section className="bg-brand-bg dark:bg-slate-950 py-20 px-6 md:px-12">
+        <section className="bg-brand-bg dark:bg-slate-950 py-20 px-4 md:px-6">
           <div className="max-w-6xl mx-auto">
             <SectionHeading
               tag={t("about.rolesTag")}
@@ -232,7 +237,7 @@ export default function AboutPage() {
         </section>
 
         {/* ── Values ───────────────────────────────────────────────────────── */}
-        <section className="max-w-6xl mx-auto px-6 md:px-12 py-20">
+        <section className="max-w-6xl mx-auto px-4 md:px-6 py-20">
           <SectionHeading
             tag={t("about.valuesTag")}
             title={t("about.valuesTitle")}
@@ -267,7 +272,7 @@ export default function AboutPage() {
             <div className="flex flex-wrap items-center justify-center gap-3">
               <Link
                 href="/login"
-                className="inline-flex items-center px-6 py-3 rounded-xl bg-brand-blue text-white text-sm font-bold hover:bg-[#004182] transition-colors no-underline"
+                className="inline-flex items-center px-6 py-3 rounded-xl bg-brand-blue text-white text-sm font-bold hover:bg-brand-blue-dark transition-colors no-underline"
               >
                 {t("about.logInBtn")}
               </Link>

@@ -74,7 +74,7 @@ export default function ForgotPasswordPage() {
                   <button
                     type="submit"
                     disabled={!email.trim()}
-                    className="w-full h-11 bg-brand-blue hover:bg-[#004182] disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-lg transition-colors duration-150"
+                    className="w-full h-11 bg-brand-blue hover:bg-brand-blue-dark disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-lg transition-colors duration-150"
                   >
                     Check account
                   </button>
@@ -104,7 +104,7 @@ export default function ForgotPasswordPage() {
 
             <Link
               href="/login"
-              className="mt-6 flex items-center gap-1.5 text-[13px] font-semibold text-brand-blue hover:text-[#004182] transition-colors w-fit"
+              className="mt-6 flex items-center gap-1.5 text-[13px] font-semibold text-brand-blue hover:text-brand-blue-dark transition-colors w-fit"
             >
               <HiArrowLeft size={14} />
               Back to login

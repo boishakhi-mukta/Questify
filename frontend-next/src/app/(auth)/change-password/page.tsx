@@ -172,7 +172,7 @@ export default function ChangePasswordPage() {
                   <button
                     type="submit"
                     disabled={isPending || !current || !next || !confirm}
-                    className="w-full h-11 bg-brand-blue hover:bg-[#004182] disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-lg transition-colors duration-150 mt-1 flex items-center justify-center gap-2"
+                    className="w-full h-11 bg-brand-blue hover:bg-brand-blue-dark disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-lg transition-colors duration-150 mt-1 flex items-center justify-center gap-2"
                   >
                     {isPending ? (
                       <><span className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />Saving…</>
@@ -180,7 +180,7 @@ export default function ChangePasswordPage() {
                   </button>
                 </form>
 
-                <Link href={ROLE_REDIRECT[user?.role ?? "student"] ?? "/dashboard"} className="mt-5 flex items-center gap-1.5 text-[13px] font-semibold text-brand-blue hover:text-[#004182] transition-colors w-fit">
+                <Link href={ROLE_REDIRECT[user?.role ?? "student"] ?? "/dashboard"} className="mt-5 flex items-center gap-1.5 text-[13px] font-semibold text-brand-blue hover:text-brand-blue-dark transition-colors w-fit">
                   <HiArrowLeft size={14} />
                   Back to dashboard
                 </Link>

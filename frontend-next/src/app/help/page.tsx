@@ -200,11 +200,16 @@ export default function HelpPage() {
 
   return (
     <>
-      <Navbar />
+      <div style={{ background: "radial-gradient(120% 90% at 50% 78%, rgba(238,250,244,0.9) 0%, rgba(238,250,244,0) 60%), linear-gradient(180deg, #b7d3c5 0%, #c4dcd0 30%, #cfe4d7 62%, #d9eee0 100%)" }}>
+        <Navbar />
+      </div>
 
       <main id="main-content" tabIndex={-1} className="outline-none">
         {/* Hero */}
-        <section className="bg-gradient-to-b from-brand-bg to-white dark:from-slate-950 dark:to-slate-900 pt-16 pb-14 px-6 text-center">
+        <section
+          className="pt-[90px] pb-14 px-6 text-center"
+          style={{ background: "linear-gradient(180deg, #c4dcd0 0%, #d4ede3 22%, #eef8f4 52%, #eef8f4 78%, #F2FAF7 100%)" }}
+        >
           <div className="max-w-2xl mx-auto">
             <span className="inline-block mb-4 px-3.5 py-1 rounded-full bg-brand-blue/10 text-brand-blue text-xs font-bold uppercase tracking-widest">
               {t("helpPage.badge")}
@@ -235,7 +240,7 @@ export default function HelpPage() {
         </section>
 
         {/* Body */}
-        <section className="max-w-6xl mx-auto px-6 md:px-12 py-16">
+        <section className="max-w-6xl mx-auto px-4 md:px-6 py-16">
           <div className="grid lg:grid-cols-[220px_1fr] gap-10 lg:gap-14 items-start">
 
             {/* Sidebar — category nav (desktop) */}
@@ -285,7 +290,7 @@ export default function HelpPage() {
                   </p>
                   <Link
                     href="/contact"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-blue text-white text-sm font-semibold hover:bg-[#004182] transition-colors no-underline"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-blue text-white text-sm font-semibold hover:bg-brand-blue-dark transition-colors no-underline"
                   >
                     <Headphones size={15} />
                     {t("helpPage.contactHelpdeskLink")}
@@ -313,7 +318,7 @@ export default function HelpPage() {
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-blue text-white text-sm font-bold hover:bg-[#004182] transition-colors no-underline"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-blue text-white text-sm font-bold hover:bg-brand-blue-dark transition-colors no-underline"
             >
               <Headphones size={15} />
               {t("helpPage.ctaBtn")}

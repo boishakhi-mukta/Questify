@@ -137,7 +137,7 @@ export default function LoginPage() {
                       <label className="text-sm font-semibold text-brand-dark">{t("auth.password")}</label>
                       <Link
                         href="/forgot-password"
-                        className="text-[13px] text-brand-blue hover:text-[#004182] font-medium transition-colors"
+                        className="text-[13px] text-brand-blue hover:text-brand-blue-dark font-medium transition-colors"
                       >
                         {t("auth.forgotPassword")}
                       </Link>
@@ -168,7 +168,7 @@ export default function LoginPage() {
                   <button
                     type="submit"
                     disabled={isLoggingIn || !email || !password}
-                    className="w-full h-11 bg-brand-blue hover:bg-[#004182] disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-lg transition-colors duration-150 mt-1 flex items-center justify-center gap-2"
+                    className="w-full h-11 bg-brand-blue hover:bg-brand-blue-dark disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-lg transition-colors duration-150 mt-1 flex items-center justify-center gap-2"
                   >
                     {isLoggingIn ? (
                       <>
