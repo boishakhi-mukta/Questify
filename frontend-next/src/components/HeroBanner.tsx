@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
@@ -58,6 +59,7 @@ const FAN_IMAGES = [
 export default function HeroBanner() {
   const { t }   = useTranslation();
   const reduced = useReducedMotion();
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const item = (delay: number) => ({
     initial:    reduced ? false : { opacity: 0, y: 18 },
@@ -68,7 +70,7 @@ export default function HeroBanner() {
   return (
     <section
       id="main-content"
-      className="flex flex-col items-center w-full px-5 sm:px-6 pt-8 sm:pt-10 md:pt-12 lg:pt-14 pb-5 sm:pb-6 flex-1"
+      className="flex flex-col items-center w-full px-3 sm:px-4 pt-8 sm:pt-10 md:pt-12 lg:pt-14 pb-5 sm:pb-6 flex-1"
     >
       {/* Heading */}
       <motion.h1
@@ -110,23 +112,29 @@ export default function HeroBanner() {
         {...item(0.22)}
         className="relative w-full max-w-[980px] aspect-[49/16] flex-none lg:aspect-auto lg:flex-1"
       >
-        {FAN_IMAGES.map((img) => (
+        {FAN_IMAGES.map((img, i) => {
+          const isHovered = hoveredIndex === i;
+          return (
           <div
             key={img.src}
-            className="absolute rounded-[20px] overflow-hidden"
+            className="absolute rounded-[20px] overflow-hidden cursor-pointer"
             style={{
               width: img.width,
               aspectRatio: img.aspect,
               bottom: 0,
               left: img.left,
-              zIndex: img.z,
+              zIndex: isHovered ? 20 : img.z,
               transformOrigin: "bottom center",
-              transform: `translateX(-50%) rotate(${img.rotate}deg)`,
-              boxShadow:
-                img.rotate === 0
+              transform: `translateX(-50%) translateY(${isHovered ? "-14px" : "0px"}) rotate(${img.rotate}deg)`,
+              transition: "transform 0.28s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.28s ease, z-index 0s",
+              boxShadow: isHovered
+                ? "0 28px 64px rgba(0,0,0,0.26), 0 8px 20px rgba(0,0,0,0.12)"
+                : img.rotate === 0
                   ? "0 20px 60px rgba(0,0,0,0.18), 0 4px 12px rgba(0,0,0,0.08)"
                   : "0 12px 32px rgba(0,0,0,0.14)",
             }}
+            onMouseEnter={() => setHoveredIndex(i)}
+            onMouseLeave={() => setHoveredIndex(null)}
           >
             <Image
               src={img.src}
@@ -137,7 +145,8 @@ export default function HeroBanner() {
               priority={img.rotate === 0}
             />
           </div>
-        ))}
+        );
+        })}
       </motion.div>
     </section>
   );

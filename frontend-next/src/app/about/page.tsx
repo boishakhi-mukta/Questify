@@ -171,7 +171,7 @@ export default function AboutPage() {
         </section>
 
         {/* ── Mission ──────────────────────────────────────────────────────── */}
-        <section className="max-w-6xl mx-auto px-6 md:px-12 py-20">
+        <section className="max-w-6xl mx-auto px-4 md:px-6 py-20">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div>
               <SectionHeading
@@ -204,7 +204,7 @@ export default function AboutPage() {
         </section>
 
         {/* ── Who Uses Questify ─────────────────────────────────────────────── */}
-        <section className="bg-brand-bg dark:bg-slate-950 py-20 px-6 md:px-12">
+        <section className="bg-brand-bg dark:bg-slate-950 py-20 px-4 md:px-6">
           <div className="max-w-6xl mx-auto">
             <SectionHeading
               tag={t("about.rolesTag")}
@@ -237,7 +237,7 @@ export default function AboutPage() {
         </section>
 
         {/* ── Values ───────────────────────────────────────────────────────── */}
-        <section className="max-w-6xl mx-auto px-6 md:px-12 py-20">
+        <section className="max-w-6xl mx-auto px-4 md:px-6 py-20">
           <SectionHeading
             tag={t("about.valuesTag")}
             title={t("about.valuesTitle")}

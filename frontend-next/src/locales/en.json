@@ -120,6 +120,11 @@
     "heading": "Explore Courses",
     "body": "Browse your institution's course catalogue and enroll to start earning XP and climbing the leaderboard."
   },
+  "admission": {
+    "heading": "Thinking about joining Questify?",
+    "body": "Connect with our admissions team and start your Questify journey today.",
+    "cta": "Contact Admissions"
+  },
   "courses": {
     "title": "Courses",
     "allCourses": "All Courses",

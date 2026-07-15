@@ -1,10 +1,15 @@
 "use client";
 
+import { useState } from "react";
 import { HiCalendar, HiDocumentCheck, HiBookOpen, HiTrophy } from "react-icons/hi2";
 import type { IconType } from "react-icons";
 import { useTranslation } from "react-i18next";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "@/components/animations/StaggerContainer";
+
+const CARD_BG =
+  "radial-gradient(120% 90% at 50% 78%, rgba(238,250,244,0.9) 0%, rgba(238,250,244,0) 60%), " +
+  "linear-gradient(180deg, #b7d3c5 0%, #c4dcd0 30%, #cfe4d7 62%, #d9eee0 100%)";
 
 interface CardConfig {
   icon:     IconType;
@@ -21,6 +26,7 @@ const cardConfigs: CardConfig[] = [
 
 export default function HowItWorks() {
   const { t } = useTranslation();
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
     <section
@@ -28,7 +34,7 @@ export default function HowItWorks() {
       className="w-full overflow-hidden"
       style={{ background: "linear-gradient(160deg, #d4ede3 0%, #e4f3ec 35%, #eef8f4 65%, #F2FAF7 100%)" }}
     >
-      <div className="max-w-6xl mx-auto py-20 px-6 md:px-12">
+      <div className="max-w-6xl mx-auto py-20 px-4 md:px-6">
 
         <ScrollReveal direction="up" className="flex flex-col items-center text-center mb-16">
           <p className="text-sm font-semibold text-brand-blue uppercase tracking-widest mb-3">
@@ -44,44 +50,44 @@ export default function HowItWorks() {
 
         {/* Desktop cascade staircase */}
         <ScrollReveal direction="up" delay={0.1}>
-          <div className="hidden lg:block relative" style={{ height: "555px" }}>
+          <div className="hidden lg:block relative mx-auto" style={{ height: "555px", width: "869px" }}>
             {cardConfigs.map(({ icon: Icon, titleKey, descKey }, i) => (
               <div
                 key={titleKey}
-                className="absolute w-[275px] rounded-2xl p-6 shadow-xl transition-transform duration-300 hover:-translate-y-1.5"
+                className="absolute w-[275px] rounded-2xl p-6 shadow-xl transition-all duration-300 cursor-pointer hover:-translate-y-2 hover:shadow-2xl"
                 style={{
                   left:       `${i * 198}px`,
                   top:        `${i * 112}px`,
-                  zIndex:     i + 1,
-                  background: "linear-gradient(145deg, #1B4332 0%, #0F2A1F 100%)",
+                  zIndex:     hoveredIndex === i ? 20 : i + 1,
+                  background: CARD_BG,
                 }}
+                onMouseEnter={() => setHoveredIndex(i)}
+                onMouseLeave={() => setHoveredIndex(null)}
               >
                 {/* Ghost step number */}
                 <span
                   aria-hidden="true"
                   className="absolute bottom-3 right-4 text-[84px] font-bold leading-none select-none pointer-events-none"
-                  style={{ color: "rgba(255,255,255,0.055)" }}
+                  style={{ color: "rgba(0,0,0,0.06)" }}
                 >
                   {i + 1}
                 </span>
 
                 {/* Icon */}
                 <div className="w-11 h-11 bg-white rounded-xl flex items-center justify-center mb-4 shadow-sm shrink-0">
-                  <Icon size={22} className="text-brand-blue" />
+                  <Icon size={22} className="text-[#1B7A5A]" />
                 </div>
 
                 {/* Title */}
                 <h3
-                  className="font-bold text-[17px] mb-2.5 leading-snug"
-                  style={{ color: "#2DCE9A" }}
+                  className="font-bold text-[17px] mb-2.5 leading-snug text-brand-dark"
                 >
                   {t(titleKey)}
                 </h3>
 
                 {/* Description */}
                 <p
-                  className="text-[13px] leading-relaxed"
-                  style={{ color: "rgba(255,255,255,0.72)" }}
+                  className="text-[13px] leading-relaxed text-brand-body"
                 >
                   {t(descKey)}
                 </p>
@@ -100,28 +106,22 @@ export default function HowItWorks() {
             <StaggerItem key={titleKey}>
               <div
                 className="relative rounded-2xl p-6 overflow-hidden shadow-md"
-                style={{ background: "linear-gradient(145deg, #1e3d7b 0%, #112752 100%)" }}
+                style={{ background: CARD_BG }}
               >
                 <span
                   aria-hidden="true"
                   className="absolute bottom-2 right-4 text-[64px] font-bold leading-none select-none pointer-events-none"
-                  style={{ color: "rgba(255,255,255,0.055)" }}
+                  style={{ color: "rgba(0,0,0,0.06)" }}
                 >
                   {i + 1}
                 </span>
                 <div className="w-11 h-11 bg-white rounded-xl flex items-center justify-center mb-4 shadow-sm">
-                  <Icon size={22} className="text-brand-blue" />
+                  <Icon size={22} className="text-[#1B7A5A]" />
                 </div>
-                <h3
-                  className="font-bold text-[17px] mb-2 leading-snug"
-                  style={{ color: "#2DCE9A" }}
-                >
+                <h3 className="font-bold text-[17px] mb-2 leading-snug text-brand-dark">
                   {t(titleKey)}
                 </h3>
-                <p
-                  className="text-[13px] leading-relaxed"
-                  style={{ color: "rgba(255,255,255,0.72)" }}
-                >
+                <p className="text-[13px] leading-relaxed text-brand-body">
                   {t(descKey)}
                 </p>
               </div>

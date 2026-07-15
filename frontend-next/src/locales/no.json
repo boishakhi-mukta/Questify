@@ -120,6 +120,11 @@
     "heading": "Utforsk kurs",
     "body": "Bla gjennom institusjonens kurskatalog og meld deg på for å begynne å tjene XP og klatre på rangeringen."
   },
+  "admission": {
+    "heading": "Vurderer du å bli med i Questify?",
+    "body": "Ta kontakt med opptaksteamet vårt og start Questify-reisen din i dag.",
+    "cta": "Kontakt opptak"
+  },
   "courses": {
     "title": "Kurs",
     "allCourses": "Alle kurs",

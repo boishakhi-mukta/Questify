@@ -240,7 +240,7 @@ export default function HelpPage() {
         </section>
 
         {/* Body */}
-        <section className="max-w-6xl mx-auto px-6 md:px-12 py-16">
+        <section className="max-w-6xl mx-auto px-4 md:px-6 py-16">
           <div className="grid lg:grid-cols-[220px_1fr] gap-10 lg:gap-14 items-start">
 
             {/* Sidebar — category nav (desktop) */}

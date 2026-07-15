@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap');
 
 @layer theme, base, components, utilities;
 
@@ -101,6 +101,7 @@
   --color-brand-border:      var(--brand-border);
   --color-brand-white:       var(--brand-white);
   --color-brand-blue-light:  var(--brand-blue-light);
+  --font-display:            'Source Sans 3', 'Source Sans Pro', system-ui, sans-serif;
 }
 
 /* ── Base styles ─────────────────────────────────────────── */

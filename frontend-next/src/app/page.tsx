@@ -19,6 +19,7 @@ import HeroBanner from "@/components/HeroBanner";
 import FeaturesSection from "@/components/sections/FeaturesSection";
 import StatisticsSection from "@/components/sections/StatisticsSection";
 import TestimonialsSection from "@/components/sections/TestimonialsSection";
+import AdmissionSection from "@/components/sections/AdmissionSection";
 import HowItWorks from "@/components/HowItWorks";
 import CoursesSection from "@/components/CoursesSection";
 
@@ -29,9 +30,9 @@ const HERO_BG =
 export default function Home() {
   return (
     <>
+      <Navbar />
       {/* Full-width hero — gradient edge to edge, no horizontal padding */}
-      <div style={{ background: HERO_BG, height: "90vh", minHeight: "720px", display: "flex", flexDirection: "column" }}>
-        <Navbar />
+      <div style={{ background: HERO_BG, minHeight: "85vh", display: "flex", flexDirection: "column" }}>
         <HeroBanner />
       </div>
 
@@ -39,6 +40,7 @@ export default function Home() {
       <StatisticsSection />
       <HowItWorks />
       <CoursesSection />
+      <AdmissionSection />
       <TestimonialsSection />
       <Footer />
     </>

@@ -8,12 +8,10 @@ import { ScrollReveal } from "@/components/animations/ScrollReveal";
 
 // Per-card scatter config: [rotateDeg, translateYpx]
 const SCATTER: [number, number][] = [
-  [-1.5,   0],
-  [ 2.0, -18],
-  [-2.0,  10],
-  [ 1.2,  14],
-  [-2.5,  -6],
-  [ 1.8,   4],
+  [-3.5, -10],
+  [ 2.0,  14],
+  [-2.0,   6],
+  [ 1.8,  -8],
 ];
 
 function StarRating({ rating }: { rating: number }) {
@@ -78,7 +76,7 @@ export default function TestimonialsSection() {
 
   return (
     <section className="w-full bg-white" aria-labelledby="testimonials-heading">
-      <div className="max-w-6xl mx-auto py-20 px-6 md:px-12">
+      <div className="max-w-6xl mx-auto py-20 px-4 md:px-6">
 
         {/* Heading */}
         <ScrollReveal direction="up" className="flex flex-col items-center text-center mb-16">
@@ -90,10 +88,10 @@ export default function TestimonialsSection() {
           </h2>
         </ScrollReveal>
 
-        {/* Desktop: 3-col scattered grid */}
+        {/* Desktop: 4-col scattered row */}
         <ScrollReveal direction="up" delay={0.1}>
-          <div className="hidden sm:grid grid-cols-3 gap-6 pb-10">
-            {testimonials.map((item, i) => {
+          <div className="hidden sm:grid grid-cols-4 gap-5 pb-14">
+            {testimonials.slice(0, 4).map((item, i) => {
               const [rotate, ty] = SCATTER[i] ?? [0, 0];
               return (
                 <ScatteredCard
@@ -107,9 +105,9 @@ export default function TestimonialsSection() {
           </div>
         </ScrollReveal>
 
-        {/* Mobile: single column */}
-        <div className="sm:hidden flex flex-col gap-5">
-          {testimonials.map((item) => (
+        {/* Mobile: 2-col grid */}
+        <div className="sm:hidden grid grid-cols-2 gap-4">
+          {testimonials.slice(0, 4).map((item) => (
             <ScatteredCard key={item.id} testimonial={item} rotate={0} ty={0} />
           ))}
         </div>

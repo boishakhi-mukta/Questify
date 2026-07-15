@@ -65,7 +65,7 @@ function NewsletterForm() {
   const [email, setEmail]   = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email.trim() || status !== "idle") return;
     setStatus("loading");
@@ -145,10 +145,14 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="w-full bg-brand-dark" aria-label="Site footer">
+    <footer
+      className="w-full"
+      style={{ background: "linear-gradient(160deg, #1e5c40 0%, #1B4332 45%, #112b21 100%)" }}
+      aria-label="Site footer"
+    >
 
       {/* Main grid */}
-      <div className="max-w-6xl mx-auto px-6 md:px-12 pt-16 pb-12">
+      <div className="max-w-6xl mx-auto px-4 md:px-6 pt-16 pb-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
 
           {/* Column 1 — About */}
@@ -209,7 +213,7 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="bg-[#0C1E15]">
-        <div className="max-w-6xl mx-auto px-6 md:px-12 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5">
+        <div className="max-w-6xl mx-auto px-4 md:px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5">
           <p className="text-[#5A8070] text-xs">
             © 2026 Questify. {t("footer.allRightsReserved")}
           </p>

@@ -168,7 +168,7 @@ export default function StatisticsSection() {
 
   return (
     <section ref={sectionRef} className="w-full bg-brand-bg" aria-labelledby="stats-heading">
-      <div className="max-w-6xl mx-auto py-16 px-6 md:px-12">
+      <div className="max-w-6xl mx-auto py-16 px-4 md:px-6">
 
         {/* Section header */}
         <ScrollReveal direction="up" className="flex flex-col items-center text-center mb-12">
