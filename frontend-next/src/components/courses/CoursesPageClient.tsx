@@ -203,7 +203,7 @@ export default function CoursesPageClient() {
       {/* ── Page header ──────────────────────────────────────────────────────── */}
       <div
         className="border-b border-brand-border/50"
-        style={{ background: "linear-gradient(180deg, #F2FAF7 0%, #c4dcd0 22%, #d4ede3 52%, #eef8f4 78%, #F2FAF7 100%)" }}
+        style={{ background: "linear-gradient(180deg, #b7d3c5 0%, #c4dcd0 22%, #d4ede3 52%, #eef8f4 78%, #F2FAF7 100%)" }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-[90px] pb-8">
           <h1 className="text-[28px] font-bold text-brand-dark mb-1">{t("coursesPage.title")}</h1>
