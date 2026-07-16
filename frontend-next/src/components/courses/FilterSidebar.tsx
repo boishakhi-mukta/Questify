@@ -26,10 +26,10 @@ export const LEVEL_OPTIONS = [
 ] as const;
 
 export const SEMESTER_OPTIONS = [
-  "Spring 2025",
-  "Fall 2025",
   "Spring 2026",
   "Fall 2026",
+  "Spring 2027",
+  "Fall 2027",
 ];
 
 interface FilterSidebarProps {
@@ -49,6 +49,45 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
     <p className="text-[11px] font-bold uppercase tracking-wider text-brand-body/60 mb-3">
       {children}
     </p>
+  );
+}
+
+function RadioOption({
+  label,
+  checked,
+  onChange,
+}: {
+  label: string;
+  checked: boolean;
+  onChange: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onChange}
+      className="flex items-center gap-2.5 cursor-pointer group w-full text-left"
+    >
+      <span
+        className={cn(
+          "w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors duration-150",
+          checked
+            ? "border-brand-blue bg-brand-blue"
+            : "border-brand-border group-hover:border-brand-blue/50"
+        )}
+      >
+        {checked && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
+      </span>
+      <span
+        className={cn(
+          "text-[14px] transition-colors",
+          checked
+            ? "text-brand-dark font-semibold"
+            : "text-brand-body group-hover:text-brand-dark"
+        )}
+      >
+        {label}
+      </span>
+    </button>
   );
 }
 
@@ -134,18 +173,12 @@ export function FilterSidebar({
           <SectionLabel>{t("filterSidebar.level")}</SectionLabel>
           <div className="flex flex-col gap-2">
             {LEVEL_OPTIONS.map(({ value, label }) => (
-              <label key={value} className="flex items-center gap-2.5 cursor-pointer group">
-                <input
-                  type="radio"
-                  name="difficulty"
-                  checked={filters.difficulty === value}
-                  onChange={() => onSetDifficulty(value)}
-                  className="w-4 h-4 accent-brand-blue cursor-pointer"
-                />
-                <span className="text-[14px] text-brand-body group-hover:text-brand-dark transition-colors">
-                  {label}
-                </span>
-              </label>
+              <RadioOption
+                key={value}
+                label={label}
+                checked={filters.difficulty === value}
+                onChange={() => onSetDifficulty(value)}
+              />
             ))}
           </div>
         </section>
@@ -157,18 +190,12 @@ export function FilterSidebar({
           <SectionLabel>{t("filterSidebar.semester")}</SectionLabel>
           <div className="flex flex-col gap-2">
             {SEMESTER_OPTIONS.map((s) => (
-              <label key={s} className="flex items-center gap-2.5 cursor-pointer group">
-                <input
-                  type="radio"
-                  name="semester"
-                  checked={filters.semester === s}
-                  onChange={() => onSetSemester(s)}
-                  className="w-4 h-4 accent-brand-blue cursor-pointer"
-                />
-                <span className="text-[14px] text-brand-body group-hover:text-brand-dark transition-colors">
-                  {s}
-                </span>
-              </label>
+              <RadioOption
+                key={s}
+                label={s}
+                checked={filters.semester === s}
+                onChange={() => onSetSemester(s)}
+              />
             ))}
           </div>
         </section>
@@ -179,7 +206,7 @@ export function FilterSidebar({
 
   if (!isDrawer) {
     return (
-      <div className="w-[240px] shrink-0 bg-white rounded-xl border border-brand-border p-5 sticky top-[80px] max-h-[calc(100vh-100px)] overflow-hidden flex flex-col">
+      <div className="w-60 shrink-0 bg-white rounded-xl border border-brand-border p-5 sticky top-20 max-h-[calc(100vh-100px)] overflow-hidden flex flex-col">
         {content}
       </div>
     );
@@ -196,7 +223,7 @@ export function FilterSidebar({
       />
       <div
         className={cn(
-          "fixed top-0 left-0 z-50 h-full w-[300px] bg-white shadow-2xl p-5 flex flex-col transition-transform duration-250 ease-out",
+          "fixed top-0 left-0 z-50 h-full w-75 bg-white shadow-2xl p-5 flex flex-col transition-transform duration-250 ease-out",
           open ? "translate-x-0" : "-translate-x-full"
         )}
       >

@@ -15,33 +15,20 @@
 
 export function CourseSkeleton() {
   return (
-    <div className="bg-white rounded-xl border border-brand-border p-5 flex flex-col gap-3 animate-pulse">
-      {/* Badges */}
-      <div className="flex gap-1.5">
-        <div className="w-24 h-5 rounded-full bg-brand-bg" />
-        <div className="w-16 h-5 rounded-full bg-brand-bg" />
-      </div>
-      {/* Title */}
-      <div className="space-y-1.5">
-        <div className="w-full h-5 rounded bg-brand-bg" />
-        <div className="w-3/4 h-5 rounded bg-brand-bg" />
-      </div>
-      {/* Instructor */}
-      <div className="w-1/3 h-4 rounded bg-brand-bg" />
-      {/* Description */}
-      <div className="space-y-1.5">
-        <div className="w-full h-4 rounded bg-brand-bg" />
-        <div className="w-5/6 h-4 rounded bg-brand-bg" />
-      </div>
-      {/* Rating */}
-      <div className="w-1/2 h-4 rounded bg-brand-bg" />
-      {/* Bottom row */}
-      <div className="flex items-center justify-between pt-3 border-t border-brand-border mt-auto">
-        <div className="flex gap-2">
-          <div className="w-16 h-5 rounded-full bg-brand-bg" />
-          <div className="w-12 h-5 rounded bg-brand-bg" />
+    <div className="rounded-xl overflow-hidden border border-brand-border/40 bg-white shadow-xs animate-pulse">
+      <div className="h-0.75 bg-brand-border/30" />
+      <div className="px-5 pt-5 pb-5 flex flex-col gap-3">
+        <div className="flex items-center justify-between">
+          <div className="h-3 w-20 bg-brand-bg rounded" />
+          <div className="h-4 w-16 bg-brand-bg rounded-full" />
         </div>
-        <div className="w-10 h-5 rounded bg-brand-bg" />
+        <div className="h-4 w-4/5 bg-brand-bg rounded" />
+        <div className="h-3 w-full bg-brand-bg rounded" />
+        <div className="h-3 w-2/3 bg-brand-bg rounded" />
+        <div className="pt-3 border-t border-brand-border/40 flex gap-4">
+          <div className="h-3 w-14 bg-brand-bg rounded" />
+          <div className="h-3 w-10 bg-brand-bg rounded" />
+        </div>
       </div>
     </div>
   );

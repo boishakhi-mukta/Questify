@@ -710,6 +710,7 @@
     "resultsFor_one": "{{count}} resultat for \"{{search}}\"",
     "resultsFor_other": "{{count}} resultater for \"{{search}}\"",
     "noAnswerDesc": "Vi fant ikke et svar på det. Prøv et annet søkeord, eller kontakt helpdesk direkte.",
+    "ctaTag": "Ta kontakt",
     "ctaTitle": "Fant du ikke det du leter etter?",
     "ctaDesc": "IT-helpdesk er tilgjengelig mandag–fredag, 08:00–16:00 CET. Oppgi student- eller ansatt-ID for raskere hjelp.",
     "ctaBtn": "Kontakt helpdesk",

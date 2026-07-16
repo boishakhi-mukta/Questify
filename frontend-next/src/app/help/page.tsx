@@ -3,13 +3,13 @@
 /**
  * ============================================================================
  * QUESTIFY PAGE ROUTE: FAQ & Support
- * 
+ *
  * WHAT IT DOES (For Non-Technical Readers):
  * Public help directory listing answers to common questions.
- * 
+ *
  * WHY IT EXISTS:
  * Simplifies user support.
- * 
+ *
  * HOW IT WORKS (Technical Overview):
  * Accordion layout mapping static FAQ strings.
  * ============================================================================
@@ -17,6 +17,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/layout/Footer";
 import {
@@ -28,6 +29,7 @@ import {
   CalendarDays,
   Settings,
   Headphones,
+  ArrowRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
@@ -110,7 +112,17 @@ const categories: Category[] = [
 
 // ── Accordion item ─────────────────────────────────────────────────────────────
 
-function AccordionItem({ q, a, isOpen, onToggle }: { q: string; a: string; isOpen: boolean; onToggle: () => void }) {
+function AccordionItem({
+  q,
+  a,
+  isOpen,
+  onToggle,
+}: {
+  q: string;
+  a: string;
+  isOpen: boolean;
+  onToggle: () => void;
+}) {
   return (
     <div className="border-b border-brand-border dark:border-white/8 last:border-0">
       <button
@@ -141,11 +153,20 @@ function AccordionItem({ q, a, isOpen, onToggle }: { q: string; a: string; isOpe
 
 // ── Category section ───────────────────────────────────────────────────────────
 
-function CategorySection({ cat, filterText }: { cat: Category; filterText: string }) {
+function CategorySection({
+  cat,
+  filterText,
+}: {
+  cat: Category;
+  filterText: string;
+}) {
   const { t } = useTranslation();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-  const translatedFaqs = cat.faqs.map((faq) => ({ q: t(faq.qKey), a: t(faq.aKey) }));
+  const translatedFaqs = cat.faqs.map((faq) => ({
+    q: t(faq.qKey),
+    a: t(faq.aKey),
+  }));
   const filtered = translatedFaqs.filter(
     (faq) =>
       faq.q.toLowerCase().includes(filterText) ||
@@ -156,12 +177,19 @@ function CategorySection({ cat, filterText }: { cat: Category; filterText: strin
   const Icon = cat.icon;
 
   return (
-    <section id={cat.id} aria-labelledby={`heading-${cat.id}`} className="scroll-mt-24">
+    <section
+      id={cat.id}
+      aria-labelledby={`heading-${cat.id}`}
+      className="scroll-mt-24"
+    >
       <div className="flex items-center gap-3 mb-5">
         <div className="w-9 h-9 rounded-lg bg-brand-blue/10 flex items-center justify-center shrink-0">
           <Icon size={17} className="text-brand-blue" />
         </div>
-        <h2 id={`heading-${cat.id}`} className="text-lg font-bold text-brand-dark dark:text-white">
+        <h2
+          id={`heading-${cat.id}`}
+          className="text-lg font-bold text-brand-dark dark:text-white"
+        >
           {t(cat.labelKey)}
         </h2>
       </div>
@@ -200,15 +228,24 @@ export default function HelpPage() {
 
   return (
     <>
-      <div style={{ background: "radial-gradient(120% 90% at 50% 78%, rgba(238,250,244,0.9) 0%, rgba(238,250,244,0) 60%), linear-gradient(180deg, #b7d3c5 0%, #c4dcd0 30%, #cfe4d7 62%, #d9eee0 100%)" }}>
-        <Navbar />
-      </div>
+      <Navbar />
+      <div
+        style={{
+          background:
+            "radial-gradient(120% 90% at 50% 78%, rgba(238,250,244,0.9) 0%, rgba(238,250,244,0) 60%), linear-gradient(180deg, #b7d3c5 0%, #c4dcd0 30%, #cfe4d7 62%, #d9eee0 100%)",
+          marginTop: "-60px",
+          paddingTop: "60px",
+        }}
+      />
 
       <main id="main-content" tabIndex={-1} className="outline-none">
         {/* Hero */}
         <section
-          className="pt-[90px] pb-14 px-6 text-center"
-          style={{ background: "linear-gradient(180deg, #c4dcd0 0%, #d4ede3 22%, #eef8f4 52%, #eef8f4 78%, #F2FAF7 100%)" }}
+          className="pt-22.5 pb-14 px-6 text-center"
+          style={{
+            background:
+              "linear-gradient(180deg, #c4dcd0 0%, #d4ede3 22%, #eef8f4 52%, #eef8f4 78%, #F2FAF7 100%)",
+          }}
         >
           <div className="max-w-2xl mx-auto">
             <span className="inline-block mb-4 px-3.5 py-1 rounded-full bg-brand-blue/10 text-brand-blue text-xs font-bold uppercase tracking-widest">
@@ -242,9 +279,11 @@ export default function HelpPage() {
         {/* Body */}
         <section className="max-w-6xl mx-auto px-4 md:px-6 py-16">
           <div className="grid lg:grid-cols-[220px_1fr] gap-10 lg:gap-14 items-start">
-
             {/* Sidebar — category nav (desktop) */}
-            <aside className="hidden lg:block sticky top-24 space-y-1" aria-label="FAQ categories">
+            <aside
+              className="hidden lg:block sticky top-24 space-y-1"
+              aria-label="FAQ categories"
+            >
               {categories.map((cat) => {
                 const Icon = cat.icon;
                 return (
@@ -298,31 +337,68 @@ export default function HelpPage() {
                 </div>
               ) : (
                 categories.map((cat) => (
-                  <CategorySection key={cat.id} cat={cat} filterText={filterText} />
+                  <CategorySection
+                    key={cat.id}
+                    cat={cat}
+                    filterText={filterText}
+                  />
                 ))
               )}
             </div>
-
           </div>
         </section>
 
         {/* CTA band */}
-        <section className="bg-brand-dark py-14 px-6 text-center">
-          <div className="max-w-xl mx-auto">
-            <Headphones size={32} className="text-brand-blue mx-auto mb-4" />
-            <h2 className="text-xl font-bold text-white mb-2">
-              {t("helpPage.ctaTitle")}
-            </h2>
-            <p className="text-white/60 text-sm mb-6">
-              {t("helpPage.ctaDesc")}
-            </p>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-blue text-white text-sm font-bold hover:bg-brand-blue-dark transition-colors no-underline"
-            >
-              <Headphones size={15} />
-              {t("helpPage.ctaBtn")}
-            </Link>
+        <section
+          className="py-20 px-6 overflow-hidden"
+          style={{
+            background:
+              "linear-gradient(180deg, #eef8f4 0%, #d9eee0 45%, #c4dcd0 100%)",
+          }}
+        >
+          <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            {/* Left — text */}
+            <div>
+              <span className="inline-block mb-4 px-3.5 py-1 rounded-full bg-brand-blue/10 text-brand-blue text-xs font-bold uppercase tracking-widest">
+                {t("helpPage.ctaTag")}
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-brand-dark mb-5 leading-tight">
+                {t("helpPage.ctaTitle")}
+              </h2>
+              <p className="text-brand-body text-base leading-relaxed mb-8 max-w-md">
+                {t("helpPage.ctaDesc")}
+              </p>
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full border-2 border-brand-dark text-brand-dark text-sm font-bold hover:bg-brand-dark hover:text-white transition-all duration-200 no-underline mt-3"
+              >
+                {t("helpPage.ctaBtn")}
+                <ArrowRight size={16} />
+              </Link>
+            </div>
+
+            {/* Right — image with decorative circles */}
+            <div className="relative flex items-center justify-center">
+              {/* Dashed outline circle — top-left */}
+              <div
+                className="absolute -top-8 -left-6 w-32 h-32 rounded-full z-0"
+                style={{ border: "2px dashed #25B585" }}
+              />
+              {/* Small filled dot — upper left */}
+              <div className="absolute top-0 left-10 w-3.5 h-3.5 rounded-full bg-brand-blue z-10" />
+              {/* Large solid circle — bottom-right */}
+              <div className="absolute -bottom-12 -right-10 w-56 h-56 rounded-full bg-brand-blue/25 z-0" />
+              {/* Photo */}
+              <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl w-full">
+                <Image
+                  src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=900&q=80"
+                  alt="IT helpdesk support team"
+                  width={900}
+                  height={400}
+                  className="w-full h-64 sm:h-72 object-cover"
+                />
+              </div>
+            </div>
           </div>
         </section>
       </main>

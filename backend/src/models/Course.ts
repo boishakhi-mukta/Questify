@@ -16,7 +16,7 @@
 import { Schema, model, Document, Types } from "mongoose";
 
 // ── Level enum ─────────────────────────────────────────────────────────────────
-export type CourseLevel = "BEGINNER" | "INTERMEDIATE" | "ADVANCED";
+export type CourseLevel = "BACHELOR" | "MASTERS";
 
 // ── Metadata sub-document ──────────────────────────────────────────────────────
 export interface ICourseMetadata {
@@ -112,8 +112,8 @@ const CourseSchema = new Schema<ICourse>(
     level: {
       type: String,
       enum: {
-        values: ["BEGINNER", "INTERMEDIATE", "ADVANCED"] as CourseLevel[],
-        message: "Level must be BEGINNER, INTERMEDIATE, or ADVANCED",
+        values: ["BACHELOR", "MASTERS"] as CourseLevel[],
+        message: "Level must be BACHELOR or MASTERS",
       },
       required: [true, "Level is required"],
     },

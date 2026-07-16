@@ -37,9 +37,8 @@ interface CourseDetailProps {
 }
 
 const LEVEL_LABELS: Record<string, string> = {
-  BEGINNER:     "Beginner",
-  INTERMEDIATE: "Intermediate",
-  ADVANCED:     "Advanced",
+  BACHELOR: "Bachelor",
+  MASTERS:  "Masters",
 };
 
 function XpRow({ label, xp }: { label: string; xp: string }) {

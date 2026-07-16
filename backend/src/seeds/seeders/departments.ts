@@ -49,6 +49,16 @@ const DEPARTMENT_DATA: DepartmentDef[] = [
     code:        "ISEC",
     description: "Cybersecurity, cryptography, compliance frameworks, and secure software development.",
   },
+  {
+    name:        "Design",
+    code:        "DES",
+    description: "UX research, interaction design, motion graphics, design systems, and human-computer interaction.",
+  },
+  {
+    name:        "Engineering",
+    code:        "ENG",
+    description: "Software architecture, systems engineering, embedded systems, DevOps, and quality assurance.",
+  },
 ];
 
 export async function seedDepartments(

@@ -7,8 +7,8 @@ import type { Course } from "@/types/api-response";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "@/components/animations/StaggerContainer";
 import {
-  BookOpen, Clock, Users, Monitor, Code2,
-  Palette, Brain, Cloud, FlaskConical,
+  BookOpen, Clock, Users, Code2, Palette, Brain,
+  Briefcase, BarChart3, Calculator, Cpu,
   ArrowRight, GraduationCap, ChevronRight,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -16,12 +16,12 @@ import type { LucideIcon } from "lucide-react";
 interface CategoryConfig { color: string; Icon: LucideIcon }
 
 const CATEGORY_CONFIG: Record<string, CategoryConfig> = {
-  Technology: { color: "#1B7A5A", Icon: Monitor      },
-  CS:         { color: "#1B4332", Icon: Code2        },
-  Design:     { color: "#25B585", Icon: Palette      },
-  AI:         { color: "#0F6E4A", Icon: Brain        },
-  Cloud:      { color: "#2DCE9A", Icon: Cloud        },
-  Testing:    { color: "#1B4332", Icon: FlaskConical },
+  "Computer Science": { color: "#1B4332", Icon: Code2      },
+  "Business":         { color: "#0F6E4A", Icon: Briefcase  },
+  "Data Science":     { color: "#1B7A5A", Icon: Brain      },
+  "Mathematics":      { color: "#25B585", Icon: Calculator },
+  "Design":           { color: "#2DCE9A", Icon: Palette    },
+  "Engineering":      { color: "#0A5740", Icon: Cpu        },
 };
 const DEFAULT_CONFIG: CategoryConfig = { color: "#1B7A5A", Icon: BookOpen };
 

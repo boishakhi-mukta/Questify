@@ -69,7 +69,7 @@ export async function createCourse(opts: CreateCourseOpts = {}): Promise<ICourse
     title:       opts.title       ?? `Test Course ${Date.now()}`,
     description: opts.description ?? "A course created by the test suite for integration testing purposes.",
     category:    opts.category    ?? "Technology",
-    level:       "BEGINNER",
+    level:       "BACHELOR",
     campus:      opts.campus      ?? "TEST",
     credits:     3,
     teachers:    opts.teachers    ?? [],

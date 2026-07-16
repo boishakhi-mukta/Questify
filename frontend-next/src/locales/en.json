@@ -710,6 +710,7 @@
     "resultsFor_one": "{{count}} result for \"{{search}}\"",
     "resultsFor_other": "{{count}} results for \"{{search}}\"",
     "noAnswerDesc": "We couldn't find an answer for that. Try a different keyword, or contact the helpdesk directly.",
+    "ctaTag": "Get in Touch",
     "ctaTitle": "Couldn't find what you need?",
     "ctaDesc": "The IT helpdesk is available Monday–Friday, 08:00–16:00 CET. Include your student or employee ID for faster resolution.",
     "ctaBtn": "Contact the Helpdesk",
