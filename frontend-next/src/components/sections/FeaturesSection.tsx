@@ -60,7 +60,7 @@ export default function FeaturesSection() {
 
   return (
     <section className="w-full bg-white" aria-labelledby="features-heading">
-      <div className="max-w-6xl mx-auto py-16 px-4 md:px-6">
+      <div className="w-10/12 mx-auto py-20">
 
         <ScrollReveal direction="up" className="flex flex-col items-center text-center mb-12">
           <p className="text-sm font-semibold text-brand-blue uppercase tracking-widest mb-3">

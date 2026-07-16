@@ -30,9 +30,8 @@ const HERO_BG =
 export default function Home() {
   return (
     <>
-      {/* Gradient starts at the very top so it shows behind the glassmorphism navbar */}
-      <div style={{ background: HERO_BG }}>
-        <Navbar />
+      <Navbar />
+      <div style={{ background: HERO_BG, marginTop: "-60px", paddingTop: "60px" }}>
         <div style={{ minHeight: "85vh", display: "flex", flexDirection: "column" }}>
           <HeroBanner />
         </div>

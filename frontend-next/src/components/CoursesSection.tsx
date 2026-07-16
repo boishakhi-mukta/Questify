@@ -122,7 +122,7 @@ export default function CoursesSection() {
 
   return (
     <section id="courses" className="w-full bg-brand-bg">
-      <div className="max-w-6xl mx-auto py-20 px-4 md:px-6">
+      <div className="w-10/12 mx-auto py-20">
 
         {/* Header — left-aligned portal style with inline "Browse all" */}
         <ScrollReveal direction="up" className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">

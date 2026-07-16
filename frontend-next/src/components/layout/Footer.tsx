@@ -2,72 +2,104 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { FaXTwitter, FaLinkedin, FaFacebook, FaInstagram } from "react-icons/fa6";
+import {
+  FaXTwitter,
+  FaLinkedin,
+  FaFacebook,
+  FaInstagram,
+} from "react-icons/fa6";
 import type { IconType } from "react-icons";
 import { useTranslation } from "react-i18next";
 
-// ─── Types ──────────────────────────────────────────────────────────────────
-interface SocialItem { label: string; href: string; icon: IconType }
+interface SocialItem {
+  label: string;
+  href: string;
+  icon: IconType;
+}
 
-// ─── Data ───────────────────────────────────────────────────────────────────
 const socialLinks: SocialItem[] = [
-  { label: "Twitter / X", href: "https://twitter.com/questify",          icon: FaXTwitter  },
-  { label: "LinkedIn",    href: "https://linkedin.com/company/questify", icon: FaLinkedin  },
-  { label: "Facebook",    href: "https://facebook.com/questify",         icon: FaFacebook  },
-  { label: "Instagram",   href: "https://instagram.com/questify",        icon: FaInstagram },
+  {
+    label: "Twitter / X",
+    href: "https://twitter.com/questify",
+    icon: FaXTwitter,
+  },
+  {
+    label: "LinkedIn",
+    href: "https://linkedin.com/company/questify",
+    icon: FaLinkedin,
+  },
+  {
+    label: "Facebook",
+    href: "https://facebook.com/questify",
+    icon: FaFacebook,
+  },
+  {
+    label: "Instagram",
+    href: "https://instagram.com/questify",
+    icon: FaInstagram,
+  },
 ];
 
-const techStack = ["Next.js 15", "TypeScript", "Node.js", "MongoDB"];
-
-// Cube face color themes: [top, left, right]
+// ─── Cube color themes: [top-face, left-face, right-face] ───────────────────
 const CUBE_THEMES: [string, string, string][] = [
-  ["#cfe4d7", "#b7d3c5", "#9bbfb1"],  // brand green mid
-  ["#d9eee0", "#c4dcd0", "#aecbc4"],  // brand green light
-  ["#e6f4ec", "#d0e5dc", "#bbd4ca"],  // brand green pale
-  ["#e0e0e0", "#c8c8c8", "#b0b0b0"],  // gray medium
-  ["#eaeaea", "#d4d4d4", "#bcbcbc"],  // gray light
-  ["#e4ded6", "#cec8c0", "#b8b2aa"],  // warm beige neutral
+  ["#b2ccbf", "#8fb0a0", "#729484"],
+  ["#c5ddd1", "#a4c4b6", "#86a89a"],
+  ["#d4e9df", "#b8d4ca", "#9cbeb3"],
+  ["#d0d0d0", "#b4b4b4", "#989898"],
+  ["#e0e0e0", "#c6c6c6", "#ababab"],
+  ["#bdd0c8", "#9eb8ae", "#82a096"],
 ];
 
 function cubeTheme(row: number, col: number): [string, string, string] {
-  const n = CUBE_THEMES.length;
-  const idx = Math.abs((row * 7 + col * 11) % n);
+  const idx = Math.abs((row * 7 + col * 11) % CUBE_THEMES.length);
   return CUBE_THEMES[idx];
 }
 
-// ─── Isometric pattern ──────────────────────────────────────────────────────
 function IsometricPattern() {
-  const W = 38;     // half-width of the top-face diamond
-  const H = 19;     // half-height of the top-face diamond
+  const W = 42;
+  const H = 21;
   const VW = 1440;
-  const VH = 280;
+  const VH = 160;
 
-  const rows: React.ReactNode[] = [];
+  const cubes: React.ReactNode[] = [];
 
   for (let row = -1; row <= Math.ceil(VH / H) + 2; row++) {
     const cy = row * H;
-    // Alternate offset so cubes interlock
     const xOrigin = row % 2 === 0 ? W : 2 * W;
 
     for (let col = -2; col <= Math.ceil(VW / (2 * W)) + 2; col++) {
       const cx = xOrigin + col * 2 * W;
       const [topC, leftC, rightC] = cubeTheme(row, col);
 
-      // 7 key points
-      const t  = `${cx},${cy - H}`;          // top
-      const r  = `${cx + W},${cy}`;           // right of top-face
-      const b  = `${cx},${cy + H}`;           // bottom of top-face / front
-      const l  = `${cx - W},${cy}`;           // left of top-face
-      const rr = `${cx + W},${cy + 2 * H}`;   // right-bottom
-      const f  = `${cx},${cy + 3 * H}`;       // bottom-center
-      const ll = `${cx - W},${cy + 2 * H}`;   // left-bottom
+      const t = `${cx},${cy - H}`;
+      const r = `${cx + W},${cy}`;
+      const b = `${cx},${cy + H}`;
+      const l = `${cx - W},${cy}`;
+      const rr = `${cx + W},${cy + 2 * H}`;
+      const f = `${cx},${cy + 3 * H}`;
+      const ll = `${cx - W},${cy + 2 * H}`;
 
-      rows.push(
+      cubes.push(
         <g key={`${row}-${col}`}>
-          <polygon points={`${t} ${r} ${b} ${l}`}    fill={topC}   stroke="rgba(255,255,255,0.55)" strokeWidth="0.7" />
-          <polygon points={`${r} ${rr} ${f} ${b}`}   fill={rightC} stroke="rgba(255,255,255,0.55)" strokeWidth="0.7" />
-          <polygon points={`${l} ${b} ${f} ${ll}`}   fill={leftC}  stroke="rgba(255,255,255,0.55)" strokeWidth="0.7" />
-        </g>
+          <polygon
+            points={`${t} ${r} ${b} ${l}`}
+            fill={topC}
+            stroke="rgba(255,255,255,0.6)"
+            strokeWidth="0.8"
+          />
+          <polygon
+            points={`${r} ${rr} ${f} ${b}`}
+            fill={rightC}
+            stroke="rgba(255,255,255,0.6)"
+            strokeWidth="0.8"
+          />
+          <polygon
+            points={`${l} ${b} ${f} ${ll}`}
+            fill={leftC}
+            stroke="rgba(255,255,255,0.6)"
+            strokeWidth="0.8"
+          />
+        </g>,
       );
     }
   }
@@ -82,89 +114,63 @@ function IsometricPattern() {
       style={{ display: "block" }}
     >
       <defs>
-        {/* Top-fade mask so cubes "emerge" from the bottom */}
-        <linearGradient id="footer-fade" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%"   stopColor="black" />
-          <stop offset="35%"  stopColor="white" />
+        <linearGradient id="iso-fade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="black" />
+          <stop offset="18%" stopColor="white" />
         </linearGradient>
-        <mask id="footer-mask">
-          <rect width="100%" height="100%" fill="url(#footer-fade)" />
+        <mask id="iso-mask">
+          <rect width="100%" height="100%" fill="url(#iso-fade)" />
         </mask>
       </defs>
-      <g mask="url(#footer-mask)">{rows}</g>
+      <g mask="url(#iso-mask)">{cubes}</g>
     </svg>
   );
 }
 
-// ─── Sub-components ─────────────────────────────────────────────────────────
-function ColHeading({ children }: { children: React.ReactNode }) {
-  return (
-    <h3 className="text-[11px] font-bold text-[#2e3e38] uppercase tracking-[0.13em] mb-4">
-      {children}
-    </h3>
-  );
-}
+const LINK_CLASS =
+  "text-[14px] text-[#2e3e38] underline underline-offset-2 decoration-[#2e3e38]/40 hover:decoration-[#1B7A5A] hover:text-[#1B7A5A] transition-colors";
 
-function SocialButton({ label, href, icon: Icon }: SocialItem) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={`${label} (opens in new tab)`}
-      className="w-9 h-9 rounded-full bg-black/7 border border-black/10 flex items-center justify-center text-[#4a5e56] hover:bg-[#1B7A5A] hover:border-[#1B7A5A] hover:text-white transition-all duration-200"
-    >
-      <Icon size={14} aria-hidden="true" />
-    </a>
-  );
-}
-
-// ─── Main component ──────────────────────────────────────────────────────────
 export default function Footer() {
   const { t } = useTranslation();
-
-  const platformLinks = [
-    { label: t("footer.linkHome"),    href: "/" },
-    { label: t("footer.linkCourses"), href: "/courses" },
-    { label: t("footer.linkAbout"),   href: "/about" },
-  ];
-
-  const supportLinks = [
-    { label: t("footer.linkHelp"),    href: "/help" },
-    { label: t("footer.linkContact"), href: "/contact" },
-  ];
 
   return (
     <footer
       className="w-full overflow-hidden"
-      style={{ background: "#edf2ef" }}
+      style={{ background: "#eff3f1" }}
       aria-label="Site footer"
     >
+      {/* ── Content — w-11/12, columns spread justify-between ── */}
+      <div className="w-10/12 mx-auto pb-10">
+        {/* Logo */}
+        <Link
+          href="/"
+          aria-label="Questify — homepage"
+          className="inline-block mb-7"
+        >
+          <Image
+            src="/logo.svg"
+            alt="Questify"
+            width={130}
+            height={34}
+            className="h-9 w-auto object-contain"
+          />
+        </Link>
 
-      {/* ── Content grid ── */}
-      <div className="max-w-6xl mx-auto px-4 md:px-6 pt-16 pb-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10">
-
-          {/* Col 1 — Brand */}
-          <div className="sm:col-span-2 lg:col-span-1">
-            <Link href="/" className="inline-block mb-4" aria-label="Questify — homepage">
-              <Image src="/logo.svg" alt="Questify" width={120} height={32} className="h-8 w-auto object-contain" />
-            </Link>
-            <p className="text-[#4a5e56] text-sm leading-relaxed mb-5">
-              {t("footer.description")}
-            </p>
-            <div className="flex items-center gap-2.5" aria-label="Social media">
-              {socialLinks.map((s) => <SocialButton key={s.label} {...s} />)}
-            </div>
-          </div>
-
-          {/* Col 2 — Platform */}
+        {/* 3 columns spread edge-to-edge like the reference */}
+        <div className="flex flex-wrap justify-between gap-y-10">
+          {/* Col 1 — Platform */}
           <div>
-            <ColHeading>{t("footer.platform")}</ColHeading>
-            <ul className="flex flex-col gap-3" role="list">
-              {platformLinks.map(({ label, href }) => (
+            <h3 className="font-bold text-[#1a2820] text-[15px] mb-6">
+              {t("footer.platform")}
+            </h3>
+            <ul className="flex flex-col gap-2.5 mt-4" role="list">
+              {[
+                { label: t("footer.linkHome"), href: "/" },
+                { label: t("footer.linkCourses"), href: "/courses" },
+                { label: t("footer.linkAbout"), href: "/about" },
+              ].map(({ label, href }) => (
                 <li key={href}>
-                  <Link href={href} className="text-[#4a5e56] text-sm hover:text-[#1B7A5A] transition-colors hover:underline underline-offset-2">
+                  <Link href={href} className={LINK_CLASS}>
                     {label}
                   </Link>
                 </li>
@@ -172,63 +178,79 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Col 3 — Support */}
+          {/* Col 2 — Contact */}
           <div>
-            <ColHeading>{t("footer.support")}</ColHeading>
-            <ul className="flex flex-col gap-3" role="list">
-              {supportLinks.map(({ label, href }) => (
-                <li key={href}>
-                  <Link href={href} className="text-[#4a5e56] text-sm hover:text-[#1B7A5A] transition-colors hover:underline underline-offset-2">
-                    {label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Col 4 — Contact */}
-          <div>
-            <ColHeading>{t("footer.contact")}</ColHeading>
-            <ul className="flex flex-col gap-3" role="list">
-              <li>
-                <Link href="/contact" className="text-[#4a5e56] text-sm hover:text-[#1B7A5A] transition-colors hover:underline underline-offset-2">
-                  {t("footer.linkContact")}
-                </Link>
-              </li>
-              <li>
-                <a href="mailto:bgmukta11@gmail.com" className="text-[#4a5e56] text-sm hover:text-[#1B7A5A] transition-colors hover:underline underline-offset-2">
+            <h3 className="font-bold text-[#1a2820] text-[15px] mb-6">
+              {t("footer.contact")}
+            </h3>
+            <ul className="flex flex-col gap-2.5 mt-4" role="list">
+              <li className="text-[14px] text-[#2e3e38]">
+                Email:{" "}
+                <a href="mailto:bgmukta11@gmail.com" className={LINK_CLASS}>
                   bgmukta11@gmail.com
                 </a>
               </li>
+              {[
+                { label: t("footer.linkContact"), href: "/contact" },
+                { label: t("footer.linkHelp"), href: "/help" },
+              ].map(({ label, href }) => (
+                <li key={href}>
+                  <Link href={href} className={LINK_CLASS}>
+                    {label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
+          {/* Col 3 — Quick access */}
+          <div>
+            <h3 className="font-bold text-[#1a2820] text-[15px] mb-10">
+              {t("footer.support")}
+            </h3>
+            <ul className="flex flex-col gap-2.5 mt-4" role="list">
+              {[
+                { label: "Sign in", href: "/sign-in" },
+                { label: "Admin portal", href: "/admin" },
+                { label: "FAQ", href: "/faq" },
+              ].map(({ label, href }) => (
+                <li key={href}>
+                  <Link href={href} className={LINK_CLASS}>
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-      </div>
 
-      {/* ── Copyright bar ── */}
-      <div className="border-t border-black/8">
-        <div className="max-w-6xl mx-auto px-4 md:px-6 py-3.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-          <p className="text-[#6a7c74] text-xs">
+        {/* Social buttons + copyright — always stacked in a column, centered */}
+        <div className="mt-14 pt-6 border-t border-black/8 flex flex-col items-center gap-3">
+          <div
+            className="flex items-center gap-2.5"
+            aria-label="Questify on social media"
+          >
+            {socialLinks.map(({ label, href, icon: Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${label} (opens in new tab)`}
+                className="w-9 h-9 rounded-full bg-black/7 border border-black/10 flex items-center justify-center text-[#4a5e56] hover:bg-[#1B7A5A] hover:border-[#1B7A5A] hover:text-white transition-all duration-200"
+              >
+                <Icon size={14} aria-hidden="true" />
+              </a>
+            ))}
+          </div>
+          <p className="text-[13px] text-[#6a7c74]">
             © 2026 Questify. {t("footer.allRightsReserved")}
           </p>
-          <p className="text-[#6a7c74] text-xs">
-            {t("footer.builtWith")}{" "}
-            {techStack.map((name, i) => (
-              <span key={name}>
-                <span className="text-[#2e3e38] font-medium">{name}</span>
-                {i < techStack.length - 1 && (
-                  <span className="mx-1.5 text-[#9ab0a8]" aria-hidden="true">·</span>
-                )}
-              </span>
-            ))}
-          </p>
         </div>
       </div>
 
-      {/* ── Isometric cube decoration ── */}
+      {/* Isometric cube pattern */}
       <IsometricPattern />
-
     </footer>
   );
 }
