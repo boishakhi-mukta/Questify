@@ -157,7 +157,8 @@
     "linkCourses": "Courses",
     "linkAbout": "About",
     "linkHelp": "Help Center",
-    "linkContact": "Contact Us"
+    "linkContact": "Contact Us",
+    "contact": "Contact"
   },
   "sidebar": {
     "dashboard": "Dashboard",

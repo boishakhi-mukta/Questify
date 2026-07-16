@@ -157,7 +157,8 @@
     "linkCourses": "Kurs",
     "linkAbout": "Om oss",
     "linkHelp": "Hjelpesenter",
-    "linkContact": "Kontakt oss"
+    "linkContact": "Kontakt oss",
+    "contact": "Kontakt"
   },
   "sidebar": {
     "dashboard": "Instrumentbord",
