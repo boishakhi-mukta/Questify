@@ -1,180 +1,176 @@
 "use client";
 
-/**
- * ============================================================================
- * QUESTIFY COMPONENT: Footer
- * 
- * WHAT IT DOES (For Non-Technical Readers):
- * The bar at the absolute bottom of pages containing copyright info and legal terms.
- * 
- * WHY IT EXISTS:
- * A standard design anchor for visual page endings and basic information links.
- * 
- * HOW IT WORKS (Technical Overview):
- * Simple static footer styled using Tailwind layout definitions.
- * ============================================================================
- */
-
-import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Send, CheckCircle } from "lucide-react";
-import { FaXTwitter, FaLinkedin, FaFacebook, FaInstagram } from "react-icons/fa6";
+import {
+  FaXTwitter,
+  FaLinkedin,
+  FaFacebook,
+  FaInstagram,
+} from "react-icons/fa6";
 import type { IconType } from "react-icons";
 import { useTranslation } from "react-i18next";
 
 interface SocialItem {
   label: string;
-  href:  string;
-  icon:  IconType;
+  href: string;
+  icon: IconType;
 }
 
 const socialLinks: SocialItem[] = [
-  { label: "Twitter / X", href: "https://twitter.com/questify",          icon: FaXTwitter  },
-  { label: "LinkedIn",    href: "https://linkedin.com/company/questify", icon: FaLinkedin  },
-  { label: "Facebook",    href: "https://facebook.com/questify",         icon: FaFacebook  },
-  { label: "Instagram",   href: "https://instagram.com/questify",        icon: FaInstagram },
+  {
+    label: "Twitter / X",
+    href: "https://twitter.com/questify",
+    icon: FaXTwitter,
+  },
+  {
+    label: "LinkedIn",
+    href: "https://linkedin.com/company/questify",
+    icon: FaLinkedin,
+  },
+  {
+    label: "Facebook",
+    href: "https://facebook.com/questify",
+    icon: FaFacebook,
+  },
+  {
+    label: "Instagram",
+    href: "https://instagram.com/questify",
+    icon: FaInstagram,
+  },
 ];
 
-const techStack = ["Next.js 15", "TypeScript", "Node.js", "MongoDB"];
+// ─── Cube color themes: [top-face, left-face, right-face] ───────────────────
+const CUBE_THEMES: [string, string, string][] = [
+  ["#b2ccbf", "#8fb0a0", "#729484"],
+  ["#c5ddd1", "#a4c4b6", "#86a89a"],
+  ["#d4e9df", "#b8d4ca", "#9cbeb3"],
+  ["#d0d0d0", "#b4b4b4", "#989898"],
+  ["#e0e0e0", "#c6c6c6", "#ababab"],
+  ["#bdd0c8", "#9eb8ae", "#82a096"],
+];
 
-function ColHeading({ children }: { children: React.ReactNode }) {
-  return (
-    <h3 className="text-xs font-bold text-white uppercase tracking-[0.12em] mb-5">
-      {children}
-    </h3>
-  );
+function cubeTheme(row: number, col: number): [string, string, string] {
+  const idx = Math.abs((row * 7 + col * 11) % CUBE_THEMES.length);
+  return CUBE_THEMES[idx];
 }
 
-function SocialButton({ label, href, icon: Icon }: SocialItem) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={`${label} (opens in new tab)`}
-      className="w-9 h-9 rounded-full bg-[#1A2E25] border border-[#2A4035] flex items-center justify-center text-[#8AADA0] hover:bg-brand-blue hover:border-brand-blue hover:text-white transition-all duration-200"
-    >
-      <Icon size={15} aria-hidden="true" />
-    </a>
-  );
-}
+function IsometricPattern() {
+  const W = 42;
+  const H = 21;
+  const VW = 1440;
+  const VH = 160;
 
-function NewsletterForm() {
-  const { t } = useTranslation();
-  const [email, setEmail]   = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
+  const cubes: React.ReactNode[] = [];
 
-  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!email.trim() || status !== "idle") return;
-    setStatus("loading");
-    await new Promise<void>((r) => setTimeout(r, 600));
-    setStatus("success");
-    setEmail("");
-  };
+  for (let row = -1; row <= Math.ceil(VH / H) + 2; row++) {
+    const cy = row * H;
+    const xOrigin = row % 2 === 0 ? W : 2 * W;
 
-  if (status === "success") {
-    return (
-      <div className="flex items-center gap-2.5 text-sm text-[#2DCE9A]" role="status">
-        <CheckCircle size={16} aria-hidden="true" />
-        <span>{t("footer.subscribed")}</span>
-      </div>
-    );
+    for (let col = -2; col <= Math.ceil(VW / (2 * W)) + 2; col++) {
+      const cx = xOrigin + col * 2 * W;
+      const [topC, leftC, rightC] = cubeTheme(row, col);
+
+      const t = `${cx},${cy - H}`;
+      const r = `${cx + W},${cy}`;
+      const b = `${cx},${cy + H}`;
+      const l = `${cx - W},${cy}`;
+      const rr = `${cx + W},${cy + 2 * H}`;
+      const f = `${cx},${cy + 3 * H}`;
+      const ll = `${cx - W},${cy + 2 * H}`;
+
+      cubes.push(
+        <g key={`${row}-${col}`}>
+          <polygon
+            points={`${t} ${r} ${b} ${l}`}
+            fill={topC}
+            stroke="rgba(255,255,255,0.6)"
+            strokeWidth="0.8"
+          />
+          <polygon
+            points={`${r} ${rr} ${f} ${b}`}
+            fill={rightC}
+            stroke="rgba(255,255,255,0.6)"
+            strokeWidth="0.8"
+          />
+          <polygon
+            points={`${l} ${b} ${f} ${ll}`}
+            fill={leftC}
+            stroke="rgba(255,255,255,0.6)"
+            strokeWidth="0.8"
+          />
+        </g>,
+      );
+    }
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate aria-label="Newsletter signup">
-      <div className="flex items-stretch h-10">
-        <label htmlFor="newsletter-email" className="sr-only">
-          {t("common.email")}
-        </label>
-        <input
-          id="newsletter-email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder={t("footer.emailPlaceholder")}
-          required
-          disabled={status === "loading"}
-          className="
-            flex-1 min-w-0 bg-[#1A2E25] border border-[#2A4035] border-r-0
-            text-white placeholder:text-[#5A8070] text-sm
-            rounded-l-lg px-3.5
-            outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-inset
-            disabled:opacity-50 transition-all
-          "
-        />
-        <button
-          type="submit"
-          disabled={status === "loading"}
-          aria-label={t("footer.subscribe")}
-          className="
-            bg-brand-blue hover:bg-brand-blue-dark active:scale-95
-            text-white px-4
-            rounded-r-lg border border-brand-blue
-            flex items-center justify-center
-            transition-all duration-200
-            disabled:opacity-50 disabled:cursor-not-allowed
-          "
-        >
-          {status === "loading" ? (
-            <span className="w-3.5 h-3.5 border-2 border-white/40 border-t-white rounded-full animate-spin" aria-label="Sending…" />
-          ) : (
-            <Send size={14} aria-hidden="true" />
-          )}
-        </button>
-      </div>
-      <p className="mt-2 text-[11px] text-[#5A8070]">{t("footer.noSpam")}</p>
-    </form>
+    <svg
+      width="100%"
+      height={VH}
+      viewBox={`0 0 ${VW} ${VH}`}
+      preserveAspectRatio="xMidYMax slice"
+      aria-hidden="true"
+      style={{ display: "block" }}
+    >
+      <defs>
+        <linearGradient id="iso-fade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="black" />
+          <stop offset="18%" stopColor="white" />
+        </linearGradient>
+        <mask id="iso-mask">
+          <rect width="100%" height="100%" fill="url(#iso-fade)" />
+        </mask>
+      </defs>
+      <g mask="url(#iso-mask)">{cubes}</g>
+    </svg>
   );
 }
+
+const LINK_CLASS =
+  "text-[14px] text-[#2e3e38] underline underline-offset-2 decoration-[#2e3e38]/40 hover:decoration-[#1B7A5A] hover:text-[#1B7A5A] transition-colors";
 
 export default function Footer() {
   const { t } = useTranslation();
 
-  const platformLinks = [
-    { label: t("footer.linkHome"),    href: "/" },
-    { label: t("footer.linkCourses"), href: "/courses" },
-    { label: t("footer.linkAbout"),   href: "/about" },
-  ];
-
-  const supportLinks = [
-    { label: t("footer.linkHelp"),    href: "/help" },
-    { label: t("footer.linkContact"), href: "/contact" },
-  ];
-
   return (
     <footer
-      className="w-full"
-      style={{ background: "linear-gradient(160deg, #1e5c40 0%, #1B4332 45%, #112b21 100%)" }}
+      className="w-full overflow-hidden"
+      style={{ background: "#eff3f1" }}
       aria-label="Site footer"
     >
+      {/* ── Content — w-11/12, columns spread justify-between ── */}
+      <div className="w-10/12 mx-auto pb-10">
+        {/* Logo */}
+        <Link
+          href="/"
+          aria-label="Questify — homepage"
+          className="inline-block mb-7"
+        >
+          <Image
+            src="/logo.svg"
+            alt="Questify"
+            width={130}
+            height={34}
+            className="h-9 w-auto object-contain"
+          />
+        </Link>
 
-      {/* Main grid */}
-      <div className="max-w-6xl mx-auto px-4 md:px-6 pt-16 pb-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
-
-          {/* Column 1 — About */}
-          <div className="sm:col-span-2 lg:col-span-1">
-            <Link href="/" className="inline-block mb-5" aria-label="Questify — go to homepage">
-              <Image src="/logo.svg" alt="Questify" width={120} height={32} className="h-8 w-auto object-contain brightness-0 invert" />
-            </Link>
-            <p className="text-[#8AADA0] text-sm leading-relaxed mb-6">
-              {t("footer.description")}
-            </p>
-            <div className="flex items-center gap-2.5" aria-label="Questify on social media">
-              {socialLinks.map((s) => <SocialButton key={s.label} {...s} />)}
-            </div>
-          </div>
-
-          {/* Column 2 — Platform */}
+        {/* 3 columns spread edge-to-edge like the reference */}
+        <div className="flex flex-wrap justify-between gap-y-10">
+          {/* Col 1 — Platform */}
           <div>
-            <ColHeading>{t("footer.platform")}</ColHeading>
-            <ul className="flex flex-col gap-3.5" role="list">
-              {platformLinks.map(({ label, href }) => (
+            <h3 className="font-bold text-[#1a2820] text-[15px] mb-6">
+              {t("footer.platform")}
+            </h3>
+            <ul className="flex flex-col gap-2.5 mt-4" role="list">
+              {[
+                { label: t("footer.linkHome"), href: "/" },
+                { label: t("footer.linkCourses"), href: "/courses" },
+                { label: t("footer.linkAbout"), href: "/about" },
+              ].map(({ label, href }) => (
                 <li key={href}>
-                  <Link href={href} className="text-[#8AADA0] text-sm leading-none hover:text-white transition-colors duration-150 hover:underline underline-offset-2">
+                  <Link href={href} className={LINK_CLASS}>
                     {label}
                   </Link>
                 </li>
@@ -182,13 +178,24 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 3 — Support */}
+          {/* Col 2 — Contact */}
           <div>
-            <ColHeading>{t("footer.support")}</ColHeading>
-            <ul className="flex flex-col gap-3.5" role="list">
-              {supportLinks.map(({ label, href }) => (
+            <h3 className="font-bold text-[#1a2820] text-[15px] mb-6">
+              {t("footer.contact")}
+            </h3>
+            <ul className="flex flex-col gap-2.5 mt-4" role="list">
+              <li className="text-[14px] text-[#2e3e38]">
+                Email:{" "}
+                <a href="mailto:bgmukta11@gmail.com" className={LINK_CLASS}>
+                  bgmukta11@gmail.com
+                </a>
+              </li>
+              {[
+                { label: t("footer.linkContact"), href: "/contact" },
+                { label: t("footer.linkHelp"), href: "/help" },
+              ].map(({ label, href }) => (
                 <li key={href}>
-                  <Link href={href} className="text-[#8AADA0] text-sm leading-none hover:text-white transition-colors duration-150 hover:underline underline-offset-2">
+                  <Link href={href} className={LINK_CLASS}>
                     {label}
                   </Link>
                 </li>
@@ -196,41 +203,54 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 4 — Newsletter */}
-          <div className="sm:col-span-2 lg:col-span-1">
-            <ColHeading>{t("footer.stayUpdated")}</ColHeading>
-            <p className="text-[#8AADA0] text-sm leading-relaxed mb-4">
-              {t("footer.newsletterText")}
-            </p>
-            <NewsletterForm />
+          {/* Col 3 — Quick access */}
+          <div>
+            <h3 className="font-bold text-[#1a2820] text-[15px] mb-10">
+              {t("footer.support")}
+            </h3>
+            <ul className="flex flex-col gap-2.5 mt-4" role="list">
+              {[
+                { label: "Sign in", href: "/sign-in" },
+                { label: "Admin portal", href: "/admin" },
+                { label: "FAQ", href: "/faq" },
+              ].map(({ label, href }) => (
+                <li key={href}>
+                  <Link href={href} className={LINK_CLASS}>
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
-
         </div>
-      </div>
 
-      {/* Divider */}
-      <div className="border-t border-[#1A3028]" />
-
-      {/* Bottom bar */}
-      <div className="bg-[#0C1E15]">
-        <div className="max-w-6xl mx-auto px-4 md:px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5">
-          <p className="text-[#5A8070] text-xs">
+        {/* Social buttons + copyright — always stacked in a column, centered */}
+        <div className="mt-14 pt-6 border-t border-black/8 flex flex-col items-center gap-3">
+          <div
+            className="flex items-center gap-2.5"
+            aria-label="Questify on social media"
+          >
+            {socialLinks.map(({ label, href, icon: Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${label} (opens in new tab)`}
+                className="w-9 h-9 rounded-full bg-black/7 border border-black/10 flex items-center justify-center text-[#4a5e56] hover:bg-[#1B7A5A] hover:border-[#1B7A5A] hover:text-white transition-all duration-200"
+              >
+                <Icon size={14} aria-hidden="true" />
+              </a>
+            ))}
+          </div>
+          <p className="text-[13px] text-[#6a7c74]">
             © 2026 Questify. {t("footer.allRightsReserved")}
           </p>
-          <p className="text-[#5A8070] text-xs">
-            {t("footer.builtWith")}{" "}
-            {techStack.map((name, i) => (
-              <span key={name}>
-                <span className="text-[#8AADA0]">{name}</span>
-                {i < techStack.length - 1 && (
-                  <span className="mx-1.5 text-[#3D4448]" aria-hidden="true">·</span>
-                )}
-              </span>
-            ))}
-          </p>
         </div>
       </div>
 
+      {/* Isometric cube pattern */}
+      <IsometricPattern />
     </footer>
   );
 }

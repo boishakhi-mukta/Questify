@@ -34,7 +34,7 @@ export default function HowItWorks() {
       className="w-full overflow-hidden"
       style={{ background: "linear-gradient(160deg, #d4ede3 0%, #e4f3ec 35%, #eef8f4 65%, #F2FAF7 100%)" }}
     >
-      <div className="max-w-6xl mx-auto py-20 px-4 md:px-6">
+      <div className="w-10/12 mx-auto py-20">
 
         <ScrollReveal direction="up" className="flex flex-col items-center text-center mb-16">
           <p className="text-sm font-semibold text-brand-blue uppercase tracking-widest mb-3">

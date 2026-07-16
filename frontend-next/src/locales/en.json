@@ -121,9 +121,9 @@
     "body": "Browse your institution's course catalogue and enroll to start earning XP and climbing the leaderboard."
   },
   "admission": {
-    "heading": "Thinking about joining Questify?",
-    "body": "Connect with our admissions team and start your Questify journey today.",
-    "cta": "Contact Admissions"
+    "heading": "Need help finding the right course for you?",
+    "body": "Tap into our network of expert instructors and advisors to find the program that fits your goals, schedule, and career path.",
+    "cta": "Get in Touch"
   },
   "courses": {
     "title": "Courses",
@@ -157,7 +157,8 @@
     "linkCourses": "Courses",
     "linkAbout": "About",
     "linkHelp": "Help Center",
-    "linkContact": "Contact Us"
+    "linkContact": "Contact Us",
+    "contact": "Contact"
   },
   "sidebar": {
     "dashboard": "Dashboard",

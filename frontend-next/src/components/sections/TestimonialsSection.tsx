@@ -80,7 +80,7 @@ export default function TestimonialsSection() {
 
   return (
     <section className="w-full bg-white" aria-labelledby="testimonials-heading">
-      <div className="max-w-6xl mx-auto py-20 px-4 md:px-6">
+      <div className="w-10/12 mx-auto py-20">
 
         {/* Heading */}
         <ScrollReveal direction="up" className="flex flex-col items-center text-center mb-16">

@@ -1,23 +1,5 @@
 "use client";
 
-/**
- * ============================================================================
- * QUESTIFY COMPONENT: AdmissionSection
- *
- * WHAT IT DOES (For Non-Technical Readers):
- * A thin, full-width banner inviting prospective students to reach out about
- * enrolling, linking through to the Contact page.
- *
- * WHY IT EXISTS:
- * Gives undecided visitors a clear, low-friction path to admissions help.
- *
- * HOW IT WORKS (Technical Overview):
- * Copy + CTA sit inside the constrained container; the blob photo is
- * absolutely positioned against the full-width section so it bleeds to the
- * viewport's right edge on large screens, matching the reference banner.
- * ============================================================================
- */
-
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
@@ -29,8 +11,6 @@ const ADMISSION_BG =
   "radial-gradient(120% 90% at 50% 78%, rgba(238,250,244,0.9) 0%, rgba(238,250,244,0) 60%), " +
   "linear-gradient(180deg, #b7d3c5 0%, #c4dcd0 30%, #cfe4d7 62%, #d9eee0 100%)";
 
-const BLOB_RADIUS = "58% 42% 46% 54% / 54% 46% 54% 46%";
-
 export default function AdmissionSection() {
   const { t } = useTranslation();
 
@@ -40,22 +20,24 @@ export default function AdmissionSection() {
       style={{ background: ADMISSION_BG }}
       aria-labelledby="admission-heading"
     >
-      <div className="relative z-10 max-w-6xl mx-auto px-4 md:px-6 flex flex-col lg:flex-row items-center py-10 lg:py-0 lg:min-h-[260px]">
-
+      <div className="relative z-10 w-10/12 mx-auto flex flex-col lg:flex-row items-center py-12 lg:py-0 lg:min-h-[320px]">
         {/* Copy + CTA */}
-        <ScrollReveal direction="right" className="flex-1 text-center lg:text-left py-6 lg:py-10 lg:pr-20">
+        <ScrollReveal
+          direction="right"
+          className="flex-1 text-center lg:text-left lg:pr-8"
+        >
           <h2
             id="admission-heading"
-            className="font-display text-[30px] sm:text-[38px] lg:text-[42px] font-bold text-brand-dark leading-tight mb-3 xl:whitespace-nowrap"
+            className="font-display text-[28px] sm:text-[36px] lg:text-[40px] font-bold text-brand-dark leading-tight mb-3"
           >
             {t("admission.heading")}
           </h2>
-          <p className="text-[16px] text-brand-body leading-relaxed mb-9 xl:whitespace-nowrap">
+          <p className="text-[16px] text-brand-body leading-relaxed mb-10">
             {t("admission.body")}
           </p>
           <Button
             asChild
-            className="rounded-full h-12 px-8 gap-2.5 text-base border-2 border-brand-dark text-brand-dark bg-transparent hover:bg-brand-dark hover:text-white transition-colors duration-200"
+            className="rounded-full h-12 px-8 gap-2.5 text-base shadow-md shadow-brand-blue/25 hover:shadow-brand-blue/40 hover:-translate-y-0.5 transition-all duration-200 mt-6"
           >
             <Link href="/contact">
               {t("admission.cta")}
@@ -64,40 +46,45 @@ export default function AdmissionSection() {
           </Button>
         </ScrollReveal>
 
-        {/* Reserves layout space on large screens for the bleeding photo */}
-        <div className="hidden lg:block lg:w-[40%] shrink-0" aria-hidden="true" />
+        {/* Spacer — reserves width for the absolute circle on desktop */}
+        <div
+          className="hidden lg:block w-70 shrink-0"
+          aria-hidden="true"
+        />
 
-        {/* Mobile / tablet photo — normal flow */}
-        <ScrollReveal
-          direction="left"
-          delay={0.1}
-          className="w-full max-w-[420px] h-[240px] lg:hidden"
-        >
-          <div className="relative w-full h-full overflow-hidden shadow-xl" style={{ borderRadius: BLOB_RADIUS }}>
+        {/* Mobile blob — inline below text */}
+        <ScrollReveal direction="left" delay={0.1} className="mt-8 lg:hidden">
+          <div
+            className="w-56 h-56 sm:w-64 sm:h-64 relative overflow-hidden shadow-2xl"
+            style={{ borderRadius: "60% 40% 34% 66% / 56% 44% 56% 44%" }}
+          >
             <Image
-              src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=900&q=80"
-              alt="Students studying together on campus"
+              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=900&q=80"
+              alt="Team of learners collaborating"
               fill
               className="object-cover object-center"
-              sizes="420px"
+              sizes="256px"
             />
           </div>
         </ScrollReveal>
       </div>
 
-      {/* Desktop photo — bleeds to the viewport's right edge */}
+      {/* Desktop blob — absolutely positioned, fills section height */}
       <ScrollReveal
         direction="left"
         delay={0.1}
-        className="hidden lg:block absolute top-6 bottom-6 right-8 w-[40%] max-w-170"
+        className="hidden lg:block absolute top-1/2 -translate-y-1/2 right-[6%]"
       >
-        <div className="relative w-full h-full overflow-hidden shadow-xl" style={{ borderRadius: BLOB_RADIUS }}>
+        <div
+          className="w-72.5 h-72.5 xl:w-77.5 xl:h-77.5 relative overflow-hidden shadow-2xl"
+          style={{ borderRadius: "60% 40% 34% 66% / 56% 44% 56% 44%" }}
+        >
           <Image
-            src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1200&q=80"
-            alt="Students studying together on campus"
+            src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=900&q=80"
+            alt="Team of learners collaborating"
             fill
             className="object-cover object-center"
-            sizes="760px"
+            sizes="310px"
           />
         </div>
       </ScrollReveal>
