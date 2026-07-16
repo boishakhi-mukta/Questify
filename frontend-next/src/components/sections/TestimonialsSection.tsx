@@ -6,12 +6,16 @@ import type { Testimonial } from "@/hooks/useTestimonials";
 import { useTranslation } from "react-i18next";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 
-// Per-card scatter config: [rotateDeg, translateYpx]
+// Per-card scatter config: [rotateDeg, translateYpx]  — row 1 then row 2
 const SCATTER: [number, number][] = [
-  [-3.5, -10],
-  [ 2.0,  14],
-  [-2.0,   6],
-  [ 1.8,  -8],
+  [-3.5, -10],  // row 1 col 1
+  [ 2.0,  12],  // row 1 col 2
+  [-1.8,  -4],  // row 1 col 3
+  [ 1.5,   8],  // row 1 col 4
+  [ 2.8,   6],  // row 2 col 1
+  [-2.2, -14],  // row 2 col 2
+  [ 3.0,  10],  // row 2 col 3
+  [-1.5,  -8],  // row 2 col 4
 ];
 
 function StarRating({ rating }: { rating: number }) {
@@ -82,16 +86,16 @@ export default function TestimonialsSection() {
         <ScrollReveal direction="up" className="flex flex-col items-center text-center mb-16">
           <h2
             id="testimonials-heading"
-            className="text-[34px] font-bold text-brand-dark leading-tight max-w-[420px]"
+            className="text-[34px] font-bold text-brand-dark leading-tight max-w-105"
           >
             {t("testimonials.heading")}
           </h2>
         </ScrollReveal>
 
-        {/* Desktop: 4-col scattered row */}
+        {/* Desktop: 4-col × 2-row scattered grid */}
         <ScrollReveal direction="up" delay={0.1}>
           <div className="hidden sm:grid grid-cols-4 gap-5 pb-14">
-            {testimonials.slice(0, 4).map((item, i) => {
+            {testimonials.map((item, i) => {
               const [rotate, ty] = SCATTER[i] ?? [0, 0];
               return (
                 <ScatteredCard
@@ -107,7 +111,7 @@ export default function TestimonialsSection() {
 
         {/* Mobile: 2-col grid */}
         <div className="sm:hidden grid grid-cols-2 gap-4">
-          {testimonials.slice(0, 4).map((item) => (
+          {testimonials.map((item) => (
             <ScatteredCard key={item.id} testimonial={item} rotate={0} ty={0} />
           ))}
         </div>

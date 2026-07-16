@@ -30,10 +30,12 @@ const HERO_BG =
 export default function Home() {
   return (
     <>
-      <Navbar />
-      {/* Full-width hero — gradient edge to edge, no horizontal padding */}
-      <div style={{ background: HERO_BG, minHeight: "85vh", display: "flex", flexDirection: "column" }}>
-        <HeroBanner />
+      {/* Gradient starts at the very top so it shows behind the glassmorphism navbar */}
+      <div style={{ background: HERO_BG }}>
+        <Navbar />
+        <div style={{ minHeight: "85vh", display: "flex", flexDirection: "column" }}>
+          <HeroBanner />
+        </div>
       </div>
 
       <FeaturesSection />
