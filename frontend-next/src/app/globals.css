@@ -172,6 +172,12 @@ p {
   --input: 150 12% 18%;
 }
 
+/* ── Course card animated top-border sweep ─────────────── */
+@keyframes card-border-flow {
+  from { background-position: 200% center; }
+  to   { background-position:   0% center; }
+}
+
 /* ── Utility ─────────────────────────────────────────────── */
 .scrollbar-hide {
   scrollbar-width: none;

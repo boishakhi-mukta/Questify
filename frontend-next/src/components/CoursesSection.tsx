@@ -30,10 +30,19 @@ function CourseCard({ course }: { course: Course }) {
 
   return (
     <Link href={`/courses/${course._id}`} className="no-underline group block h-full">
-      <article
-        className="flex flex-col h-full bg-white rounded-xl overflow-hidden border border-brand-border/50 shadow-xs transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1 group-hover:border-brand-border"
-        style={{ borderTop: `3px solid ${color}` }}
-      >
+      <article className="flex flex-col h-full bg-white rounded-xl overflow-hidden border border-brand-border/50 shadow-xs transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1 group-hover:border-brand-border">
+
+        {/* Animated sweep border */}
+        <div
+          style={{
+            height: "3px",
+            flexShrink: 0,
+            background: `linear-gradient(90deg, ${color} 0%, rgba(255,255,255,0.85) 50%, ${color} 100%)`,
+            backgroundSize: "200% 100%",
+            animation: "card-border-flow 2.5s linear infinite",
+          }}
+        />
+
         <div className="flex flex-col flex-1 px-5 pt-5 pb-5 gap-3">
 
           {/* Category + level row */}
@@ -88,10 +97,8 @@ function CourseCard({ course }: { course: Course }) {
 
 function CardSkeleton() {
   return (
-    <div
-      className="rounded-xl overflow-hidden border border-brand-border/40 bg-white shadow-xs"
-      style={{ borderTop: "3px solid #e2e8f0" }}
-    >
+    <div className="rounded-xl overflow-hidden border border-brand-border/40 bg-white shadow-xs">
+      <div className="h-0.75 bg-brand-border/30 animate-pulse" />
       <div className="px-5 pt-5 pb-5 flex flex-col gap-3">
         <div className="flex items-center justify-between">
           <div className="h-3 w-20 bg-brand-bg rounded animate-pulse" />
