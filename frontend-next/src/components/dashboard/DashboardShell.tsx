@@ -16,6 +16,7 @@
  */
 
 import Link              from "next/link";
+import Image             from "next/image";
 import { QuestifyLogo } from "@/components/ui/QuestifyLogo";
 import { usePathname }   from "next/navigation";
 import { useAuth }       from "@/hooks/useAuth";

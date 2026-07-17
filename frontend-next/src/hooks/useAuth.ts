@@ -27,6 +27,12 @@ const ROLE_REDIRECT: Record<UserRole, string> = {
   student: "/student",
 };
 
+// Only allow same-site, absolute paths — blocks open-redirect via a crafted
+// `?redirect=` param (e.g. protocol-relative "//evil.com" or "https://evil.com").
+function isSafeRedirect(path: string | undefined): path is string {
+  return !!path && path.startsWith("/") && !path.startsWith("//");
+}
+
 // ── Error message normaliser ───────────────────────────────────────────────────
 function normaliseLoginError(err: unknown): string {
   if (err && typeof err === "object" && "response" in err) {
@@ -48,7 +54,7 @@ export function useAuth() {
   const [isLoggingIn, setIsLoggingIn]        = useState(false);
 
   const login = useCallback(
-    async (email: string, password: string): Promise<LoginResult | LoginError> => {
+    async (email: string, password: string, redirectTo?: string): Promise<LoginResult | LoginError> => {
       setIsLoggingIn(true);
       setLoginError(null);
 
@@ -69,7 +75,7 @@ export function useAuth() {
           return { success: true, requiresPasswordChange: true };
         }
 
-        router.push(ROLE_REDIRECT[loginUser.role] ?? "/dashboard");
+        router.push(isSafeRedirect(redirectTo) ? redirectTo : ROLE_REDIRECT[loginUser.role] ?? "/dashboard");
         return { success: true, requiresPasswordChange: false };
       } catch (err) {
         const message = normaliseLoginError(err);

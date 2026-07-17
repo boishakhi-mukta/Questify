@@ -63,7 +63,7 @@ function BlobStatCard({
   return (
     <div className="flex items-center justify-center p-2">
       <div
-        className="w-full flex flex-col items-center justify-center text-center px-5 py-9 transition-transform duration-300 hover:scale-[1.04]"
+        className="w-full flex flex-col items-center justify-center text-center px-5 py-9 border border-white/50 backdrop-blur-md transition-transform duration-300 hover:scale-[1.04] shadow-[inset_0_1px_0_rgba(255,255,255,0.5)]"
         style={{ background: blobColor, borderRadius: blobRadius }}
       >
         {/* Icon circle */}

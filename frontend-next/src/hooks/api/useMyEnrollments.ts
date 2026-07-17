@@ -23,23 +23,27 @@ export interface UseMyEnrollmentsResult {
   enrollments: EnrollmentWithCourse[];
   isLoading:   boolean;
   error:       string | null;
-  refetch:     () => void;
+  refetch:     () => Promise<void>;
 }
 
-export function useMyEnrollments(): UseMyEnrollmentsResult {
+export function useMyEnrollments(enabled: boolean = true): UseMyEnrollmentsResult {
   const [enrollments, setEnrollments] = useState<EnrollmentWithCourse[]>([]);
-  const [isLoading, setIsLoading]     = useState(true);
+  const [isLoading, setIsLoading]     = useState(enabled);
   const [error, setError]             = useState<string | null>(null);
 
   const fetchEnrollments = useCallback(() => {
+    if (!enabled) {
+      setIsLoading(false);
+      return Promise.resolve();
+    }
     setIsLoading(true);
     setError(null);
-    enrollmentsApi
+    return enrollmentsApi
       .mine()
       .then(setEnrollments)
       .catch((err: Error) => setError(err.message ?? "Failed to load enrollments"))
       .finally(() => setIsLoading(false));
-  }, []);
+  }, [enabled]);
 
   useEffect(() => {
     fetchEnrollments();

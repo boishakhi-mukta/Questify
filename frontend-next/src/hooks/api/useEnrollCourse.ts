@@ -25,7 +25,7 @@ export interface UseEnrollCourseResult {
   error:      string | null;
 }
 
-export function useEnrollCourse(onSuccess?: () => void): UseEnrollCourseResult {
+export function useEnrollCourse(onSuccess?: () => void | Promise<void>): UseEnrollCourseResult {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError]         = useState<string | null>(null);
 
@@ -34,7 +34,10 @@ export function useEnrollCourse(onSuccess?: () => void): UseEnrollCourseResult {
     setError(null);
     try {
       await enrollmentsApi.enroll(courseId);
-      onSuccess?.();
+      // Wait for the caller's refetch so `isLoading` doesn't clear until the
+      // enrolled-state the UI reads from (e.g. useMyEnrollments) is current —
+      // otherwise the button flashes back to its pre-enroll state for a beat.
+      await onSuccess?.();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Enrollment failed");
       throw err;
@@ -48,7 +51,7 @@ export function useEnrollCourse(onSuccess?: () => void): UseEnrollCourseResult {
     setError(null);
     try {
       await enrollmentsApi.unenroll(enrollmentId);
-      onSuccess?.();
+      await onSuccess?.();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unenrollment failed");
       throw err;
