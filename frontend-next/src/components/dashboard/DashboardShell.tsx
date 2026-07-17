@@ -16,7 +16,7 @@
  */
 
 import Link              from "next/link";
-import Image             from "next/image";
+import { QuestifyLogo } from "@/components/ui/QuestifyLogo";
 import { usePathname }   from "next/navigation";
 import { useAuth }       from "@/hooks/useAuth";
 import type { UserRole } from "@/types/auth";
@@ -112,7 +112,7 @@ export default function DashboardShell({
         {/* Logo */}
         <div className="px-5 pt-6 pb-5">
           <Link href="/">
-            <Image src="/logo.svg" alt="Questify" width={110} height={28} className="h-7 w-auto brightness-0 invert" />
+            <QuestifyLogo size="sm" variant="dark" />
           </Link>
         </div>
 

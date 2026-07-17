@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
+import { QuestifyLogo } from "@/components/ui/QuestifyLogo";
 import {
   HiBars3,
   HiXMark,
@@ -185,13 +186,7 @@ export function PublicNavbar() {
             className="flex items-center shrink-0"
             aria-label="Questify home"
           >
-            <Image
-              src="/logo.svg"
-              alt="Questify"
-              width={120}
-              height={32}
-              className="h-8 w-auto object-contain"
-            />
+            <QuestifyLogo size="md" variant="light" />
           </Link>
 
           {/* Desktop nav links — absolute center */}
