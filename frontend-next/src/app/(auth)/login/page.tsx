@@ -1,7 +1,8 @@
 "use client";
 
-import { useState }             from "react";
+import { useState, Suspense }   from "react";
 import Link                      from "next/link";
+import { useSearchParams }       from "next/navigation";
 import { DotLottieReact }        from "@lottiefiles/dotlottie-react";
 import { HiEye, HiEyeSlash }    from "react-icons/hi2";
 import { GraduationCap, BookOpen, ShieldCheck, Zap, Flame, Trophy, Target } from "lucide-react";
@@ -38,8 +39,18 @@ const GLASS = {
 } as React.CSSProperties;
 
 export default function LoginPage() {
+  return (
+    <Suspense fallback={null}>
+      <LoginPageInner />
+    </Suspense>
+  );
+}
+
+function LoginPageInner() {
   const { login, isLoggingIn, loginError, user } = useAuth();
   const { t } = useTranslation();
+  const searchParams = useSearchParams();
+  const redirectTo   = searchParams.get("redirect") ?? undefined;
 
   const [activeRole,     setActiveRole]     = useState<UserRole>("student");
   const [email,          setEmail]          = useState("");
@@ -59,13 +70,13 @@ export default function LoginPage() {
   async function handleSubmit(e?: { preventDefault(): void }) {
     e?.preventDefault();
     if (!email.trim() || !password) return;
-    const result = await login(email.trim(), password);
+    const result = await login(email.trim(), password, redirectTo);
     if (result.success && result.requiresPasswordChange) setShowForceModal(true);
   }
 
   async function handleDemoLogin() {
     setDemoLoading(true);
-    await login(cfg.demoEmail, DEMO_PASSWORD);
+    await login(cfg.demoEmail, DEMO_PASSWORD, redirectTo);
     setDemoLoading(false);
   }
 

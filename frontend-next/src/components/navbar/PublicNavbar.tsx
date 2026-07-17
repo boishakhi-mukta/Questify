@@ -166,10 +166,10 @@ export function PublicNavbar() {
         Skip to content
       </a>
 
-      {/* ── Glassmorphism floating card ── */}
+      {/* ── Glassmorphism floating card — tinted one shade lighter than the hero background (#c4dcd0) ── */}
       <nav
         style={{
-          background: "rgba(255, 255, 255, 0.55)",
+          background: "rgba(196, 220, 208, 0.55)",
           backdropFilter: "blur(24px) saturate(180%)",
           WebkitBackdropFilter: "blur(24px) saturate(180%)",
           boxShadow:

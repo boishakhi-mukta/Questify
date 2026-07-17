@@ -85,7 +85,7 @@ export default function FeaturesSection() {
           {featureConfigs.map(({ icon: Icon, titleKey, descKey, ctaKey, ctaHref, offset }) => (
             <StaggerItem key={titleKey} className={offset}>
               <article
-                className="flex flex-col rounded-2xl shadow-sm border border-brand-border p-5 gap-4 transition-shadow duration-250 hover:shadow-lg"
+                className="flex flex-col rounded-2xl border border-white/50 backdrop-blur-md p-5 gap-4 transition-shadow duration-250 shadow-[inset_0_1px_0_rgba(255,255,255,0.5),0_1px_2px_0_rgb(0_0_0/0.05)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.5),0_10px_15px_-3px_rgb(0_0_0/0.1),0_4px_6px_-4px_rgb(0_0_0/0.1)]"
                 style={{ background: CARD_BG }}
               >
                 {/* Icon */}

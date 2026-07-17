@@ -55,7 +55,7 @@ export const enrollmentsApi = {
     get<EnrollmentWithCourse[]>("/my-enrollments"),
 
   enroll: (courseId: string) =>
-    post<Enrollment>("/enrollments", { courseId }),
+    post<Enrollment>("/my-enrollments/enroll", { courseId }),
 
   unenroll: (enrollmentId: string) =>
     del<void>(`/my-enrollments/${enrollmentId}`),
