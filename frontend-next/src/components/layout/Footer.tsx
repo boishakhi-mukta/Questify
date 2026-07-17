@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
+import { QuestifyLogo } from "@/components/ui/QuestifyLogo";
 import {
   FaXTwitter,
   FaLinkedin,
@@ -147,13 +147,7 @@ export default function Footer() {
           aria-label="Questify — homepage"
           className="inline-block mb-7"
         >
-          <Image
-            src="/logo.svg"
-            alt="Questify"
-            width={130}
-            height={34}
-            className="h-9 w-auto object-contain"
-          />
+          <QuestifyLogo size="md" variant="light" />
         </Link>
 
         {/* 3 columns spread edge-to-edge like the reference */}

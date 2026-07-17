@@ -17,7 +17,7 @@
 
 import { useState }  from "react";
 import Link           from "next/link";
-import Image          from "next/image";
+import { QuestifyLogo } from "@/components/ui/QuestifyLogo";
 import { HiArrowLeft, HiEnvelope } from "react-icons/hi2";
 
 export default function ForgotPasswordPage() {
@@ -36,7 +36,7 @@ export default function ForgotPasswordPage() {
       {/* Logo bar */}
       <div className="px-7 py-5">
         <Link href="/">
-          <Image src="/logo.svg" alt="Questify" width={120} height={30} className="h-[30px] w-auto" />
+          <QuestifyLogo size="sm" variant="light" />
         </Link>
       </div>
 

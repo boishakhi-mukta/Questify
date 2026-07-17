@@ -18,7 +18,7 @@
 import { useState, useEffect }    from "react";
 import { useRouter }               from "next/navigation";
 import Link                        from "next/link";
-import Image                       from "next/image";
+import { QuestifyLogo }            from "@/components/ui/QuestifyLogo";
 import { HiEye, HiEyeSlash, HiArrowLeft } from "react-icons/hi2";
 import { useAuth }                 from "@/hooks/useAuth";
 import { useChangePassword }       from "@/hooks/useChangePassword";
@@ -83,7 +83,7 @@ export default function ChangePasswordPage() {
 
       <div className="px-7 py-5">
         <Link href="/">
-          <Image src="/logo.svg" alt="Questify" width={120} height={30} className="h-[30px] w-auto" />
+          <QuestifyLogo size="sm" variant="light" />
         </Link>
       </div>
 

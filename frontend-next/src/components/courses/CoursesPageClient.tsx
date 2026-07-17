@@ -163,7 +163,7 @@ export default function CoursesPageClient() {
     if (filters.semester)               p.set("semester", filters.semester);
     if (sort !== "newest")              p.set("sort",     sort);
     if (pagination.page > 1)            p.set("page",     String(pagination.page));
-    if (pagination.pageSize !== 12)     p.set("pageSize", String(pagination.pageSize));
+    if (pagination.pageSize !== 9)      p.set("pageSize", String(pagination.pageSize));
 
     const qs = p.toString();
     router.replace(qs ? `/courses?${qs}` : "/courses", { scroll: false });

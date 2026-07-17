@@ -15,8 +15,8 @@
  * ============================================================================
  */
 
-import Image from "next/image";
 import Link from "next/link";
+import { QuestifyLogo } from "@/components/ui/QuestifyLogo";
 import { HiBars3, HiXMark } from "react-icons/hi2";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { UserDropdown } from "./UserDropdown";
@@ -53,13 +53,7 @@ export function AuthenticatedNavbar({ sidebarOpen, onMenuToggle }: Authenticated
         </button>
 
         <Link href="/" className="flex items-center shrink-0">
-          <Image
-            src="/logo.svg"
-            alt="Questify"
-            width={110}
-            height={28}
-            className="h-7 w-auto object-contain dark:brightness-0 dark:invert"
-          />
+          <QuestifyLogo size="sm" variant="light" />
         </Link>
       </div>
 

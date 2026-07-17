@@ -15,8 +15,8 @@
  * ============================================================================
  */
 
-import Image from "next/image";
 import Link from "next/link";
+import { QuestifyLogo } from "@/components/ui/QuestifyLogo";
 import { usePathname } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/hooks/useAuth";
@@ -159,7 +159,7 @@ function SidebarContent({
       {/* Logo */}
       <div className="px-5 pt-6 pb-4 shrink-0">
         <Link href="/" aria-label="Questify home">
-          <Image src="/logo.svg" alt="Questify" width={110} height={28} className="h-7 w-auto brightness-0 invert" />
+          <QuestifyLogo size="sm" variant="dark" />
         </Link>
       </div>
 

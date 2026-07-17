@@ -77,10 +77,10 @@ function SectionHeading({ tag, title, subtitle, center = true }: {
       <span className="inline-block mb-3 px-3.5 py-1 rounded-full bg-brand-blue/10 text-brand-blue text-xs font-bold uppercase tracking-widest">
         {tag}
       </span>
-      <h2 className="text-2xl sm:text-3xl font-extrabold text-brand-dark dark:text-white mb-3 leading-tight">
+      <h2 className="text-2xl sm:text-3xl font-extrabold text-brand-dark mb-3 leading-tight">
         {title}
       </h2>
-      {subtitle && <p className="text-brand-body dark:text-white/60 text-base leading-relaxed">{subtitle}</p>}
+      {subtitle && <p className="text-brand-body text-base leading-relaxed">{subtitle}</p>}
     </div>
   );
 }
@@ -139,6 +139,52 @@ export default function AboutPage() {
     );
     observer.observe(el);
     return () => observer.disconnect();
+  }, []);
+
+  // ── Roles section GSAP animation ──────────────────────────────────────────
+  const rolesRef        = useRef<HTMLElement>(null);
+  const rolesHeadingRef = useRef<HTMLDivElement>(null);
+  const rolesIconsRef   = useRef<(HTMLDivElement | null)[]>([]);
+  const rolesLinesRef   = useRef<(HTMLDivElement | null)[]>([]);
+  const rolesCardsRef   = useRef<(HTMLDivElement | null)[]>([]);
+  const rolesAnimated   = useRef(false);
+
+  useEffect(() => {
+    const section = rolesRef.current;
+    if (!section) return;
+    let observer: IntersectionObserver;
+
+    import("gsap").then(({ default: gsap }) => {
+      gsap.set(rolesHeadingRef.current, { opacity: 0, y: 28 });
+      gsap.set(rolesIconsRef.current.filter(Boolean),  { opacity: 0, scale: 0.55, y: 14 });
+      gsap.set(rolesLinesRef.current.filter(Boolean),  { scaleX: 0, transformOrigin: "left center" });
+      gsap.set(rolesCardsRef.current.filter(Boolean),  { opacity: 0, y: 40 });
+
+      observer = new IntersectionObserver(([entry]) => {
+        if (!entry.isIntersecting || rolesAnimated.current) return;
+        rolesAnimated.current = true;
+        observer.disconnect();
+
+        gsap.timeline()
+          .to(rolesHeadingRef.current, { opacity: 1, y: 0, duration: 0.65, ease: "power2.out" })
+          .to(rolesIconsRef.current.filter(Boolean), {
+            opacity: 1, scale: 1, y: 0,
+            duration: 0.5, stagger: 0.16, ease: "back.out(1.6)",
+          }, "-=0.3")
+          .to(rolesLinesRef.current.filter(Boolean), {
+            scaleX: 1,
+            duration: 0.35, stagger: 0.18, ease: "power1.inOut",
+          }, "-=0.2")
+          .to(rolesCardsRef.current.filter(Boolean), {
+            opacity: 1, y: 0,
+            duration: 0.55, stagger: 0.14, ease: "power2.out",
+          }, "-=0.1");
+      }, { threshold: 0.08 });
+
+      observer.observe(section);
+    });
+
+    return () => observer?.disconnect();
   }, []);
 
   return (
@@ -446,13 +492,15 @@ export default function AboutPage() {
         </section>
 
         {/* ── Who Uses Questify ─────────────────────────────────────────────── */}
-        <section className="relative bg-brand-bg py-16 px-4 md:px-6 overflow-hidden">
+        <section ref={rolesRef} className="relative bg-brand-bg py-16 px-4 md:px-6 overflow-hidden">
           <div className="absolute top-0 left-0 w-72 h-72 rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(37,181,133,0.07), transparent)", filter: "blur(44px)" }} />
           <div className="absolute bottom-0 right-0 w-80 h-80 rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(27,67,50,0.07), transparent)", filter: "blur(50px)" }} />
           <div className="absolute top-6 right-6 pointer-events-none"><DotGrid cols={5} rows={4} /></div>
 
           <div className="relative max-w-6xl mx-auto">
-            <SectionHeading tag={t("about.rolesTag")} title={t("about.rolesTitle")} subtitle={t("about.rolesSubtitle")} />
+            <div ref={rolesHeadingRef}>
+              <SectionHeading tag={t("about.rolesTag")} title={t("about.rolesTitle")} subtitle={t("about.rolesSubtitle")} />
+            </div>
 
             {/* Connected-roles strip */}
             <div className="flex items-center justify-center gap-3 sm:gap-6 mb-10">
@@ -462,9 +510,19 @@ export default function AboutPage() {
                 { icon: UserCog,       label: "Administration", bg: "#EDE9FE", color: "#7C3AED" },
               ] as { icon: LucideIcon; label: string; bg: string; color: string }[]).map(({ icon: Icon, label, bg, color }, i) => (
                 <div key={label} className="flex items-center gap-3 sm:gap-6">
-                  {i > 0 && <div className="hidden sm:block h-px w-10" style={{ background: "linear-gradient(90deg, #C8E8DC, #1B4332, #C8E8DC)" }} />}
+                  {i > 0 && (
+                    <div
+                      ref={(el) => { rolesLinesRef.current[i - 1] = el; }}
+                      className="hidden sm:block h-px w-10"
+                      style={{ background: "linear-gradient(90deg, #C8E8DC, #1B4332, #C8E8DC)" }}
+                    />
+                  )}
                   <div className="flex flex-col items-center gap-1.5">
-                    <div className="w-14 h-14 rounded-full flex items-center justify-center shadow-sm" style={{ background: bg }}>
+                    <div
+                      ref={(el) => { rolesIconsRef.current[i] = el; }}
+                      className="w-14 h-14 rounded-full flex items-center justify-center shadow-sm"
+                      style={{ background: bg }}
+                    >
                       <Icon size={24} style={{ color }} strokeWidth={1.8} />
                     </div>
                     <span className="text-xs font-semibold text-brand-body">{label}</span>
@@ -474,8 +532,12 @@ export default function AboutPage() {
             </div>
 
             <div className="grid sm:grid-cols-3 gap-6">
-              {roles.map(({ icon: Icon, color, border, titleKey, descKey, featureKeys }) => (
-                <div key={titleKey} className={`bg-white border ${border} rounded-2xl p-6`}>
+              {roles.map(({ icon: Icon, color, border, titleKey, descKey, featureKeys }, i) => (
+                <div
+                  key={titleKey}
+                  ref={(el) => { rolesCardsRef.current[i] = el; }}
+                  className={`bg-white border ${border} rounded-2xl p-6`}
+                >
                   <div className={`w-11 h-11 rounded-xl ${color} flex items-center justify-center mb-4`}>
                     <Icon size={22} />
                   </div>
@@ -560,11 +622,14 @@ export default function AboutPage() {
         </section>
 
         {/* ── Access Notice ─────────────────────────────────────────────────── */}
-        <section className="relative bg-brand-dark py-16 px-6 text-center overflow-hidden">
-          <div className="absolute top-5 left-6 w-24 h-24 rounded-full pointer-events-none" style={{ border: "1.5px dashed rgba(37,181,133,0.3)" }} />
-          <div className="absolute bottom-5 right-6 w-16 h-16 rounded-full pointer-events-none" style={{ border: "1.5px dashed rgba(37,181,133,0.2)" }} />
-          <div className="absolute top-4 right-16 w-3 h-3 rounded-full pointer-events-none" style={{ background: "#25B585", opacity: 0.35 }} />
-          <div className="absolute bottom-4 left-16 w-2 h-2 rounded-full pointer-events-none" style={{ background: "#25B585", opacity: 0.25 }} />
+        <section
+          className="relative py-20 px-6 text-center overflow-hidden"
+          style={{ background: "linear-gradient(180deg, #c4dcd0 0%, #d4ede3 28%, #eef8f4 65%, #F2FAF7 100%)" }}
+        >
+          <div className="absolute top-5 left-6 w-24 h-24 rounded-full pointer-events-none" style={{ border: "1.5px dashed rgba(27,67,50,0.18)" }} />
+          <div className="absolute bottom-5 right-6 w-16 h-16 rounded-full pointer-events-none" style={{ border: "1.5px dashed rgba(27,67,50,0.12)" }} />
+          <div className="absolute top-4 right-16 w-3 h-3 rounded-full pointer-events-none" style={{ background: "#1B4332", opacity: 0.16 }} />
+          <div className="absolute bottom-4 left-16 w-2 h-2 rounded-full pointer-events-none" style={{ background: "#1B4332", opacity: 0.12 }} />
           <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" style={{ opacity: 0.08 }}>
             <DotGrid cols={3} rows={6} />
           </div>
@@ -573,14 +638,24 @@ export default function AboutPage() {
           </div>
 
           <div className="relative max-w-xl mx-auto">
-            <Shield size={32} className="text-brand-blue mx-auto mb-4" />
-            <h2 className="text-2xl font-extrabold text-white mb-3">{t("about.accessTitle")}</h2>
-            <p className="text-white/60 text-sm mb-7 leading-relaxed">{t("about.accessBody")}</p>
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              <Link href="/login" className="inline-flex items-center px-6 py-3 rounded-xl bg-brand-blue text-white text-sm font-bold hover:bg-brand-blue-dark transition-colors no-underline">
+            <div className="w-14 h-14 rounded-2xl bg-brand-blue/10 flex items-center justify-center mx-auto mb-6">
+              <Shield size={28} className="text-brand-blue" />
+            </div>
+            <h2 className="text-2xl font-extrabold text-brand-dark mb-4">{t("about.accessTitle")}</h2>
+            <p className="text-brand-body text-[15px] leading-relaxed mb-8">{t("about.accessBody")}</p>
+            <div className="flex flex-wrap items-center justify-center gap-4 mt-6">
+              <Link
+                href="/login"
+                className="inline-flex items-center px-7 py-3 rounded-xl text-sm font-bold text-white transition-colors duration-200 no-underline"
+                style={{ background: "#1B4332" }}
+              >
                 {t("about.logInBtn")}
               </Link>
-              <Link href="/contact" className="inline-flex items-center px-6 py-3 rounded-xl border border-white/20 text-white text-sm font-bold hover:border-white/50 transition-colors no-underline">
+              <Link
+                href="/contact"
+                className="inline-flex items-center px-7 py-3 rounded-xl border-2 text-sm font-bold text-brand-dark transition-colors duration-200 no-underline hover:bg-brand-dark/5"
+                style={{ borderColor: "rgba(27,67,50,0.3)" }}
+              >
                 {t("about.contactHelpdesk")}
               </Link>
             </div>
