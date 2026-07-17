@@ -44,14 +44,13 @@ export type XPActivity = keyof typeof XP_POINTS;
 export const PAGINATION = {
   DEFAULT_PAGE: 1,
   DEFAULT_LIMIT: 12,
-  MAX_LIMIT: 100,
+  MAX_LIMIT: 500,
 } as const;
 
 // ── Course ─────────────────────────────────────────────────────────────────────
 export const COURSE_LEVELS = {
-  BEGINNER: "BEGINNER",
-  INTERMEDIATE: "INTERMEDIATE",
-  ADVANCED: "ADVANCED",
+  BACHELOR: "BACHELOR",
+  MASTERS:  "MASTERS",
 } as const;
 
 export type CourseLevel = (typeof COURSE_LEVELS)[keyof typeof COURSE_LEVELS];

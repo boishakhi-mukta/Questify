@@ -140,7 +140,7 @@ export default function Footer() {
       aria-label="Site footer"
     >
       {/* ── Content — w-11/12, columns spread justify-between ── */}
-      <div className="w-10/12 mx-auto pb-10">
+      <div className="w-10/12 mx-auto pb-10 mt-5">
         {/* Logo */}
         <Link
           href="/"

@@ -105,6 +105,24 @@ const FACULTY_USERS: UserDef[] = [
     department: "MATH",
     bio:        "Applied mathematician specialising in linear algebra and optimisation.",
   },
+  {
+    email:      "l.kim@university.edu",
+    password:   "FacultyPass123!",
+    firstName:  "Lena",
+    lastName:   "Kim",
+    role:       "teacher",
+    department: "DES",
+    bio:        "Product designer and UX researcher with a decade of industry experience.",
+  },
+  {
+    email:      "t.berg@university.edu",
+    password:   "FacultyPass123!",
+    firstName:  "Thomas",
+    lastName:   "Berg",
+    role:       "teacher",
+    department: "ENG",
+    bio:        "Software architect specialising in distributed systems and embedded engineering.",
+  },
 ];
 
 const STUDENT_USERS: UserDef[] = [

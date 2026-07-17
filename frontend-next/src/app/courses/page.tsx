@@ -39,12 +39,12 @@ function CoursesPageFallback() {
 export default function CoursesPage() {
   return (
     <>
-      <div style={{ background: "radial-gradient(120% 90% at 50% 78%, rgba(238,250,244,0.9) 0%, rgba(238,250,244,0) 60%), linear-gradient(180deg, #b7d3c5 0%, #c4dcd0 30%, #cfe4d7 62%, #d9eee0 100%)" }}>
-        <Navbar />
+      <Navbar />
+      <div style={{ background: "radial-gradient(120% 90% at 50% 78%, rgba(238,250,244,0.9) 0%, rgba(238,250,244,0) 60%), linear-gradient(180deg, #b7d3c5 0%, #c4dcd0 30%, #cfe4d7 62%, #d9eee0 100%)", marginTop: "-60px" }}>
+        <Suspense fallback={<CoursesPageFallback />}>
+          <CoursesPageClient />
+        </Suspense>
       </div>
-      <Suspense fallback={<CoursesPageFallback />}>
-        <CoursesPageClient />
-      </Suspense>
       <Footer />
     </>
   );

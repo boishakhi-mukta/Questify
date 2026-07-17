@@ -214,8 +214,8 @@ export const createCourseSchema = z.object({
   description:      z.string({ required_error: "description is required" }).min(10).max(5_000).trim(),
   shortDescription: z.string().max(200).trim().optional(),
   category:         z.string({ required_error: "category is required" }).min(1).max(100).trim(),
-  level:            z.enum(["BEGINNER", "INTERMEDIATE", "ADVANCED"], {
-    errorMap: () => ({ message: "level must be BEGINNER, INTERMEDIATE, or ADVANCED" }),
+  level:            z.enum(["BACHELOR", "MASTERS"], {
+    errorMap: () => ({ message: "level must be BACHELOR or MASTERS" }),
   }),
   campus:         z.string({ required_error: "campus is required" }).min(1).max(100).trim(),
   credits:        z.number().int().min(0).max(60).optional(),
@@ -240,7 +240,7 @@ export const updateCourseSchema = createCourseSchema
 
 export const filterCourseSchema = z.object({
   category:   z.string().optional(),
-  level:      z.enum(["BEGINNER", "INTERMEDIATE", "ADVANCED"]).optional(),
+  level:      z.enum(["BACHELOR", "MASTERS"]).optional(),
   campus:     z.string().optional(),
   search:     z.string().optional(),
   isFeatured: z.enum(["true", "false"]).optional(),
@@ -513,7 +513,7 @@ export const adminCreateCourseSchema = z.object({
   description:      z.string({ required_error: "description is required" }).min(10).max(2_000),
   shortDescription: z.string().max(300).optional(),
   category:         z.string({ required_error: "category is required" }).min(1).max(100),
-  level:            z.enum(["BEGINNER", "INTERMEDIATE", "ADVANCED"]),
+  level:            z.enum(["BACHELOR", "MASTERS"]),
   campus:           z.string({ required_error: "campus is required" }).min(1).max(100),
   credits:          z.number().min(0).max(60).default(3),
   semester:         z.string().max(50).optional(),
@@ -530,7 +530,7 @@ export const adminUpdateCourseSchema = z
     description:      z.string().min(10).max(2_000).optional(),
     shortDescription: z.string().max(300).optional(),
     category:         z.string().max(100).optional(),
-    level:            z.enum(["BEGINNER", "INTERMEDIATE", "ADVANCED"]).optional(),
+    level:            z.enum(["BACHELOR", "MASTERS"]).optional(),
     campus:           z.string().max(100).optional(),
     credits:          z.number().min(0).max(60).optional(),
     semester:         z.string().max(50).optional(),
@@ -549,7 +549,7 @@ export const adminListCoursesQuerySchema = z.object({
   search:      z.string().max(100).optional(),
   campus:      z.string().max(100).optional(),
   semester:    z.string().max(50).optional(),
-  level:       z.enum(["BEGINNER", "INTERMEDIATE", "ADVANCED"]).optional(),
+  level:       z.enum(["BACHELOR", "MASTERS"]).optional(),
   isPublished: z.enum(["true", "false"]).optional(),
 });
 

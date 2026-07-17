@@ -1,101 +1,97 @@
 "use client";
 
-/**
- * ============================================================================
- * QUESTIFY COMPONENT: CourseCard
- * 
- * WHAT IT DOES (For Non-Technical Readers):
- * A visual box display representing a course, showing instructor names and semesters.
- * 
- * WHY IT EXISTS:
- * Renders brief summaries in search layouts to let users review options before enrolling.
- * 
- * HOW IT WORKS (Technical Overview):
- * Displays details inside an interactive, hoverable container linking to detail pages.
- * ============================================================================
- */
-
 import Link from "next/link";
-import { HiUserGroup } from "react-icons/hi2";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import {
+  BookOpen, Clock, Users, Code2, Palette, Brain,
+  Briefcase, BarChart3, Calculator, Cpu, ChevronRight,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import type { Course } from "@/types/api-response";
-import { cn } from "@/lib/utils";
-import { useTranslation } from "react-i18next";
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
+interface CategoryConfig { color: string; Icon: LucideIcon }
 
-/** Maps backend level enum to a human-readable label and badge colour class. */
-const LEVEL_META: Record<string, { label: string; classes: string }> = {
-  BACHELOR: { label: "Bachelor", classes: "bg-brand-blue/8 text-brand-blue border-brand-blue/20" },
-  MASTERS:  { label: "Masters",  classes: "bg-violet-50 text-violet-600 border-violet-200"       },
+const CATEGORY_CONFIG: Record<string, CategoryConfig> = {
+  "Computer Science": { color: "#1B4332", Icon: Code2      },
+  "Business":         { color: "#0F6E4A", Icon: Briefcase  },
+  "Data Science":     { color: "#1B7A5A", Icon: Brain      },
+  "Mathematics":      { color: "#25B585", Icon: Calculator },
+  "Design":           { color: "#2DCE9A", Icon: Palette    },
+  "Engineering":      { color: "#0A5740", Icon: Cpu        },
 };
-
-function levelMeta(level: string) {
-  return LEVEL_META[level] ?? { label: level, classes: "bg-gray-50 text-gray-600 border-gray-200" };
-}
-
-/** Returns the first teacher's full name, or a fallback. */
-function teacherName(teachers: Course["teachers"]): string {
-  if (!teachers || teachers.length === 0) return "—";
-  const t = teachers[0];
-  if (typeof t === "string") return t;
-  return `${t.firstName} ${t.lastName}`.trim();
-}
-
-
-// ── Component ─────────────────────────────────────────────────────────────────
+const DEFAULT_CONFIG: CategoryConfig = { color: "#1B7A5A", Icon: BookOpen };
 
 export function CourseCard({ course }: { course: Course }) {
-  const { t } = useTranslation();
-  const meta = levelMeta(course.level);
+  const { color, Icon } = CATEGORY_CONFIG[course.category] ?? DEFAULT_CONFIG;
 
   return (
     <Link href={`/courses/${course._id}`} className="no-underline group block h-full">
-      <Card className="p-5 flex flex-col gap-3 h-full cursor-pointer transition-all duration-200 group-hover:shadow-[0_6px_24px_rgba(0,0,0,0.10)] group-hover:-translate-y-0.5 border-brand-border">
+      <article className="flex flex-col h-full bg-white rounded-xl overflow-hidden border border-brand-border/50 shadow-xs transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1 group-hover:border-brand-border">
 
-        {/* Category + level badges */}
-        <div className="flex flex-wrap gap-1.5">
-          <Badge>{course.category}</Badge>
-          <span className={cn(
-            "inline-flex items-center rounded-full text-[11px] font-bold px-2.5 py-0.5 border",
-            meta.classes
-          )}>
-            {meta.label}
-          </span>
-        </div>
+        {/* Animated sweep border */}
+        <div
+          style={{
+            height: "3px",
+            flexShrink: 0,
+            background: `linear-gradient(90deg, ${color} 0%, rgba(255,255,255,0.85) 50%, ${color} 100%)`,
+            backgroundSize: "200% 100%",
+            animation: "card-border-flow 2.5s linear infinite",
+          }}
+        />
 
-        {/* Title */}
-        <h3 className="text-[15px] font-bold text-brand-dark leading-snug line-clamp-2 group-hover:text-brand-blue transition-colors">
-          {course.title}
-        </h3>
+        <div className="flex flex-col flex-1 px-5 pt-5 pb-5 gap-3">
 
-        {/* Instructor */}
-        <p className="text-[13px] text-brand-body">{t("courseCard.by")} {teacherName(course.teachers)}</p>
-
-        {/* Description */}
-        <p className="text-[13px] text-brand-body leading-relaxed line-clamp-2 flex-1">
-          {course.shortDescription ?? course.description}
-        </p>
-
-        {/* Enrollments */}
-        <span className="flex items-center gap-1 text-[12px] text-brand-body/70">
-          <HiUserGroup size={13} />
-          {(course.enrollmentCount ?? 0).toLocaleString()} {t("courseCard.enrolled")}
-        </span>
-
-        {/* Bottom row: campus + credits */}
-        <div className="flex items-center justify-between pt-3 border-t border-brand-border mt-auto">
-          <div className="flex items-center gap-2">
-            <Badge variant="outline">{course.campus}</Badge>
-            <span className="text-[12px] text-brand-body">{course.credits} ECTS</span>
+          {/* Category + level row */}
+          <div className="flex items-center justify-between">
+            <span
+              className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-widest"
+              style={{ color }}
+            >
+              <Icon size={12} strokeWidth={2.2} />
+              {course.category}
+            </span>
+            <span
+              className="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide"
+              style={{ background: `${color}18`, color }}
+            >
+              {course.level === "BACHELOR" ? "Bachelor" : "Masters"}
+            </span>
           </div>
-          {course.semester && (
-            <span className="text-[12px] text-brand-body/70">{course.semester}</span>
-          )}
-        </div>
 
-      </Card>
+          {/* Title */}
+          <h3 className="font-bold text-brand-dark text-[15px] leading-snug line-clamp-2">
+            {course.title}
+          </h3>
+
+          {/* Description */}
+          <p className="text-[13px] text-brand-body leading-relaxed line-clamp-2 flex-1">
+            {course.shortDescription ?? course.description ?? ""}
+          </p>
+
+          {/* Meta footer */}
+          <div className="pt-3 border-t border-brand-border/50 flex items-center gap-3.5 text-[12px] text-brand-body/65">
+            <span className="flex items-center gap-1">
+              <BookOpen size={11} />
+              {course.credits} credits
+            </span>
+            {course.estimatedHours != null && (
+              <span className="flex items-center gap-1">
+                <Clock size={11} />
+                {course.estimatedHours}h
+              </span>
+            )}
+            <span className="flex items-center gap-1 ml-auto text-brand-body/45 group-hover:text-brand-blue transition-colors">
+              <Users size={11} />
+              {course.enrollmentCount ?? 0}
+            </span>
+            <ChevronRight
+              size={14}
+              className="text-brand-border group-hover:text-brand-blue group-hover:translate-x-0.5 transition-all duration-200"
+              strokeWidth={2.5}
+            />
+          </div>
+
+        </div>
+      </article>
     </Link>
   );
 }
