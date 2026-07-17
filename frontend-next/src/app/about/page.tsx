@@ -9,7 +9,6 @@ import { useTranslation } from "react-i18next";
 import { useAdminStats } from "@/hooks/useAdminStats";
 import type { AdminStats } from "@/hooks/useAdminStats";
 import type { LucideIcon } from "lucide-react";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import {
   Target,
   Users,
@@ -17,11 +16,8 @@ import {
   Shield,
   BookMarked,
   GraduationCap,
-  BarChart3,
   ClipboardList,
   UserCog,
-  Trophy,
-  TrendingUp,
 } from "lucide-react";
 
 // ── Count-up hook ──────────────────────────────────────────────────────────────
@@ -126,12 +122,6 @@ const roles = [
   },
 ];
 
-const missionCards = [
-  { icon: Target,     bg: "bg-brand-blue/10",  color: "text-brand-blue",  labelKey: "about.missionCard1" },
-  { icon: Zap,        bg: "bg-amber-400/15",   color: "text-amber-500",   labelKey: "about.missionCard2" },
-  { icon: BarChart3,  bg: "bg-emerald-500/15", color: "text-emerald-500", labelKey: "about.missionCard3" },
-  { icon: BookMarked, bg: "bg-violet-500/15",  color: "text-violet-500",  labelKey: "about.missionCard4" },
-];
 
 // ── Page ───────────────────────────────────────────────────────────────────────
 export default function AboutPage() {
@@ -247,30 +237,210 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* ── Mission ──────────────────────────────────────────────────────── */}
-        <section className="max-w-6xl mx-auto px-4 md:px-6 py-16">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+        {/* ── What Will You Experience ──────────────────────────────────────── */}
+        <section className="relative py-16 px-4 md:px-6 bg-white overflow-hidden">
+          {/* Wavy amber line — left edge */}
+          <svg className="absolute left-6 top-1/3 pointer-events-none" width="48" height="220" viewBox="0 0 48 220" fill="none" aria-hidden="true" style={{ opacity: 0.22 }}>
+            <path d="M24 0 Q0 55 24 110 Q48 165 24 220" stroke="#D97706" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+          </svg>
+          {/* Sparkles — upper right */}
+          <div className="absolute top-10 right-14 pointer-events-none z-0"><Sparkle size={40} color="rgba(37,181,133,0.25)" /></div>
+          <div className="absolute top-20 right-24 pointer-events-none z-0"><Sparkle size={22} color="rgba(217,119,6,0.3)" /></div>
+          {/* Dot grid — bottom right */}
+          <div className="absolute bottom-8 right-8 pointer-events-none" style={{ opacity: 0.06 }}>
+            <DotGrid cols={5} rows={4} />
+          </div>
 
-            {/* Left: heading + text */}
-            <div>
-              <SectionHeading tag={t("about.missionTag")} title={t("about.missionTitle")} center={false} />
-              <div className="space-y-4 text-brand-body text-[15px] leading-relaxed">
-                <p>{t("about.missionP1")}</p>
-                <p>{t("about.missionP2")}</p>
-                <p>{t("about.missionP3")}</p>
+          <div className="relative max-w-6xl mx-auto">
+            {/* Heading */}
+            <div className="text-center max-w-3xl mx-auto mb-14">
+              <span className="inline-block mb-3 px-3.5 py-1 rounded-full bg-brand-blue/10 text-brand-blue text-xs font-bold uppercase tracking-widest">
+                {t("about.missionTag")}
+              </span>
+              <h2 className="text-3xl sm:text-[36px] font-extrabold text-brand-dark mb-4 leading-tight">
+                {t("about.missionCenteredPre")}{" "}
+                <span style={{ color: "#D97706" }}>{t("about.missionCenteredHighlight")}</span>
+              </h2>
+              <p className="text-brand-body text-base leading-relaxed">{t("about.missionSubtitle")}</p>
+            </div>
+
+            {/* Two-column: animated card left, feature list right */}
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-10">
+
+              {/* Left — animated course dashboard card */}
+              <div className="relative flex items-center justify-center min-h-75">
+                <style>{`
+                  @keyframes qf-float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+                  @keyframes qf-ping  { 0%,80%,100%{transform:scale(1)} 40%{transform:scale(1.12)} }
+                  @keyframes qf-dot   { 0%,100%{opacity:1} 50%{opacity:0.35} }
+                `}</style>
+                <div className="absolute w-72 h-72 rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(37,181,133,0.13), transparent)", filter: "blur(30px)" }} />
+                <div className="relative z-10 w-full max-w-sm" style={{ animation: "qf-float 4s ease-in-out infinite" }}>
+                  {/* Main card */}
+                  <div className="bg-white rounded-2xl shadow-xl border border-brand-border/60 overflow-hidden">
+                    <div className="px-5 py-4 border-b border-brand-border/40" style={{ background: "#f0faf5" }}>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 rounded-full bg-brand-blue" style={{ animation: "qf-dot 2s ease-in-out infinite" }} />
+                          <span className="text-[13px] font-bold text-brand-dark">My Enrolled Courses</span>
+                        </div>
+                        <span className="text-[11px] font-bold text-white bg-brand-blue rounded-full w-5 h-5 flex items-center justify-center">3</span>
+                      </div>
+                    </div>
+                    <div className="px-5 py-3 space-y-3">
+                      {([
+                        { name: "Data Structures", dept: "Computer Science", pct: 78, color: "#25B585" },
+                        { name: "Linear Algebra",  dept: "Mathematics",      pct: 54, color: "#3B82F6" },
+                        { name: "Web Engineering", dept: "Software Eng.",    pct: 91, color: "#D97706" },
+                      ] as { name: string; dept: string; pct: number; color: string }[]).map(({ name, dept, pct, color }) => (
+                        <div key={name} className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-lg shrink-0 flex items-center justify-center text-white text-[10px] font-extrabold" style={{ background: color }}>{name[0]}</div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-[12px] font-bold text-brand-dark leading-none mb-0.5 truncate">{name}</p>
+                            <p className="text-[10px] text-brand-body truncate">{dept}</p>
+                          </div>
+                          <span className="text-[11px] font-extrabold shrink-0" style={{ color }}>{pct}%</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="px-5 py-3 border-t border-brand-border/40" style={{ background: "#f8fcfa" }}>
+                      <div className="flex items-center justify-between">
+                        <span className="text-[11px] text-brand-body">Semester 4 · 3 active</span>
+                        <span className="text-[11px] font-bold text-brand-blue">View all →</span>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Floating notification: assignment due */}
+                  <div className="absolute -top-3 -right-3 bg-white border border-brand-border/60 rounded-xl shadow-lg px-3 py-2" style={{ animation: "qf-ping 4s ease-in-out infinite" }}>
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-2 h-2 rounded-full bg-amber-400" />
+                      <span className="text-[11px] font-bold text-brand-dark">Assignment due</span>
+                    </div>
+                    <p className="text-[10px] text-brand-body mt-0.5">Web Engineering · 2h</p>
+                  </div>
+                  {/* Floating notification: grade posted */}
+                  <div className="absolute -bottom-3 -left-3 bg-white border border-brand-border/60 rounded-xl shadow-lg px-3 py-2" style={{ animation: "qf-ping 4s ease-in-out infinite", animationDelay: "2s" }}>
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-2 h-2 rounded-full bg-emerald-400" />
+                      <span className="text-[11px] font-bold text-brand-dark">Grade posted</span>
+                    </div>
+                    <p className="text-[10px] text-brand-body mt-0.5">Linear Algebra · A−</p>
+                  </div>
+                </div>
+                <div className="absolute top-6 right-14 z-0"><Sparkle size={16} color="#D97706" /></div>
+                <div className="absolute bottom-10 left-10 z-0"><Sparkle size={12} color="#25B585" /></div>
+              </div>
+
+              {/* Right — 3 academic feature items */}
+              <div className="space-y-4">
+                <div className="flex gap-4 items-start p-5 rounded-2xl border border-brand-border/50 bg-brand-bg hover:shadow-md transition-shadow duration-200">
+                  <div className="w-12 h-12 rounded-xl bg-brand-blue/10 flex items-center justify-center shrink-0">
+                    <BookMarked size={22} className="text-brand-blue" />
+                  </div>
+                  <div>
+                    <h3 className="text-[16px] font-bold text-brand-dark mb-1.5">{t("about.experienceFeature1Title")}</h3>
+                    <p className="text-[13px] text-brand-body leading-relaxed">{t("about.experienceFeature1Body")}</p>
+                  </div>
+                </div>
+                <div className="flex gap-4 items-start p-5 rounded-2xl border border-brand-border/50 bg-brand-bg hover:shadow-md transition-shadow duration-200">
+                  <div className="w-12 h-12 rounded-xl bg-emerald-500/15 flex items-center justify-center shrink-0">
+                    <ClipboardList size={22} className="text-emerald-500" />
+                  </div>
+                  <div>
+                    <h3 className="text-[16px] font-bold text-brand-dark mb-1.5">{t("about.experienceFeature2Title")}</h3>
+                    <p className="text-[13px] text-brand-body leading-relaxed">{t("about.experienceFeature2Body")}</p>
+                  </div>
+                </div>
+                <div className="flex gap-4 items-start p-5 rounded-2xl border border-brand-border/50 bg-brand-bg hover:shadow-md transition-shadow duration-200">
+                  <div className="w-12 h-12 rounded-xl bg-violet-500/15 flex items-center justify-center shrink-0">
+                    <Users size={22} className="text-violet-500" />
+                  </div>
+                  <div>
+                    <h3 className="text-[16px] font-bold text-brand-dark mb-1.5">{t("about.experienceFeature3Title")}</h3>
+                    <p className="text-[13px] text-brand-body leading-relaxed">{t("about.experienceFeature3Body")}</p>
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Right: 2×2 feature cards */}
-            <div className="grid grid-cols-2 gap-4 mt-2">
-              {missionCards.map(({ icon: Icon, bg, color, labelKey }) => (
-                <div key={labelKey} className={`rounded-2xl border border-brand-border p-5 bg-white flex flex-col gap-3 hover:shadow-md transition-shadow duration-200`}>
-                  <div className={`w-9 h-9 rounded-xl ${bg} flex items-center justify-center`}>
-                    <Icon size={17} className={color} />
+            {/* 3 academic preview cards */}
+            <div className="grid sm:grid-cols-3 gap-4">
+
+              {/* Assignments card */}
+              <div className="bg-brand-bg rounded-2xl border border-brand-border p-5">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-7 h-7 rounded-lg bg-brand-blue/10 flex items-center justify-center">
+                    <ClipboardList size={14} className="text-brand-blue" />
                   </div>
-                  <p className="text-[13px] font-semibold text-brand-dark leading-snug">{t(labelKey)}</p>
+                  <span className="text-[13px] font-bold text-brand-dark">My Assignments</span>
                 </div>
-              ))}
+                <div className="space-y-3">
+                  {([
+                    { name: "Lab Report #3",    course: "Data Structures", status: "Submitted", sc: "#25B585", sb: "#E0F5ED" },
+                    { name: "Problem Set 5",    course: "Linear Algebra",  status: "Pending",   sc: "#D97706", sb: "#FEF3C7" },
+                    { name: "UI/UX Case Study", course: "Web Engineering", status: "Graded",    sc: "#3B82F6", sb: "#DBEAFE" },
+                  ] as { name: string; course: string; status: string; sc: string; sb: string }[]).map(({ name, course, status, sc, sb }) => (
+                    <div key={name} className="flex items-start justify-between gap-2">
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[12px] font-semibold text-brand-dark truncate">{name}</p>
+                        <p className="text-[10px] text-brand-body truncate">{course}</p>
+                      </div>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0" style={{ color: sc, background: sb }}>{status}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Materials card */}
+              <div className="bg-brand-bg rounded-2xl border border-brand-border p-5">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-7 h-7 rounded-lg bg-amber-400/15 flex items-center justify-center">
+                    <BookMarked size={14} className="text-amber-500" />
+                  </div>
+                  <span className="text-[13px] font-bold text-brand-dark">Course Materials</span>
+                </div>
+                <div className="space-y-2.5">
+                  {([
+                    { file: "Week 7 Lecture Notes.pdf", course: "Data Structures", size: "2.4 MB" },
+                    { file: "Midterm Formula Sheet.pdf", course: "Linear Algebra",  size: "0.8 MB" },
+                    { file: "Project Brief v2.pdf",      course: "Web Engineering", size: "1.1 MB" },
+                  ] as { file: string; course: string; size: string }[]).map(({ file, course, size }) => (
+                    <div key={file} className="flex items-center gap-2.5">
+                      <div className="w-7 h-8 rounded-md bg-red-50 border border-red-100 flex items-center justify-center shrink-0">
+                        <span className="text-[8px] font-extrabold text-red-400 leading-none">PDF</span>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[11px] font-semibold text-brand-dark leading-tight truncate">{file}</p>
+                        <p className="text-[10px] text-brand-body">{course} · {size}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Attendance card */}
+              <div className="bg-brand-bg rounded-2xl border border-brand-border p-5">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-7 h-7 rounded-lg bg-emerald-500/15 flex items-center justify-center">
+                    <GraduationCap size={14} className="text-emerald-500" />
+                  </div>
+                  <span className="text-[13px] font-bold text-brand-dark">Attendance</span>
+                </div>
+                <div className="mb-3">
+                  <span className="text-3xl font-extrabold text-brand-blue leading-none">92</span>
+                  <span className="text-[13px] font-bold text-brand-body ml-0.5">%</span>
+                  <p className="text-[11px] text-brand-body mt-0.5">Overall attendance rate</p>
+                </div>
+                <div className="grid grid-cols-7 gap-1">
+                  {[1,1,1,1,1,0,1, 1,1,1,0,1,1,1, 1,1,1,1,1,1,1, 1,1,1,1,1,2,2].map((s, i) => (
+                    <div key={i} className="aspect-square rounded-sm" style={{ background: s === 1 ? "#25B585" : s === 0 ? "#FCA5A5" : "#E2E8F0" }} />
+                  ))}
+                </div>
+                <div className="flex items-center gap-3 mt-2">
+                  <div className="flex items-center gap-1"><div className="w-2.5 h-2.5 rounded-sm" style={{ background: "#25B585" }} /><span className="text-[10px] text-brand-body">Present</span></div>
+                  <div className="flex items-center gap-1"><div className="w-2.5 h-2.5 rounded-sm" style={{ background: "#FCA5A5" }} /><span className="text-[10px] text-brand-body">Absent</span></div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -325,156 +495,65 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* ── What Will You Experience ──────────────────────────────────────── */}
+        {/* ── Our Mission Behind Questify ───────────────────────────────────── */}
         <section className="relative py-16 px-4 md:px-6 bg-white overflow-hidden">
-          {/* Wavy line — left */}
-          <svg className="absolute left-6 top-1/3 pointer-events-none" width="48" height="220" viewBox="0 0 48 220" fill="none" aria-hidden="true" style={{ opacity: 0.22 }}>
-            <path d="M24 0 Q0 55 24 110 Q48 165 24 220" stroke="#D97706" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+          {/* Wavy line — left edge */}
+          <svg className="absolute left-6 top-1/4 pointer-events-none" width="50" height="200" viewBox="0 0 50 200" fill="none" aria-hidden="true" style={{ opacity: 0.28 }}>
+            <path d="M25 0 Q0 50 25 100 Q50 150 25 200" stroke="#D97706" strokeWidth="2.5" fill="none" strokeLinecap="round" />
           </svg>
-          {/* Sparkles — upper right */}
-          <div className="absolute top-10 right-14 pointer-events-none z-0"><Sparkle size={40} color="#25B585" /></div>
-          <div className="absolute top-20 right-22 pointer-events-none z-0"><Sparkle size={22} color="#D97706" /></div>
-          {/* Dot grid — bottom left */}
-          <div className="absolute bottom-8 left-8 pointer-events-none" style={{ opacity: 0.07 }}><DotGrid cols={5} rows={4} /></div>
+          {/* Sparkle stars — right */}
+          <div className="absolute top-10 right-16 pointer-events-none z-0"><Sparkle size={40} color="#25B585" /></div>
+          <div className="absolute top-20 right-24 pointer-events-none z-0"><Sparkle size={22} color="#D97706" /></div>
 
           <div className="relative max-w-6xl mx-auto">
-            {/* Heading */}
+            {/* Heading with highlighted word */}
             <div className="text-center max-w-3xl mx-auto mb-14">
               <span className="inline-block mb-3 px-3.5 py-1 rounded-full bg-brand-blue/10 text-brand-blue text-xs font-bold uppercase tracking-widest">
                 {t("about.valuesTag")}
               </span>
               <h2 className="text-3xl sm:text-[36px] font-extrabold text-brand-dark mb-4 leading-tight">
                 {t("about.valuesTitlePre")}{" "}
-                <span style={{ color: "#D97706" }}>{t("about.valuesTitleHighlight")}</span>
+                <span style={{ color: "#D97706" }}>{t("about.valuesTitleHighlight")}</span>{" "}
+                {t("about.valuesTitlePost")}
               </h2>
               <p className="text-brand-body text-base leading-relaxed">{t("about.valuesSubtitle")}</p>
             </div>
 
-            {/* Two-column: Lottie left, feature cards right */}
-            <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-10">
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
-              {/* Left — Lottie */}
+              {/* Left — photo with decorative overlays */}
               <div className="relative flex items-center justify-center">
-                <div className="absolute w-80 h-80 rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(37,181,133,0.14), transparent)", filter: "blur(28px)" }} />
-                <div className="absolute w-72 h-72 rounded-full pointer-events-none" style={{ border: "1.5px dashed rgba(37,181,133,0.22)" }} />
-                <div className="absolute top-4 right-10 z-10"><Sparkle size={18} color="#D97706" /></div>
-                <div className="absolute bottom-8 left-8 z-10"><Sparkle size={13} color="#25B585" /></div>
-                <div className="relative z-10 w-full max-w-xs">
-                  <DotLottieReact src="/Educatin.lottie" loop autoplay />
+                {/* Green backing rectangle */}
+                <div className="absolute -bottom-6 -left-6 w-4/5 h-4/5 rounded-2xl z-0" style={{ background: "#1B4332" }} />
+                {/* Blue organic blob — upper left */}
+                <div className="absolute -top-5 -left-4 w-16 h-16 z-20" style={{ background: "#3B82F6", borderRadius: "50% 30% 60% 40% / 40% 60% 30% 70%", opacity: 0.9 }} />
+                {/* Photo */}
+                <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl w-full" style={{ height: "300px" }}>
+                  <Image
+                    src="/about-students.jpg"
+                    alt="Students on campus"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-cover"
+                    priority
+                  />
                 </div>
               </div>
 
-              {/* Right — 3 gamification feature items */}
-              <div className="space-y-4">
-                <div className="flex gap-4 items-start p-5 rounded-2xl border border-brand-border/50 bg-brand-bg hover:shadow-md transition-shadow duration-200">
-                  <div className="w-12 h-12 rounded-xl bg-amber-400/15 flex items-center justify-center shrink-0">
-                    <Zap size={22} className="text-amber-500" />
-                  </div>
-                  <div>
-                    <h3 className="text-[16px] font-bold text-brand-dark mb-1.5">{t("about.experienceFeature1Title")}</h3>
-                    <p className="text-[13px] text-brand-body leading-relaxed">{t("about.experienceFeature1Body")}</p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4 items-start p-5 rounded-2xl border border-brand-border/50 bg-brand-bg hover:shadow-md transition-shadow duration-200">
-                  <div className="w-12 h-12 rounded-xl bg-brand-blue/10 flex items-center justify-center shrink-0">
-                    <Trophy size={22} className="text-brand-blue" />
-                  </div>
-                  <div>
-                    <h3 className="text-[16px] font-bold text-brand-dark mb-1.5">{t("about.experienceFeature2Title")}</h3>
-                    <p className="text-[13px] text-brand-body leading-relaxed">{t("about.experienceFeature2Body")}</p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4 items-start p-5 rounded-2xl border border-brand-border/50 bg-brand-bg hover:shadow-md transition-shadow duration-200">
-                  <div className="w-12 h-12 rounded-xl bg-emerald-500/15 flex items-center justify-center shrink-0">
-                    <TrendingUp size={22} className="text-emerald-500" />
-                  </div>
-                  <div>
-                    <h3 className="text-[16px] font-bold text-brand-dark mb-1.5">{t("about.experienceFeature3Title")}</h3>
-                    <p className="text-[13px] text-brand-body leading-relaxed">{t("about.experienceFeature3Body")}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Mini gamification UI preview cards */}
-            <div className="grid sm:grid-cols-3 gap-4">
-
-              {/* Leaderboard preview */}
-              <div className="bg-brand-bg rounded-2xl border border-brand-border p-5">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="w-7 h-7 rounded-lg bg-amber-400/15 flex items-center justify-center">
-                    <Trophy size={14} className="text-amber-500" />
-                  </div>
-                  <span className="text-[13px] font-bold text-brand-dark">Course Leaderboard</span>
-                </div>
-                <div className="space-y-3">
-                  {([
-                    { rank: 1, i: "S", name: "Sarah K.",  xp: "2,840", c: "#D97706" },
-                    { rank: 2, i: "M", name: "Marcus L.", xp: "2,510", c: "#94A3B8" },
-                    { rank: 3, i: "A", name: "Aisha M.",  xp: "2,190", c: "#B45309" },
-                  ] as { rank: number; i: string; name: string; xp: string; c: string }[]).map(({ rank, i, name, xp, c }) => (
-                    <div key={rank} className="flex items-center gap-2.5">
-                      <span className="text-[11px] font-extrabold w-5 shrink-0" style={{ color: c }}>#{rank}</span>
-                      <div className="w-7 h-7 rounded-full bg-brand-blue/10 flex items-center justify-center text-[11px] font-bold text-brand-blue shrink-0">{i}</div>
-                      <span className="text-[12px] font-semibold text-brand-dark flex-1 truncate">{name}</span>
-                      <span className="text-[11px] font-bold text-brand-blue whitespace-nowrap">{xp} XP</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* XP progress preview */}
-              <div className="bg-brand-bg rounded-2xl border border-brand-border p-5">
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="w-7 h-7 rounded-lg bg-amber-400/15 flex items-center justify-center">
-                    <Zap size={14} className="text-amber-500" />
-                  </div>
-                  <span className="text-[13px] font-bold text-brand-dark">XP This Week</span>
-                </div>
-                <p className="text-3xl font-extrabold text-brand-blue mb-0.5">+1,240</p>
-                <p className="text-[11px] text-brand-body mb-4">XP earned this week</p>
-                <div className="space-y-2.5">
-                  {([
-                    { label: "Attendance", pct: 85 },
-                    { label: "Assignments", pct: 70 },
-                    { label: "Materials", pct: 55 },
-                  ] as { label: string; pct: number }[]).map(({ label, pct }) => (
-                    <div key={label}>
-                      <div className="flex justify-between text-[11px] mb-1">
-                        <span className="text-brand-body">{label}</span>
-                        <span className="font-bold text-brand-dark">{pct}%</span>
-                      </div>
-                      <div className="h-1.5 rounded-full bg-brand-border/60">
-                        <div className="h-1.5 rounded-full bg-brand-blue" style={{ width: `${pct}%` }} />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Academic stats preview */}
-              <div className="bg-brand-bg rounded-2xl border border-brand-border p-5">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="w-7 h-7 rounded-lg bg-emerald-500/15 flex items-center justify-center">
-                    <TrendingUp size={14} className="text-emerald-500" />
-                  </div>
-                  <span className="text-[13px] font-bold text-brand-dark">Academic Progress</span>
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  {([
-                    { label: "Attendance", value: "92%",  color: "#25B585" },
-                    { label: "Class Rank",  value: "#4",   color: "#1B4332" },
-                    { label: "Level",       value: "Lv. 7", color: "#D97706" },
-                    { label: "Day Streak",  value: "14d",  color: "#3B82F6" },
-                  ] as { label: string; value: string; color: string }[]).map(({ label, value, color }) => (
-                    <div key={label} className="bg-white rounded-xl p-3 text-center border border-brand-border/40">
-                      <p className="text-[17px] font-extrabold mb-0.5" style={{ color }}>{value}</p>
-                      <p className="text-[10px] text-brand-body/70 uppercase tracking-wide leading-tight">{label}</p>
-                    </div>
-                  ))}
-                </div>
+              {/* Right — heading, body, CTA */}
+              <div className="flex flex-col justify-center">
+                <h3 className="text-2xl sm:text-[28px] font-extrabold text-brand-dark mb-5 leading-tight">
+                  {t("about.valuesPanelHeading")}
+                </h3>
+                <p className="text-brand-body text-[15px] leading-relaxed mb-8">
+                  {t("about.valuesParagraph")}
+                </p>
+                <Link
+                  href="/courses"
+                  className="self-start inline-flex items-center px-8 py-3 rounded-full border-2 border-brand-dark text-brand-dark text-sm font-bold hover:bg-brand-dark hover:text-white transition-all duration-200 no-underline"
+                >
+                  {t("about.viewAllCourses")}
+                </Link>
               </div>
             </div>
           </div>
