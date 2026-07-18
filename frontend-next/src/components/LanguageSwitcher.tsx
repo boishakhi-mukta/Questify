@@ -29,6 +29,8 @@ const LANGUAGES = [
 
 type LangCode = (typeof LANGUAGES)[number]["code"];
 
+// The little flag/language button in the navbar. Clicking it opens a small
+// menu of available languages; picking one instantly re-translates the site.
 export function LanguageSwitcher() {
   const { i18n } = useTranslation();
   const [open, setOpen] = useState(false);
@@ -36,6 +38,7 @@ export function LanguageSwitcher() {
 
   const current = LANGUAGES.find((l) => l.code === i18n.language) ?? LANGUAGES[0];
 
+  // Switches the site's language and closes the dropdown menu.
   function changeLang(code: LangCode) {
     i18n.changeLanguage(code);
     setOpen(false);

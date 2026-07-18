@@ -18,12 +18,18 @@ const PUBLIC_PREFIXES = [
   "/favicon",
 ];
 
+// Checks whether a given page address (URL path) is one of the ones anyone
+// can visit without logging in first.
 function isPublic(pathname: string): boolean {
   // Exact root match
   if (pathname === "/") return true;
   return PUBLIC_PREFIXES.slice(1).some((prefix) => pathname.startsWith(prefix));
 }
 
+// Runs automatically before every page loads. Its job is a security check:
+// if someone tries to visit a private page without being logged in, send them
+// to the login page instead (and remember where they were trying to go, so
+// they can be sent back there after logging in).
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 

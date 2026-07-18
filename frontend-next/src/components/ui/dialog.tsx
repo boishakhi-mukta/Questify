@@ -27,6 +27,8 @@ interface DialogCtxValue {
 
 const DialogCtx = React.createContext<DialogCtxValue>({ open: false, setOpen: () => {} });
 
+// The outer wrapper for a popup dialog — it just keeps track of whether the
+// dialog is currently open or closed, and shares that with its children.
 export function Dialog({
   open = false,
   onOpenChange,
@@ -43,6 +45,7 @@ export function Dialog({
   );
 }
 
+// Wrap any button/element with this to make clicking it open the dialog.
 export function DialogTrigger({
   children,
   asChild,
@@ -59,6 +62,9 @@ export function DialogTrigger({
   return <button onClick={() => setOpen(true)}>{children}</button>;
 }
 
+// The actual popup box itself — the darkened backdrop, the centered white
+// card, and the little "X" close button. Also lets the user press the
+// Escape key to close it, and renders on top of everything else on the page.
 export function DialogContent({
   children,
   className,
@@ -107,14 +113,17 @@ export function DialogContent({
   );
 }
 
+// The top area of the dialog, holding the title and description.
 export function DialogHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return <div className={cn("flex flex-col gap-1.5 mb-5", className)} {...props} />;
 }
 
+// The dialog's bold heading text (e.g. "Unenroll from this course?").
 export function DialogTitle({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
   return <h2 className={cn("text-lg font-bold text-brand-dark", className)} {...props} />;
 }
 
+// The smaller explanatory text under the title.
 export function DialogDescription({
   className,
   ...props
@@ -122,10 +131,13 @@ export function DialogDescription({
   return <p className={cn("text-sm text-brand-body", className)} {...props} />;
 }
 
+// The bottom row of the dialog, usually holding the action buttons
+// (e.g. "Cancel" and "Confirm").
 export function DialogFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return <div className={cn("flex justify-end gap-3 mt-6", className)} {...props} />;
 }
 
+// Wrap any button with this to make clicking it close the dialog.
 export function DialogClose({
   children,
   asChild,

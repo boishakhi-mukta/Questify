@@ -34,6 +34,9 @@ interface Props {
   userRole: UserRole;
 }
 
+// A full-screen popup that can't be dismissed — shown right after logging in
+// with a temporary password, forcing the user to set a permanent one before
+// they can use the rest of the site.
 export default function ForcePasswordChangeModal({ userRole }: Props) {
   const router                           = useRouter();
   const { updateUser }                   = useAuthContext();
@@ -47,6 +50,8 @@ export default function ForcePasswordChangeModal({ userRole }: Props) {
   const [showNext, setShowNext] = useState(false);
   const [localErr, setLocalErr] = useState<string | null>(null);
 
+  // Validates the form (nothing empty, new passwords match, long enough),
+  // then submits the password change and sends the user to their dashboard.
   async function handleSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
     setLocalErr(null);

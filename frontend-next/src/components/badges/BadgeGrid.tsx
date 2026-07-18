@@ -36,6 +36,8 @@ interface BadgeGridProps {
   className?: string;
 }
 
+// One badge tile — full color if earned, greyed-out if not, with a tooltip
+// explaining how to earn it (or confirming it's earned).
 function BadgeCard({ badge, earned }: { badge: Badge; earned: boolean }) {
   return (
     <Tooltip>
@@ -84,6 +86,8 @@ function BadgeCard({ badge, earned }: { badge: Badge; earned: boolean }) {
   );
 }
 
+// Shows every badge in the system as a grid, with a summary count of how
+// many the student has earned overall and by rarity tier.
 export function BadgeGrid({ badges, earnedBadges, className }: BadgeGridProps) {
   const earnedSet = new Set(earnedBadges);
   const earnedCount = badges.filter((b) => earnedSet.has(b.id)).length;

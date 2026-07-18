@@ -20,10 +20,14 @@ import Link           from "next/link";
 import { QuestifyLogo } from "@/components/ui/QuestifyLogo";
 import { HiArrowLeft, HiEnvelope } from "react-icons/hi2";
 
+// The "Forgot your password?" page — since this platform requires an admin
+// to reset passwords, this just confirms the email and tells the user to
+// contact their administrator.
 export default function ForgotPasswordPage() {
   const [email,     setEmail]     = useState("");
   const [submitted, setSubmitted] = useState(false);
 
+  // Shows the "contact your administrator" confirmation message.
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!email.trim()) return;

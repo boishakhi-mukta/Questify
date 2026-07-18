@@ -62,6 +62,9 @@ import type { Course } from "@/types/api-response";
 
 // ── Deterministic seeded RNG ──────────────────────────────────────────────────
 
+// Builds a repeatable "random" number generator seeded from a course ID, so
+// this page's demo data (students, charts) always looks the same for a
+// given course instead of changing on every reload.
 function makeSeed(courseId: string) {
   let s = courseId.split("").reduce((a, c) => (a * 31 + c.charCodeAt(0)) | 0, 7);
   return () => { s = (s * 1664525 + 1013904223) | 0; return (s >>> 0) / 4294967296; };
@@ -85,6 +88,9 @@ interface MockStudent {
   status:      StudentStatus;
 }
 
+// Makes up a realistic-looking list of students with attendance/XP/assignment
+// stats for a course (there's no real per-student analytics API yet, so
+// this fills the table with consistent demo data).
 function genStudents(courseId: string, count: number, totalAsgns: number): MockStudent[] {
   const rng = makeSeed(courseId);
   return Array.from({ length: Math.min(count, 25) }, (_, i) => {
@@ -112,6 +118,7 @@ function genStudents(courseId: string, count: number, totalAsgns: number): MockS
 
 // ── Mock chart data ───────────────────────────────────────────────────────────
 
+// Makes up 12 weeks of attendance percentages for the attendance chart.
 function genAttendanceData(courseId: string) {
   const rng = makeSeed(courseId + "att");
   return Array.from({ length: 12 }, (_, i) => ({
@@ -122,6 +129,7 @@ function genAttendanceData(courseId: string) {
 
 const XP_ACTIVITY_COLORS = ["#10b981", "#3b82f6", "#8b5cf6", "#f59e0b", "#ef4444"];
 
+// Makes up the XP-by-activity breakdown for the donut chart.
 function genXPData(courseId: string) {
   const rng = makeSeed(courseId + "xp");
   return [
@@ -133,6 +141,8 @@ function genXPData(courseId: string) {
   ];
 }
 
+// Makes up a completion percentage for each assignment title, for the
+// "Assignment Completion Rate" bar chart.
 function genAssignmentData(titles: string[], courseId: string) {
   const rng = makeSeed(courseId + "comp");
   return titles.map((t) => ({
@@ -144,6 +154,8 @@ function genAssignmentData(titles: string[], courseId: string) {
 
 // ── Derived stats ─────────────────────────────────────────────────────────────
 
+// Averages the class's attendance, XP, and assignment completion from the
+// (demo) per-student data, for the overview stat tiles.
 function deriveStats(students: MockStudent[]) {
   if (!students.length) return { avgAttendance: 0, avgXP: 0, completionPct: 0 };
   const avgAttendance = Math.round(students.reduce((s, st) => s + st.attendance, 0) / students.length);
@@ -159,6 +171,7 @@ function deriveStats(students: MockStudent[]) {
 const GRID_STROKE = "var(--color-brand-border, #e5e7eb)";
 const AXIS_TICK   = { fontSize: 11 };
 
+// The hover popup shown over a point on any of the charts on this page.
 function ChartTooltip({
   active,
   payload,
@@ -182,12 +195,14 @@ function ChartTooltip({
   );
 }
 
+// A grey placeholder block shown while a chart's data is still loading.
 function ChartSkeleton({ height = 280 }: { height?: number }) {
   return <div className="w-full rounded-lg bg-brand-bg dark:bg-white/5 animate-pulse" style={{ height }} />;
 }
 
 // ── Stat card ─────────────────────────────────────────────────────────────────
 
+// One top-row summary tile (e.g. "Avg Attendance: 82%, On track").
 function StatCard({
   label,
   value,
@@ -251,6 +266,8 @@ const STATUS_LABEL: Record<StudentStatus, string> = {
 
 // ── Student progress table ────────────────────────────────────────────────────
 
+// The table listing every student in the selected course with their
+// attendance, XP, assignment completion, and an overall status chip.
 function StudentProgressTable({ students, totalAsgns, loading }: { students: MockStudent[]; totalAsgns: number; loading: boolean }) {
   const TH = "px-4 py-2.5 text-[11px] font-bold uppercase tracking-wide text-brand-body/60 dark:text-white/40 text-left whitespace-nowrap";
   const TD = "px-4 py-3 text-[13px]";
@@ -364,6 +381,8 @@ function StudentProgressTable({ students, totalAsgns, loading }: { students: Moc
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 
+// The teacher's "Course Analytics" page — pick one of your courses, then
+// see attendance/XP/completion charts and a per-student progress table for it.
 export default function TeacherAnalyticsPage() {
   const { user }                               = useAuth();
   const { courses, isLoading: coursesLoading } = useCourses({ limit: 200 });

@@ -26,6 +26,8 @@ interface StaggerContainerProps {
   delayChildren?:  number;
 }
 
+// Wraps a group of items (like a grid of cards) so they animate in one
+// after another instead of all at once. Pair each child with StaggerItem below.
 export function StaggerContainer({
   children,
   className,
@@ -47,6 +49,8 @@ export function StaggerContainer({
   );
 }
 
+// One item inside a StaggerContainer — fades/slides up into place when its
+// turn in the sequence comes up.
 export function StaggerItem({
   children,
   className,

@@ -18,6 +18,7 @@ const SCATTER: [number, number][] = [
   [-1.5,  -8],  // row 2 col 4
 ];
 
+// Draws a row of star icons showing a rating (e.g. 4 filled stars out of 5).
 function StarRating({ rating }: { rating: number }) {
   return (
     <div className="flex items-center gap-0.5" aria-label={`${rating} out of 5 stars`}>
@@ -33,6 +34,8 @@ function StarRating({ rating }: { rating: number }) {
   );
 }
 
+// One testimonial quote card, slightly rotated/offset so the whole row
+// looks like a casually scattered pile of notes rather than a strict grid.
 function ScatteredCard({ testimonial, rotate, ty }: { testimonial: Testimonial; rotate: number; ty: number }) {
   const { t } = useTranslation();
   return (
@@ -74,6 +77,7 @@ function ScatteredCard({ testimonial, rotate, ty }: { testimonial: Testimonial; 
   );
 }
 
+// The homepage section showing quotes from students and faculty who use the platform.
 export default function TestimonialsSection() {
   const { t } = useTranslation();
   const { testimonials } = useTestimonials();

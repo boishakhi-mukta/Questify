@@ -34,6 +34,7 @@ const TESTIMONIALS: Testimonial[] = [
   { id: "8", name: "Priya Sharma",      quoteKey: "testimonials.quote8", roleKey: "testimonials.role8", initials: "PS", avatarColor: "#25B585", rating: 5 },
 ];
 
+// Hands back the list of student/faculty quotes shown on the homepage.
 export function useTestimonials() {
   return { testimonials: TESTIMONIALS };
 }

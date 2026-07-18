@@ -47,6 +47,8 @@ interface BadgeEarnedModalProps {
   state: ReturnType<typeof useOverlayState>;
 }
 
+// The celebration popup shown when a student unlocks a new achievement
+// badge — shows the badge icon, name, rarity, and description.
 export function BadgeEarnedModal({ badge, state }: BadgeEarnedModalProps) {
   if (!badge) return null;
 

@@ -16,6 +16,8 @@
 import Layout from "@/components/layout/Layout";
 import StudentDashboard from "@/components/dashboard/StudentDashboard";
 
+// Shows the student dashboard without needing to actually log in — useful
+// for quickly previewing what a student sees.
 export default function DemoStudentPage() {
   return (
     <Layout role="student" demoUser={{ name: "Demo Student", email: "student@demo.com" }}>

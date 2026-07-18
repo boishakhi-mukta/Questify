@@ -56,6 +56,7 @@ import { cn } from "@/lib/utils";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
+// Turns a raw date string into a long, friendly format (e.g. "Fri, June 12, 2026").
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString("en-US", {
     weekday: "short",
@@ -65,6 +66,7 @@ function formatDate(iso: string): string {
   });
 }
 
+// Same idea, but shorter and including the time (used for "submitted at" timestamps).
 function formatDateShort(iso: string): string {
   return new Date(iso).toLocaleString("en-US", {
     month:  "short",
@@ -77,6 +79,8 @@ function formatDateShort(iso: string): string {
 
 type DueStatus = "overdue" | "due-soon" | "upcoming";
 
+// Works out whether an assignment's due date has already passed, is coming
+// up within 3 days, or is still further away.
 function getDueStatus(dueDate: string): DueStatus {
   const diff = (new Date(dueDate).getTime() - Date.now()) / (1000 * 60 * 60 * 24);
   if (diff < 0)  return "overdue";
@@ -99,12 +103,14 @@ const SUBMISSION_TYPE_ICON: Record<SubmissionType, React.ElementType> = {
 
 // ─── Divider ──────────────────────────────────────────────────────────────────
 
+// A thin horizontal separator line.
 function Divider({ className }: { className?: string }) {
   return <div className={cn("h-px bg-brand-border", className)} />;
 }
 
 // ─── Skeleton ─────────────────────────────────────────────────────────────────
 
+// A grey placeholder layout shown while the assignment's details are still loading.
 function PageSkeleton() {
   return (
     <div className="flex flex-col gap-6">
@@ -136,6 +142,8 @@ function PageSkeleton() {
 
 // ─── Assignment detail card ───────────────────────────────────────────────────
 
+// The read-only card at the top showing the assignment's title, due date,
+// points, description, instructions, and any attachments.
 function AssignmentDetailCard({ assignment }: { assignment: Assignment }) {
   const dueStatus = getDueStatus(assignment.dueDate);
   const TypeIcon  = SUBMISSION_TYPE_ICON[assignment.submissionType];
@@ -270,6 +278,8 @@ interface SubmissionFormProps {
   }) => Promise<{ submittedAt: string }>;
 }
 
+// The form a student fills in to turn in their work — its fields change
+// based on the assignment's submission type (text, code, link, or file URL).
 function SubmissionForm({
   assignment,
   courseId,
@@ -298,6 +308,8 @@ function SubmissionForm({
     return false;
   }, [submissionType, text, linkUrl, maxChars]);
 
+  // Sends the student's work to the server, showing a fake progress bar
+  // while it's in flight, then reports success (or an error) back up.
   async function handleSubmit() {
     if (!isValid || isSubmitting) return;
     setSubmitError(null);
@@ -538,6 +550,8 @@ function SubmissionForm({
 
 // ─── Submission success ───────────────────────────────────────────────────────
 
+// Shown after a successful submission — confirms it was received, warns if
+// it was late, and offers a "Resubmit" button.
 function SubmissionSuccess({
   submittedAt,
   isLate,
@@ -621,6 +635,8 @@ function SubmissionSuccess({
 
 // ─── Main page ────────────────────────────────────────────────────────────────
 
+// The page where a student views one assignment's instructions and submits
+// their work (or sees a confirmation once they've already submitted).
 export default function AssignmentSubmissionPage() {
   const params       = useParams<{ courseId: string; assignmentId: string }>();
   const courseId     = params.courseId;
@@ -643,6 +659,8 @@ export default function AssignmentSubmissionPage() {
     [assignments, assignmentId]
   );
 
+  // Records that the assignment was just submitted, switching the view from
+  // the submission form to the success confirmation.
   function handleSubmitted(ts: string) {
     setSubmittedAt(ts);
     setShowForm(false);

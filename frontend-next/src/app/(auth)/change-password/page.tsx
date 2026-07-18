@@ -31,6 +31,8 @@ const ROLE_REDIRECT: Record<UserRole, string> = {
   student: "/student",
 };
 
+// The "Change Password" page a logged-in user can visit any time (as
+// opposed to ForcePasswordChangeModal, which is the mandatory first-login version).
 export default function ChangePasswordPage() {
   const router                                = useRouter();
   const { user, isAuthenticated, isLoading }  = useAuth();
@@ -51,6 +53,8 @@ export default function ChangePasswordPage() {
     }
   }, [isLoading, isAuthenticated, router]);
 
+  // Validates the form, submits the password change, then redirects to the
+  // user's dashboard after a brief "success" message.
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLocalErr(null);

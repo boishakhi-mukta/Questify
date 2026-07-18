@@ -15,6 +15,7 @@
 
 import AdminCourses from "@/components/dashboard/AdminCourses";
 
+// The admin "Manage Courses" route — shows the AdminCourses management UI.
 export default function AdminCoursesPage() {
   return <AdminCourses />;
 }

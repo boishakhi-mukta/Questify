@@ -1,5 +1,21 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: TeacherDashboard
+ *
+ * WHAT IT DOES (For Non-Technical Readers):
+ * The teacher's landing dashboard — a grid of shortcut tiles linking to
+ * courses, assignments, attendance, materials, analytics, and students.
+ *
+ * WHY IT EXISTS:
+ * Gives faculty one central place to jump straight into their most common tasks.
+ *
+ * HOW IT WORKS (Technical Overview):
+ * Maps a static list of quick-link definitions into clickable navigation cards.
+ * ============================================================================
+ */
+
 import Link from "next/link";
 import {
   HiBookOpen,
@@ -62,6 +78,7 @@ const quickLinks = [
   },
 ];
 
+// Renders the grid of quick-navigation tiles for the teacher's home page.
 export default function TeacherDashboard() {
   return (
     <div className="flex flex-col gap-8">

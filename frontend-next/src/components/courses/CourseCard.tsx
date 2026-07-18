@@ -1,5 +1,22 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: CourseCard
+ *
+ * WHAT IT DOES (For Non-Technical Readers):
+ * One clickable preview card for a course, shown in the course catalogue grid.
+ *
+ * WHY IT EXISTS:
+ * Gives students a quick, scannable summary of a course before they click
+ * into its full details page.
+ *
+ * HOW IT WORKS (Technical Overview):
+ * Picks a category color/icon, then renders the course's title, short
+ * description, and a few key stats, all wrapped in a link to the detail page.
+ * ============================================================================
+ */
+
 import Link from "next/link";
 import {
   BookOpen, Clock, Users, Code2, Palette, Brain,
@@ -20,6 +37,8 @@ const CATEGORY_CONFIG: Record<string, CategoryConfig> = {
 };
 const DEFAULT_CONFIG: CategoryConfig = { color: "#1B7A5A", Icon: BookOpen };
 
+// Draws one course preview card (category, level, title, description,
+// credits, hours, enrollment count) linking to that course's detail page.
 export function CourseCard({ course }: { course: Course }) {
   const { color, Icon } = CATEGORY_CONFIG[course.category] ?? DEFAULT_CONFIG;
 

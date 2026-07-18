@@ -49,22 +49,30 @@ const COOKIE = {
 
 const isDev = process.env.NODE_ENV === "development";
 
+// Reads the user's saved login token from the browser's local storage
+// (returns nothing if we're not in a browser, e.g. during server rendering).
 function getToken(): string | null {
   if (typeof window === "undefined") return null;
   return localStorage.getItem(STORAGE.TOKEN);
 }
 
+// Same idea as getToken, but for the longer-lived "refresh token" used to
+// silently get a new login token once the short-lived one expires.
 function getRefreshToken(): string | null {
   if (typeof window === "undefined") return null;
   return localStorage.getItem(STORAGE.REFRESH_TOKEN);
 }
 
+// Saves a fresh login token to local storage and to a cookie (the cookie is
+// what lets the server-side middleware check "is this person logged in?").
 function saveToken(token: string): void {
   if (typeof window === "undefined") return;
   localStorage.setItem(STORAGE.TOKEN, token);
   document.cookie = `${COOKIE.TOKEN}=${encodeURIComponent(token)}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
 }
 
+// Wipes all signs that someone was logged in — used when logging out, or
+// when the session can no longer be renewed and the user must sign in again.
 function clearAuth(): void {
   if (typeof window === "undefined") return;
   localStorage.removeItem(STORAGE.TOKEN);
@@ -117,11 +125,15 @@ function parseAxiosError(err: unknown): ApiError {
 let isRefreshing   = false;
 let refreshQueue:  Array<(token: string | null) => void> = [];
 
+// Once a token refresh finishes (successfully or not), this tells every
+// other request that was waiting on it what the new token is (or null if it failed).
 function onRefreshDone(newToken: string | null) {
   refreshQueue.forEach((cb) => cb(newToken));
   refreshQueue = [];
 }
 
+// Tries to trade the long-lived refresh token for a brand-new login token,
+// so the user doesn't get logged out just because their session expired.
 async function attemptTokenRefresh(baseURL: string): Promise<string | null> {
   const refreshToken = getRefreshToken();
   if (!refreshToken) return null;
@@ -142,6 +154,10 @@ async function attemptTokenRefresh(baseURL: string): Promise<string | null> {
 
 // ── Factory ───────────────────────────────────────────────────────────────────
 
+// Builds the shared "phone line" the whole app uses to talk to the backend
+// server: it automatically attaches the login token to every request, logs
+// requests/responses during development, and retries once with a fresh
+// token if a request fails because the old one expired.
 export function createHttpClient(baseURL: string): AxiosInstance {
   const client = axios.create({
     baseURL,
@@ -270,6 +286,8 @@ export const apiClient = createHttpClient(BASE_URL);
 
 import type { ApiResponse, PaginatedResponse } from "@/types/api-response";
 
+// Asks the server for data (a "GET" request) and hands back just the useful
+// part of the reply, skipping the extra wrapper the server adds around it.
 export async function get<T>(
   url: string,
   params?: Record<string, unknown>,
@@ -279,6 +297,8 @@ export async function get<T>(
   return res.data.data;
 }
 
+// Sends new information to the server to create something (a "POST" request),
+// like enrolling in a course or submitting an assignment.
 export async function post<T>(
   url: string,
   body?: unknown,
@@ -288,6 +308,8 @@ export async function post<T>(
   return res.data.data;
 }
 
+// Sends a partial update to the server (a "PATCH" request), changing only
+// the specific fields provided instead of replacing everything.
 export async function patch<T>(
   url: string,
   body?: unknown,
@@ -297,6 +319,7 @@ export async function patch<T>(
   return res.data.data;
 }
 
+// Sends a full replacement update to the server (a "PUT" request).
 export async function put<T>(
   url: string,
   body?: unknown,
@@ -306,6 +329,8 @@ export async function put<T>(
   return res.data.data;
 }
 
+// Asks the server to delete something (a "DELETE" request), such as
+// unenrolling from a course or removing a user account.
 export async function del<T = void>(
   url: string,
   config?: AxiosRequestConfig
@@ -314,6 +339,8 @@ export async function del<T = void>(
   return res.data.data;
 }
 
+// Like `get`, but for endpoints that return a long list of items one "page"
+// at a time — also hands back the pagination info (current page, total pages, etc).
 export async function getPaginated<T>(
   url: string,
   params?: Record<string, unknown>,

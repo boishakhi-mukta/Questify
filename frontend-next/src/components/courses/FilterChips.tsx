@@ -41,6 +41,9 @@ const LEVEL_LABELS: Record<string, string> = {
   MASTERS:  "Masters",
 };
 
+// Shows the "N courses found" summary line, plus a removable pill for each
+// active filter (so users can see at a glance what's narrowing their results
+// and remove one filter at a time without opening the full filter panel).
 export function FilterChips({
   filters,
   onToggleCategory,

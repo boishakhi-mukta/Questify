@@ -25,6 +25,8 @@ export interface UseUserRoleReturn {
   isSignedIn: boolean;
 }
 
+// A convenience shortcut for asking "is the logged-in person an admin,
+// teacher, or student?" without having to check `user.role` manually everywhere.
 export function useUserRole(): UseUserRoleReturn {
   const { user, isAuthenticated, isLoading } = useAuth();
   const role = user?.role ?? null;

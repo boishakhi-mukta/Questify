@@ -56,6 +56,9 @@ function buildConditionMap(c: BadgeConditions): Record<string, boolean> {
   };
 }
 
+// Tracks which achievement badges the current user has unlocked, remembers
+// them between visits, and automatically awards new ones (with a celebratory
+// popup) whenever the passed-in progress numbers cross a badge's threshold.
 export function useBadges(conditions: BadgeConditions = {}): UseBadgesReturn {
   const { user } = useAuth();
   const modalState = useOverlayState();
@@ -83,6 +86,8 @@ export function useBadges(conditions: BadgeConditions = {}): UseBadgesReturn {
     setInitialized(true);
   }, [storageKey]);
 
+  // Marks one badge as earned: saves it, shows a small toast, and — unless
+  // told not to — pops up the bigger "Badge Earned!" celebration modal.
   const awardBadge = useCallback(
     (badgeId: string, showModal = true) => {
       if (earnedSet.current.has(badgeId)) return;

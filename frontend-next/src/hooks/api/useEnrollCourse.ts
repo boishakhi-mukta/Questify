@@ -25,10 +25,14 @@ export interface UseEnrollCourseResult {
   error:      string | null;
 }
 
+// Provides the two actions a student can take on a course: sign up for it,
+// or drop out of it. `onSuccess` is an optional callback (e.g. "refresh my
+// list of enrolled courses") to run after either action succeeds.
 export function useEnrollCourse(onSuccess?: () => void | Promise<void>): UseEnrollCourseResult {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError]         = useState<string | null>(null);
 
+  // Signs the current student up for a course.
   const enroll = async (courseId: string) => {
     setIsLoading(true);
     setError(null);
@@ -46,6 +50,7 @@ export function useEnrollCourse(onSuccess?: () => void | Promise<void>): UseEnro
     }
   };
 
+  // Drops the current student from a course they're enrolled in.
   const unenroll = async (enrollmentId: string) => {
     setIsLoading(true);
     setError(null);

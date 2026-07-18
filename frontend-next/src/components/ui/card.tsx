@@ -16,6 +16,11 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
+// The building blocks below snap together to form one "card" panel — Card
+// (the bordered box itself), CardHeader/CardContent/CardFooter (its top,
+// middle, and bottom sections), and CardTitle/CardDescription (the heading
+// and subtext inside the header). Used everywhere content needs to sit in
+// its own clearly separated box.
 const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
     <div

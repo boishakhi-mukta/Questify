@@ -31,6 +31,9 @@ const SelectCtx = React.createContext<SelectCtxValue>({
   registerLabel: () => {},
 });
 
+// The outer wrapper for a dropdown picker. It keeps track of which option is
+// currently chosen and remembers the friendly text label for each option
+// (e.g. showing "Bachelor" to the user while the underlying value is "BACHELOR").
 export function Select({
   value,
   onValueChange,
@@ -41,6 +44,7 @@ export function Select({
   children: React.ReactNode;
 }) {
   const [labels, setLabels] = React.useState<Record<string, string>>({});
+  // Lets a SelectItem announce its display text so SelectValue can show it.
   const registerLabel = React.useCallback((v: string, label: string) => {
     setLabels((prev) => (prev[v] === label ? prev : { ...prev, [v]: label }));
   }, []);
@@ -52,6 +56,8 @@ export function Select({
   );
 }
 
+// The visible box the user clicks — shows the currently chosen value and a
+// small down-arrow icon.
 export function SelectTrigger({
   children,
   className,
@@ -71,6 +77,8 @@ export function SelectTrigger({
   );
 }
 
+// Shows the friendly text for whatever is currently selected, or a greyed-out
+// placeholder if nothing has been chosen yet.
 export function SelectValue({ placeholder }: { placeholder?: string }) {
   const { value, labels } = React.useContext(SelectCtx);
   const display = value ? (labels[value] ?? value) : "";
@@ -81,6 +89,9 @@ export function SelectValue({ placeholder }: { placeholder?: string }) {
   );
 }
 
+// Builds the actual list of choices the user picks from. Behind the scenes
+// it uses a plain, invisible browser dropdown (for reliable behavior on every
+// device) stacked underneath the custom-styled box people actually see.
 export function SelectContent({ children }: { children: React.ReactNode }) {
   const { value, onValueChange } = React.useContext(SelectCtx);
 
@@ -109,6 +120,9 @@ export function SelectContent({ children }: { children: React.ReactNode }) {
   );
 }
 
+// Describes one choice in the dropdown (a value plus its display text). It
+// doesn't draw anything itself — it just registers its label so SelectValue
+// knows what friendly text to show once picked.
 export function SelectItem({
   value,
   children,
@@ -124,6 +138,7 @@ export function SelectItem({
   return null;
 }
 
+// Purely visual helpers for grouping/labeling sets of options.
 export const SelectGroup = ({ children }: { children: React.ReactNode }) => <>{children}</>;
 export const SelectLabel = ({ children }: { children: React.ReactNode }) => (
   <span className="py-1.5 text-xs font-semibold text-brand-body">{children}</span>

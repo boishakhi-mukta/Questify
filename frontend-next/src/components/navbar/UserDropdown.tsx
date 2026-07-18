@@ -36,6 +36,8 @@ const roleDashboard: Record<UserRole, string> = {
   student: "/student",
 };
 
+// The account menu in the top-right corner (avatar + name) — opens a small
+// menu with links to the user's profile, dashboard, settings, and sign out.
 export function UserDropdown() {
   const [open, setOpen] = useState(false);
   const containerRef   = useRef<HTMLDivElement>(null);

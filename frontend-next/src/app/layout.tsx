@@ -25,6 +25,9 @@ export const metadata: Metadata = {
   icons: { icon: "/logo.svg" },
 };
 
+// Wraps every single page in the app with the shared setup: theming/auth
+// providers, the global CSS, popup notifications (toasts), and the floating
+// AI chat assistant button.
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>

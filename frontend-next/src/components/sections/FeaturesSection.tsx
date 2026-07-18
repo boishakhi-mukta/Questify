@@ -55,6 +55,8 @@ const featureConfigs: FeatureConfig[] = [
   },
 ];
 
+// The "Why Questify" homepage section — a row of feature cards (earn XP,
+// track progress, join leaderboard, AI learning) each with a short pitch.
 export default function FeaturesSection() {
   const { t } = useTranslation();
 

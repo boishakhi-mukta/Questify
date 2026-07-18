@@ -58,6 +58,9 @@ export interface ButtonProps
   asChild?: boolean;
 }
 
+// The app's standard clickable button, in different colors (variant) and
+// sizes. When `asChild` is set, it styles whatever element is passed in
+// (e.g. a Link) instead of rendering its own <button> tag.
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";

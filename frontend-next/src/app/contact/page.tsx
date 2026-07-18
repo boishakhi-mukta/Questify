@@ -33,6 +33,8 @@ interface FormState {
   message: string;
 }
 
+// The support-request form itself: name/email/subject/message fields, with
+// validation, a loading state on submit, and a "message sent" confirmation screen.
 function ContactForm() {
   const { t } = useTranslation();
 
@@ -55,6 +57,8 @@ function ContactForm() {
   const [status, setStatus] = useState<FormStatus>("idle");
   const [errors, setErrors] = useState<Partial<FormState>>({});
 
+  // Checks every field is filled in correctly, collecting an error message
+  // for each one that isn't.
   function validate(): boolean {
     const next: Partial<FormState> = {};
     if (!form.name.trim()) next.name = t("contact.nameRequired");
@@ -73,6 +77,7 @@ function ContactForm() {
     return Object.keys(next).length === 0;
   }
 
+  // Updates one form field as the user types, and clears that field's error.
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) {
@@ -83,6 +88,8 @@ function ContactForm() {
     }
   }
 
+  // Validates the form, then "sends" the message (simulated delay, since
+  // there's no real ticketing backend yet) and shows the success screen.
   async function handleSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
     if (!validate()) return;
@@ -234,6 +241,8 @@ function ContactForm() {
 
 // ── Page ───────────────────────────────────────────────────────────────────────
 
+// The public "Contact / Support" page — IT helpdesk info alongside the
+// support-request form.
 export default function ContactPage() {
   const { t } = useTranslation();
 

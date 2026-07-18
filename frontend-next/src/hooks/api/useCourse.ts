@@ -25,6 +25,8 @@ export interface UseCourseResult {
   error:     string | null;
 }
 
+// Loads the full details of a single course by its ID — used by the course
+// detail page to show its title, description, syllabus, etc.
 export function useCourse(id: string): UseCourseResult {
   const [course, setCourse]       = useState<Course | null>(null);
   const [isLoading, setIsLoading] = useState(true);

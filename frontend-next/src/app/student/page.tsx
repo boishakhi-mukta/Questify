@@ -15,6 +15,7 @@
 
 import StudentDashboard from "@/components/dashboard/StudentDashboard";
 
+// The student dashboard home page — shows the StudentDashboard overview widgets.
 export default function StudentPage() {
   return <StudentDashboard />;
 }

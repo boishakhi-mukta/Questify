@@ -16,6 +16,8 @@
 import Layout from "@/components/layout/Layout";
 import AdminDashboard from "@/components/dashboard/AdminDashboard";
 
+// Shows the admin dashboard without needing to actually log in — useful for
+// quickly previewing what an admin sees.
 export default function DemoAdminPage() {
   return (
     <Layout role="admin" demoUser={{ name: "Demo Admin", email: "admin@demo.com" }}>

@@ -26,6 +26,8 @@ interface AnimatedCardProps {
   as?:        "div" | "li" | "article";
 }
 
+// Wraps any card so it lifts slightly and grows a shadow on hover, and
+// shrinks a touch when clicked/tapped — a reusable "clickable card" feel.
 export function AnimatedCard({
   children,
   className,

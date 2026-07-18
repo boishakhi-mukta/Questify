@@ -47,6 +47,7 @@ interface UserForm {
   role:      "teacher" | "student";
 }
 
+// A blank user form, used as the starting point when creating a new account.
 const emptyForm = (): UserForm => ({
   firstName: "",
   lastName:  "",
@@ -54,6 +55,9 @@ const emptyForm = (): UserForm => ({
   role:      "student",
 });
 
+// The admin "Manage Users" screen: a searchable, role-filterable table of
+// every teacher/student account, plus dialogs to create, edit, deactivate,
+// or reset the password of a user.
 export default function AdminUsers() {
   const [search, setSearch]       = useState("");
   const [roleFilter, setRoleFilter] = useState<RoleFilter>("all");
@@ -88,6 +92,7 @@ export default function AdminUsers() {
   });
 
   // ── Helpers ──────────────────────────────────────────────────────────────────
+  // Opens the dialog with a blank form, ready to create a brand-new user.
   function openCreate() {
     setEditingUser(null);
     setForm(emptyForm());
@@ -95,6 +100,7 @@ export default function AdminUsers() {
     setDialogOpen(true);
   }
 
+  // Opens the dialog pre-filled with an existing user's details, ready to edit it.
   function openEdit(user: User) {
     setEditingUser(user);
     setForm({
@@ -107,6 +113,8 @@ export default function AdminUsers() {
     setDialogOpen(true);
   }
 
+  // Saves the form — creates a brand-new user (showing their temporary
+  // password afterward) or updates the one being edited.
   async function handleSave() {
     if (!form.firstName || !form.lastName || !form.email) return;
     setIsSaving(true);
@@ -137,6 +145,7 @@ export default function AdminUsers() {
     }
   }
 
+  // Deactivates the user account the admin confirmed they want to remove.
   async function handleDelete() {
     if (!deleteTarget) return;
     setIsDeleting(true);
@@ -150,6 +159,8 @@ export default function AdminUsers() {
     }
   }
 
+  // Generates a new temporary password for a user and shows it in a dialog
+  // so the admin can pass it along to them.
   async function handleResetPassword(user: User) {
     try {
       const result = await resetPassword(user._id);

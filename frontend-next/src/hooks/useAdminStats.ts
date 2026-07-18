@@ -25,11 +25,14 @@ export interface AdminStats {
 const API_BASE =
   process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api/v1";
 
+// Loads the platform-wide numbers (total students, teachers, courses, XP
+// given out) for the admin dashboard, and gives back a way to reload them.
 export function useAdminStats() {
   const [data, setData] = useState<AdminStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Does the actual work of going to the server and asking for the stats.
   const fetchStats = useCallback(async () => {
     setLoading(true);
     setError(null);

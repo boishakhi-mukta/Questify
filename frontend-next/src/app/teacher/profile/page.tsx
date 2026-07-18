@@ -44,6 +44,9 @@ import ProfileLayout, {
 } from "@/components/profile/ProfileLayout";
 import type { Course } from "@/types/api-response";
 
+// Builds a repeatable "random" number generator seeded from a course ID, so
+// the same course always gets the same made-up materials count (there's no
+// real materials-count API yet, so this fakes a consistent-looking number).
 function makeSeed(id: string) {
   let s = id.split("").reduce((a, c) => (a * 31 + c.charCodeAt(0)) | 0, 7);
   return () => {
@@ -52,6 +55,8 @@ function makeSeed(id: string) {
   };
 }
 
+// The teacher's "My Profile" page — teaching stats, office info, their
+// courses, and achievement badges.
 export default function TeacherProfilePage() {
   const { user, isLoading: authLoading } = useAuth();
   const { courses, isLoading: coursesLoading } = useCourses({ limit: 200 });
@@ -197,6 +202,7 @@ export default function TeacherProfilePage() {
     },
   ];
 
+  // Pretends to save the profile form (simulated delay) and confirms with a toast.
   const handleSave = async () => {
     setIsSaving(true);
     await new Promise((r) => setTimeout(r, 600));

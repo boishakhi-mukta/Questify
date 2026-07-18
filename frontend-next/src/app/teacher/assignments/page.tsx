@@ -96,6 +96,8 @@ const INPUT_CLS =
 const TEXTAREA_CLS =
   "w-full rounded-md border border-brand-border dark:border-white/10 bg-white dark:bg-slate-800 px-3 py-2.5 text-[13px] text-brand-dark dark:text-white placeholder:text-brand-body/40 dark:placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-brand-blue/40 resize-none";
 
+// Turns a raw date string into a short, friendly format with time (e.g.
+// "Jun 12, 2026, 5:00 PM").
 function fmtDeadline(iso: string) {
   if (!iso) return "—";
   return new Date(iso).toLocaleDateString("en-US", {
@@ -106,6 +108,8 @@ function fmtDeadline(iso: string) {
 
 type DueStatus = "overdue" | "today" | "soon" | "upcoming";
 
+// Works out how urgent an assignment's due date is (already passed, due
+// today, due within 3 days, or further out) for the status chip.
 function getDueStatus(iso: string): DueStatus {
   if (!iso) return "upcoming";
   const due  = new Date(iso).getTime();
@@ -140,6 +144,8 @@ const SUB_TYPE_LABELS: Record<SubmissionType, string> = {
   CODE: "Code",
 };
 
+// A labeled form field wrapper — puts a small uppercase label above
+// whatever input is passed in as children.
 function Field({ label, htmlFor, children }: { label: string; htmlFor?: string; children: React.ReactNode }) {
   return (
     <div className="space-y-1.5">
@@ -153,6 +159,9 @@ function Field({ label, htmlFor, children }: { label: string; htmlFor?: string; 
 
 // ── Assignment form body (shared create / edit) ───────────────────────────────
 
+// The actual form fields (title, description, instructions, points,
+// submission type, due date, late-submission rules) shared by both the
+// "create" and "edit" assignment dialogs.
 function AssignmentFormBody({
   id,
   form,
@@ -274,6 +283,7 @@ function AssignmentFormBody({
 
 // ── Create / Edit modal ───────────────────────────────────────────────────────
 
+// The popup dialog for creating a new assignment or editing an existing one.
 function AssignmentModal({
   state,
   mode,
@@ -309,6 +319,8 @@ function AssignmentModal({
     }
   }, [state.isOpen, mode, target]);
 
+  // Validates the form, then creates or updates the assignment (simulated
+  // delay, since there's no real save-assignment API yet).
   async function handleSave() {
     if (!form.title.trim()) { toast.error("Title is required"); return; }
     if (!form.dueDate)      { toast.error("Due date is required"); return; }
@@ -392,6 +404,7 @@ function AssignmentModal({
 
 // ── Delete confirm modal ──────────────────────────────────────────────────────
 
+// The "Are you sure you want to delete this assignment?" confirmation popup.
 function DeleteModal({
   state,
   target,
@@ -403,6 +416,7 @@ function DeleteModal({
 }) {
   const [isDeleting, setIsDeleting] = useState(false);
 
+  // Actually deletes the assignment after the teacher confirms.
   async function handleDelete() {
     if (!target) return;
     setIsDeleting(true);
@@ -453,6 +467,8 @@ function DeleteModal({
 
 // ── Submissions preview modal ─────────────────────────────────────────────────
 
+// A popup that points the teacher to where student submissions are actually
+// tracked (there's no submissions list API wired up here yet).
 function SubmissionsModal({
   state,
   target,
@@ -500,6 +516,8 @@ function SubmissionsModal({
 
 // ── Assignments table ─────────────────────────────────────────────────────────
 
+// The table listing every assignment in the selected course, with due-date
+// status, points, submission type, a submission count, and an actions menu.
 function AssignmentsTable({
   assignments,
   isLoading,
@@ -518,6 +536,7 @@ function AssignmentsTable({
 
   const MOCK_SUB_COUNT: Record<string, number> = {};
 
+  // Routes a click on the row's "⋮" menu to the right action (edit/delete/view submissions).
   function handleAction(key: string | number, a: Assignment) {
     const k = String(key);
     if (k === "edit")        onEdit(a);
@@ -644,6 +663,8 @@ function AssignmentsTable({
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 
+// The teacher's "Assignments" page: pick a course, see its assignments in a
+// table, and create/edit/delete assignments or peek at their submissions.
 export default function TeacherAssignmentsPage() {
   const { user }                               = useAuth();
   const { courses, isLoading: coursesLoading } = useCourses({ limit: 200 });
@@ -674,6 +695,7 @@ export default function TeacherAssignmentsPage() {
   const [deleteTarget, setDeleteTarget] = useState<Assignment | null>(null);
   const [subsTarget,   setSubsTarget]   = useState<Assignment | null>(null);
 
+  // Opens the edit/delete/submissions popup for a given assignment row.
   const openEdit = useCallback((a: Assignment) => { setEditTarget(a);   editModal.open();   }, [editModal]);
   const openDel  = useCallback((a: Assignment) => { setDeleteTarget(a); deleteModal.open(); }, [deleteModal]);
   const openSubs = useCallback((a: Assignment) => { setSubsTarget(a);   subsModal.open();   }, [subsModal]);

@@ -38,6 +38,9 @@ const GLASS = {
   borderLeft: "1px solid rgba(255,255,255,0.55)",
 } as React.CSSProperties;
 
+// The public sign-in page. Wrapped in Suspense because it needs to read the
+// "redirect" info from the page's URL, which Next.js requires a Suspense
+// boundary for.
 export default function LoginPage() {
   return (
     <Suspense fallback={null}>
@@ -46,6 +49,10 @@ export default function LoginPage() {
   );
 }
 
+// The actual login form: role tabs (Student/Faculty/Admin), email/password
+// fields, a "Sign In" button, and a one-click demo login option. After a
+// successful login it sends the user either back to the page they came from
+// or their role's home dashboard.
 function LoginPageInner() {
   const { login, isLoggingIn, loginError, user } = useAuth();
   const { t } = useTranslation();
@@ -61,12 +68,15 @@ function LoginPageInner() {
 
   const cfg = ROLE_CONFIG.find((r) => r.role === activeRole)!;
 
+  // Switches the active role tab (Student/Faculty/Admin) and clears the form.
   function handleRoleSwitch(role: UserRole) {
     setActiveRole(role);
     setEmail("");
     setPassword("");
   }
 
+  // Submits the typed email/password to log in, and shows the mandatory
+  // "set a new password" screen if the account still has a temporary one.
   async function handleSubmit(e?: { preventDefault(): void }) {
     e?.preventDefault();
     if (!email.trim() || !password) return;
@@ -74,6 +84,8 @@ function LoginPageInner() {
     if (result.success && result.requiresPasswordChange) setShowForceModal(true);
   }
 
+  // Logs in instantly using the pre-set demo account for whichever role tab
+  // is currently selected — no typing required.
   async function handleDemoLogin() {
     setDemoLoading(true);
     await login(cfg.demoEmail, DEMO_PASSWORD, redirectTo);

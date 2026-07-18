@@ -128,6 +128,7 @@ interface CourseForm {
   semester:    string;
 }
 
+// A blank course form, used as the starting point when creating a new course.
 const emptyCourse = (): CourseForm => ({
   title:       "",
   description: "",
@@ -139,6 +140,8 @@ const emptyCourse = (): CourseForm => ({
   semester:    "Spring 2025",
 });
 
+// The admin "Manage Courses" screen: a searchable table of every course,
+// plus dialogs for creating, editing, and deleting one.
 export default function AdminCourses() {
   const [search, setSearch] = useState("");
   const { courses, isLoading, error, create, update, remove } = useAdminCourses({ limit: 100 });
@@ -166,6 +169,7 @@ export default function AdminCourses() {
   });
 
   // ── Helpers ──────────────────────────────────────────────────────────────────
+  // Opens the dialog with a blank form, ready to create a brand-new course.
   function openCreate() {
     setEditingCourse(null);
     setForm(emptyCourse());
@@ -173,6 +177,7 @@ export default function AdminCourses() {
     setDialogOpen(true);
   }
 
+  // Opens the dialog pre-filled with an existing course's details, ready to edit it.
   function openEdit(course: Course) {
     setEditingCourse(course);
     setForm({
@@ -189,6 +194,7 @@ export default function AdminCourses() {
     setDialogOpen(true);
   }
 
+  // Saves the form — creates a brand-new course, or updates the one being edited.
   async function handleSave() {
     if (!form.title.trim() || !form.description.trim()) return;
     setIsSaving(true);
@@ -217,6 +223,7 @@ export default function AdminCourses() {
     }
   }
 
+  // Permanently deletes the course the admin confirmed they want to remove.
   async function handleDelete() {
     if (!deleteTarget) return;
     setIsDeleting(true);

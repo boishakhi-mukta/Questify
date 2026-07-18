@@ -39,6 +39,8 @@ interface XPProgressBarProps {
   animated?: boolean;
 }
 
+// Shows a labeled progress bar (e.g. "450 / 1000 XP — 45%"), optionally
+// wrapped in its own card.
 export function XPProgressBar({
   current,
   total,

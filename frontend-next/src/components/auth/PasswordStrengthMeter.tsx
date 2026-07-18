@@ -22,6 +22,9 @@ interface Check {
   passed: boolean;
 }
 
+// Looks at a password and scores how strong it is (very weak → strong)
+// based on how many good-practice rules it satisfies (length, uppercase,
+// lowercase, a number, a special character).
 function evaluate(password: string): { score: 0 | 1 | 2 | 3 | 4; label: string; color: string; checks: Check[] } {
   const checks: Check[] = [
     { label: "At least 8 characters",         passed: password.length >= 8 },
@@ -49,6 +52,8 @@ const labelColor: Record<number, string> = {
   4: "text-green-600",
 };
 
+// Shows a small colored strength bar and checklist under a "new password"
+// field, updating live as the user types.
 export default function PasswordStrengthMeter({ password }: { password: string }) {
   const { score, label, color, checks } = evaluate(password);
 

@@ -59,11 +59,15 @@ export const seedCourses: AdminCourse[] = [
 
 // ── Helpers ───────────────────────────────────────────────
 
+// Looks at every existing user's ID number and returns the next free one
+// (so a newly created admin user gets an ID nobody else is using).
 export function nextUserId(users: AdminUser[]): string {
   const max = users.reduce((m, u) => Math.max(m, Number(u.id)), 0);
   return String(max + 1);
 }
 
+// Same idea as nextUserId, but for courses — finds the highest course ID
+// currently in use and returns the next one.
 export function nextCourseId(courses: AdminCourse[]): number {
   return courses.reduce((m, c) => Math.max(m, c.id), 0) + 1;
 }

@@ -26,6 +26,7 @@ interface ThemeToggleProps {
   className?: string;
 }
 
+// The sun/moon button that switches the site between light and dark mode.
 export function ThemeToggle({ variant = "sidebar", className }: ThemeToggleProps) {
   const [mounted, setMounted] = useState(false);
   const { resolvedTheme, setTheme } = useTheme();

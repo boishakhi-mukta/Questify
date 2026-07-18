@@ -49,6 +49,8 @@ export const scaleIn: Variants = {
 
 // ── Stagger container variants ─────────────────────────────────────────────────
 
+// Builds the animation settings for a group of items that should appear one
+// after another (staggered) instead of all popping in at the same instant.
 export function staggerContainer(
   staggerChildren = 0.1,
   delayChildren   = 0.15,

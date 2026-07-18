@@ -57,6 +57,9 @@ import type { Course } from "@/types/api-response";
 const FIRST = ["Alice","Bob","Carol","David","Eva","Frank","Grace","Henry","Iris","Jake","Karen","Leo","Maya","Noah","Olivia","Paul","Quinn","Rachel","Sam","Tara","Uma","Victor","Wendy","Xander","Yara","Zoe","Aiden","Bella","Carlos","Diana"];
 const LAST  = ["Johnson","Martinez","White","Chen","Gonzalez","Brown","Davis","Wilson","Taylor","Anderson","Thomas","Moore","Jackson","Harris","Thompson","Lee","Walker","Hall","Allen","Young","King","Wright","Scott","Green","Baker","Adams","Nelson","Carter","Mitchell","Perez"];
 
+// Makes up a consistent-looking class roster for a course (there's no real
+// "list enrolled students" API yet, so this generates realistic-looking
+// names deterministically from the course ID).
 function genStudents(courseId: string, count: number) {
   // Deterministic seeding from courseId
   let seed = courseId.split("").reduce((a, c) => (a * 31 + c.charCodeAt(0)) | 0, 0);
@@ -73,10 +76,12 @@ type Student = ReturnType<typeof genStudents>[number];
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
+// Today's date as "YYYY-MM-DD", used as the default attendance date.
 function todayIso() {
   return new Date().toISOString().slice(0, 10);
 }
 
+// Turns a date into "Today" (if it is) or a short friendly label otherwise.
 function fmtDateLabel(iso: string) {
   if (!iso) return "";
   const d = new Date(iso + "T00:00:00");
@@ -97,6 +102,8 @@ const AVATAR_COLORS = [
 
 // ── Student row ───────────────────────────────────────────────────────────────
 
+// One clickable row in the attendance checklist — toggles a single student
+// between Present and Absent.
 function StudentRow({
   student,
   checked,
@@ -173,6 +180,8 @@ function StudentRow({
 
 // ── Success state ─────────────────────────────────────────────────────────────
 
+// Shown after attendance is saved — a summary of present/absent counts and
+// the attendance rate, with a button to mark another day.
 function SuccessState({
   course,
   date,
@@ -240,6 +249,8 @@ function SuccessState({
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 
+// The teacher's "Attendance" page: pick a course and date, check off which
+// students were present, then save it (with an XP reward for present students).
 export default function TeacherAttendancePage() {
   const { user }                               = useAuth();
   const { courses, isLoading: coursesLoading } = useCourses({ limit: 200 });
@@ -302,10 +313,12 @@ export default function TeacherAttendancePage() {
     return list;
   }, [students, attendance, filter, search]);
 
+  // Flips one student's present/absent status.
   const handleToggle = useCallback((id: string, val: boolean) => {
     setAttendance((prev) => ({ ...prev, [id]: val }));
   }, []);
 
+  // Marks every visible student present (or absent) at once.
   const markAll = useCallback((val: boolean) => {
     setAttendance((prev) => {
       const next = { ...prev };
@@ -315,6 +328,7 @@ export default function TeacherAttendancePage() {
     toast.success(val ? "All students marked present" : "All students marked absent", { duration: 2000 });
   }, [students]);
 
+  // Saves today's attendance sheet (simulated delay) and shows the success screen.
   async function handleSubmit() {
     if (students.length === 0) return;
     setIsSubmitting(true);
@@ -328,6 +342,8 @@ export default function TeacherAttendancePage() {
     });
   }
 
+  // Clears the sheet back to today's date with everyone unmarked, e.g. to
+  // start marking a different day.
   function handleReset() {
     setSubmitted(false);
     setAttendanceDate(todayIso());

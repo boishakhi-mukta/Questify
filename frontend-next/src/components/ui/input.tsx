@@ -18,6 +18,8 @@ import { cn } from "@/lib/utils";
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
 
+// A single-line text box (used for things like email, name, or search
+// fields) with the app's standard look — border, spacing, focus highlight.
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, ...props }, ref) => {
     return (

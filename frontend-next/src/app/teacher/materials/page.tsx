@@ -119,10 +119,12 @@ const INPUT_CLS =
 const TEXTAREA_CLS =
   "w-full rounded-md border border-brand-border dark:border-white/10 bg-white dark:bg-slate-800 px-3 py-2.5 text-[13px] text-brand-dark dark:text-white placeholder:text-brand-body/40 dark:placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-brand-blue/40 resize-none";
 
+// Turns a raw date string into a short, friendly format (e.g. "Jun 12, 2026").
 function fmtDate(iso: string) {
   return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 }
 
+// Turns a raw byte count into a human-readable file size (e.g. "2.4 MB").
 function fmtSize(bytes?: number) {
   if (!bytes) return "—";
   if (bytes < 1024) return `${bytes} B`;
@@ -130,6 +132,8 @@ function fmtSize(bytes?: number) {
   return `${(bytes / 1048576).toFixed(1)} MB`;
 }
 
+// A labeled form field wrapper — puts a small uppercase label above
+// whatever input is passed in as children.
 function Field({
   label, htmlFor, children,
 }: { label: string; htmlFor?: string; children: React.ReactNode }) {
@@ -148,6 +152,8 @@ function Field({
 
 // ── Dropzone ──────────────────────────────────────────────────────────────────
 
+// The click-or-drag file picker box used in the upload/edit forms — shows
+// the chosen file's name and size once one is selected.
 function FileDropzone({
   fileRef,
   file,
@@ -210,6 +216,9 @@ function FileDropzone({
 
 // ── Shared form body ──────────────────────────────────────────────────────────
 
+// The actual form fields (title, description, type, XP reward, and either a
+// file picker or a URL box depending on the material type) shared by both
+// the "upload" and "edit" dialogs.
 function MaterialFormBody({
   id,
   form,
@@ -303,6 +312,7 @@ function MaterialFormBody({
 
 // ── Upload modal ──────────────────────────────────────────────────────────────
 
+// The popup dialog for uploading a brand-new piece of course material.
 function UploadModal({
   state,
   courseId,
@@ -332,6 +342,8 @@ function UploadModal({
     return () => el.removeEventListener("change", handler);
   }, []);
 
+  // Validates the form, then "uploads" the material (simulated progress bar
+  // and delay, since there's no real file-upload API yet) and adds it to the list.
   async function handleUpload() {
     if (!form.title.trim()) { toast.error("Title is required"); return; }
     if (ACCEPTS_FILE.includes(form.type) && !file && !form.url) {
@@ -439,6 +451,7 @@ function UploadModal({
 
 // ── Edit modal ────────────────────────────────────────────────────────────────
 
+// The popup dialog for editing an existing piece of course material.
 function EditModal({
   state,
   target,
@@ -475,6 +488,7 @@ function EditModal({
     return () => el.removeEventListener("change", h);
   }, []);
 
+  // Saves the edited material's fields (simulated delay).
   async function handleSave() {
     if (!form.title.trim() || !target) return;
     setIsSaving(true);
@@ -520,6 +534,7 @@ function EditModal({
 
 // ── Delete modal ──────────────────────────────────────────────────────────────
 
+// The "Are you sure you want to delete this material?" confirmation popup.
 function DeleteModal({
   state,
   target,
@@ -531,6 +546,7 @@ function DeleteModal({
 }) {
   const [isDeleting, setIsDeleting] = useState(false);
 
+  // Actually deletes the material after the teacher confirms.
   async function handleDelete() {
     if (!target) return;
     setIsDeleting(true);
@@ -587,6 +603,8 @@ function DeleteModal({
 
 // ── Materials table ───────────────────────────────────────────────────────────
 
+// The table listing every material in the selected course, with type, size,
+// XP reward, upload date, and an actions menu (download/edit/delete).
 function MaterialsTable({
   materials,
   isLoading,
@@ -601,6 +619,7 @@ function MaterialsTable({
   const TH = "px-4 py-2.5 text-[11px] font-bold uppercase tracking-wide text-brand-body/60 dark:text-white/40 text-left whitespace-nowrap";
   const TD = "px-4 py-3 text-[13px]";
 
+  // Routes a click on the row's "⋮" menu to the right action (download/edit/delete).
   function handleAction(key: string | number, material: Material) {
     const k = String(key);
     if (k === "edit")     onEdit(material);
@@ -714,6 +733,8 @@ function MaterialsTable({
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 
+// The teacher's "Materials" page: pick a course, see its uploaded materials
+// in a table, and upload/edit/delete/download them.
 export default function TeacherMaterialsPage() {
   const { user }                             = useAuth();
   const { courses, isLoading: coursesLoading } = useCourses({ limit: 200 });
@@ -744,6 +765,7 @@ export default function TeacherMaterialsPage() {
   const [editTarget, setEditTarget]     = useState<Material | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<Material | null>(null);
 
+  // Opens the edit/delete popup for a given material row.
   const openEdit = useCallback((m: Material) => { setEditTarget(m); editModal.open(); }, [editModal]);
   const openDelete = useCallback((m: Material) => { setDeleteTarget(m); deleteModal.open(); }, [deleteModal]);
 

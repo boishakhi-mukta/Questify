@@ -40,6 +40,7 @@ import ProfileLayout, {
   type ProfileAchievement,
 } from "@/components/profile/ProfileLayout";
 
+// Shortens a big XP number for display (e.g. 12500 → "12.5k").
 function fmtXP(n: number) {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
   if (n >= 1_000) return `${(n / 1_000).toFixed(1)}k`;
@@ -54,6 +55,8 @@ const RECENT_ACTIONS = [
   { icon: HiCog6Tooth, label: "Updated platform settings", time: "3 days ago", color: "text-slate-500 dark:text-slate-400" },
 ];
 
+// The admin's "My Profile" page — platform-wide stats, recent admin
+// activity, achievement badges, and an editable name form.
 export default function AdminProfilePage() {
   const { user, isLoading: authLoading } = useAuth();
   const { data: stats, loading: statsLoading } = useAdminStats();
@@ -159,6 +162,7 @@ export default function AdminProfilePage() {
     },
   ];
 
+  // Pretends to save the profile form (simulated delay) and confirms with a toast.
   const handleSave = async () => {
     setIsSaving(true);
     await new Promise((r) => setTimeout(r, 600));

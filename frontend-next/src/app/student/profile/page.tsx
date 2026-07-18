@@ -60,10 +60,13 @@ const STATUS_COLOR: Record<
   DROPPED: "danger",
 };
 
+// Shortens a big XP number for display (e.g. 12500 → "12.5k").
 function fmtXP(n: number) {
   return n >= 1000 ? `${(n / 1000).toFixed(1)}k` : String(n);
 }
 
+// The student's "My Profile" page — level/XP progress, enrolled courses,
+// quick stats, and their earned achievement badges.
 export default function StudentProfilePage() {
   const { user, isLoading: authLoading } = useAuth();
   const { enrollments, isLoading: enrollLoading } = useMyEnrollments();
@@ -142,6 +145,7 @@ export default function StudentProfilePage() {
     },
   ];
 
+  // Pretends to save the profile form (simulated delay) and confirms with a toast.
   const handleSave = async () => {
     setIsSaving(true);
     await new Promise((r) => setTimeout(r, 600));

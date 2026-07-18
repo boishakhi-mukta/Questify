@@ -33,7 +33,10 @@ const EVENT_ICONS: Record<XPEventType, string> = {
   bonus:      "🎁",
 };
 
+// Provides small popup ("toast") celebrations for the three ways a student
+// can be rewarded: earning XP, leveling up, or keeping a daily streak going.
 export function useXPNotification() {
+  // Shows "+N XP" with a short description of what earned it.
   function showXPEarned(amount: number, type: XPEventType) {
     toast.success(`+${amount} XP`, {
       description: EVENT_LABELS[type],
@@ -42,6 +45,7 @@ export function useXPNotification() {
     });
   }
 
+  // Shows a bigger celebration when the student reaches a new level.
   function showLevelUp(newLevel: number) {
     toast.success(`Level ${newLevel} unlocked!`, {
       description: "You've leveled up — keep going!",
@@ -50,6 +54,7 @@ export function useXPNotification() {
     });
   }
 
+  // Shows a reward for keeping up a multi-day activity streak.
   function showStreakBonus(streak: number, amount: number) {
     toast.success(`${streak}-day streak! +${amount} XP`, {
       description: "Consistency bonus earned",

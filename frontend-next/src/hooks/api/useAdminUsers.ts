@@ -36,12 +36,16 @@ export interface UseAdminUsersResult {
   resetPassword: (id: string) => Promise<{ tempPassword: string }>;
 }
 
+// Gives the admin user-management screen everything it needs: the current
+// list of users, and functions to create, edit, delete, or reset the
+// password of a teacher or student account.
 export function useAdminUsers(params?: AdminListUsersParams): UseAdminUsersResult {
   const [users, setUsers]           = useState<User[]>([]);
   const [pagination, setPagination] = useState<PaginationMeta | null>(null);
   const [isLoading, setIsLoading]   = useState(true);
   const [error, setError]           = useState<string | null>(null);
 
+  // Goes to the server and reloads the current page of users.
   const fetchUsers = useCallback(() => {
     setIsLoading(true);
     setError(null);
@@ -60,23 +64,27 @@ export function useAdminUsers(params?: AdminListUsersParams): UseAdminUsersResul
     fetchUsers();
   }, [fetchUsers]);
 
+  // Creates a new teacher/student account, then refreshes the list.
   const create = async (payload: AdminCreateUserPayload) => {
     const result = await adminUsersApi.create(payload);
     fetchUsers();
     return result;
   };
 
+  // Saves changes to an existing user (name, role, active status, etc.).
   const update = async (id: string, payload: AdminUpdateUserPayload) => {
     const result = await adminUsersApi.update(id, payload);
     fetchUsers();
     return result.user;
   };
 
+  // Permanently deletes a user account, then refreshes the list.
   const remove = async (id: string) => {
     await adminUsersApi.remove(id);
     fetchUsers();
   };
 
+  // Generates a new temporary password for a user who's locked out.
   const resetPassword = async (id: string) => {
     return adminUsersApi.resetPassword(id);
   };

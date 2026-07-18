@@ -27,11 +27,14 @@ export interface UseCourseAssignmentsResult {
   submit:      (payload: SubmitAssignmentPayload) => Promise<Submission>;
 }
 
+// Loads the list of assignments for a course, and provides a way for a
+// student to submit their completed work for one of them.
 export function useCourseAssignments(courseId: string): UseCourseAssignmentsResult {
   const [assignments, setAssignments] = useState<Assignment[]>([]);
   const [isLoading, setIsLoading]     = useState(true);
   const [error, setError]             = useState<string | null>(null);
 
+  // Goes to the server and (re)loads this course's assignments.
   const fetchAssignments = useCallback(() => {
     if (!courseId) return;
     setIsLoading(true);
@@ -47,6 +50,7 @@ export function useCourseAssignments(courseId: string): UseCourseAssignmentsResu
     fetchAssignments();
   }, [fetchAssignments]);
 
+  // Sends a student's completed assignment to the server to be graded.
   const submit = async (payload: SubmitAssignmentPayload) => {
     return assignmentsApi.submit(payload);
   };

@@ -16,6 +16,8 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
+// Combines a list of CSS class names into one clean string, automatically
+// removing any conflicting duplicates (e.g. two different "text-color" classes).
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }

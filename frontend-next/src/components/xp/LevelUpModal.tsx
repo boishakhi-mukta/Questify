@@ -39,6 +39,7 @@ interface LevelUpModalProps {
   xpEarned?:    number;
 }
 
+// The "Level Up!" celebration popup shown when a student reaches a new level.
 export function LevelUpModal({ state, newLevel, xpToNextLevel, xpEarned }: LevelUpModalProps) {
   return (
     <ModalRoot state={state}>

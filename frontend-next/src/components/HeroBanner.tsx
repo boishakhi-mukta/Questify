@@ -61,11 +61,16 @@ const FAN_IMAGES = [
   },
 ];
 
+
+// The big homepage banner: headline, subtitle, "Explore Courses" button,
+// and the fanned-out stack of photos underneath.
 export default function HeroBanner() {
   const { t } = useTranslation();
   const reduced = useReducedMotion();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
+  // A shared "fade up and settle in" animation, with an optional delay so
+  // each piece (heading, subtitle, button, photos) appears one after another.
   const item = (delay: number) => ({
     initial: reduced ? false : { opacity: 0, y: 18 },
     animate: { opacity: 1, y: 0 },

@@ -25,6 +25,8 @@ const CATEGORY_CONFIG: Record<string, CategoryConfig> = {
 };
 const DEFAULT_CONFIG: CategoryConfig = { color: "#1B7A5A", Icon: BookOpen };
 
+// Draws one clickable course preview card (category, title, description,
+// credits, hours, enrollment count) that links through to its detail page.
 function CourseCard({ course }: { course: Course }) {
   const { color, Icon } = CATEGORY_CONFIG[course.category] ?? DEFAULT_CONFIG;
 
@@ -95,6 +97,8 @@ function CourseCard({ course }: { course: Course }) {
   );
 }
 
+// A grey "placeholder" card shown briefly while the real course data is
+// still loading, so the page doesn't look empty or broken.
 function CardSkeleton() {
   return (
     <div className="rounded-xl overflow-hidden border border-brand-border/40 bg-white shadow-xs">
@@ -116,6 +120,8 @@ function CardSkeleton() {
   );
 }
 
+// The "Featured Courses" block on the homepage — loads a handful of
+// courses and displays them in a grid of cards, with a loading state.
 export default function CoursesSection() {
   const { t } = useTranslation();
   const { courses, isLoading } = useCourses({ limit: 6, sort: "featured" });

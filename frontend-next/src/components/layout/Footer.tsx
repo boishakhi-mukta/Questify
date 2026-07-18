@@ -1,5 +1,23 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY COMPONENT: Footer
+ *
+ * WHAT IT DOES (For Non-Technical Readers):
+ * The bottom section shown on every public page — logo, quick links, contact
+ * info, social media buttons, and a decorative cube pattern.
+ *
+ * WHY IT EXISTS:
+ * Gives visitors a consistent way to navigate to key pages and contact
+ * information no matter which page they're on.
+ *
+ * HOW IT WORKS (Technical Overview):
+ * Renders three link columns from translated labels, a social icon row, and
+ * an SVG-drawn isometric cube pattern along the bottom edge.
+ * ============================================================================
+ */
+
 import Link from "next/link";
 import { QuestifyLogo } from "@/components/ui/QuestifyLogo";
 import {
@@ -50,11 +68,15 @@ const CUBE_THEMES: [string, string, string][] = [
   ["#bdd0c8", "#9eb8ae", "#82a096"],
 ];
 
+// Picks one of the preset color combos for a single decorative cube, based
+// on its position, so neighboring cubes don't all look identical.
 function cubeTheme(row: number, col: number): [string, string, string] {
   const idx = Math.abs((row * 7 + col * 11) % CUBE_THEMES.length);
   return CUBE_THEMES[idx];
 }
 
+// Draws the decorative row of 3D-looking cubes along the bottom of the
+// footer, purely for visual flair (it doesn't do anything functional).
 function IsometricPattern() {
   const W = 42;
   const H = 21;
@@ -130,6 +152,7 @@ function IsometricPattern() {
 const LINK_CLASS =
   "text-[14px] text-[#2e3e38] underline underline-offset-2 decoration-[#2e3e38]/40 hover:decoration-[#1B7A5A] hover:text-[#1B7A5A] transition-colors";
 
+// The site-wide footer shown at the bottom of every public page.
 export default function Footer() {
   const { t } = useTranslation();
 

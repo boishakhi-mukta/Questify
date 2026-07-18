@@ -92,15 +92,18 @@ const XP_BY_ACTIVITY = [
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
+// Converts a raw XP total into a level number (every 500 XP = 1 level).
 function xpToLevel(xp: number) {
   return Math.floor(xp / 500) + 1;
 }
 
+// Adds thousands separators to a number for readability (e.g. 12345 → "12,345").
 function fmt(n: number) {
   return n.toLocaleString();
 }
 
 // recharts custom tooltip — dark-mode-aware
+// The hover popup shown over a point on any of the charts on this page.
 function ChartTooltip({
   active,
   payload,
@@ -138,6 +141,7 @@ interface StatCardProps {
   loading?: boolean;
 }
 
+// One top-row summary tile (e.g. "Total Users: 823, +12 this month ↑").
 function StatCard({ label, value, sub, trend = "neutral", icon: Icon, accent, loading }: StatCardProps) {
   const TrendIcon =
     trend === "up"      ? HiArrowTrendingUp   :
@@ -186,6 +190,7 @@ function StatCard({ label, value, sub, trend = "neutral", icon: Icon, accent, lo
 
 // ── Skeletons ─────────────────────────────────────────────────────────────────
 
+// A grey placeholder block shown while a chart's data is still loading.
 function ChartSkeleton({ height = 300 }: { height?: number }) {
   return (
     <div
@@ -195,6 +200,7 @@ function ChartSkeleton({ height = 300 }: { height?: number }) {
   );
 }
 
+// Grey placeholder rows shown while a table's data is still loading.
 function TableSkeleton({ rows = 5 }: { rows?: number }) {
   return (
     <div className="space-y-2 animate-pulse">
@@ -212,6 +218,7 @@ interface Filters {
   department: string;
 }
 
+// The "Time Range" and "Department" dropdown filters at the top of the page.
 function FilterBar({ filters, onChange }: { filters: Filters; onChange: (f: Filters) => void }) {
   return (
     <div className="flex flex-wrap gap-3">
@@ -261,6 +268,7 @@ function FilterBar({ filters, onChange }: { filters: Filters; onChange: (f: Filt
 
 // ── Top students table ────────────────────────────────────────────────────────
 
+// The "Top 10 Students by XP" leaderboard table.
 function TopStudentsTable({ entries, loading }: { entries: LeaderboardEntry[]; loading: boolean }) {
   const ROW_STYLE = "px-4 py-3 text-[13px]";
   const TH_STYLE  = "px-4 py-2.5 text-[11px] font-bold uppercase tracking-wide text-brand-body/60 dark:text-white/40 text-left";
@@ -355,6 +363,7 @@ function TopStudentsTable({ entries, loading }: { entries: LeaderboardEntry[]; l
 
 // ── Top courses table ─────────────────────────────────────────────────────────
 
+// The "Top Courses by Enrollment" table, with a capacity progress bar per row.
 function TopCoursesTable({ courses, loading }: { courses: Course[]; loading: boolean }) {
   const ROW_STYLE = "px-4 py-3 text-[13px]";
   const TH_STYLE  = "px-4 py-2.5 text-[11px] font-bold uppercase tracking-wide text-brand-body/60 dark:text-white/40 text-left";
@@ -452,6 +461,8 @@ function TopCoursesTable({ courses, loading }: { courses: Course[]; loading: boo
 const GRID_STROKE = "var(--color-brand-border, #e5e7eb)";
 const AXIS_TICK   = { fontSize: 11, fill: "currentColor", className: "text-brand-body/60 dark:text-white/40" };
 
+// The full "Platform Analytics" page: overview stat tiles, growth/XP/course
+// charts, and top-students/top-courses tables.
 export default function AdminAnalyticsPage() {
   const [filters, setFilters] = useState<Filters>({ timeRange: "month", department: "all" });
 

@@ -27,6 +27,8 @@ const HERO_BG =
   "radial-gradient(120% 90% at 50% 78%, rgba(238,250,244,0.9) 0%, rgba(238,250,244,0) 60%), " +
   "linear-gradient(180deg, #b7d3c5 0%, #c4dcd0 30%, #cfe4d7 62%, #d9eee0 100%)";
 
+// The public marketing homepage — stacks the hero banner and all the
+// landing-page sections (features, stats, how-it-works, courses, etc.) in order.
 export default function Home() {
   return (
     <>

@@ -24,6 +24,8 @@ const DEMO_ACCOUNT_HREFS = [
   { labelKey: "auth.demoAdmin",   href: "/demo/admin"   },
 ] as const;
 
+// Shows three "try it as..." buttons (Student/Teacher/Admin) that instantly
+// sign a visitor into a demo account, without them needing real credentials.
 export function DemoLoginButtons() {
   const router = useRouter();
   const { t } = useTranslation();

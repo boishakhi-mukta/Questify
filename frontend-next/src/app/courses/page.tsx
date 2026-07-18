@@ -19,6 +19,8 @@ import Footer from "@/components/layout/Footer";
 import CoursesPageClient from "@/components/courses/CoursesPageClient";
 import { CourseSkeletonGrid } from "@/components/courses/CourseSkeleton";
 
+// A grey placeholder version of the whole courses page, shown for a split
+// second while the real page (which needs the browser's URL) loads in.
 function CoursesPageFallback() {
   return (
     <div className="min-h-screen bg-brand-bg">
@@ -36,6 +38,8 @@ function CoursesPageFallback() {
   );
 }
 
+// The public "Browse Courses" page route — wraps the interactive
+// CoursesPageClient with the site's navbar/footer and a green gradient backdrop.
 export default function CoursesPage() {
   return (
     <>
