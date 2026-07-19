@@ -29,6 +29,8 @@ interface ChangePasswordResult {
 }
 
 // ── Error normaliser ───────────────────────────────────────────────────────────
+// Turns a raw server error into a short, friendly sentence (e.g. "Current
+// password is incorrect") instead of a technical error code.
 function normaliseError(err: unknown): string {
   if (err && typeof err === "object" && "response" in err) {
     const ax  = err as { response?: { data?: { error?: { message?: string } } } };
@@ -41,11 +43,14 @@ function normaliseError(err: unknown): string {
 }
 
 // ── Hook ───────────────────────────────────────────────────────────────────────
+// Handles submitting a password change to the server, and tracks whether
+// it's in progress, failed, or succeeded.
 export function useChangePassword() {
   const [isPending, setIsPending] = useState(false);
   const [error,     setError]     = useState<string | null>(null);
   const [success,   setSuccess]   = useState(false);
 
+  // Sends the current + new password to the server to actually change it.
   const changePassword = useCallback(
     async ({ currentPassword, newPassword }: ChangePasswordPayload): Promise<ChangePasswordResult> => {
       setIsPending(true);
@@ -67,6 +72,7 @@ export function useChangePassword() {
     []
   );
 
+  // Clears any leftover error/success state, e.g. when reopening the form.
   const reset = useCallback(() => {
     setError(null);
     setSuccess(false);

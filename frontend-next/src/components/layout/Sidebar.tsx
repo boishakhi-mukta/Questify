@@ -100,6 +100,8 @@ const roleActiveBg: Record<UserRole, string> = {
 
 // ── NavLink item ─────────────────────────────────────────────────────────────
 
+// One clickable navigation link in the sidebar, highlighted when it matches
+// the page currently being viewed.
 function SidebarLink({ item, role, onClick }: { item: NavItem; role: UserRole; onClick: () => void }) {
   const pathname = usePathname();
   const { t }    = useTranslation();
@@ -130,6 +132,9 @@ function SidebarLink({ item, role, onClick }: { item: NavItem; role: UserRole; o
 
 // ── Sidebar content ──────────────────────────────────────────────────────────
 
+// The actual contents of the sidebar: logo, role badge, the list of
+// navigation links for this role, a light/dark theme toggle, the logged-in
+// user's name/avatar, and a sign-out button.
 function SidebarContent({
   role,
   onClose,
@@ -148,6 +153,7 @@ function SidebarContent({
   const displaySub    = demoUser?.email ?? user?.email ?? "";
   const isDemo        = displaySub.endsWith("@demo.com");
 
+  // Logs the user out — or, for a demo account, just sends them back to login.
   function handleSignOut() {
     if (demoUser) { window.location.href = "/login"; return; }
     logout();
@@ -231,6 +237,8 @@ interface SidebarProps {
   demoUser?: { name: string; email: string };
 }
 
+// Wraps SidebarContent to handle showing it as a permanent panel on desktop,
+// or a slide-out drawer (with a dimmed background overlay) on mobile.
 export function Sidebar({ role, open, onClose, demoUser }: SidebarProps) {
   return (
     <>

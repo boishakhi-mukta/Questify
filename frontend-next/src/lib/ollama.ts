@@ -18,6 +18,8 @@ export type ChatMessage = {
   content: string;
 };
 
+// Sends the chat conversation so far to our own server, which forwards it to
+// the local Ollama AI model, and returns the AI's reply as plain text.
 export async function getChatResponse(messages: ChatMessage[]): Promise<string> {
   const res = await fetch("/api/chat", {
     method: "POST",

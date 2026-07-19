@@ -112,6 +112,7 @@ const categories: Category[] = [
 
 // ── Accordion item ─────────────────────────────────────────────────────────────
 
+// One expandable question — clicking the question reveals its answer below.
 function AccordionItem({
   q,
   a,
@@ -153,6 +154,8 @@ function AccordionItem({
 
 // ── Category section ───────────────────────────────────────────────────────────
 
+// One FAQ category (e.g. "Getting Started") with its list of questions,
+// filtered down to whatever matches the current search text.
 function CategorySection({
   cat,
   filterText,
@@ -210,6 +213,8 @@ function CategorySection({
 
 // ── Page ───────────────────────────────────────────────────────────────────────
 
+// The public "Help / FAQ" page — a searchable, categorized list of common
+// questions and answers, plus a contact link for anything not covered.
 export default function HelpPage() {
   const { t } = useTranslation();
   const [search, setSearch] = useState("");

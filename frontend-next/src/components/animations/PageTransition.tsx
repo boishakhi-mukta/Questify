@@ -23,6 +23,8 @@ interface PageTransitionProps {
   className?: string;
 }
 
+// Wraps a page's content so it fades/slides in smoothly instead of popping
+// in abruptly when the user navigates to it.
 export function PageTransition({ children, className }: PageTransitionProps) {
   const reduced = useReducedMotion();
 

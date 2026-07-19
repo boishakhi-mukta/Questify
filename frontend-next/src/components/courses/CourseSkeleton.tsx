@@ -13,6 +13,8 @@
  * ============================================================================
  */
 
+// One grey, pulsing placeholder shaped like a course card — shown in place
+// of a real card while its data is still being fetched.
 export function CourseSkeleton() {
   return (
     <div className="rounded-xl overflow-hidden border border-brand-border/40 bg-white shadow-xs animate-pulse">
@@ -34,6 +36,8 @@ export function CourseSkeleton() {
   );
 }
 
+// A whole grid of placeholder cards (6 of them), shown while the course
+// catalogue page is loading its first batch of real courses.
 export function CourseSkeletonGrid() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">

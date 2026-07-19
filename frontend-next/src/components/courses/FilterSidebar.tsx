@@ -44,6 +44,7 @@ interface FilterSidebarProps {
   onClose?: () => void;
 }
 
+// A small uppercase heading above a group of filter options (e.g. "LEVEL").
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
     <p className="text-[11px] font-bold uppercase tracking-wider text-brand-body/60 mb-3">
@@ -52,6 +53,8 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   );
 }
 
+// One single-choice option (like a level or semester) — clicking it selects
+// that option, showing a filled circle when it's the current choice.
 function RadioOption({
   label,
   checked,
@@ -91,10 +94,13 @@ function RadioOption({
   );
 }
 
+// A thin horizontal line separating groups of filters.
 function Divider() {
   return <div className="h-px bg-brand-border my-5" />;
 }
 
+// The course-filtering panel (department, level, semester checkboxes/options).
+// Shows as a fixed sidebar on desktop, or a slide-out drawer on mobile.
 export function FilterSidebar({
   filters,
   categories,

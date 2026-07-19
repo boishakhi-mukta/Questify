@@ -76,11 +76,13 @@ const RANK_MEDALS = ["🥇", "🥈", "🥉"];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
+// Shows a medal emoji for the top 3 ranks, or "#N" for everyone else.
 function rankDisplay(rank: number) {
   if (rank <= 3) return RANK_MEDALS[rank - 1];
   return `#${rank}`;
 }
 
+// Builds a two-letter avatar fallback from a full name (e.g. "Jane Doe" → "JD").
 function initials(name: string): string {
   return name
     .split(" ")
@@ -90,6 +92,7 @@ function initials(name: string): string {
     .toUpperCase();
 }
 
+// Turns a rank into "you're in the top N%" for the student's own rank card.
 function percentile(rank: number, total: number): number {
   if (total <= 1) return 100;
   return Math.round((1 - (rank - 1) / total) * 100);
@@ -97,12 +100,14 @@ function percentile(rank: number, total: number): number {
 
 // ─── Divider ─────────────────────────────────────────────────────────────────
 
+// A thin horizontal separator line.
 function Divider({ className }: { className?: string }) {
   return <div className={cn("h-px bg-brand-border", className)} />;
 }
 
 // ─── Loading skeleton ─────────────────────────────────────────────────────────
 
+// A grey placeholder layout shown while the leaderboard data is still loading.
 function LeaderboardSkeleton() {
   return (
     <div className="flex flex-col gap-6">
@@ -134,6 +139,8 @@ function LeaderboardSkeleton() {
 
 // ─── Your rank card ───────────────────────────────────────────────────────────
 
+// The highlighted card showing the current student's own rank, XP, and
+// percentile — separate from the main ranked table below it.
 function YourRankCard({
   entry,
   total,
@@ -239,6 +246,8 @@ function YourRankCard({
 
 // ─── Leaderboard row ──────────────────────────────────────────────────────────
 
+// One row in the leaderboard table: rank, avatar + name, XP with a relative
+// bar, and course count — highlighted if it's the current student's own row.
 function LeaderboardRow({
   entry,
   isCurrent,
@@ -345,6 +354,7 @@ function LeaderboardRow({
 
 // ─── Pagination ───────────────────────────────────────────────────────────────
 
+// Previous/Next + numbered page buttons for the leaderboard table.
 function PaginationStrip({
   page,
   total,
@@ -432,6 +442,7 @@ function PaginationStrip({
 
 // ─── Course filter select ─────────────────────────────────────────────────────
 
+// The "Filter by course" dropdown above the leaderboard table.
 function CourseFilter({
   value,
   onChange,
@@ -477,6 +488,8 @@ function CourseFilter({
 
 // ─── Main page ────────────────────────────────────────────────────────────────
 
+// The full "Leaderboard" page: time-period tabs, a course filter, the
+// student's own rank card, the ranked table with pagination, and a top-3 podium.
 export default function LeaderboardPage() {
   const { user } = useAuthContext();
   const { t } = useTranslation();
@@ -522,6 +535,7 @@ export default function LeaderboardPage() {
   const paged      = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
   const topXP      = entries[0]?.totalXP ?? 0;
 
+  // Switches the leaderboard's time window (week/month/all-time) and resets to page 1.
   function handlePeriod(key: Period) {
     setPeriod(key);
     setPage(1);

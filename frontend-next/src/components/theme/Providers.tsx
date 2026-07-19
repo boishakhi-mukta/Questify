@@ -20,6 +20,8 @@ import { ThemeProvider } from "next-themes";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { I18nProvider } from "@/components/I18nProvider";
 
+// Wraps the whole app in the shared setup it needs everywhere: translations,
+// light/dark theme, and login/session state.
 export function Providers({ children }: { children: ReactNode }) {
   return (
     <I18nProvider>

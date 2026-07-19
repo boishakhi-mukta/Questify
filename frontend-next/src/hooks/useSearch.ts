@@ -17,6 +17,9 @@
 
 import { useState, useEffect, useCallback } from "react";
 
+// Manages a search box's text. To avoid firing off a new search on every
+// single keystroke, it waits until the user pauses typing (debounceMs) before
+// updating the actual "query" that triggers a search.
 export function useSearch(initialValue = "", debounceMs = 300) {
   const [input, setInput]   = useState(initialValue);
   const [query, setQuery]   = useState(initialValue);
@@ -26,6 +29,7 @@ export function useSearch(initialValue = "", debounceMs = 300) {
     return () => clearTimeout(timer);
   }, [input, debounceMs]);
 
+  // Empties the search box and the active search at the same time.
   const clear = useCallback(() => {
     setInput("");
     setQuery("");

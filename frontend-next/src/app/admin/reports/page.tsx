@@ -139,10 +139,12 @@ const SEED_REPORTS: RecentReport[] = [
 
 const FORMAT_LABEL: Record<ReportFormat, string> = { csv: "CSV", pdf: "PDF", xlsx: "Excel" };
 
+// Today's date as "YYYY-MM-DD", used as the default upper bound for date pickers.
 function todayIso() {
   return new Date().toISOString().slice(0, 10);
 }
 
+// The current date/time formatted for display (e.g. "Jun 12, 3:45 PM").
 function nowLabel() {
   return new Date().toLocaleString("en-US", {
     month: "short", day: "numeric",
@@ -150,16 +152,22 @@ function nowLabel() {
   });
 }
 
+// Makes up a plausible file size for the demo report list (no real backend
+// generates these reports yet).
 function fakeSizeKb() {
   return `${Math.floor(Math.random() * 800 + 80)} KB`;
 }
 
+// Builds a simple one-row CSV file (as a downloadable Blob) describing the
+// report that was just "generated" — a placeholder until real report data exists.
 function buildCsvBlob(typeLabel: string, department: string, dateFrom: string, dateTo: string) {
   const header = "Report Type,Department,Date From,Date To,Generated At";
   const row    = `"${typeLabel}","${department}","${dateFrom}","${dateTo}","${new Date().toISOString()}"`;
   return new Blob([`${header}\n${row}\n`], { type: "text/csv" });
 }
 
+// Makes the browser download a file — creates a temporary link, "clicks"
+// it, then cleans it up. This is the standard trick for triggering a save-file dialog.
 function triggerDownload(blob: Blob, filename: string) {
   const url = URL.createObjectURL(blob);
   const a   = document.createElement("a");
@@ -173,6 +181,7 @@ function triggerDownload(blob: Blob, filename: string) {
 
 // ── Report card ───────────────────────────────────────────────────────────────
 
+// One report-type tile (e.g. "Enrollment Report") with a "Generate" button.
 function ReportCard({
   def,
   onGenerate,
@@ -220,6 +229,8 @@ function ReportCard({
 
 // ── Config modal ──────────────────────────────────────────────────────────────
 
+// The popup where an admin picks a department, file format, and date range
+// before generating a report.
 function ConfigModal({
   state,
   typeDef,
@@ -384,6 +395,7 @@ function ConfigModal({
 
 // ── Recent reports table ──────────────────────────────────────────────────────
 
+// The table of previously generated reports, each with a re-download button.
 function RecentReportsTable({ reports }: { reports: RecentReport[] }) {
   const TH = "px-4 py-2.5 text-[11px] font-bold uppercase tracking-wide text-brand-body/60 dark:text-white/40 text-left whitespace-nowrap";
   const TD = "px-4 py-3 text-[13px]";
@@ -407,6 +419,7 @@ function RecentReportsTable({ reports }: { reports: RecentReport[] }) {
 
   const formatIcon: Record<ReportFormat, string> = { csv: "📄", pdf: "📕", xlsx: "📊" };
 
+  // Re-downloads a report that was generated earlier.
   function handleDownload(report: RecentReport) {
     const blob = buildCsvBlob(report.typeLabel, "All Departments", "", "");
     triggerDownload(blob, `${report.typeKey}-report-${Date.now()}.${report.format}`);
@@ -495,6 +508,8 @@ const DEFAULT_CONFIG: ReportConfig = {
   dateTo:     todayIso(),
 };
 
+// The full "Reports" page: report-type cards, the config popup, and the
+// table of previously generated reports.
 export default function AdminReportsPage() {
   const modal        = useOverlayState();
   const [activeKey, setActiveKey]       = useState<ReportKey | null>(null);
@@ -504,12 +519,15 @@ export default function AdminReportsPage() {
 
   const activeDef = REPORT_TYPES.find((t) => t.key === activeKey);
 
+  // Opens the config popup for a chosen report type, resetting its options.
   function openModal(key: ReportKey) {
     setActiveKey(key);
     setConfig(DEFAULT_CONFIG);
     modal.open();
   }
 
+  // "Generates" the report (simulated delay), triggers its download, and
+  // adds it to the recent-reports list.
   async function handleGenerate() {
     if (!activeKey || !activeDef) return;
     setIsGenerating(true);

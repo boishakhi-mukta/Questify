@@ -30,6 +30,7 @@ interface SortDropdownProps {
   onChange: (val: SortKey) => void;
 }
 
+// The "Sort by" dropdown shown above the course results grid.
 export function SortDropdown({ value, onChange }: SortDropdownProps) {
   const { t } = useTranslation();
   return (

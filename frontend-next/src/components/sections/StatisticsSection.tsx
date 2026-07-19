@@ -11,6 +11,8 @@ import { StaggerContainer, StaggerItem } from "@/components/animations/StaggerCo
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 // ── Count-up hook ──────────────────────────────────────────────────────────────
+// Animates a number counting up from 0 to its final value over time, instead
+// of just appearing instantly — used for the "12,450 students" style stats.
 function useCountUp(target: number, duration = 1800, active = false): number {
   const [value, setValue] = useState(0);
 
@@ -34,6 +36,7 @@ function useCountUp(target: number, duration = 1800, active = false): number {
 }
 
 // ── Number formatter ───────────────────────────────────────────────────────────
+// Shortens a big number into something more readable, e.g. 12500 → "12.5K".
 function formatStat(n: number): string {
   if (n >= 1_000_000) return (n / 1_000_000).toFixed(1) + "M";
   if (n >= 1_000) return (n / 1_000).toFixed(1) + "K";
@@ -54,6 +57,8 @@ interface BlobStatCardProps {
   loading:    boolean;
 }
 
+// One organic "blob"-shaped stat card (e.g. "12.5K Students") with a
+// count-up animation once it scrolls into view.
 function BlobStatCard({
   icon: Icon, iconColor, blobColor, blobRadius,
   label, subtext, value, suffix = "", active, loading,
@@ -147,6 +152,8 @@ const statConfigs: StatConfig[] = [
 ];
 
 // ── Main section ───────────────────────────────────────────────────────────────
+// The "By the Numbers" homepage section — a Lottie animation next to a
+// 2×2 grid of live platform stats (students, courses, teachers, XP given out).
 export default function StatisticsSection() {
   const { t } = useTranslation();
   const { data, loading, error, refetch } = useAdminStats();

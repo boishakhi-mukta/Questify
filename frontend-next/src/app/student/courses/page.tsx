@@ -84,6 +84,8 @@ const LEVEL_CHIP_COLOR: Record<string, "success" | "default" | "warning"> = {
 
 // ─── CourseCard ───────────────────────────────────────────────────────────────
 
+// One enrolled-course card with progress, XP, instructor, and "View
+// Course"/"Unenroll" action buttons.
 function CourseCard({
   enrollment,
   onUnenroll,
@@ -207,6 +209,7 @@ function CourseCard({
 
 // ─── Skeleton grid ────────────────────────────────────────────────────────────
 
+// A grid of grey placeholder cards shown while the enrolled courses are still loading.
 function CourseGridSkeleton() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -237,6 +240,7 @@ function CourseGridSkeleton() {
 
 // ─── Filter Select ────────────────────────────────────────────────────────────
 
+// A labeled dropdown used for the semester/sort filters on this page.
 function FilterSelect({
   label,
   value,
@@ -284,6 +288,7 @@ function FilterSelect({
 
 // ─── Pagination strip ─────────────────────────────────────────────────────────
 
+// Previous/Next + numbered page buttons for the "My Courses" grid.
 function PaginationStrip({
   page,
   total,
@@ -341,6 +346,8 @@ function PaginationStrip({
 
 // ─── Empty state ──────────────────────────────────────────────────────────────
 
+// Shown instead of the course grid when the student has no enrolled courses
+// (or none match the current filters), with a prompt to browse the catalogue.
 function EmptyState({ filtered }: { filtered: boolean }) {
   return (
     <div className="flex flex-col items-center justify-center py-16 gap-4 text-center">
@@ -368,6 +375,8 @@ function EmptyState({ filtered }: { filtered: boolean }) {
 
 // ─── Main page ────────────────────────────────────────────────────────────────
 
+// The "My Courses" page: a filterable, sortable, paginated grid of the
+// student's enrolled courses, with an unenroll confirmation dialog.
 export default function MyCoursesPage() {
   const { enrollments, isLoading, error, refetch } = useMyEnrollments();
   const { unenroll, isLoading: isUnenrolling }      = useEnrollCourse(refetch);
@@ -427,6 +436,7 @@ export default function MyCoursesPage() {
   const handleSort     = (v: string) => { setSort(v as SortKey); setPage(1); };
 
   // ── Unenroll handlers ─────────────────────────────────────────────────────
+  // Actually unenrolls the student from the course they confirmed leaving.
   async function confirmUnenroll() {
     if (!unenrollTarget) return;
     setUnenrollError(null);

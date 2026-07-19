@@ -55,6 +55,7 @@ function buildPageRange(current: number, total: number): (number | "...")[] {
   return pages;
 }
 
+// One clickable page-number button (highlighted if it's the current page).
 function PageBtn({
   page,
   current,
@@ -83,6 +84,9 @@ function PageBtn({
   );
 }
 
+// The full pagination control strip below a list of results: "Showing X–Y of
+// N", a page-size picker, Previous/Next + numbered page buttons, and a
+// "jump to page" box.
 export function Pagination({
   page,
   totalPages,
@@ -96,6 +100,7 @@ export function Pagination({
   const { t } = useTranslation();
   const [jumpValue, setJumpValue] = useState("");
 
+  // Jumps straight to whatever page number the user typed into the "go to" box.
   const handleJump = useCallback(() => {
     const n = parseInt(jumpValue, 10);
     if (!isNaN(n) && n >= 1 && n <= totalPages) onPageChange(n);

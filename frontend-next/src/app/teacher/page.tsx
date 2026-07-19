@@ -46,10 +46,12 @@ import { cn } from "@/lib/utils";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
+// A thin horizontal separator line.
 function Divider({ className }: { className?: string }) {
   return <div className={cn("h-px bg-brand-border", className)} />;
 }
 
+// Today's date, formatted for the welcome banner (e.g. "Friday, June 12, 2026").
 function today(): string {
   return new Date().toLocaleDateString("en-US", {
     weekday: "long",
@@ -71,6 +73,7 @@ const LEVEL_CHIP_COLOR: Record<string, "success" | "default" | "warning"> = {
 
 // ─── Stat card ────────────────────────────────────────────────────────────────
 
+// One top-row summary tile (e.g. "Total Students: 214").
 function StatCard({
   label,
   value,
@@ -116,6 +119,7 @@ function StatCard({
 
 // ─── Course card ──────────────────────────────────────────────────────────────
 
+// One "course I teach" card with a capacity bar, rating, and Manage/Preview buttons.
 function CourseCard({ course }: { course: Course }) {
   const gradient = LEVEL_GRADIENT[course.level] ?? LEVEL_GRADIENT.INTERMEDIATE;
   const chipColor = LEVEL_CHIP_COLOR[course.level] ?? "default";
@@ -254,6 +258,7 @@ function CourseCard({ course }: { course: Course }) {
 
 // ─── Skeleton grid ────────────────────────────────────────────────────────────
 
+// A grid of grey placeholder cards shown while the teacher's courses are still loading.
 function CourseGridSkeleton() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -282,6 +287,8 @@ function CourseGridSkeleton() {
 
 // ─── Main page ────────────────────────────────────────────────────────────────
 
+// The teacher's landing dashboard: welcome banner, stat tiles, a grid of the
+// courses they teach, and quick-action shortcut links.
 export default function TeacherDashboardPage() {
   const { user } = useAuthContext();
 

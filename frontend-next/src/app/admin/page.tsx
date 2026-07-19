@@ -15,6 +15,7 @@
 
 import AdminDashboard from "@/components/dashboard/AdminDashboard";
 
+// The admin dashboard home page — shows the AdminDashboard overview widgets.
 export default function AdminPage() {
   return <AdminDashboard />;
 }

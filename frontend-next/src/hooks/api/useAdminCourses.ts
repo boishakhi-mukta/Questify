@@ -35,12 +35,15 @@ export interface UseAdminCoursesResult {
   remove:     (id: string) => Promise<void>;
 }
 
+// Gives the admin course-management screen everything it needs: the current
+// list of courses, and functions to create a new one, edit one, or delete one.
 export function useAdminCourses(params?: AdminListCoursesParams): UseAdminCoursesResult {
   const [courses, setCourses]       = useState<Course[]>([]);
   const [pagination, setPagination] = useState<PaginationMeta | null>(null);
   const [isLoading, setIsLoading]   = useState(true);
   const [error, setError]           = useState<string | null>(null);
 
+  // Goes to the server and reloads the current page of courses.
   const fetchCourses = useCallback(() => {
     setIsLoading(true);
     setError(null);
@@ -59,18 +62,21 @@ export function useAdminCourses(params?: AdminListCoursesParams): UseAdminCourse
     fetchCourses();
   }, [fetchCourses]);
 
+  // Creates a brand-new course, then refreshes the list so it shows up.
   const create = async (payload: AdminCreateCoursePayload) => {
     const result = await adminCoursesApi.create(payload);
     fetchCourses();
     return result.course;
   };
 
+  // Saves changes to an existing course, then refreshes the list.
   const update = async (id: string, payload: AdminUpdateCoursePayload) => {
     const result = await adminCoursesApi.update(id, payload);
     fetchCourses();
     return result.course;
   };
 
+  // Permanently deletes a course, then refreshes the list.
   const remove = async (id: string) => {
     await adminCoursesApi.remove(id);
     fetchCourses();

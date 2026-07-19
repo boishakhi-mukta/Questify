@@ -15,6 +15,7 @@
 
 import SettingsPage from "@/components/settings/SettingsPage";
 
+// The student's Settings page — shows the same shared settings UI everyone else gets.
 export default function StudentSettingsPage() {
   return <SettingsPage />;
 }

@@ -30,6 +30,7 @@ const QUICK_PROMPTS = [
 
 // ── Typing indicator ───────────────────────────────────────────────────────────
 
+// The three bouncing dots shown while waiting for the AI to reply.
 function TypingIndicator() {
   return (
     <div className="flex justify-start" role="status" aria-label="Assistant is typing">
@@ -48,6 +49,8 @@ function TypingIndicator() {
 
 // ── Message bubble ─────────────────────────────────────────────────────────────
 
+// One chat message bubble, styled differently depending on whether it's from
+// the user (right-aligned, blue) or the assistant (left-aligned, white).
 function MessageBubble({ msg }: { msg: ChatMessage }) {
   const isUser = msg.role === "user";
   return (
@@ -68,6 +71,8 @@ function MessageBubble({ msg }: { msg: ChatMessage }) {
 
 // ── Main component ─────────────────────────────────────────────────────────────
 
+// The floating "Ask AI" chat widget available on every page — a round
+// button that expands into a chat panel connected to the AI tutor.
 export function ChatAssistant() {
   const [isOpen,    setIsOpen]    = useState(false);
   const [messages,  setMessages]  = useState<ChatMessage[]>([]);
@@ -103,6 +108,8 @@ export function ChatAssistant() {
     return () => document.removeEventListener("pointerdown", handlePointerDown);
   }, [isOpen]);
 
+  // Adds the user's message to the conversation, asks the AI for a reply,
+  // and adds that reply too. If it fails, rolls back and offers a retry.
   const sendMessage = useCallback(async (text: string) => {
     const trimmed = text.trim();
     if (!trimmed || isLoading) return;
@@ -129,6 +136,7 @@ export function ChatAssistant() {
     }
   }, [messages, isLoading]);
 
+  // Sends the message when the user presses Enter (without Shift).
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -136,6 +144,7 @@ export function ChatAssistant() {
     }
   };
 
+  // Re-sends the message that just failed, after an error.
   const handleRetry = () => {
     if (!lastError) return;
     sendMessage(lastError.retryMsg);

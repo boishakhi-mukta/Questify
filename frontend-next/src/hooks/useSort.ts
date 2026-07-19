@@ -37,6 +37,8 @@ export const SORT_OPTIONS: SortOption[] = [
 const VALID_KEYS = new Set<string>(SORT_OPTIONS.map((o) => o.value));
 const STORAGE_KEY = "questify:sort";
 
+// Keeps track of which sort order (newest, A-Z, etc.) the course catalogue
+// is using, remembering the user's last choice for next time they visit.
 export function useSort(initialFromUrl?: SortKey) {
   const [sort, setSort] = useState<SortKey>(initialFromUrl ?? "newest");
 
@@ -50,6 +52,7 @@ export function useSort(initialFromUrl?: SortKey) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Changes the sort order and saves the choice so it's remembered next visit.
   const updateSort = useCallback((next: SortKey) => {
     setSort(next);
     localStorage.setItem(STORAGE_KEY, next);

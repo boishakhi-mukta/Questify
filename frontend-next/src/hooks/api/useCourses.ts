@@ -27,6 +27,8 @@ export interface UseCoursesResult {
   refetch:    () => void;
 }
 
+// Loads the browsable list of courses (for the course catalogue page),
+// optionally filtered/sorted/searched using the given params.
 export function useCourses(params?: CourseListParams): UseCoursesResult {
   const [courses, setCourses]       = useState<Course[]>([]);
   const [pagination, setPagination] = useState<PaginationMeta | null>(null);
@@ -35,6 +37,7 @@ export function useCourses(params?: CourseListParams): UseCoursesResult {
   const paramsKey = JSON.stringify(params ?? {});
   const prevKey   = useRef<string | null>(null);
 
+  // Goes to the server and loads the course list matching the current filters.
   const fetch = () => {
     setIsLoading(true);
     setError(null);

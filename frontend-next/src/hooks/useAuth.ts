@@ -34,6 +34,9 @@ function isSafeRedirect(path: string | undefined): path is string {
 }
 
 // ── Error message normaliser ───────────────────────────────────────────────────
+// Turns a raw, technical server error into a short, friendly sentence a
+// student can actually understand (e.g. "Invalid password" instead of a
+// cryptic server code).
 function normaliseLoginError(err: unknown): string {
   if (err && typeof err === "object" && "response" in err) {
     const ax  = err as { response?: { data?: { error?: { message?: string } } } };
@@ -47,12 +50,18 @@ function normaliseLoginError(err: unknown): string {
 }
 
 // ── Hook ───────────────────────────────────────────────────────────────────────
+// The single place components go to check "is someone logged in?", log a
+// user in, log them out, or read/update their profile info.
 export function useAuth() {
   const router                               = useRouter();
   const { user, token, isAuthenticated, isLoading, setAuth, clearAuth, updateUser } = useAuthContext();
   const [loginError,  setLoginError]         = useState<string | null>(null);
   const [isLoggingIn, setIsLoggingIn]        = useState(false);
 
+  // Sends the entered email/password to the server. On success, saves the
+  // logged-in user and sends them either to the page they came from (if any)
+  // or their role's home page. If their password needs to be changed first,
+  // it flags that instead of redirecting immediately.
   const login = useCallback(
     async (email: string, password: string, redirectTo?: string): Promise<LoginResult | LoginError> => {
       setIsLoggingIn(true);
@@ -88,6 +97,7 @@ export function useAuth() {
     [setAuth, router]
   );
 
+  // Clears the saved login session and sends the user back to the login page.
   const logout = useCallback(() => {
     clearAuth();
     router.push("/login");

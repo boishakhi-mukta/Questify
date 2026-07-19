@@ -78,6 +78,9 @@ const roleActiveBg: Record<UserRole, string> = {
 // ── Backward-compat demo override (used by /demo/* pages) ─────────────────────
 interface DemoUser { name: string; email: string }
 
+// The shared page frame for logged-in areas (admin/teacher/student
+// dashboards): the dark sidebar with logo, role badge, navigation links,
+// user info, and a sign-out button, wrapping whatever page content goes inside.
 export default function DashboardShell({
   children,
   role,
@@ -96,6 +99,7 @@ export default function DashboardShell({
   const displaySub  = demoUser?.email ?? user?.email ?? "";
   const isDemo      = displaySub.endsWith("@demo.com");
 
+  // Logs the user out — or, for a demo account, just sends them back to login.
   function handleSignOut() {
     if (demoUser) {
       window.location.href = "/login";

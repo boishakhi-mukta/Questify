@@ -15,6 +15,8 @@ const SIZES = {
 
 const OCTAGON = "polygon(25% 0%, 75% 0%, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0% 75%, 0% 25%)";
 
+// Draws the Questify logo (the green octagon badge + "Questify" wordmark)
+// at a chosen size, and in a color variant that suits either a light or dark background.
 export function QuestifyLogo({ variant = "light", size = "md", className }: QuestifyLogoProps) {
   const s = SIZES[size];
   const glow =

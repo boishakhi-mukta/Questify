@@ -19,6 +19,8 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import en from "@/locales/en.json";
 import no from "@/locales/no.json";
 
+// Only set up the translator once — without this check, Next.js's hot-reload
+// during development would try to re-initialize it repeatedly and error out.
 if (!i18n.isInitialized) {
   i18n
     .use(LanguageDetector)

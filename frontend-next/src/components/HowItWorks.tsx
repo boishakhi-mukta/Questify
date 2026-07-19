@@ -24,6 +24,9 @@ const cardConfigs: CardConfig[] = [
   { icon: HiTrophy,        titleKey: "howItWorks.ranking.title",      descKey: "howItWorks.ranking.description"      },
 ];
 
+// The "How It Works" homepage section — walks visitors through the 4 steps
+// of using the platform, as a cascading stack of cards on desktop and a
+// simple grid on mobile.
 export default function HowItWorks() {
   const { t } = useTranslation();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);

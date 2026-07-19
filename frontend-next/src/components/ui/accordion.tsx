@@ -26,6 +26,7 @@ import {
 import { HiChevronDown } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
 
+// The outer wrapper that holds a whole group of expandable sections.
 export function Accordion({
   children,
   className,
@@ -43,6 +44,8 @@ export function Accordion({
   );
 }
 
+// One single expandable section (one question + its answer, one module +
+// its details, etc.) inside the Accordion.
 export function AccordionItem({
   value,
   children,
@@ -60,6 +63,8 @@ export function AccordionItem({
   );
 }
 
+// The clickable header row — clicking it opens or closes that section, and
+// the little arrow icon flips to show which state it's in.
 export function AccordionTrigger({
   children,
   className,
@@ -84,6 +89,7 @@ export function AccordionTrigger({
   );
 }
 
+// The hidden text/content that appears once a section is expanded.
 export function AccordionContent({
   children,
   className,

@@ -66,11 +66,15 @@ export interface ApiErrorBody {
 // CLIENT-SIDE ERROR CLASS
 // ══════════════════════════════════════════════════════════════════════════════
 
+// A single, consistent way to describe "something went wrong" for any failed
+// request to the server, no matter what caused it.
 export class ApiError extends Error {
   public readonly status:  number;
   public readonly code:    string;
   public readonly details: string[];
 
+  // Builds one of these errors, remembering the HTTP status code and an
+  // internal error code so the rest of the app can react appropriately.
   constructor(
     message: string,
     status:  number,
@@ -84,6 +88,8 @@ export class ApiError extends Error {
     this.details = details;
   }
 
+  // Quick yes/no checks below, so calling code can ask things like
+  // "was this a permission problem?" without remembering raw HTTP status numbers.
   get isUnauthorized()  { return this.status === 401; }
   get isForbidden()     { return this.status === 403; }
   get isNotFound()      { return this.status === 404; }

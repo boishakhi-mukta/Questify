@@ -31,6 +31,9 @@ const roleDashboard: Record<UserRole, string> = {
   student: "/student",
 };
 
+// The floating glass navbar shown to visitors who aren't logged in — logo,
+// page links, language switcher, and either a "Sign In" button or (if
+// logged in but on a public page) the account menu.
 export function PublicNavbar() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
@@ -46,6 +49,8 @@ export function PublicNavbar() {
     { type: "route", to: "/contact", label: t("navbar.contact") },
   ];
 
+  // Smoothly scrolls down to a section on the homepage (like "How It Works").
+  // If we're not already on the homepage, it navigates there first.
   function scrollToSection(id: string) {
     if (pathname === "/") {
       document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -60,6 +65,7 @@ export function PublicNavbar() {
     setOpen(false);
   }
 
+  // Draws one navbar link, styled as active if it matches the current page.
   function renderLink(link: NavLink, onClickExtra?: () => void) {
     if (link.type === "scroll" && link.id) {
       return (
@@ -95,6 +101,8 @@ export function PublicNavbar() {
     );
   }
 
+  // Shows the right thing depending on login state: a loading placeholder,
+  // the logged-in user's name + logout button, or a "Sign In" button.
   const AuthSection = ({ onClose }: { onClose?: () => void }) => {
     if (isLoading) {
       return <div className="w-20 h-8 rounded-xl bg-white/30 animate-pulse" />;

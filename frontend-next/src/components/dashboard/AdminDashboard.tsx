@@ -22,6 +22,9 @@ import { Button } from "@/components/ui/button";
 import { useAdminStats } from "@/hooks/useAdminStats";
 import { useTranslation } from "react-i18next";
 
+// The admin's landing dashboard: platform-wide stat cards (students,
+// teachers, courses, XP given out) plus quick-action shortcuts to the user
+// and course management pages.
 export default function AdminDashboard() {
   const { data, loading, error, refetch } = useAdminStats();
   const { t } = useTranslation();

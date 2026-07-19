@@ -1,5 +1,24 @@
 "use client";
 
+/**
+ * ============================================================================
+ * QUESTIFY PAGE ROUTE: About Questify
+ *
+ * WHAT IT DOES (For Non-Technical Readers):
+ * The public marketing page explaining what Questify is, who uses it, and
+ * why it exists — with live platform stats and animated illustrations.
+ *
+ * WHY IT EXISTS:
+ * Helps prospective students, faculty, and administrators understand the
+ * platform before signing in.
+ *
+ * HOW IT WORKS (Technical Overview):
+ * Combines a hero, a real-time stats strip (from the admin stats API), a
+ * feature showcase, a role breakdown (with GSAP scroll-triggered
+ * animations), a values section, and a final call-to-action.
+ * ============================================================================
+ */
+
 import { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -21,6 +40,8 @@ import {
 } from "lucide-react";
 
 // ── Count-up hook ──────────────────────────────────────────────────────────────
+// Animates a number counting up from 0 to its final value over time, instead
+// of just appearing instantly — used for the "500+ students" style stats.
 function useCountUp(target: number, duration = 1600, active = false): number {
   const [value, setValue] = useState(0);
   useEffect(() => {
@@ -38,18 +59,21 @@ function useCountUp(target: number, duration = 1600, active = false): number {
   return value;
 }
 
+// Shortens a big number into something more readable, e.g. 12500 → "12.5K".
 function formatCount(n: number) {
   if (n >= 1_000_000) return (n / 1_000_000).toFixed(1) + "M";
   if (n >= 1_000) return (n / 1_000).toFixed(1) + "K";
   return n.toLocaleString();
 }
 
+// One counting-up statistic (e.g. "500+") shown in the stats strip.
 function AnimatedStat({ value, suffix, active }: { value: number; suffix: string; active: boolean }) {
   const count = useCountUp(value, 1600, active);
   return <>{formatCount(count)}{suffix}</>;
 }
 
 // ── Decorative helpers ─────────────────────────────────────────────────────────
+// A purely decorative grid of small dots, used as background flourish.
 function DotGrid({ cols = 6, rows = 4 }: { cols?: number; rows?: number }) {
   return (
     <div style={{ display: "grid", gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 8 }}>
@@ -60,6 +84,7 @@ function DotGrid({ cols = 6, rows = 4 }: { cols?: number; rows?: number }) {
   );
 }
 
+// A purely decorative four-pointed sparkle icon, used as background flourish.
 function Sparkle({ size = 20, color = "#25B585" }: { size?: number; color?: string }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill={color} aria-hidden="true">
@@ -69,6 +94,8 @@ function Sparkle({ size = 20, color = "#25B585" }: { size?: number; color?: stri
 }
 
 // ── Section heading ────────────────────────────────────────────────────────────
+// The reusable "eyebrow tag + big heading + subtitle" block used to
+// introduce each section on this page.
 function SectionHeading({ tag, title, subtitle, center = true }: {
   tag: string; title: string; subtitle?: string; center?: boolean;
 }) {
@@ -124,6 +151,7 @@ const roles = [
 
 
 // ── Page ───────────────────────────────────────────────────────────────────────
+// The public "About Questify" marketing page.
 export default function AboutPage() {
   const { t } = useTranslation();
   const { data: statsData, loading: statsLoading } = useAdminStats();

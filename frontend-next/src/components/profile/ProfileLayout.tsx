@@ -73,9 +73,14 @@ interface ProfileLayoutProps {
   children?: React.ReactNode;
 }
 
+// Turns a raw date string into a friendly "Month Year" (e.g. "June 2026").
 const fmtDate = (d: string) =>
   new Date(d).toLocaleDateString("en-US", { year: "numeric", month: "long" });
 
+// The shared skeleton for every "My Profile" page (admin, teacher, or
+// student) — avatar, name, role badge, a row of stat cards, an achievements
+// grid, and an "Edit Profile" popup. Each role fills in its own stats and
+// extra content, so the overall look stays consistent across the app.
 export default function ProfileLayout({
   user,
   roleLabel,

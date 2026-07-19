@@ -87,6 +87,7 @@ const MATERIAL_ICON: Record<string, React.ElementType> = {
   IMAGE:    HiDocumentText,
 };
 
+// Turns a raw date string into a short, friendly format (e.g. "Jun 12, 2026").
 function formatDueDate(iso: string): string {
   return new Date(iso).toLocaleDateString("en-US", {
     month: "short",
@@ -95,6 +96,8 @@ function formatDueDate(iso: string): string {
   });
 }
 
+// Works out whether an assignment's due date has already passed, is coming
+// up within 3 days, or is still further away.
 function assignmentStatus(assignment: Assignment): "overdue" | "due-soon" | "upcoming" {
   const now  = Date.now();
   const due  = new Date(assignment.dueDate).getTime();
@@ -106,12 +109,14 @@ function assignmentStatus(assignment: Assignment): "overdue" | "due-soon" | "upc
 
 // ─── Divider ─────────────────────────────────────────────────────────────────
 
+// A thin horizontal separator line.
 function Divider({ className }: { className?: string }) {
   return <div className={cn("h-px bg-brand-border", className)} />;
 }
 
 // ─── Skeleton ─────────────────────────────────────────────────────────────────
 
+// A grey placeholder layout shown while the course's details are still loading.
 function PageSkeleton() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -172,6 +177,8 @@ function PageSkeleton() {
 
 // ─── Error banner ──────────────────────────────────────────────────────────────
 
+// A small red banner shown when a piece of the page (materials or
+// assignments) failed to load, with an optional retry link.
 function ErrorBanner({
   message,
   onRetry,
@@ -198,6 +205,8 @@ function ErrorBanner({
 
 // ─── MaterialCard ─────────────────────────────────────────────────────────────
 
+// One clickable study-material row (opens the material in a new tab), with
+// an icon matching its type and its XP reward if any.
 function MaterialCard({ material }: { material: Material }) {
   const Icon = MATERIAL_ICON[material.type] ?? HiDocumentText;
   return (
@@ -235,6 +244,8 @@ function MaterialCard({ material }: { material: Material }) {
 
 // ─── MaterialsSection ─────────────────────────────────────────────────────────
 
+// Groups the course's materials into Lectures/Readings/Resources and shows
+// them as expandable accordion sections.
 function MaterialsSection({ materials }: { materials: Material[] }) {
   const lectures  = materials.filter((m) => m.type === "VIDEO");
   const readings  = materials.filter(
@@ -297,6 +308,8 @@ const STATUS_CONFIG = {
   upcoming: { label: "Upcoming", color: "text-brand-body bg-brand-bg border-brand-border", icon: HiCalendar },
 } as const;
 
+// The table listing this course's assignments, their due dates, points, and
+// status, with a "Submit" button linking to each one.
 function AssignmentsSection({
   assignments,
   courseId,
@@ -385,6 +398,8 @@ function AssignmentsSection({
 
 // ─── Sidebar ──────────────────────────────────────────────────────────────────
 
+// The sidebar cards showing the student's overall completion percentage and
+// their XP breakdown for this specific course.
 function ProgressCard({
   progress,
   xpEarned,
@@ -483,6 +498,8 @@ function ProgressCard({
 
 // ─── Main page ────────────────────────────────────────────────────────────────
 
+// The student's in-depth course page: header with progress/XP/status,
+// materials, assignments, and a sidebar with course info + an unenroll button.
 export default function CourseDetailPage() {
   const params   = useParams<{ courseId: string }>();
   const courseId = params.courseId;
@@ -518,6 +535,7 @@ export default function CourseDetailPage() {
   }, [course]);
 
   // ── Unenroll ──────────────────────────────────────────────────────────────
+  // Unenrolls the student from this course and sends them back to "My Courses".
   async function handleUnenroll() {
     if (!enrollment) return;
     setUnenrollError(null);

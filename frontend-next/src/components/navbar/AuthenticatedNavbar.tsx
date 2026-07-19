@@ -26,6 +26,8 @@ interface AuthenticatedNavbarProps {
   onMenuToggle: () => void;
 }
 
+// The slim top bar shown above the page content once someone is logged in —
+// holds the mobile menu button, logo, language switcher, and account menu.
 export function AuthenticatedNavbar({ sidebarOpen, onMenuToggle }: AuthenticatedNavbarProps) {
   return (
     <header className="sticky top-0 z-30 h-14 bg-white dark:bg-slate-900 border-b border-brand-border dark:border-white/10 flex items-center justify-between px-5 lg:px-6 shrink-0">

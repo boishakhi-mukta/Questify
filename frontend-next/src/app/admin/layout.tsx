@@ -17,6 +17,9 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Layout from "@/components/layout/Layout";
 
+// Wraps every /admin/* page: checks the visitor is actually logged in as an
+// admin (bouncing them to login or their own role's area otherwise), then
+// shows the shared admin sidebar + navbar frame around the page content.
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const cookieStore = await cookies();
   const token = cookieStore.get("questify_token")?.value;

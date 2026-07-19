@@ -36,6 +36,8 @@ import { useTranslation } from "react-i18next";
 
 // ── Sort ───────────────────────────────────────────────────────────────────────
 
+// Reorders a list of courses according to the chosen sort option (newest,
+// most popular, alphabetical, credits, etc.).
 function sortCourses(list: Course[], sort: SortKey): Course[] {
   return [...list].sort((a, b) => {
     switch (sort) {
@@ -51,6 +53,8 @@ function sortCourses(list: Course[], sort: SortKey): Course[] {
 
 // ── Filter logic ────────────────────────────────────────────────────────────────
 
+// Narrows a list of courses down to just the ones matching the current
+// search text, chosen departments, level, and semester.
 function applyFilters(
   list: Course[],
   query: string,
@@ -75,6 +79,9 @@ function applyFilters(
 
 // ── URL param parsing ──────────────────────────────────────────────────────────
 
+// Reads the current filters/search/sort/page straight out of the page's URL
+// (e.g. "?level=BACHELOR&page=2"), so a shared or bookmarked link shows the
+// exact same view the person who copied it was looking at.
 function parseInitialParams(params: URLSearchParams) {
   const sortParam     = params.get("sort") as SortKey | null;
   const pageSizeParam = Number(params.get("pageSize"));
@@ -90,6 +97,9 @@ function parseInitialParams(params: URLSearchParams) {
 
 // ── Component ───────────────────────────────────────────────────────────────────
 
+// The whole "Browse Courses" page: search box, filter sidebar, sort dropdown,
+// the resulting grid of course cards, and pagination — all wired together,
+// and kept in sync with the page's URL so views can be shared/bookmarked.
 export default function CoursesPageClient() {
   const params = useSearchParams();
   const router = useRouter();
@@ -179,8 +189,10 @@ export default function CoursesPageClient() {
 
   const { t } = useTranslation();
 
+  // Resets both the filters and the search box at once.
   const handleClearAll = () => { clearFilters(); clearSearch(); };
 
+  // Switches to a different results page and scrolls back to the top.
   const handlePageChange = (p: number) => {
     pagination.goToPage(p);
     window.scrollTo({ top: 0, behavior: "smooth" });

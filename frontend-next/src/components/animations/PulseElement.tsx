@@ -23,6 +23,9 @@ interface PulseElementProps {
   className?: string;
 }
 
+// Wraps something (like an icon or button) in a slow, gentle pulsing effect
+// to softly draw the eye to it. Skips the animation for users who've asked
+// their device to reduce motion.
 export function PulseElement({ children, className }: PulseElementProps) {
   const reduced = useReducedMotion();
 

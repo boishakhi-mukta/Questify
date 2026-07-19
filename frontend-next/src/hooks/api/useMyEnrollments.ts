@@ -26,11 +26,15 @@ export interface UseMyEnrollmentsResult {
   refetch:     () => Promise<void>;
 }
 
+// Loads the list of courses the current student is enrolled in (used by "My
+// Courses" and anywhere else that needs to know what a student has signed up for).
+// Pass `enabled: false` to skip fetching, e.g. when nobody is logged in yet.
 export function useMyEnrollments(enabled: boolean = true): UseMyEnrollmentsResult {
   const [enrollments, setEnrollments] = useState<EnrollmentWithCourse[]>([]);
   const [isLoading, setIsLoading]     = useState(enabled);
   const [error, setError]             = useState<string | null>(null);
 
+  // Goes to the server and (re)loads the student's enrollments.
   const fetchEnrollments = useCallback(() => {
     if (!enabled) {
       setIsLoading(false);

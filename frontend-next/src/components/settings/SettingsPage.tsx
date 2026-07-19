@@ -53,6 +53,8 @@ type Tab = "profile" | "notifications" | "privacy" | "display" | "account";
 
 // ── Small reusable pieces ─────────────────────────────────────────────────────
 
+// An on/off switch (the little sliding pill), used for all the yes/no
+// preferences on this page (e.g. "Email me course announcements").
 function Toggle({
   checked,
   onChange,
@@ -80,6 +82,8 @@ function Toggle({
   );
 }
 
+// One single-choice option (like a theme or font size) — clicking it selects
+// that option, showing a filled dot when it's the current choice.
 function RadioOption({
   value,
   selected,
@@ -121,6 +125,8 @@ function RadioOption({
   );
 }
 
+// A labeled form field wrapper — puts a label above, and an optional hint
+// below, whatever input is passed in as children.
 function Field({
   label,
   hint,
@@ -143,6 +149,8 @@ function Field({
   );
 }
 
+// One row in the Notifications/Privacy tabs: a title, a short description,
+// and an on/off switch on the right.
 function NotifRow({
   title,
   desc,
@@ -183,6 +191,9 @@ const disabledInputCls =
 
 // ── Main component ─────────────────────────────────────────────────────────────
 
+// The full "Settings" page: a side-tab menu (Profile, Notifications,
+// Privacy, Display, Account & Security) and the matching form for whichever
+// tab is currently selected.
 export default function SettingsPage() {
   const { user, isLoading } = useAuth();
   const { theme, setTheme } = useTheme();
@@ -250,6 +261,7 @@ export default function SettingsPage() {
 
   // ── Handlers ────────────────────────────────────────────────────────────────
 
+  // Pretends to save the profile form (simulated delay) and confirms with a toast.
   const handleProfileSave = async () => {
     setProfileSaving(true);
     await new Promise((r) => setTimeout(r, 600));
@@ -257,6 +269,7 @@ export default function SettingsPage() {
     toast.success("Profile settings saved");
   };
 
+  // Discards unsaved edits, resetting the profile form back to the user's saved info.
   const handleProfileCancel = () => {
     if (user) {
       setProfile((p) => ({
@@ -271,6 +284,7 @@ export default function SettingsPage() {
     }
   };
 
+  // Validates the password change form, then submits it to actually change the password.
   const handlePasswordChange = async () => {
     if (!pwForm.currentPassword || !pwForm.newPassword || !pwForm.confirmPassword) {
       toast.error("Please fill in all password fields");

@@ -40,6 +40,8 @@ const SLICE_COLORS = [
   "#ef4444", // red      — bonus
 ];
 
+// The little popup box that appears when hovering over a slice of the pie
+// chart, showing that category's name and exact XP value.
 function CustomTooltip({ active, payload }: { active?: boolean; payload?: Array<{ name: string; value: number }> }) {
   if (!active || !payload?.length) return null;
   const { name, value } = payload[0];
@@ -51,6 +53,8 @@ function CustomTooltip({ active, payload }: { active?: boolean; payload?: Array<
   );
 }
 
+// Shows a donut/pie chart breaking down where a student's XP came from
+// (attendance, materials, assignments, quizzes, bonuses).
 export function XPBreakdown({ data, height = 280 }: XPBreakdownProps) {
   const total = data.reduce((s, d) => s + d.value, 0);
   const { t } = useTranslation();

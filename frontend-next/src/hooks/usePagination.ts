@@ -22,6 +22,9 @@ export type PageSize = (typeof PAGE_SIZES)[number];
 
 const PAGE_SIZE_KEY = "questify:pageSize";
 
+// Handles splitting a long list of items into pages: works out how many
+// pages there are, which page you're on, and lets you jump between pages
+// or change how many items are shown per page (remembering that choice).
 export function usePagination(
   totalItems: number,
   initialPage = 1,
@@ -47,10 +50,13 @@ export function usePagination(
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex   = Math.min(startIndex + pageSize, totalItems);
 
+  // Jumps to a specific page (never lower than page 1).
   const goToPage = useCallback((p: number) => {
     setPage(Math.max(1, p));
   }, []);
 
+  // Changes how many items are shown per page, jumps back to page 1 (so the
+  // view doesn't land somewhere confusing), and remembers the choice for next time.
   const setPageSize = useCallback((size: PageSize) => {
     setPageSizeState(size);
     setPage(1);

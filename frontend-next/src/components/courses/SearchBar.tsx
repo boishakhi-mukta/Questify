@@ -23,6 +23,8 @@ interface SearchBarProps {
   onClear: () => void;
 }
 
+// The search box at the top of the course catalogue, with a magnifying-glass
+// icon and a clear ("X") button that appears once something is typed.
 export function SearchBar({ value, onChange, onClear }: SearchBarProps) {
   return (
     <div className="relative w-full">

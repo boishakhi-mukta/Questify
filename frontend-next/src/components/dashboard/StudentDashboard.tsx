@@ -42,6 +42,8 @@ import { cn } from "@/lib/utils";
 
 // ─── WelcomeHeader ────────────────────────────────────────────────────────────
 
+// The "Welcome back, <Name>" greeting with today's date and a "Browse
+// Courses" shortcut button.
 function WelcomeHeader({ name }: { name: string }) {
   const { t, i18n } = useTranslation();
   const today = new Date().toLocaleDateString(i18n.language === "no" ? "nb-NO" : "en-US", {
@@ -76,6 +78,7 @@ interface StatItem {
   accent?: boolean;
 }
 
+// The row of top summary tiles (Total XP, Enrolled Courses, Avg Progress, Rank).
 function StatsCards({ items }: { items: StatItem[] }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
@@ -101,6 +104,8 @@ function StatsCards({ items }: { items: StatItem[] }) {
 
 // ─── DashboardSkeleton ────────────────────────────────────────────────────────
 
+// A full-page grey placeholder layout shown while the dashboard's data is
+// still loading, mirroring the real page's shape so nothing "jumps" once it loads.
 export function DashboardSkeleton() {
   return (
     <div className="flex flex-col gap-8">
@@ -148,6 +153,7 @@ export function DashboardSkeleton() {
 
 // ─── MyCourses ────────────────────────────────────────────────────────────────
 
+// One enrolled-course card on the dashboard, with a progress bar and XP earned.
 function CourseCard({ enrollment }: { enrollment: EnrollmentWithCourse }) {
   const { t }    = useTranslation();
   const course   = enrollment.courseId;
@@ -193,6 +199,8 @@ function CourseCard({ enrollment }: { enrollment: EnrollmentWithCourse }) {
   );
 }
 
+// The "My Courses" section of the dashboard — a grid of active-course
+// cards, or an empty state prompting the student to browse and enroll.
 function MyCourses({ enrollments }: { enrollments: EnrollmentWithCourse[] }) {
   const { t }  = useTranslation();
   const active = enrollments.filter((e) => e.status === "ACTIVE");
@@ -241,6 +249,9 @@ interface AssignmentItem {
   daysLeft: number;
 }
 
+// The "Upcoming Assignments" list on the dashboard (currently shows
+// placeholder assignments generated from the student's active courses,
+// since there's no real assignment-deadline data wired in yet).
 function AssignmentsList({ enrollments }: { enrollments: EnrollmentWithCourse[] }) {
   const { t }          = useTranslation();
   const activeCourses  = enrollments.filter((e) => e.status === "ACTIVE");
@@ -253,6 +264,8 @@ function AssignmentsList({ enrollments }: { enrollments: EnrollmentWithCourse[] 
     daysLeft: 7 - i * 2,
   }));
 
+  // Picks a color for the "days left" chip — red if due very soon, amber if
+  // soon, neutral otherwise.
   const urgencyColor = (days: number) => {
     if (days <= 1) return "danger" as const;
     if (days <= 3) return "warning" as const;
@@ -295,6 +308,8 @@ function AssignmentsList({ enrollments }: { enrollments: EnrollmentWithCourse[] 
 
 const RANK_MEDALS: Record<number, string> = { 1: "🥇", 2: "🥈", 3: "🥉" };
 
+// A condensed top-5 leaderboard preview on the dashboard, highlighting the
+// current student's own row if they're in the top 5.
 function LeaderboardPreview({ entries, currentUserId, isLoading }: { entries: LeaderboardEntry[]; currentUserId?: string; isLoading?: boolean }) {
   const { t } = useTranslation();
   const top5  = entries.slice(0, 5);
@@ -366,6 +381,8 @@ function LeaderboardPreview({ entries, currentUserId, isLoading }: { entries: Le
 
 // ─── RecentActivity ───────────────────────────────────────────────────────────
 
+// A short timeline of the student's most recent XP-earning moments across
+// their courses.
 function RecentActivity({ enrollments }: { enrollments: EnrollmentWithCourse[] }) {
   const { t, i18n } = useTranslation();
 
@@ -413,6 +430,8 @@ function RecentActivity({ enrollments }: { enrollments: EnrollmentWithCourse[] }
 
 // ─── StudentDashboard (main export) ──────────────────────────────────────────
 
+// The student's landing dashboard: welcome header, stat tiles, their
+// enrolled courses, upcoming assignments, a leaderboard preview, and recent activity.
 export default function StudentDashboard() {
   const { t }    = useTranslation();
   const { user } = useAuthContext();

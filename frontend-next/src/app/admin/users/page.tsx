@@ -112,10 +112,12 @@ const ROLE_ICON: Record<UserRole, React.ElementType> = {
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
+// Builds a two-letter avatar fallback from a first and last name (e.g. "JD").
 function initials(first: string, last: string): string {
   return `${first[0] ?? ""}${last[0] ?? ""}`.toUpperCase();
 }
 
+// Turns a raw date string into a short, friendly format (e.g. "Jun 12, 2026").
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString("en-US", {
     month: "short",
@@ -126,12 +128,15 @@ function formatDate(iso: string): string {
 
 // ─── Divider ─────────────────────────────────────────────────────────────────
 
+// A thin horizontal separator line.
 function Divider({ className }: { className?: string }) {
   return <div className={cn("h-px bg-brand-border", className)} />;
 }
 
 // ─── Form field ──────────────────────────────────────────────────────────────
 
+// A labeled form field wrapper — puts a label above whatever input is passed
+// in, and shows a validation error message below it if there is one.
 function FormField({
   label,
   error,
@@ -160,6 +165,7 @@ const SELECT_CLS =
 
 // ─── Filter Select ────────────────────────────────────────────────────────────
 
+// A simple styled dropdown built on the browser's native <select>.
 function NativeSelect({
   value,
   onChange,
@@ -206,6 +212,8 @@ const DEFAULT_FORM: UserFormData = {
   isActive:   true,
 };
 
+// The popup form for creating a brand-new user or editing an existing one
+// (the same form handles both, switching behavior based on `mode`).
 function UserFormModal({
   isOpen,
   onOpenChange,
@@ -233,11 +241,13 @@ function UserFormModal({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
+  // Updates one field of the form and clears any error shown for that field.
   function patch(key: keyof UserFormData, value: string | boolean) {
     setForm((f) => ({ ...f, [key]: value }));
     setErrors((e) => ({ ...e, [key]: undefined }));
   }
 
+  // Checks that required fields are filled in and the email looks valid.
   function validate(): boolean {
     const errs: typeof errors = {};
     if (!form.firstName.trim()) errs.firstName = "Required";
@@ -248,6 +258,7 @@ function UserFormModal({
     return Object.keys(errs).length === 0;
   }
 
+  // Validates the form, then creates or updates the user (depending on mode).
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!validate()) return;
@@ -400,6 +411,7 @@ function UserFormModal({
 
 // ─── Delete confirm modal ─────────────────────────────────────────────────────
 
+// The "Are you sure you want to delete this user?" confirmation popup.
 function DeleteConfirmModal({
   user,
   isOpen,
@@ -416,6 +428,7 @@ function DeleteConfirmModal({
 
   useEffect(() => { if (isOpen) setError(null); }, [isOpen]);
 
+  // Actually deletes the user after the admin confirms.
   async function handleConfirm() {
     setDeleting(true);
     try {
@@ -478,6 +491,8 @@ function DeleteConfirmModal({
 
 // ─── Temp password modal ──────────────────────────────────────────────────────
 
+// A popup showing a newly generated temporary password after creating a
+// user or resetting someone's password, with a one-click "Copy" button.
 function TempPasswordModal({
   title,
   description,
@@ -493,6 +508,7 @@ function TempPasswordModal({
 }) {
   const [copied, setCopied] = useState(false);
 
+  // Copies the temporary password to the clipboard and briefly shows "Copied!".
   function handleCopy() {
     navigator.clipboard.writeText(tempPassword).then(() => {
       setCopied(true);
@@ -556,6 +572,7 @@ function TempPasswordModal({
 
 // ─── Pagination ───────────────────────────────────────────────────────────────
 
+// Previous/Next + numbered page buttons for the user table.
 function PaginationStrip({
   page,
   total,
@@ -607,6 +624,7 @@ function PaginationStrip({
 
 // ─── Skeleton ─────────────────────────────────────────────────────────────────
 
+// Grey placeholder rows shown while the user list is still loading.
 function TableSkeleton() {
   return (
     <div className="flex flex-col gap-2">
@@ -619,6 +637,9 @@ function TableSkeleton() {
 
 // ─── Main page ────────────────────────────────────────────────────────────────
 
+// The full admin "User Management" page: stat cards, a search + role
+// filter, a paginated table of every account, and the create/edit/delete/
+// reset-password dialogs that go with it.
 export default function AdminUsersPage() {
   // Filter / pagination state
   const [page,          setPage]          = useState(1);
@@ -660,16 +681,19 @@ export default function AdminUsersPage() {
 
   // ── Row action handlers ────────────────────────────────────────────────────
 
+  // Opens the edit dialog pre-filled with this user's info.
   function openEdit(user: User) {
     setSelectedUser(user);
     editModal.open();
   }
 
+  // Opens the delete-confirmation dialog for this user.
   function openDelete(user: User) {
     setSelectedUser(user);
     deleteModal.open();
   }
 
+  // Generates a new temporary password for this user and shows it in a popup.
   async function handleResetPassword(user: User) {
     setActionError(null);
     try {
@@ -684,6 +708,7 @@ export default function AdminUsersPage() {
   }
 
   // ── Create submit ─────────────────────────────────────────────────────────
+  // Creates the new user, then shows their auto-generated temporary password.
   async function handleCreate(data: UserFormData) {
     const payload: AdminCreateUserPayload = {
       firstName:  data.firstName,
@@ -700,6 +725,7 @@ export default function AdminUsersPage() {
   }
 
   // ── Edit submit ────────────────────────────────────────────────────────────
+  // Saves the edited fields for the currently selected user.
   async function handleEdit(data: UserFormData) {
     if (!selectedUser) return;
     const payload: AdminUpdateUserPayload = {
@@ -713,6 +739,7 @@ export default function AdminUsersPage() {
   }
 
   // ── Delete confirm ─────────────────────────────────────────────────────────
+  // Deletes the currently selected user.
   async function handleDelete() {
     if (!selectedUser) return;
     await remove(selectedUser._id);

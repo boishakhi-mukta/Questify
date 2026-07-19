@@ -18,6 +18,8 @@ import { cn } from "@/lib/utils";
 
 export interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {}
 
+// The small caption text that tells a user what a nearby form field is for
+// (e.g. the word "Email" shown above an email input box).
 const Label = React.forwardRef<HTMLLabelElement, LabelProps>(({ className, ...props }, ref) => (
   <label
     ref={ref}

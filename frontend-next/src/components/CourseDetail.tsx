@@ -65,6 +65,7 @@ const LEVEL_LABELS: Record<string, string> = {
   MASTERS:  "Masters",
 };
 
+// One line in the "XP Rewards" list, e.g. "Attendance ····· +10 XP".
 function XpRow({ label, xp }: { label: string; xp: string }) {
   return (
     <div className="flex justify-between items-center py-2.5 border-b border-brand-bg last:border-b-0">
@@ -74,6 +75,8 @@ function XpRow({ label, xp }: { label: string; xp: string }) {
   );
 }
 
+// One small rounded "pill" in the course header showing one fact about the
+// course (e.g. "Campus: Bergen") with a matching icon.
 function MetaChip({ icon: Icon, label, value }: { icon: IconType; label: string; value: string }) {
   return (
     <span className="inline-flex items-center gap-1.5 rounded-full bg-white border border-brand-border px-3.5 py-1.5 text-[13px] text-brand-body shadow-sm">
@@ -84,6 +87,9 @@ function MetaChip({ icon: Icon, label, value }: { icon: IconType; label: string;
   );
 }
 
+// The full course detail page: hero banner with enroll/unenroll button,
+// course description, learning objectives, prerequisites, modules, and an
+// XP-rewards summary card.
 export default function CourseDetail({ id }: CourseDetailProps) {
   const { course, isLoading, error } = useCourse(id);
   const { t } = useTranslation();
@@ -159,6 +165,10 @@ export default function CourseDetail({ id }: CourseDetailProps) {
   const progressPct = myEnrollment?.progressPercentage ?? 0;
   const xpEarned     = myEnrollment?.totalXpEarned ?? 0;
 
+  // Runs when the enroll/unenroll button is clicked. Sends a logged-out
+  // visitor to the login page (remembering to bring them back here after);
+  // otherwise enrolls the student, or opens the "are you sure?" dialog if
+  // they're already enrolled and want to leave the course.
   function handleEnrollClick() {
     if (!isAuthenticated) {
       router.push(`/login?redirect=/courses/${id}`);
@@ -174,6 +184,8 @@ export default function CourseDetail({ id }: CourseDetailProps) {
     }
   }
 
+  // Runs when the student confirms they really do want to unenroll, inside
+  // the confirmation dialog.
   async function confirmUnenroll() {
     if (!myEnrollment || !course) return;
     try {

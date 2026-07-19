@@ -1,6 +1,11 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
+// The building blocks below snap together to form one styled data table —
+// Table (the outer grid), TableHeader/TableBody/TableFooter (its sections),
+// TableRow (one row), TableHead/TableCell (a header cell / a data cell), and
+// TableCaption (an optional caption). Each one just adds the app's standard
+// look to the matching plain HTML table piece.
 const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(
   ({ className, ...props }, ref) => (
     <div className="w-full overflow-x-auto rounded-xl border border-brand-border">

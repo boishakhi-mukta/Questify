@@ -39,7 +39,8 @@ export interface CourseListParams {
 }
 
 // ── Courses ───────────────────────────────────────────────────────────────────
-
+// Fetches the public list of courses (with optional search/filter options),
+// or a single course's full details by its ID.
 export const coursesApi = {
   list: (params?: CourseListParams) =>
     getPaginated<Course>("/courses", params as Record<string, unknown>),
@@ -49,7 +50,8 @@ export const coursesApi = {
 };
 
 // ── Enrollments ───────────────────────────────────────────────────────────────
-
+// Lets a logged-in student see their own enrolled courses, sign up for a new
+// course, or drop (unenroll from) a course they're already in.
 export const enrollmentsApi = {
   mine: () =>
     get<EnrollmentWithCourse[]>("/my-enrollments"),
@@ -62,7 +64,7 @@ export const enrollmentsApi = {
 };
 
 // ── Materials ─────────────────────────────────────────────────────────────────
-
+// Gets the list of study materials (PDFs, videos, links, etc.) for one course.
 export const materialsApi = {
   byCourse: (courseId: string) =>
     get<Material[]>("/materials", { courseId }),
@@ -77,6 +79,8 @@ export interface SubmitAssignmentPayload {
   fileUrl?:     string;
 }
 
+// Gets the list of assignments for one course, or sends in a student's
+// completed assignment (their submission) to be graded.
 export const assignmentsApi = {
   byCourse: (courseId: string) =>
     get<Assignment[]>("/assignments", { courseId }),
@@ -86,7 +90,7 @@ export const assignmentsApi = {
 };
 
 // ── Leaderboard ───────────────────────────────────────────────────────────────
-
+// Fetches the ranked list of top students by XP, for the global leaderboard.
 export const leaderboardApi = {
   global: (params?: { timeframe?: string; limit?: number }) =>
     get<LeaderboardEntry[]>("/analytics/leaderboard", params as Record<string, unknown>),
@@ -118,6 +122,8 @@ export interface AdminUpdateUserPayload {
   department?: string;
 }
 
+// Everything an admin can do to manage user accounts: list them, create a new
+// teacher/student, edit an existing user, delete one, or reset someone's password.
 export const adminUsersApi = {
   list: (params?: AdminListUsersParams) =>
     getPaginated<User>("/admin/users", params as Record<string, unknown>),
@@ -173,6 +179,8 @@ export interface AdminUpdateCoursePayload {
   isPublished?:     boolean;
 }
 
+// Everything an admin can do to manage the course catalogue: list courses,
+// create a new one, edit an existing one, or delete one.
 export const adminCoursesApi = {
   list: (params?: AdminListCoursesParams) =>
     getPaginated<Course>("/admin/courses", params as Record<string, unknown>),
@@ -196,6 +204,8 @@ export interface AdminStats {
   totalXPDistributed: number;
 }
 
+// Fetches the top-line numbers shown on the admin dashboard (total students,
+// teachers, courses, and XP given out platform-wide).
 export const adminStatsApi = {
   get: () => get<AdminStats>("/admin/stats"),
 };

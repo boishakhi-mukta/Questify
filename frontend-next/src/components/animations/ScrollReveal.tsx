@@ -38,6 +38,8 @@ interface ScrollRevealProps {
   className?: string;
 }
 
+// Wraps content so it stays invisible until the user scrolls it into view,
+// then animates it sliding/fading in from the chosen direction.
 export function ScrollReveal({
   children,
   direction = "up",

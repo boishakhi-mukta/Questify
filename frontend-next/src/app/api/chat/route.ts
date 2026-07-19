@@ -22,6 +22,8 @@ attendance tracking, study tips, and platform navigation. Be friendly, concise, 
 Keep responses under 150 words unless a detailed explanation is specifically needed.
 If asked something outside the scope of the LMS, politely redirect the conversation.`;
 
+// Handles chat messages sent from the AI assistant widget: forwards the
+// conversation to Google's Gemini model and returns its reply as JSON.
 export async function POST(req: NextRequest) {
   try {
     const apiKey = process.env.GEMINI_API_KEY;

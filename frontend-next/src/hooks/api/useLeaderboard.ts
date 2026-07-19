@@ -26,6 +26,7 @@ export interface UseLeaderboardResult {
   refetch:   () => void;
 }
 
+// Loads the ranked list of top students by XP, for the leaderboard pages.
 export function useLeaderboard(params?: { timeframe?: string; limit?: number }): UseLeaderboardResult {
   const [entries, setEntries]     = useState<LeaderboardEntry[]>([]);
   const [isLoading, setIsLoading] = useState(true);

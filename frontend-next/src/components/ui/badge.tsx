@@ -41,6 +41,8 @@ export interface BadgeProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof badgeVariants> {}
 
+// Draws one small colored pill/tag (e.g. "Bachelor", "Active") in the app's
+// standard badge style, picking colors based on the requested variant.
 function Badge({ className, variant, ...props }: BadgeProps) {
   return (
     <div className={cn(badgeVariants({ variant }), className)} {...props} />
