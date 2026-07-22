@@ -107,7 +107,7 @@ function SectionHeading({ tag, title, subtitle, center = true }: {
       <h2 className="text-2xl sm:text-3xl font-extrabold text-brand-dark mb-3 leading-tight">
         {title}
       </h2>
-      {subtitle && <p className="text-brand-body text-base leading-relaxed">{subtitle}</p>}
+      {subtitle && <p className="text-brand-body text-[17px] leading-relaxed">{subtitle}</p>}
     </div>
   );
 }
@@ -243,7 +243,7 @@ export default function AboutPage() {
             <h1 className="text-4xl sm:text-5xl font-extrabold text-brand-dark mb-5 leading-tight">
               {t("about.heroTitle")}
             </h1>
-            <p className="text-brand-body text-lg leading-relaxed mb-8 max-w-lg">
+            <p className="text-brand-body text-[19px] leading-relaxed mb-8 max-w-lg">
               {t("about.heroBody")}
             </p>
             <div className="flex flex-wrap gap-3">
@@ -300,11 +300,11 @@ export default function AboutPage() {
                   {isLoading ? (
                     <div className="h-10 w-20 bg-brand-border/40 rounded animate-pulse" />
                   ) : (
-                    <p className="text-3xl sm:text-4xl font-extrabold text-brand-blue leading-none">
+                    <p className="text-[31px] sm:text-[37px] font-extrabold text-brand-blue leading-none">
                       <AnimatedStat value={rawValue} suffix={suffix} active={statsInView && !statsLoading} />
                     </p>
                   )}
-                  <p className="text-sm font-semibold text-brand-body">{t(labelKey)}</p>
+                  <p className="text-[15px] font-semibold text-brand-body">{t(labelKey)}</p>
                 </div>
               );
             })}
@@ -335,7 +335,7 @@ export default function AboutPage() {
                 {t("about.missionCenteredPre")}{" "}
                 <span style={{ color: "#D97706" }}>{t("about.missionCenteredHighlight")}</span>
               </h2>
-              <p className="text-brand-body text-base leading-relaxed">{t("about.missionSubtitle")}</p>
+              <p className="text-brand-body text-[17px] leading-relaxed">{t("about.missionSubtitle")}</p>
             </div>
 
             {/* Two-column: animated card left, feature list right */}
@@ -370,8 +370,8 @@ export default function AboutPage() {
                         <div key={name} className="flex items-center gap-3">
                           <div className="w-8 h-8 rounded-lg shrink-0 flex items-center justify-center text-white text-[10px] font-extrabold" style={{ background: color }}>{name[0]}</div>
                           <div className="flex-1 min-w-0">
-                            <p className="text-[12px] font-bold text-brand-dark leading-none mb-0.5 truncate">{name}</p>
-                            <p className="text-[10px] text-brand-body truncate">{dept}</p>
+                            <p className="text-[13px] font-bold text-brand-dark leading-none mb-0.5 truncate">{name}</p>
+                            <p className="text-[11px] text-brand-body truncate">{dept}</p>
                           </div>
                           <span className="text-[11px] font-extrabold shrink-0" style={{ color }}>{pct}%</span>
                         </div>
@@ -390,7 +390,7 @@ export default function AboutPage() {
                       <div className="w-2 h-2 rounded-full bg-amber-400" />
                       <span className="text-[11px] font-bold text-brand-dark">Assignment due</span>
                     </div>
-                    <p className="text-[10px] text-brand-body mt-0.5">Web Engineering · 2h</p>
+                    <p className="text-[11px] text-brand-body mt-0.5">Web Engineering · 2h</p>
                   </div>
                   {/* Floating notification: grade posted */}
                   <div className="absolute -bottom-3 -left-3 bg-white border border-brand-border/60 rounded-xl shadow-lg px-3 py-2" style={{ animation: "qf-ping 4s ease-in-out infinite", animationDelay: "2s" }}>
@@ -398,7 +398,7 @@ export default function AboutPage() {
                       <div className="w-2 h-2 rounded-full bg-emerald-400" />
                       <span className="text-[11px] font-bold text-brand-dark">Grade posted</span>
                     </div>
-                    <p className="text-[10px] text-brand-body mt-0.5">Linear Algebra · A−</p>
+                    <p className="text-[11px] text-brand-body mt-0.5">Linear Algebra · A−</p>
                   </div>
                 </div>
                 <div className="absolute top-6 right-14 z-0"><Sparkle size={16} color="#D97706" /></div>
@@ -413,7 +413,7 @@ export default function AboutPage() {
                   </div>
                   <div>
                     <h3 className="text-[16px] font-bold text-brand-dark mb-1.5">{t("about.experienceFeature1Title")}</h3>
-                    <p className="text-[13px] text-brand-body leading-relaxed">{t("about.experienceFeature1Body")}</p>
+                    <p className="text-[14px] text-brand-body leading-relaxed">{t("about.experienceFeature1Body")}</p>
                   </div>
                 </div>
                 <div className="flex gap-4 items-start p-5 rounded-2xl border border-brand-border/50 bg-brand-bg hover:shadow-md transition-shadow duration-200">
@@ -422,7 +422,7 @@ export default function AboutPage() {
                   </div>
                   <div>
                     <h3 className="text-[16px] font-bold text-brand-dark mb-1.5">{t("about.experienceFeature2Title")}</h3>
-                    <p className="text-[13px] text-brand-body leading-relaxed">{t("about.experienceFeature2Body")}</p>
+                    <p className="text-[14px] text-brand-body leading-relaxed">{t("about.experienceFeature2Body")}</p>
                   </div>
                 </div>
                 <div className="flex gap-4 items-start p-5 rounded-2xl border border-brand-border/50 bg-brand-bg hover:shadow-md transition-shadow duration-200">
@@ -431,7 +431,7 @@ export default function AboutPage() {
                   </div>
                   <div>
                     <h3 className="text-[16px] font-bold text-brand-dark mb-1.5">{t("about.experienceFeature3Title")}</h3>
-                    <p className="text-[13px] text-brand-body leading-relaxed">{t("about.experienceFeature3Body")}</p>
+                    <p className="text-[14px] text-brand-body leading-relaxed">{t("about.experienceFeature3Body")}</p>
                   </div>
                 </div>
               </div>
@@ -456,8 +456,8 @@ export default function AboutPage() {
                   ] as { name: string; course: string; status: string; sc: string; sb: string }[]).map(({ name, course, status, sc, sb }) => (
                     <div key={name} className="flex items-start justify-between gap-2">
                       <div className="flex-1 min-w-0">
-                        <p className="text-[12px] font-semibold text-brand-dark truncate">{name}</p>
-                        <p className="text-[10px] text-brand-body truncate">{course}</p>
+                        <p className="text-[13px] font-semibold text-brand-dark truncate">{name}</p>
+                        <p className="text-[11px] text-brand-body truncate">{course}</p>
                       </div>
                       <span className="text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0" style={{ color: sc, background: sb }}>{status}</span>
                     </div>
@@ -484,8 +484,8 @@ export default function AboutPage() {
                         <span className="text-[8px] font-extrabold text-red-400 leading-none">PDF</span>
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-[11px] font-semibold text-brand-dark leading-tight truncate">{file}</p>
-                        <p className="text-[10px] text-brand-body">{course} · {size}</p>
+                        <p className="text-[12px] font-semibold text-brand-dark leading-tight truncate">{file}</p>
+                        <p className="text-[11px] text-brand-body">{course} · {size}</p>
                       </div>
                     </div>
                   ))}
@@ -503,7 +503,7 @@ export default function AboutPage() {
                 <div className="mb-3">
                   <span className="text-3xl font-extrabold text-brand-blue leading-none">92</span>
                   <span className="text-[13px] font-bold text-brand-body ml-0.5">%</span>
-                  <p className="text-[11px] text-brand-body mt-0.5">Overall attendance rate</p>
+                  <p className="text-[12px] text-brand-body mt-0.5">Overall attendance rate</p>
                 </div>
                 <div className="grid grid-cols-7 gap-1">
                   {[1,1,1,1,1,0,1, 1,1,1,0,1,1,1, 1,1,1,1,1,1,1, 1,1,1,1,1,2,2].map((s, i) => (
@@ -570,7 +570,7 @@ export default function AboutPage() {
                     <Icon size={22} />
                   </div>
                   <h3 className="text-[16px] font-bold text-brand-dark mb-2">{t(titleKey)}</h3>
-                  <p className="text-sm text-brand-body leading-relaxed mb-4">{t(descKey)}</p>
+                  <p className="text-[15px] text-brand-body leading-relaxed mb-4">{t(descKey)}</p>
                   <ul className="space-y-1.5">
                     {featureKeys.map((fk) => (
                       <li key={fk} className="flex items-center gap-2 text-[13px] text-brand-body">
@@ -606,7 +606,7 @@ export default function AboutPage() {
                 <span style={{ color: "#D97706" }}>{t("about.valuesTitleHighlight")}</span>{" "}
                 {t("about.valuesTitlePost")}
               </h2>
-              <p className="text-brand-body text-base leading-relaxed">{t("about.valuesSubtitle")}</p>
+              <p className="text-brand-body text-[17px] leading-relaxed">{t("about.valuesSubtitle")}</p>
             </div>
 
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -635,7 +635,7 @@ export default function AboutPage() {
                 <h3 className="text-2xl sm:text-[28px] font-extrabold text-brand-dark mb-5 leading-tight">
                   {t("about.valuesPanelHeading")}
                 </h3>
-                <p className="text-brand-body text-[15px] leading-relaxed mb-8">
+                <p className="text-brand-body text-[16px] leading-relaxed mb-8">
                   {t("about.valuesParagraph")}
                 </p>
                 <Link
@@ -670,7 +670,7 @@ export default function AboutPage() {
               <Shield size={28} className="text-brand-blue" />
             </div>
             <h2 className="text-2xl font-extrabold text-brand-dark mb-4">{t("about.accessTitle")}</h2>
-            <p className="text-brand-body text-[15px] leading-relaxed mb-8">{t("about.accessBody")}</p>
+            <p className="text-brand-body text-[16px] leading-relaxed mb-8">{t("about.accessBody")}</p>
             <div className="flex flex-wrap items-center justify-center gap-4 mt-6">
               <Link
                 href="/login"

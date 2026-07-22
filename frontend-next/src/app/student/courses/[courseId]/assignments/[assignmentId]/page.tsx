@@ -186,29 +186,29 @@ function AssignmentDetailCard({ assignment }: { assignment: Assignment }) {
         {/* Stats row */}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
           <div>
-            <p className="text-xs font-medium text-brand-body uppercase tracking-wide mb-1">
+            <p className="text-[13px] font-medium text-brand-body uppercase tracking-wide mb-1">
               Due Date
             </p>
-            <p className="flex items-center gap-1.5 text-sm font-semibold text-brand-dark">
+            <p className="flex items-center gap-1.5 text-[15px] font-semibold text-brand-dark">
               <HiCalendar size={14} className="text-brand-body shrink-0" />
               {formatDate(assignment.dueDate)}
             </p>
           </div>
           <div>
-            <p className="text-xs font-medium text-brand-body uppercase tracking-wide mb-1">
+            <p className="text-[13px] font-medium text-brand-body uppercase tracking-wide mb-1">
               Points
             </p>
-            <p className="flex items-center gap-1.5 text-sm font-semibold text-brand-dark">
+            <p className="flex items-center gap-1.5 text-[15px] font-semibold text-brand-dark">
               <HiStar size={14} className="text-amber-500 shrink-0" />
               {assignment.totalPoints} XP
             </p>
           </div>
           {assignment.latePenalty > 0 && (
             <div>
-              <p className="text-xs font-medium text-brand-body uppercase tracking-wide mb-1">
+              <p className="text-[13px] font-medium text-brand-body uppercase tracking-wide mb-1">
                 Late Penalty
               </p>
-              <p className="text-sm font-semibold text-red-600">
+              <p className="text-[15px] font-semibold text-red-600">
                 −{assignment.latePenalty}% per day
               </p>
             </div>
@@ -217,10 +217,10 @@ function AssignmentDetailCard({ assignment }: { assignment: Assignment }) {
 
         {/* Description */}
         <div>
-          <p className="text-xs font-medium text-brand-body uppercase tracking-wide mb-2">
+          <p className="text-[13px] font-medium text-brand-body uppercase tracking-wide mb-2">
             Description
           </p>
-          <p className="text-sm text-brand-dark leading-relaxed whitespace-pre-wrap">
+          <p className="text-[15px] text-brand-dark leading-relaxed whitespace-pre-wrap">
             {assignment.description}
           </p>
         </div>
@@ -228,7 +228,7 @@ function AssignmentDetailCard({ assignment }: { assignment: Assignment }) {
         {/* Instructions */}
         {assignment.instructions && (
           <div>
-            <p className="text-xs font-medium text-brand-body uppercase tracking-wide mb-2">
+            <p className="text-[13px] font-medium text-brand-body uppercase tracking-wide mb-2">
               Instructions
             </p>
             <div className="rounded-md bg-brand-blue-light border border-brand-blue/20 p-4 text-sm text-brand-dark leading-relaxed whitespace-pre-wrap">
@@ -240,7 +240,7 @@ function AssignmentDetailCard({ assignment }: { assignment: Assignment }) {
         {/* Attachments */}
         {assignment.attachments.length > 0 && (
           <div>
-            <p className="text-xs font-medium text-brand-body uppercase tracking-wide mb-2">
+            <p className="text-[13px] font-medium text-brand-body uppercase tracking-wide mb-2">
               Attachments
             </p>
             <div className="flex flex-col gap-2">
@@ -345,7 +345,7 @@ function SubmissionForm({
   return (
     <Card className="bg-white">
       <CardHeader className="pb-1">
-        <p className="text-lg font-bold text-brand-dark">Submit Assignment</p>
+        <p className="text-[19px] font-bold text-brand-dark">Submit Assignment</p>
       </CardHeader>
       <Divider />
       <CardContent className="flex flex-col gap-6 pt-4">
@@ -428,7 +428,7 @@ function SubmissionForm({
                 className="w-full h-10 pl-9 pr-3 rounded-md border border-brand-border bg-white text-sm text-brand-dark placeholder:text-brand-body/50 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent transition-colors disabled:opacity-50"
               />
             </div>
-            <p className="text-xs text-brand-body">
+            <p className="text-[13px] text-brand-body">
               Enter the URL to your submission (GitHub, Google Drive, etc.)
             </p>
           </div>
@@ -451,10 +451,10 @@ function SubmissionForm({
             >
               <HiArrowUpTray size={28} className="text-brand-body" />
               <div>
-                <p className="text-sm font-semibold text-brand-dark">
+                <p className="text-[15px] font-semibold text-brand-dark">
                   Drag & drop or paste your file URL
                 </p>
-                <p className="text-xs text-brand-body mt-1">
+                <p className="text-[13px] text-brand-body mt-1">
                   Accepted: PDF, DOC, DOCX, ZIP, Images
                 </p>
               </div>
@@ -475,7 +475,7 @@ function SubmissionForm({
                   className="w-full h-10 pl-9 pr-3 rounded-md border border-brand-border bg-white text-sm text-brand-dark placeholder:text-brand-body/50 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent transition-colors disabled:opacity-50"
                 />
               </div>
-              <p className="text-xs text-brand-body">
+              <p className="text-[13px] text-brand-body">
                 Upload your file to a cloud service and paste the shareable link above.
               </p>
             </div>
@@ -484,7 +484,7 @@ function SubmissionForm({
             {linkUrl.trim() && (
               <div className="flex items-center gap-3 rounded-md border border-brand-border bg-brand-bg/50 px-3 py-2">
                 <HiPaperClip size={15} className="text-brand-body shrink-0" />
-                <p className="text-sm text-brand-dark truncate flex-1">
+                <p className="text-[15px] text-brand-dark truncate flex-1">
                   {linkUrl}
                 </p>
                 <button
@@ -501,13 +501,13 @@ function SubmissionForm({
         {/* Submission progress */}
         {isSubmitting && (
           <div className="flex flex-col gap-2">
-            <p className="text-sm text-brand-body">Submitting assignment…</p>
+            <p className="text-[15px] text-brand-body">Submitting assignment…</p>
             <ProgressBar value={progress} minValue={0} maxValue={100} aria-label="Submission progress">
               <ProgressBarTrack className="h-2 rounded-full bg-brand-bg">
                 <ProgressBarFill className="h-full rounded-full bg-brand-blue transition-[width] duration-300" />
               </ProgressBarTrack>
             </ProgressBar>
-            <p className="text-xs text-brand-body text-right">{progress}%</p>
+            <p className="text-[13px] text-brand-body text-right">{progress}%</p>
           </div>
         )}
 
@@ -540,7 +540,7 @@ function SubmissionForm({
           {isSubmitting ? "Submitting…" : "Submit Assignment"}
         </Button>
 
-        <p className="text-xs text-center text-brand-body">
+        <p className="text-[13px] text-center text-brand-body">
           By submitting, you confirm this is your own work.
         </p>
       </CardContent>
@@ -595,8 +595,8 @@ function SubmissionSuccess({
         <CardContent className="flex flex-col gap-4 pt-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xs text-brand-body uppercase tracking-wide font-medium">Points Available</p>
-              <p className="flex items-center gap-1.5 text-lg font-bold text-brand-dark mt-1">
+              <p className="text-[13px] text-brand-body uppercase tracking-wide font-medium">Points Available</p>
+              <p className="flex items-center gap-1.5 text-[19px] font-bold text-brand-dark mt-1">
                 <HiStar size={16} className="text-amber-500" />
                 {assignment.totalPoints} XP
               </p>
@@ -698,8 +698,8 @@ export default function AssignmentSubmissionPage() {
       <div className="max-w-2xl mx-auto flex flex-col items-center justify-center py-20 gap-4 text-center">
         <HiExclamationTriangle size={40} className="text-red-400" />
         <div>
-          <p className="text-lg font-bold text-brand-dark">Assignment not found</p>
-          <p className="text-sm text-brand-body mt-1">
+          <p className="text-[19px] font-bold text-brand-dark">Assignment not found</p>
+          <p className="text-[15px] text-brand-body mt-1">
             This assignment may have been removed or you don't have access.
           </p>
         </div>

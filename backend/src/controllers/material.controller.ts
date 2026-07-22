@@ -32,6 +32,9 @@ import type { AuthenticatedRequest } from "@/types";
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
+// Checks that the course actually exists, and — if the person acting is a
+// teacher (not an admin) — that they're one of the teachers assigned to it.
+// Blocks a teacher from touching a course they don't teach.
 async function assertCourseAccess(
   courseId: Types.ObjectId | string,
   userId: string,
@@ -49,6 +52,8 @@ async function assertCourseAccess(
 }
 
 // ── POST /api/v1/materials ─────────────────────────────────────────────────────
+// Adds a new piece of course material (a PDF, video, link, etc.). If no
+// display order was given, it's placed at the end of the existing list.
 export async function createMaterial(
   req: AuthenticatedRequest,
   res: Response
@@ -84,6 +89,9 @@ export async function createMaterial(
 }
 
 // ── GET /api/v1/materials/course/:courseId ─────────────────────────────────────
+// Lists all the materials for a course. Students must be actively enrolled
+// to see anything, and only see materials the teacher has published; teachers
+// must be assigned to the course, but can see unpublished materials too.
 export async function getCourseMaterials(
   req: AuthenticatedRequest,
   res: Response
@@ -150,6 +158,9 @@ export async function getCourseMaterials(
 }
 
 // ── GET /api/v1/materials/:id/view ────────────────────────────────────────────
+// Opens/views a single material. For students, this also bumps the view
+// counter and awards them XP (engagement points) the first time they view
+// it — viewing it again later won't earn XP twice.
 export async function viewMaterial(
   req: AuthenticatedRequest,
   res: Response
@@ -194,6 +205,8 @@ export async function viewMaterial(
 }
 
 // ── PATCH /api/v1/materials/:id ───────────────────────────────────────────────
+// Edits an existing material's details. Who uploaded it, which course it
+// belongs to, and its view count can't be changed through this endpoint.
 export async function updateMaterial(
   req: AuthenticatedRequest,
   res: Response

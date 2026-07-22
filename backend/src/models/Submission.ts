@@ -105,6 +105,9 @@ const SubmissionSchema = new Schema<ISubmission>(
 );
 
 // ── Post-save: award XP when submission is graded ─────────────────────────────
+// Runs automatically right after a submission is saved. Once a teacher grades
+// it, this awards the student XP (engagement points) for having submitted it —
+// the duplicate-prevention index below stops it from being awarded twice.
 SubmissionSchema.post("save", async function (doc: ISubmission) {
   if (doc.status !== "GRADED") return;
 

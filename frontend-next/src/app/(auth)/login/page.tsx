@@ -187,7 +187,7 @@ function LoginPageInner() {
                 Welcome to{" "}
                 <span style={{ color: "#25B585" }}>Questify</span>
               </h2>
-              <p className="text-brand-body text-[13.5px] leading-relaxed max-w-xs mx-auto">
+              <p className="text-brand-body text-[14.5px] leading-relaxed max-w-xs mx-auto">
                 Your all-in-one academic platform — courses, grades, attendance, and materials in one place.
               </p>
             </div>
@@ -211,7 +211,7 @@ function LoginPageInner() {
               </div>
 
               {/* "Login as" label */}
-              <p className="text-center text-[11px] font-semibold text-brand-body/45 uppercase tracking-widest mb-3">
+              <p className="text-center text-[12px] font-semibold text-brand-body/45 uppercase tracking-widest mb-3">
                 Login as
               </p>
 
@@ -360,7 +360,7 @@ function LoginPageInner() {
                   )}
                 </button>
 
-                <p className="mt-2.5 text-center text-[11px] text-brand-body/35">
+                <p className="mt-2.5 text-center text-[12px] text-brand-body/35">
                   {t("auth.demoAccountsNote")}
                 </p>
               </div>

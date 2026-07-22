@@ -36,6 +36,8 @@ import { PAGINATION, ERROR_CODES } from "@/config/constants";
 import { logAction } from "@/utils/logger";
 import type { AuthenticatedRequest } from "@/types";
 
+// Turns the raw "page" and "limit" text from the URL into safe numbers,
+// clamped to sane bounds, plus how many records to skip to reach that page.
 function parsePagination(page = "1", limit = String(PAGINATION.DEFAULT_LIMIT)) {
   const pageNum = Math.max(1, parseInt(page, 10));
   const limitNum = Math.min(PAGINATION.MAX_LIMIT, Math.max(1, parseInt(limit, 10)));

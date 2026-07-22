@@ -27,6 +27,8 @@ const CONNECTION_OPTIONS: mongoose.ConnectOptions = {
   heartbeatFrequencyMS: 10_000,
 };
 
+// Wires up logging so we get a message in the console/log file whenever the
+// database connection has a problem, drops, or comes back — makes outages visible.
 function attachEvents(): void {
   const conn = mongoose.connection;
 
@@ -47,6 +49,10 @@ function attachEvents(): void {
   });
 }
 
+// Opens the connection to the MongoDB database when the server starts.
+// If we're already connected it does nothing; if the connection attempt
+// fails, it logs the error and shuts the server down rather than running
+// in a broken state with no database.
 export async function connectDB(): Promise<void> {
   if (mongoose.connection.readyState === 1) return;
 
@@ -60,6 +66,8 @@ export async function connectDB(): Promise<void> {
   }
 }
 
+// Cleanly closes the database connection — used when the server shuts down
+// (or between automated tests) so nothing is left dangling.
 export async function disconnectDB(): Promise<void> {
   if (mongoose.connection.readyState === 0) return;
   await mongoose.disconnect();

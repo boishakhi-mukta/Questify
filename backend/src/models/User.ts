@@ -180,6 +180,8 @@ const UserSchema = new Schema<IUser>(
 );
 
 // ── Virtual ───────────────────────────────────────────────────────────────────
+// A computed field (not stored in the database) that joins first + last name
+// together for convenience, e.g. "Jane Doe".
 UserSchema.virtual("fullName").get(function (this: IUser): string {
   return `${this.firstName} ${this.lastName}`;
 });
@@ -191,6 +193,9 @@ UserSchema.index({ createdAt: -1 });
 UserSchema.index({ isActive: 1, role: 1 });
 
 // ── Pre-save hook ─────────────────────────────────────────────────────────────
+// Runs automatically right before a user record is saved. If the password
+// was just set or changed, it scrambles (hashes) it before it touches the
+// database — so the plain-text password is never actually stored anywhere.
 UserSchema.pre("save", async function (next) {
   if (!this.isModified("passwordHash")) return next();
   // At this point passwordHash holds the plain-text password — hash it in place
@@ -200,6 +205,8 @@ UserSchema.pre("save", async function (next) {
 });
 
 // ── Instance methods ──────────────────────────────────────────────────────────
+// Lets the login process check "does the password this person typed match
+// what's stored for their account" without ever un-scrambling the stored hash.
 UserSchema.methods.comparePassword = function (
   this: IUser,
   plainPassword: string

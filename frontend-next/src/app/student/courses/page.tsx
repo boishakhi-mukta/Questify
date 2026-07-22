@@ -111,10 +111,10 @@ function CourseCard({
       {/* Coloured header band (course image placeholder) */}
       <div className={cn("h-28 bg-gradient-to-br flex items-end p-4", gradient)}>
         <div>
-          <p className="text-[11px] font-bold uppercase tracking-widest text-white/70">
+          <p className="text-[12px] font-bold uppercase tracking-widest text-white/70">
             {course.category}
           </p>
-          <p className="text-sm font-bold text-white leading-snug line-clamp-2 mt-0.5">
+          <p className="text-[15px] font-bold text-white leading-snug line-clamp-2 mt-0.5">
             {course.title}
           </p>
         </div>
@@ -163,12 +163,12 @@ function CourseCard({
         {/* XP */}
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-xs text-brand-body">XP Earned</p>
-            <p className="text-base font-bold text-brand-dark">{xp} XP</p>
+            <p className="text-[13px] text-brand-body">XP Earned</p>
+            <p className="text-[17px] font-bold text-brand-dark">{xp} XP</p>
           </div>
           <div className="text-right">
-            <p className="text-xs text-brand-body">Enrolled</p>
-            <p className="text-xs font-semibold text-brand-dark">
+            <p className="text-[13px] text-brand-body">Enrolled</p>
+            <p className="text-[13px] font-semibold text-brand-dark">
               {new Date(enrollment.enrolledAt).toLocaleDateString("en-US", {
                 month: "short",
                 day: "numeric",
@@ -180,8 +180,8 @@ function CourseCard({
 
         {/* Faculty */}
         <div>
-          <p className="text-xs text-brand-body">Instructor</p>
-          <p className="text-sm font-semibold text-brand-dark truncate">{teacherName}</p>
+          <p className="text-[13px] text-brand-body">Instructor</p>
+          <p className="text-[15px] font-semibold text-brand-dark truncate">{teacherName}</p>
         </div>
 
         {/* Actions */}
@@ -355,10 +355,10 @@ function EmptyState({ filtered }: { filtered: boolean }) {
         <HiBookOpen size={32} className="text-brand-blue" />
       </div>
       <div>
-        <p className="text-xl font-bold text-brand-dark">
+        <p className="text-[21px] font-bold text-brand-dark">
           {filtered ? "No courses match your filters" : "No courses yet"}
         </p>
-        <p className="text-sm text-brand-body mt-1.5 max-w-xs">
+        <p className="text-[15px] text-brand-body mt-1.5 max-w-xs">
           {filtered
             ? "Try adjusting the semester or sort filters above."
             : "You haven't enrolled in any courses yet. Explore the catalogue to get started."}
@@ -459,7 +459,7 @@ export default function MyCoursesPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-brand-dark">My Courses</h1>
-          <p className="text-sm text-brand-body mt-1">
+          <p className="text-[15px] text-brand-body mt-1">
             {isLoading ? (
               <Skeleton className="h-4 w-40 rounded-lg inline-block" />
             ) : (
@@ -547,7 +547,7 @@ export default function MyCoursesPage() {
           />
 
           {/* Result count */}
-          <p className="text-center text-xs text-brand-body">
+          <p className="text-center text-[13px] text-brand-body">
             Showing{" "}
             <span className="font-semibold text-brand-dark">
               {(page - 1) * PAGE_SIZE + 1}–{Math.min(page * PAGE_SIZE, filtered.length)}
@@ -579,7 +579,7 @@ export default function MyCoursesPage() {
           </DialogHeader>
 
           {unenrollError && (
-            <p className="text-sm text-red-600 -mt-2">{unenrollError}</p>
+            <p className="text-[15px] text-red-600 -mt-2">{unenrollError}</p>
           )}
 
           <DialogFooter>

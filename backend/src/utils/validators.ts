@@ -23,6 +23,8 @@ import { Types } from "mongoose";
 
 // ══════════════════════════════════════════════════════════════════════════════
 // PRIMITIVES — reusable building blocks
+// Small, shared rules (e.g. "is this a real database ID", "is this password
+// strong enough") that the schemas below reuse instead of repeating themselves.
 // ══════════════════════════════════════════════════════════════════════════════
 
 /** Validates a string is a legal MongoDB ObjectId. */
@@ -58,6 +60,8 @@ const phoneRegex = /^\+?[1-9]\d{7,14}$/;
 
 // ══════════════════════════════════════════════════════════════════════════════
 // PARAM SCHEMAS
+// Checks the IDs that show up in a URL (e.g. the "123" in /courses/123) are
+// real, well-formed database IDs before the server tries to look them up.
 // ══════════════════════════════════════════════════════════════════════════════
 
 export const idParamSchema = z.object({
@@ -90,6 +94,8 @@ export const assignmentIdParamSchema = z.object({
 
 // ══════════════════════════════════════════════════════════════════════════════
 // AUTH
+// Rules for signing up, logging in, refreshing a session, changing a
+// password, and editing your own profile.
 // ══════════════════════════════════════════════════════════════════════════════
 
 export const registerSchema = z.object({
@@ -150,6 +156,7 @@ export const updateProfileSchema = z
 
 // ══════════════════════════════════════════════════════════════════════════════
 // USER (admin + self-service)
+// Rules for creating, editing, bulk-importing, and listing user accounts.
 // ══════════════════════════════════════════════════════════════════════════════
 
 /** Used by the admin-facing user route (creates students and teachers only). */
@@ -198,6 +205,7 @@ export const listUsersQuerySchema = z.object({
 
 // ══════════════════════════════════════════════════════════════════════════════
 // COURSE
+// Rules for creating, editing, filtering, and searching courses.
 // ══════════════════════════════════════════════════════════════════════════════
 
 const courseMetadataSchema = z
@@ -257,6 +265,8 @@ export const searchCoursesQuerySchema = z.object({
 
 // ══════════════════════════════════════════════════════════════════════════════
 // ENROLLMENT
+// Rules for a student joining a course, and for listing/filtering who's
+// enrolled in what.
 // ══════════════════════════════════════════════════════════════════════════════
 
 export const selfEnrollSchema = z.object({
@@ -307,6 +317,8 @@ export const studentEnrollmentsQuerySchema = z.object({
 
 // ══════════════════════════════════════════════════════════════════════════════
 // ASSIGNMENT
+// Rules for teachers creating/editing homework assignments and extending
+// deadlines.
 // ══════════════════════════════════════════════════════════════════════════════
 
 export const createAssignmentSchema = z.object({
@@ -378,6 +390,7 @@ export const extendDeadlineSchema = z.object({
 
 // ══════════════════════════════════════════════════════════════════════════════
 // SUBMISSION
+// Rules for students submitting homework and teachers grading it.
 // ══════════════════════════════════════════════════════════════════════════════
 
 export const submitAssignmentSchema = z
@@ -429,6 +442,7 @@ export const mySubmissionsQuerySchema = z.object({
 
 // ══════════════════════════════════════════════════════════════════════════════
 // MATERIAL
+// Rules for adding/editing course materials (PDFs, videos, links, etc).
 // ══════════════════════════════════════════════════════════════════════════════
 
 export const createMaterialSchema = z.object({
@@ -463,6 +477,8 @@ export const updateMaterialSchema = z
 
 // ══════════════════════════════════════════════════════════════════════════════
 // ADMIN — user management
+// Rules for admin-only user actions — unlike the section above, admins are
+// allowed to create/edit other admins too.
 // ══════════════════════════════════════════════════════════════════════════════
 
 /** Admin can create any role including other admins. */
@@ -505,6 +521,8 @@ export const adminListUsersQuerySchema = z.object({
 
 // ══════════════════════════════════════════════════════════════════════════════
 // ADMIN — course management
+// Rules for admins creating/editing courses, including setting up default
+// capacity and estimated workload.
 // ══════════════════════════════════════════════════════════════════════════════
 
 /** Admin creates courses; teachers are optionally assigned at creation time. */
@@ -555,6 +573,7 @@ export const adminListCoursesQuerySchema = z.object({
 
 // ══════════════════════════════════════════════════════════════════════════════
 // ADMIN — faculty assignment
+// Rules for assigning or removing teachers from a course.
 // ══════════════════════════════════════════════════════════════════════════════
 
 export const assignFacultySchema = z.object({
@@ -574,6 +593,7 @@ export const unassignFacultySchema = z.object({
 
 // ══════════════════════════════════════════════════════════════════════════════
 // ADMIN — department management
+// Rules for creating/editing academic departments (e.g. "Computer Science").
 // ══════════════════════════════════════════════════════════════════════════════
 
 export const createDepartmentSchema = z.object({
@@ -600,6 +620,8 @@ export const listDepartmentsQuerySchema = z.object({
 
 // ══════════════════════════════════════════════════════════════════════════════
 // ADMIN — reports
+// Rules for filtering the data behind admin reports (enrollment, attendance,
+// XP/engagement points), including choosing JSON or CSV output.
 // ══════════════════════════════════════════════════════════════════════════════
 
 export const enrollmentReportQuerySchema = z.object({
@@ -620,6 +642,7 @@ export const xpReportQuerySchema = z.object({
 
 // ══════════════════════════════════════════════════════════════════════════════
 // ANALYTICS
+// Rules for filtering the analytics dashboard's XP (engagement points) data.
 // ══════════════════════════════════════════════════════════════════════════════
 
 export const xpAnalyticsQuerySchema = z.object({

@@ -13,6 +13,9 @@
  * ============================================================================
  */
 
+// A custom "error" object that also carries an HTTP status code (like 404 or 400)
+// so that when something goes wrong, the server knows both what to tell the
+// user and what status code to send back.
 export class AppError extends Error {
   public readonly statusCode: number;
   public readonly isOperational: boolean;

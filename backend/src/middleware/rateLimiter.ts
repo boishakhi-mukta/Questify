@@ -17,6 +17,8 @@ import rateLimit, { Options, RateLimitRequestHandler } from "express-rate-limit"
 import type { Request } from "express";
 import type { AuthenticatedRequest } from "@/types";
 
+// Builds the "you're doing that too much, slow down" message sent back when
+// someone hits a rate limit below.
 const errorBody = (message: string) => () => ({
   success: false,
   error: { code: "TOO_MANY_REQUESTS", message },

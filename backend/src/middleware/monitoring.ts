@@ -24,17 +24,25 @@ const metrics = {
   responseTimes: [] as number[], // rolling last 1000 samples
 };
 
+// Keeps a rolling log of the last 1000 response times, so we can spot when
+// the app is running slow without storing unlimited history in memory.
 function recordResponseTime(ms: number): void {
   metrics.responseTimes.push(ms);
   if (metrics.responseTimes.length > 1000) metrics.responseTimes.shift();
 }
 
+// Finds the "95th percentile" response time — the value that 95% of
+// requests were faster than. A more honest "typical worst case" number than
+// a plain average, which can be skewed by a few very fast requests.
 function p95(sorted: number[]): number {
   if (sorted.length === 0) return 0;
   return sorted[Math.floor(sorted.length * 0.95)] ?? sorted[sorted.length - 1];
 }
 
 // ── Request timing + structured access log ─────────────────────────────────────
+// Times every single request from start to finish and writes a log line
+// about it — how long it took, what URL, who made it, and what the result
+// was — flagging slow or failed requests more prominently.
 export function requestLogger(
   req: Request,
   res: Response,
@@ -83,6 +91,9 @@ export function requestLogger(
 }
 
 // ── Metrics snapshot ──────────────────────────────────────────────────────────
+// Summarizes everything tracked since the server started: how many requests
+// succeeded/failed, and how fast responses have been — used by the health
+// check endpoint.
 export function getMetrics() {
   const sorted = [...metrics.responseTimes].sort((a, b) => a - b);
   const total  = sorted.length;
@@ -104,6 +115,8 @@ export function getMetrics() {
 
 // ── Dependency health checks ──────────────────────────────────────────────────
 
+// Checks that the database connection is actually alive and responding, not
+// just "connected" in theory — pings it and times how long that takes.
 async function checkMongo(): Promise<{ ok: boolean; latencyMs?: number; error?: string }> {
   const start = Date.now();
   try {

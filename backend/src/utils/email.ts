@@ -31,6 +31,9 @@ export interface EmailResult {
 }
 
 // ── Transport factory ──────────────────────────────────────────────────────────
+// Sets up the connection to an outgoing mail server (SMTP), using settings
+// from the environment. If those settings aren't configured, returns null so
+// the caller can fall back to just logging the email instead of sending it.
 function buildTransport(): Transporter | null {
   if (!env.SMTP_HOST || !env.SMTP_USER || !env.SMTP_PASS) return null;
 
@@ -43,6 +46,8 @@ function buildTransport(): Transporter | null {
 }
 
 // ── HTML template ──────────────────────────────────────────────────────────────
+// Builds the actual email message a new user receives: a welcome note with
+// their login email, temporary password, and a button to log in.
 function buildHtml(name: string, email: string, password: string, loginUrl: string, role: string): string {
   const roleLabel = role.charAt(0).toUpperCase() + role.slice(1);
   return `<!DOCTYPE html>
@@ -80,6 +85,7 @@ function buildHtml(name: string, email: string, password: string, loginUrl: stri
 }
 
 // ── Public send function ───────────────────────────────────────────────────────
+// Sends the "here's your new account" email to a newly created user.
 // Never throws — returns { sent: false, error } on failure so callers can
 // log a warning without blocking the user creation response.
 export async function sendCredentialEmail(payload: CredentialEmailPayload): Promise<EmailResult> {
@@ -127,6 +133,7 @@ export interface EnrollmentEmailPayload {
 }
 
 // ── Enrollment HTML templates ──────────────────────────────────────────────────
+// Builds the email message telling a student they've been enrolled in a course.
 function buildEnrollmentHtml(name: string, courseName: string, semester?: string): string {
   const semesterRow = semester
     ? `<tr><td style="padding:6px 0;font-weight:600">Semester</td><td style="padding:6px 16px">${semester}</td></tr>`
@@ -151,6 +158,7 @@ function buildEnrollmentHtml(name: string, courseName: string, semester?: string
 </html>`;
 }
 
+// Builds the email message telling a student they've been removed from a course.
 function buildUnenrollmentHtml(name: string, courseName: string): string {
   return `<!DOCTYPE html>
 <html>
@@ -168,6 +176,8 @@ function buildUnenrollmentHtml(name: string, courseName: string): string {
 </html>`;
 }
 
+// Builds the email message telling a student their enrollment status changed
+// (e.g. moved from "Active" to "Completed" or "Dropped").
 function buildStatusChangeHtml(name: string, courseName: string, newStatus: string): string {
   const statusColors: Record<string, string> = {
     ACTIVE:    "#2F9E44",
@@ -199,6 +209,7 @@ function buildStatusChangeHtml(name: string, courseName: string, newStatus: stri
 }
 
 // ── Enrollment send functions ───────────────────────────────────────────────────
+// Sends the "you've been enrolled" notification email to a student.
 export async function sendEnrollmentEmail(payload: EnrollmentEmailPayload): Promise<EmailResult> {
   const transport = buildTransport();
 
@@ -232,6 +243,7 @@ export async function sendEnrollmentEmail(payload: EnrollmentEmailPayload): Prom
   }
 }
 
+// Sends the "you've been removed from this course" notification email.
 export async function sendUnenrollmentEmail(
   to: string,
   name: string,
@@ -259,6 +271,7 @@ export async function sendUnenrollmentEmail(
   }
 }
 
+// Sends the "your enrollment status changed" notification email.
 export async function sendEnrollmentStatusEmail(
   to: string,
   name: string,
@@ -288,6 +301,7 @@ export async function sendEnrollmentStatusEmail(
 }
 
 // ── Password reset variant ─────────────────────────────────────────────────────
+// Reuses the new-account email template to send someone their reset password.
 export async function sendPasswordResetEmail(
   to: string,
   name: string,

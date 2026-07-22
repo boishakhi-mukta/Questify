@@ -33,7 +33,7 @@ export function DemoLoginButtons() {
   return (
     <div className="w-full max-w-[400px]">
       <div className="mt-5 pt-5 border-t border-gray-200">
-        <p className="text-center text-xs font-medium text-gray-400 uppercase tracking-wide mb-3">
+        <p className="text-center text-[13px] font-medium text-gray-400 uppercase tracking-wide mb-3">
           {t("auth.tryDemoAccounts")}
         </p>
         <div className="grid grid-cols-3 gap-2">

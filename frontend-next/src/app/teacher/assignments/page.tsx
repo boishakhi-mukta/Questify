@@ -442,10 +442,10 @@ function DeleteModal({
                 <HiExclamationTriangle size={18} className="text-red-500" />
               </div>
               <div className="space-y-1">
-                <p className="text-[14px] font-semibold text-brand-dark dark:text-white">
+                <p className="text-[15px] font-semibold text-brand-dark dark:text-white">
                   Delete &ldquo;{target?.title}&rdquo;?
                 </p>
-                <p className="text-[13px] text-brand-body dark:text-white/60">
+                <p className="text-[14px] text-brand-body dark:text-white/60">
                   All student submissions for this assignment will also be removed. This cannot be undone.
                 </p>
               </div>
@@ -484,7 +484,7 @@ function SubmissionsModal({
           <ModalHeader className="flex items-center justify-between">
             <div className="space-y-0.5">
               <ModalHeading className="text-[16px] font-bold">Submissions</ModalHeading>
-              <p className="text-[12px] text-brand-body/60 dark:text-white/40">{target?.title}</p>
+              <p className="text-[13px] text-brand-body/60 dark:text-white/40">{target?.title}</p>
             </div>
             <ModalCloseTrigger />
           </ModalHeader>
@@ -493,10 +493,10 @@ function SubmissionsModal({
               <div className="w-12 h-12 rounded-xl bg-brand-blue-light flex items-center justify-center">
                 <HiUsers size={22} className="text-brand-blue" />
               </div>
-              <p className="text-sm font-semibold text-brand-dark dark:text-[#D8F0E8]">
+              <p className="text-[15px] font-semibold text-brand-dark dark:text-[#D8F0E8]">
                 Submissions are tracked in the student portal
               </p>
-              <p className="text-xs text-brand-body/70 dark:text-white/45 max-w-xs leading-relaxed">
+              <p className="text-[13px] text-brand-body/70 dark:text-white/45 max-w-xs leading-relaxed">
                 Student submissions for <span className="font-semibold">{target?.title ?? "this assignment"}</span> are
                 recorded when students complete the assignment in their dashboard. View them via the
                 student progress report in Analytics.
@@ -558,8 +558,8 @@ function AssignmentsTable({
     return (
       <div className="flex flex-col items-center justify-center py-16 gap-3 text-center">
         <HiClipboardDocumentList size={36} className="text-brand-body/20 dark:text-white/10" />
-        <p className="text-[14px] font-semibold text-brand-body dark:text-white/60">No assignments yet</p>
-        <p className="text-[12px] text-brand-body/50 dark:text-white/30">
+        <p className="text-[15px] font-semibold text-brand-body dark:text-white/60">No assignments yet</p>
+        <p className="text-[13px] text-brand-body/50 dark:text-white/30">
           Create the first assignment for this course.
         </p>
       </div>
@@ -590,15 +590,15 @@ function AssignmentsTable({
               >
                 <td className={TD}>
                   <div className="min-w-0">
-                    <p className="font-semibold text-brand-dark dark:text-white truncate max-w-[220px]">{a.title}</p>
+                    <p className="font-semibold text-brand-dark dark:text-white truncate max-w-[220px] text-[17px]">{a.title}</p>
                     {a.description && (
-                      <p className="text-[11px] text-brand-body/55 dark:text-white/35 truncate max-w-[220px]">{a.description}</p>
+                      <p className="text-[12px] text-brand-body/55 dark:text-white/35 truncate max-w-[220px]">{a.description}</p>
                     )}
                   </div>
                 </td>
                 <td className={TD}>
                   <div className="space-y-1">
-                    <p className="text-[12px] text-brand-body dark:text-white/60 whitespace-nowrap">{fmtDeadline(a.dueDate)}</p>
+                    <p className="text-[13px] text-brand-body dark:text-white/60 whitespace-nowrap">{fmtDeadline(a.dueDate)}</p>
                     {(status === "overdue" || status === "today" || status === "soon") && (
                       <Chip color={DUE_COLOR[status]} variant="soft" size="sm">
                         {DUE_LABEL[status]}
@@ -717,7 +717,7 @@ export default function TeacherAssignmentsPage() {
           </div>
           <h1 className="text-2xl font-black text-brand-dark dark:text-white tracking-tight">Assignments</h1>
         </div>
-        <p className="text-[14px] text-brand-body dark:text-white/55 ml-12">
+        <p className="text-[15px] text-brand-body dark:text-white/55 ml-12">
           Create and manage assignments, track submissions and grades.
         </p>
       </div>
@@ -799,7 +799,7 @@ export default function TeacherAssignmentsPage() {
         <Card>
           <CardContent className="flex flex-col items-center justify-center py-20 gap-3 text-center">
             <HiClipboardDocumentList size={40} className="text-brand-body/20 dark:text-white/10" />
-            <p className="text-[15px] font-semibold text-brand-body dark:text-white/60">
+            <p className="text-[16px] font-semibold text-brand-body dark:text-white/60">
               Select a course to manage its assignments
             </p>
           </CardContent>

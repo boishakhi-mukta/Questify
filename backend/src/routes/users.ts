@@ -32,6 +32,9 @@ import type { AuthenticatedRequest } from "@/types";
 import * as Users from "@/controllers/user.controller";
 
 // ── Authorization helper ───────────────────────────────────────────────────────
+// Lets a request through only if the logged-in person is either an admin, or
+// is acting on their own account (e.g. changing their own password) — blocks
+// one student from editing another student's account.
 function requireSelfOrAdmin(
   req: AuthenticatedRequest,
   _res: Response,

@@ -51,6 +51,9 @@ function sessionDates(courseIndex: number): Date[] {
   });
 }
 
+// Creates sample attendance records (present/absent) for every enrolled
+// student across roughly 8 weeks of class sessions, so demo dashboards have
+// realistic attendance history and rates to display.
 export async function seedAttendance(
   enrollments: IEnrollment[],
   teachers:    IUser[],

@@ -44,9 +44,12 @@ export interface PaginatedEnvelope<T> extends Omit<SuccessEnvelope<T[]>, "data">
 }
 
 // ── Timestamp helper ───────────────────────────────────────────────────────────
+// Stamps every response with the exact time it was sent, for logging/debugging.
 const now = (): string => new Date().toISOString();
 
 // ── Success responses ──────────────────────────────────────────────────────────
+// Sends a standard "it worked" reply to the frontend with whatever data was
+// requested attached (e.g. a course list, a user profile).
 export function sendSuccess<T>(
   res: Response,
   data: T,
@@ -57,14 +60,20 @@ export function sendSuccess<T>(
   res.status(statusCode).json(body);
 }
 
+// Sends a "this new thing was created" reply (HTTP 201) — used right after
+// something new is added, like a course, assignment, or user account.
 export function sendCreated<T>(res: Response, data: T, message = "Created"): void {
   sendSuccess(res, data, message, HTTP.CREATED);
 }
 
+// Sends an empty "done, nothing more to say" reply (HTTP 204) — used after
+// actions like deleting something, where there's no data to send back.
 export function sendNoContent(res: Response): void {
   res.status(HTTP.NO_CONTENT).end();
 }
 
+// Sends a list of results along with page-number info (current page, total
+// pages, total count), so the frontend can show pagination controls.
 export function sendPaginated<T>(
   res: Response,
   data: T[],
@@ -82,6 +91,9 @@ export function sendPaginated<T>(
 }
 
 // ── Error response ─────────────────────────────────────────────────────────────
+// Sends a consistent "something went wrong" reply — the right HTTP status
+// code, a human-readable message, and (optionally, for developers only) the
+// technical stack trace of where the error happened.
 export function sendError(
   res: Response,
   err: APIError,
@@ -103,6 +115,8 @@ export function sendError(
 }
 
 // ── Build pagination meta from query params ────────────────────────────────────
+// Works out the page-navigation numbers (how many pages exist in total, etc.)
+// from the current page, how many items per page, and the total item count.
 export function buildPaginationMeta(
   page: number,
   limit: number,

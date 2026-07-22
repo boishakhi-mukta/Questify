@@ -18,6 +18,10 @@ import { connectDB, disconnectDB } from "./config/database";
 import { logger } from "./utils/logger";
 import app from "./app";
 
+// The program's entry point: connects to the database, starts the web
+// server listening for requests, and sets up graceful shutdown so in-flight
+// requests finish (and the database disconnects cleanly) if the process is
+// asked to stop instead of dying abruptly.
 async function main(): Promise<void> {
   await connectDB();
 
@@ -29,6 +33,9 @@ async function main(): Promise<void> {
   server.timeout = 30_000;
   server.keepAliveTimeout = 65_000;  // must exceed ALB/proxy idle timeout (60 s)
 
+  // Handles a stop request (e.g. from the hosting platform during a
+  // deploy/restart): stops accepting new requests, closes the database
+  // connection, then exits cleanly.
   const shutdown = async (signal: string): Promise<void> => {
     logger.info(`${signal} received — shutting down gracefully`);
     server.close(async () => {

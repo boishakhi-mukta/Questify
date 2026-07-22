@@ -143,7 +143,7 @@ function Field({
       </label>
       {children}
       {hint && (
-        <p className="text-xs text-brand-muted dark:text-white/40">{hint}</p>
+        <p className="text-[13px] text-brand-muted dark:text-white/40">{hint}</p>
       )}
     </div>
   );
@@ -165,10 +165,10 @@ function NotifRow({
   return (
     <div className="flex items-center justify-between gap-6 py-4">
       <div className="min-w-0">
-        <p className="text-sm font-medium text-brand-dark dark:text-white">
+        <p className="text-[15px] font-medium text-brand-dark dark:text-white">
           {title}
         </p>
-        <p className="text-xs text-brand-muted dark:text-white/50 mt-0.5">
+        <p className="text-[13px] text-brand-muted dark:text-white/50 mt-0.5">
           {desc}
         </p>
       </div>
@@ -426,7 +426,7 @@ export default function SettingsPage() {
               {user.role === "teacher" && (
                 <>
                   <div className="h-px bg-brand-border dark:bg-white/8" />
-                  <p className="text-xs font-semibold text-brand-muted dark:text-white/50 uppercase tracking-wide">
+                  <p className="text-[13px] font-semibold text-brand-muted dark:text-white/50 uppercase tracking-wide">
                     {t("settingsPage.officeInformation")}
                   </p>
                   <Field label={t("settingsPage.officeLocation")}>
@@ -763,10 +763,10 @@ export default function SettingsPage() {
                   {/* Logout all devices */}
                   <div className="flex items-start justify-between gap-4 p-4">
                     <div className="min-w-0">
-                      <p className="text-sm font-medium text-brand-dark dark:text-white">
+                      <p className="text-[15px] font-medium text-brand-dark dark:text-white">
                         {t("settingsPage.logOutAllDevices")}
                       </p>
-                      <p className="text-xs text-brand-muted dark:text-white/50 mt-0.5">
+                      <p className="text-[13px] text-brand-muted dark:text-white/50 mt-0.5">
                         {t("settingsPage.logOutAllDevicesDesc")}
                       </p>
                     </div>
@@ -784,10 +784,10 @@ export default function SettingsPage() {
                   {/* Delete account */}
                   <div className="flex items-start justify-between gap-4 p-4">
                     <div className="min-w-0">
-                      <p className="text-sm font-semibold text-red-600 dark:text-red-400">
+                      <p className="text-[15px] font-semibold text-red-600 dark:text-red-400">
                         {t("settingsPage.deleteAccount")}
                       </p>
-                      <p className="text-xs text-brand-muted dark:text-white/50 mt-0.5">
+                      <p className="text-[13px] text-brand-muted dark:text-white/50 mt-0.5">
                         {t("settingsPage.deleteAccountDesc")}
                       </p>
                     </div>

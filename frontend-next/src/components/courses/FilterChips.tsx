@@ -73,7 +73,7 @@ export function FilterChips({
   return (
     <div className="flex flex-col gap-3 mb-5">
       <div className="flex items-center justify-between gap-4 flex-wrap">
-        <p className="text-[14px] text-brand-body">
+        <p className="text-[15px] text-brand-body">
           {hasFiltersOrSearch ? (
             query ? (
               <>{t("filterChips.resultsFor", { count: resultCount })} &ldquo;<span className="font-semibold text-brand-dark">{query}</span>&rdquo;</>

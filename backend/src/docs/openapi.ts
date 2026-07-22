@@ -1,6 +1,20 @@
 /**
+ * ============================================================================
+ * QUESTIFY DOCS: API Specification
+ *
+ * WHAT IT DOES (For Non-Technical Readers):
+ * A big reference document that lists every backend endpoint (URL), what
+ * information it expects, and what it sends back — like an instruction
+ * manual for developers building the frontend or a mobile app.
+ *
+ * WHY IT EXISTS:
+ * So developers (and tools like Postman) can browse the API without reading
+ * the controller code directly, and can try out requests in a browser.
+ *
+ * HOW IT WORKS (Technical Overview):
  * OpenAPI 3.0.3 specification for Questify — Gamified LMS API.
  * Served at /api-docs via swagger-ui-express.
+ * ============================================================================
  */
 
 // ─── Shared primitives ─────────────────────────────────────────────────────────

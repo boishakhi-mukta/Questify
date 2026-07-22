@@ -57,7 +57,7 @@ export default function ForgotPasswordPage() {
                 </div>
 
                 <h1 className="text-2xl font-bold text-brand-dark mb-1.5">Forgot password?</h1>
-                <p className="text-[15px] text-brand-body mb-7">
+                <p className="text-[16px] text-brand-body mb-7">
                   Enter your email and we will check if an account exists.
                 </p>
 
@@ -94,13 +94,13 @@ export default function ForgotPasswordPage() {
                 </div>
 
                 <h2 className="text-xl font-bold text-brand-dark mb-2">Contact your administrator</h2>
-                <p className="text-[15px] text-brand-body mb-4">
+                <p className="text-[16px] text-brand-body mb-4">
                   Password resets must be done by an administrator. Please reach out to your admin and ask them to reset the password for:
                 </p>
                 <div className="px-4 py-2.5 bg-brand-bg border border-brand-border rounded-lg text-sm font-semibold text-brand-dark mb-6 break-all">
                   {email}
                 </div>
-                <p className="text-[13px] text-brand-body/60">
+                <p className="text-[14px] text-brand-body/60">
                   Once reset, you will receive a new temporary password by email and be prompted to create a permanent one on your next login.
                 </p>
               </>

@@ -62,6 +62,8 @@ const MATH_MATERIALS: MaterialDef[] = [
   { title: "Problem Set Solutions — Weeks 1–4",           description: "Annotated solutions to the first four weekly problem sets.",                      type: "PDF",      url: "https://cdn.questify.app/materials/math-ps-solutions.pdf",     fileSize: 680_000,   xpReward: 15 },
 ];
 
+// Picks which set of sample course materials to use based on the course's
+// subject area, so each course gets topically relevant sample content.
 function getMaterialPool(category: string): MaterialDef[] {
   if (category === "Data Science" || category === "Statistics") return DST_MATERIALS;
   if (category === "Mathematics") return MATH_MATERIALS;
@@ -69,6 +71,8 @@ function getMaterialPool(category: string): MaterialDef[] {
   return CS_MATERIALS;
 }
 
+// Fills each sample course with a handful of sample materials (PDFs, videos,
+// links, code) so the course pages have realistic-looking content to browse.
 export async function seedMaterials(
   courses:  ICourse[],
   teachers: IUser[]

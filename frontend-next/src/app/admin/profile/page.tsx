@@ -206,7 +206,7 @@ export default function AdminProfilePage() {
           readOnly
           disabled
         />
-        <p className="text-xs text-brand-muted dark:text-white/40">
+        <p className="text-[13px] text-brand-muted dark:text-white/40">
           Contact support to change your email address.
         </p>
       </div>
@@ -249,8 +249,8 @@ export default function AdminProfilePage() {
                 <HiAcademicCap className="w-5 h-5 text-blue-600 dark:text-blue-400" />
               </div>
               <div>
-                <p className="text-xs text-brand-muted dark:text-white/50">Students</p>
-                <p className="text-lg font-bold text-brand-dark dark:text-white">
+                <p className="text-[13px] text-brand-muted dark:text-white/50">Students</p>
+                <p className="text-[19px] font-bold text-brand-dark dark:text-white">
                   {stats?.totalStudents ?? 0}
                 </p>
               </div>
@@ -264,8 +264,8 @@ export default function AdminProfilePage() {
                 <HiShieldCheck className="w-5 h-5 text-green-600 dark:text-green-400" />
               </div>
               <div>
-                <p className="text-xs text-brand-muted dark:text-white/50">System Status</p>
-                <p className="text-lg font-bold text-green-600 dark:text-green-400">
+                <p className="text-[13px] text-brand-muted dark:text-white/50">System Status</p>
+                <p className="text-[19px] font-bold text-green-600 dark:text-green-400">
                   Operational
                 </p>
               </div>
@@ -279,8 +279,8 @@ export default function AdminProfilePage() {
                 <HiServerStack className="w-5 h-5 text-purple-600 dark:text-purple-400" />
               </div>
               <div>
-                <p className="text-xs text-brand-muted dark:text-white/50">Role</p>
-                <p className="text-lg font-bold text-brand-dark dark:text-white">
+                <p className="text-[13px] text-brand-muted dark:text-white/50">Role</p>
+                <p className="text-[19px] font-bold text-brand-dark dark:text-white">
                   Super Admin
                 </p>
               </div>
@@ -307,7 +307,7 @@ export default function AdminProfilePage() {
                     <Icon className={`w-4 h-4 ${action.color}`} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm text-brand-dark dark:text-white truncate">
+                    <p className="text-[15px] text-brand-dark dark:text-white truncate">
                       {action.label}
                     </p>
                   </div>

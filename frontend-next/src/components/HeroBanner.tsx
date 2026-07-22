@@ -102,7 +102,7 @@ export default function HeroBanner() {
       {/* Subtitle */}
       <motion.p
         {...item(0.1)}
-        className="text-[15px] text-brand-body/80 leading-relaxed text-center max-w-[580px]"
+        className="text-[16px] text-brand-body/80 leading-relaxed text-center max-w-[580px]"
       >
         {t("home.subtitle")}
       </motion.p>

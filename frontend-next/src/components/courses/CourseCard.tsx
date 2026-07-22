@@ -82,7 +82,7 @@ export function CourseCard({ course }: { course: Course }) {
           </h3>
 
           {/* Description */}
-          <p className="text-[13px] text-brand-body leading-relaxed line-clamp-2 flex-1">
+          <p className="text-[14px] text-brand-body leading-relaxed line-clamp-2 flex-1">
             {course.shortDescription ?? course.description ?? ""}
           </p>
 

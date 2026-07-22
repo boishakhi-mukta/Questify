@@ -193,7 +193,7 @@ export default function StudentProfilePage() {
           readOnly
           disabled
         />
-        <p className="text-xs text-brand-muted dark:text-white/40">
+        <p className="text-[13px] text-brand-muted dark:text-white/40">
           Contact support to change your email address.
         </p>
       </div>
@@ -265,7 +265,7 @@ export default function StudentProfilePage() {
                         <HiAcademicCap className="w-5 h-5 text-brand-purple dark:text-brand-purple-light" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-brand-dark dark:text-white truncate">
+                        <p className="text-[15px] font-medium text-brand-dark dark:text-white truncate">
                           {course.title}
                         </p>
                         <div className="flex items-center gap-2 mt-1">
@@ -299,7 +299,7 @@ export default function StudentProfilePage() {
                   );
                 })}
                 {enrollments.length > 5 && (
-                  <p className="text-center text-sm text-brand-muted dark:text-white/50 pt-1">
+                  <p className="text-center text-[15px] text-brand-muted dark:text-white/50 pt-1">
                     +{enrollments.length - 5} more courses
                   </p>
                 )}
@@ -317,10 +317,10 @@ export default function StudentProfilePage() {
                   <HiSparkles className="w-5 h-5 text-purple-600 dark:text-purple-400" />
                 </div>
                 <div>
-                  <p className="text-xs text-brand-muted dark:text-white/50">
+                  <p className="text-[13px] text-brand-muted dark:text-white/50">
                     Current Level
                   </p>
-                  <p className="text-lg font-bold text-brand-dark dark:text-white">
+                  <p className="text-[19px] font-bold text-brand-dark dark:text-white">
                     Level {level}
                   </p>
                 </div>
@@ -334,10 +334,10 @@ export default function StudentProfilePage() {
                   <HiTrophy className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
                 </div>
                 <div>
-                  <p className="text-xs text-brand-muted dark:text-white/50">
+                  <p className="text-[13px] text-brand-muted dark:text-white/50">
                     Leaderboard Rank
                   </p>
-                  <p className="text-lg font-bold text-brand-dark dark:text-white">
+                  <p className="text-[19px] font-bold text-brand-dark dark:text-white">
                     {rank ? `#${rank}` : "Unranked"}
                   </p>
                 </div>
@@ -351,10 +351,10 @@ export default function StudentProfilePage() {
                   <HiClock className="w-5 h-5 text-green-600 dark:text-green-400" />
                 </div>
                 <div>
-                  <p className="text-xs text-brand-muted dark:text-white/50">
+                  <p className="text-[13px] text-brand-muted dark:text-white/50">
                     XP to Next Level
                   </p>
-                  <p className="text-lg font-bold text-brand-dark dark:text-white">
+                  <p className="text-[19px] font-bold text-brand-dark dark:text-white">
                     {500 - xpIntoLevel} XP
                   </p>
                 </div>

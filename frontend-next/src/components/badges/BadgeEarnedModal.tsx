@@ -84,12 +84,12 @@ export function BadgeEarnedModal({ badge, state }: BadgeEarnedModalProps) {
 
           {/* Body — description + confetti hint */}
           <ModalBody className="text-center py-6">
-            <p className="text-sm text-brand-muted dark:text-white/60 leading-relaxed">
+            <p className="text-[15px] text-brand-muted dark:text-white/60 leading-relaxed">
               {badge.description}
             </p>
             <p
               className={cn(
-                "mt-3 text-xs font-semibold uppercase tracking-widest",
+                "mt-3 text-[13px] font-semibold uppercase tracking-widest",
                 RARITY_TEXT[badge.rarity]
               )}
             >

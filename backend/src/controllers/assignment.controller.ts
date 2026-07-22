@@ -32,6 +32,8 @@ import type { AuthenticatedRequest } from "@/types";
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
+// Checks the course exists and, if the caller is a teacher, that they're
+// actually assigned to that course before letting them touch its assignments.
 async function assertCourseAccess(
   courseId: Types.ObjectId | string,
   userId: string,
@@ -49,6 +51,8 @@ async function assertCourseAccess(
 }
 
 // ── POST /api/v1/assignments ───────────────────────────────────────────────────
+// Creates a new homework/assignment for a course, with its due date, point
+// value, and how students are expected to submit it.
 export async function createAssignment(
   req: AuthenticatedRequest,
   res: Response
@@ -72,6 +76,8 @@ export async function createAssignment(
 }
 
 // ── GET /api/v1/assignments/course/:courseId ───────────────────────────────────
+// Lists all assignments for a course, soonest-due first. Students must be
+// enrolled and teachers must be assigned to see them; admins see everything.
 export async function getCourseAssignments(
   req: AuthenticatedRequest,
   res: Response
@@ -132,6 +138,9 @@ export async function getCourseAssignments(
 }
 
 // ── GET /api/v1/assignments/:id ────────────────────────────────────────────────
+// Fetches one assignment's details. Teachers/admins additionally see how many
+// students have submitted; students additionally see their own submission
+// (if they've made one) so the frontend can show "already submitted."
 export async function getAssignmentById(
   req: AuthenticatedRequest,
   res: Response
@@ -183,6 +192,9 @@ export async function getAssignmentById(
 }
 
 // ── PATCH /api/v1/assignments/:id ──────────────────────────────────────────────
+// Edits an assignment's details (title, instructions, due date, etc). Which
+// course it belongs to can't be changed here — moving it would break the
+// link to existing student submissions.
 export async function updateAssignment(
   req: AuthenticatedRequest,
   res: Response
@@ -244,6 +256,8 @@ export async function deleteAssignment(
 }
 
 // ── POST /api/v1/assignments/:id/extend-deadline ───────────────────────────────
+// Pushes an assignment's due date later (never earlier), optionally logging
+// why — e.g. a teacher giving the whole class extra time.
 export async function extendDeadline(
   req: AuthenticatedRequest,
   res: Response

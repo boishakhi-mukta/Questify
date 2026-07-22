@@ -19,6 +19,8 @@ import { ValidationError } from "@/utils/errors";
 
 type RequestTarget = "body" | "params" | "query";
 
+// Turns Zod's technical error output into a plain list of readable messages
+// like "email: Invalid email address", one per problem found.
 function formatZodError(err: ZodError): string[] {
   return err.issues.map((issue) => {
     const path = issue.path.length > 0 ? `${issue.path.join(".")}: ` : "";

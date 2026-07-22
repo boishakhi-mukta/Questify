@@ -185,8 +185,8 @@ function FileDropzone({
           <div className="flex items-center gap-2.5 min-w-0">
             <HiDocumentArrowUp size={18} className="text-emerald-500 shrink-0" />
             <div className="min-w-0">
-              <p className="text-[13px] font-semibold text-emerald-700 dark:text-emerald-400 truncate">{file.name}</p>
-              <p className="text-[11px] text-emerald-600/70 dark:text-emerald-500/70">{fmtSize(file.size)}</p>
+              <p className="text-[14px] font-semibold text-emerald-700 dark:text-emerald-400 truncate">{file.name}</p>
+              <p className="text-[12px] text-emerald-600/70 dark:text-emerald-500/70">{fmtSize(file.size)}</p>
             </div>
           </div>
           <button
@@ -204,10 +204,10 @@ function FileDropzone({
           className="w-full flex flex-col items-center gap-2 py-8 px-4 cursor-pointer"
         >
           <HiCloudArrowUp size={28} className="text-brand-body/30 dark:text-white/20" />
-          <p className="text-[13px] font-semibold text-brand-body dark:text-white/60">
+          <p className="text-[14px] font-semibold text-brand-body dark:text-white/60">
             Click to select or drag &amp; drop
           </p>
-          <p className="text-[11px] text-brand-body/50 dark:text-white/30">Max 100 MB</p>
+          <p className="text-[12px] text-brand-body/50 dark:text-white/30">Max 100 MB</p>
         </button>
       )}
     </div>
@@ -572,10 +572,10 @@ function DeleteModal({
                 <HiExclamationTriangle size={18} className="text-red-500" />
               </div>
               <div className="space-y-1">
-                <p className="text-[14px] font-semibold text-brand-dark dark:text-white">
+                <p className="text-[15px] font-semibold text-brand-dark dark:text-white">
                   Delete &ldquo;{target?.title}&rdquo;?
                 </p>
-                <p className="text-[13px] text-brand-body dark:text-white/60">
+                <p className="text-[14px] text-brand-body dark:text-white/60">
                   This will permanently remove the material and any associated XP records. This cannot be undone.
                 </p>
               </div>
@@ -646,8 +646,8 @@ function MaterialsTable({
     return (
       <div className="flex flex-col items-center justify-center py-16 gap-3 text-center">
         <HiDocumentArrowUp size={36} className="text-brand-body/20 dark:text-white/10" />
-        <p className="text-[14px] font-semibold text-brand-body dark:text-white/60">No materials yet</p>
-        <p className="text-[12px] text-brand-body/50 dark:text-white/30">
+        <p className="text-[15px] font-semibold text-brand-body dark:text-white/60">No materials yet</p>
+        <p className="text-[13px] text-brand-body/50 dark:text-white/30">
           Upload the first material for this course.
         </p>
       </div>
@@ -679,9 +679,9 @@ function MaterialsTable({
                   <div className="flex items-center gap-2.5">
                     <Icon size={16} className="text-brand-body/50 dark:text-white/35 shrink-0" />
                     <div className="min-w-0">
-                      <p className="font-semibold text-brand-dark dark:text-white truncate max-w-[200px]">{m.title}</p>
+                      <p className="font-semibold text-brand-dark dark:text-white truncate max-w-[200px] text-[17px]">{m.title}</p>
                       {m.description && (
-                        <p className="text-[11px] text-brand-body/55 dark:text-white/35 truncate max-w-[200px]">{m.description}</p>
+                        <p className="text-[12px] text-brand-body/55 dark:text-white/35 truncate max-w-[200px]">{m.description}</p>
                       )}
                     </div>
                   </div>
@@ -782,7 +782,7 @@ export default function TeacherMaterialsPage() {
           </div>
           <h1 className="text-2xl font-black text-brand-dark dark:text-white tracking-tight">Materials</h1>
         </div>
-        <p className="text-[14px] text-brand-body dark:text-white/55 ml-12">
+        <p className="text-[15px] text-brand-body dark:text-white/55 ml-12">
           Upload and manage course materials for your students.
         </p>
       </div>
@@ -846,7 +846,7 @@ export default function TeacherMaterialsPage() {
         <Card>
           <CardContent className="flex flex-col items-center justify-center py-20 gap-3 text-center">
             <HiDocumentArrowUp size={40} className="text-brand-body/20 dark:text-white/10" />
-            <p className="text-[15px] font-semibold text-brand-body dark:text-white/60">Select a course to view its materials</p>
+            <p className="text-[16px] font-semibold text-brand-body dark:text-white/60">Select a course to view its materials</p>
           </CardContent>
         </Card>
       )}

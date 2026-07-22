@@ -126,7 +126,7 @@ export default function ProfileLayout({
                 </Chip>
               </div>
               {subtitle && (
-                <p className="text-brand-muted dark:text-white/60 mt-0.5 text-sm">
+                <p className="text-brand-muted dark:text-white/60 mt-0.5 text-[15px]">
                   {subtitle}
                 </p>
               )}
@@ -163,10 +163,10 @@ export default function ProfileLayout({
             <CardContent className="pt-5 pb-5">
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
-                  <p className="text-xs font-medium text-brand-muted dark:text-white/50 uppercase tracking-wide">
+                  <p className="text-[13px] font-medium text-brand-muted dark:text-white/50 uppercase tracking-wide">
                     {card.label}
                   </p>
-                  <p className="mt-1 text-2xl font-bold text-brand-dark dark:text-white">
+                  <p className="mt-1 text-[25px] font-bold text-brand-dark dark:text-white">
                     {card.value}
                   </p>
                 </div>

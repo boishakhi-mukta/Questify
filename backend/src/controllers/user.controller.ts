@@ -48,6 +48,7 @@ import type { AuthenticatedRequest } from "@/types";
 import type { IUser } from "@/models/User";
 
 // ── Audit log helper ───────────────────────────────────────────────────────────
+// Records "which admin did what to which user" in the logs, for accountability.
 function logAdminEvent(
   action: string,
   adminId: string,
@@ -58,6 +59,9 @@ function logAdminEvent(
 }
 
 // ── POST /api/v1/users (admin) ─────────────────────────────────────────────────
+// Admin creates a new student or teacher account with a random temporary
+// password. If Clerk (the external login provider) is configured, a matching
+// account is created there too, and the credentials are emailed to the new user.
 export async function createUser(
   req: AuthenticatedRequest,
   res: Response
@@ -134,6 +138,8 @@ export async function createUser(
 }
 
 // ── GET /api/v1/users (admin) ──────────────────────────────────────────────────
+// Powers the admin's user directory: searches by name/email, filters by role
+// or active status, and returns results sorted and paginated.
 export async function listUsers(
   req: AuthenticatedRequest,
   res: Response
@@ -203,6 +209,9 @@ export async function listUsers(
 }
 
 // ── GET /api/v1/users/:id (admin — full detail) ───────────────────────────────
+// Builds the full admin-facing profile page for one user: their basic info
+// plus a snapshot of their activity — XP earned, courses enrolled/completed
+// (if a student), courses taught (if a teacher), and attendance rate.
 export async function getUserDetails(
   req: AuthenticatedRequest,
   res: Response
@@ -261,6 +270,8 @@ export async function getUserDetails(
 }
 
 // ── Simple GET /api/v1/users/:id (public — basic info) ────────────────────────
+// A lightweight lookup that returns just a user's basic profile info, without
+// the extra activity stats that getUserDetails computes.
 export async function getUser(req: AuthenticatedRequest, res: Response): Promise<void> {
   const user = await User.findById(req.params.id);
   if (!user) throw new NotFoundError("User");
@@ -268,6 +279,9 @@ export async function getUser(req: AuthenticatedRequest, res: Response): Promise
 }
 
 // ── PATCH /api/v1/users/:id (admin only) ──────────────────────────────────────
+// Lets an admin edit another user's profile, role, or active status. If the
+// person's name or role changed and they're synced with Clerk, that update
+// is mirrored over there too (a failure there is only logged, not fatal).
 export async function updateUser(
   req: AuthenticatedRequest,
   res: Response
@@ -342,6 +356,9 @@ export async function updateUser(
 }
 
 // ── DELETE /api/v1/users/:id (admin — soft delete + cascade) ──────────────────
+// Deactivates a user account rather than erasing it — an admin can't
+// deactivate themselves. Any courses the person was actively enrolled in are
+// marked dropped, and their external Clerk account (if any) is removed too.
 export async function deleteUser(
   req: AuthenticatedRequest,
   res: Response
@@ -386,6 +403,8 @@ export async function deleteUser(
 }
 
 // ── POST /api/v1/users/:id/reset-password (admin) ─────────────────────────────
+// Lets an admin force-reset someone's password to a new random temporary one
+// (e.g. because the user forgot theirs) and emails it to them.
 export async function resetPassword(
   req: AuthenticatedRequest,
   res: Response
@@ -435,6 +454,10 @@ export async function resetPassword(
 }
 
 // ── POST /api/v1/users/bulk (admin) ───────────────────────────────────────────
+// Creates many user accounts at once (e.g. importing a whole class list).
+// Each one is processed independently, so if one entry fails (like a
+// duplicate email), the rest still get created — the response lists which
+// ones succeeded and which failed, and why.
 export async function bulkCreateUsers(
   req: AuthenticatedRequest,
   res: Response
@@ -514,6 +537,7 @@ export async function bulkCreateUsers(
 }
 
 // ── POST /api/v1/users/:id/change-password (self or admin) ────────────────────
+// Changes a user's password after confirming the current one is correct first.
 export async function changePassword(
   req: AuthenticatedRequest,
   res: Response
@@ -541,6 +565,7 @@ export async function changePassword(
 }
 
 // ── PATCH /api/v1/users/:id/avatar (self or admin) ────────────────────────────
+// Updates a user's profile picture URL.
 export async function updateAvatar(
   req: AuthenticatedRequest,
   res: Response
@@ -557,6 +582,8 @@ export async function updateAvatar(
 }
 
 // ── GET /api/v1/users/:id/profile (authenticated) ─────────────────────────────
+// Returns a user's profile along with their learning stats — total XP,
+// how many courses they're enrolled in vs. completed, and attendance rate.
 export async function getProfile(
   req: AuthenticatedRequest,
   res: Response

@@ -190,6 +190,9 @@ const MATH_ASSIGNMENTS: AssignmentDef[] = [
   },
 ];
 
+// Picks which set of sample assignments to use based on the course's subject
+// area, so a Math course gets math-flavored homework, a CS course gets
+// coding assignments, and so on.
 function getAssignmentPool(category: string): AssignmentDef[] {
   if (category === "Data Science" || category === "Statistics") return DST_ASSIGNMENTS;
   if (category === "Mathematics") return MATH_ASSIGNMENTS;
@@ -197,10 +200,13 @@ function getAssignmentPool(category: string): AssignmentDef[] {
   return CS_ASSIGNMENTS;
 }
 
+// Calculates a due date `n` days in the future, for setting sample deadlines.
 function daysFromNow(n: number): Date {
   return new Date(Date.now() + n * 86_400_000);
 }
 
+// Fills each sample course with 2-3 realistic sample assignments (skipping
+// ones that already exist, so this is safe to run more than once).
 export async function seedAssignments(courses: ICourse[]): Promise<IAssignment[]> {
   const all: IAssignment[] = [];
   let created = 0;

@@ -65,7 +65,7 @@ export default function FeaturesSection() {
       <div className="w-10/12 mx-auto py-20">
 
         <ScrollReveal direction="up" className="flex flex-col items-center text-center mb-12">
-          <p className="text-sm font-semibold text-brand-blue uppercase tracking-widest mb-3">
+          <p className="text-[15px] font-semibold text-brand-blue uppercase tracking-widest mb-3">
             {t("features.eyebrow")}
           </p>
           <h2
@@ -74,7 +74,7 @@ export default function FeaturesSection() {
           >
             {t("features.heading")}
           </h2>
-          <p className="text-[15px] text-brand-body leading-relaxed max-w-150">
+          <p className="text-[16px] text-brand-body leading-relaxed max-w-150">
             {t("features.body")}
           </p>
         </ScrollReveal>
@@ -101,7 +101,7 @@ export default function FeaturesSection() {
                 </h3>
 
                 {/* Description */}
-                <p className="text-sm text-brand-body leading-relaxed flex-1">
+                <p className="text-[15px] text-brand-body leading-relaxed flex-1">
                   {t(descKey)}
                 </p>
 

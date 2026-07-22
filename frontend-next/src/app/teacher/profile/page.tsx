@@ -246,12 +246,12 @@ export default function TeacherProfilePage() {
           readOnly
           disabled
         />
-        <p className="text-xs text-brand-muted dark:text-white/40">
+        <p className="text-[13px] text-brand-muted dark:text-white/40">
           Contact support to change your email address.
         </p>
       </div>
       <div className="h-px bg-brand-border dark:bg-white/8" />
-      <p className="text-xs font-semibold text-brand-muted dark:text-white/50 uppercase tracking-wide">
+      <p className="text-[13px] font-semibold text-brand-muted dark:text-white/50 uppercase tracking-wide">
         Office Information
       </p>
       <div className="space-y-1.5">
@@ -365,7 +365,7 @@ export default function TeacherProfilePage() {
                       <HiBuildingOffice2 className="w-5 h-5 text-green-600 dark:text-green-400" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-brand-dark dark:text-white truncate">
+                      <p className="text-[15px] font-medium text-brand-dark dark:text-white truncate">
                         {course.title}
                       </p>
                       <div className="flex items-center gap-2 mt-1">
@@ -401,7 +401,7 @@ export default function TeacherProfilePage() {
                 );
               })}
               {teacherCourses.length > 5 && (
-                <p className="text-center text-sm text-brand-muted dark:text-white/50 pt-1">
+                <p className="text-center text-[15px] text-brand-muted dark:text-white/50 pt-1">
                   +{teacherCourses.length - 5} more courses
                 </p>
               )}

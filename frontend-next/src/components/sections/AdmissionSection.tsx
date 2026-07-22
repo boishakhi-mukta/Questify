@@ -34,7 +34,7 @@ export default function AdmissionSection() {
           >
             {t("admission.heading")}
           </h2>
-          <p className="text-[16px] text-brand-body leading-relaxed mb-10">
+          <p className="text-[17px] text-brand-body leading-relaxed mb-10">
             {t("admission.body")}
           </p>
           <Button

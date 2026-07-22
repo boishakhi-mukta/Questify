@@ -152,7 +152,7 @@ function FormField({
         {label}
       </label>
       {children}
-      {error && <p className="text-xs text-red-500">{error}</p>}
+      {error && <p className="text-[13px] text-red-500">{error}</p>}
     </div>
   );
 }
@@ -336,7 +336,7 @@ function UserFormModal({
                     disabled={submitting || mode === "edit"}
                   />
                   {mode === "edit" && (
-                    <p className="text-xs text-brand-body">Email cannot be changed after creation.</p>
+                    <p className="text-[13px] text-brand-body">Email cannot be changed after creation.</p>
                   )}
                 </FormField>
 
@@ -456,13 +456,13 @@ function DeleteConfirmModal({
             </ModalHeader>
             <Divider />
             <ModalBody className="py-5 flex flex-col gap-3">
-              <p className="text-sm text-brand-dark">
+              <p className="text-[15px] text-brand-dark">
                 Are you sure you want to delete{" "}
                 <span className="font-semibold">{user?.fullName}</span>? This
                 action cannot be undone and will remove all their data.
               </p>
               {error && (
-                <p className="text-sm text-red-600">{error}</p>
+                <p className="text-[15px] text-red-600">{error}</p>
               )}
             </ModalBody>
             <Divider />
@@ -554,7 +554,7 @@ function TempPasswordModal({
                     {copied ? "Copied!" : "Copy"}
                   </Button>
                 </div>
-                <p className="text-xs text-brand-body mt-2">
+                <p className="text-[13px] text-brand-body mt-2">
                   Share this password securely. The user will be prompted to change it on first login.
                 </p>
               </div>
@@ -769,7 +769,7 @@ export default function AdminUsersPage() {
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div>
           <h1 className="text-2xl font-bold text-brand-dark">User Management</h1>
-          <p className="text-sm text-brand-body mt-1">
+          <p className="text-[15px] text-brand-body mt-1">
             Manage student, faculty, and admin accounts.
           </p>
         </div>
@@ -804,8 +804,8 @@ export default function AdminUsersPage() {
           ].map(({ label, value, color }) => (
             <Card key={label} className="bg-white">
               <CardContent className="pt-3 pb-3">
-                <p className="text-xs text-brand-body uppercase tracking-wide font-medium">{label}</p>
-                <p className={cn("text-2xl font-black mt-0.5", color)}>{value}</p>
+                <p className="text-[13px] text-brand-body uppercase tracking-wide font-medium">{label}</p>
+                <p className={cn("text-[25px] font-black mt-0.5", color)}>{value}</p>
               </CardContent>
             </Card>
           ))}
@@ -867,13 +867,13 @@ export default function AdminUsersPage() {
       <div className="rounded-xl border border-brand-border overflow-hidden bg-white">
         {/* Table header bar */}
         <div className="bg-brand-bg border-b border-brand-border px-4 py-2.5 flex items-center justify-between">
-          <p className="text-xs font-bold uppercase tracking-wider text-brand-body">
+          <p className="text-[13px] font-bold uppercase tracking-wider text-brand-body">
             {search || roleFilter !== "all"
               ? `Filtered results`
               : "All Users"}
           </p>
           {pagination && (
-            <p className="text-xs text-brand-body">
+            <p className="text-[13px] text-brand-body">
               Page <span className="font-semibold text-brand-dark">{page}</span> of{" "}
               <span className="font-semibold text-brand-dark">{pages}</span>
               {" · "}
@@ -889,8 +889,8 @@ export default function AdminUsersPage() {
         ) : users.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16 gap-3 text-center">
             <HiUserCircle size={40} className="text-brand-body/30" />
-            <p className="text-base font-semibold text-brand-dark">No users found</p>
-            <p className="text-sm text-brand-body">
+            <p className="text-[17px] font-semibold text-brand-dark">No users found</p>
+            <p className="text-[15px] text-brand-body">
               {search || roleFilter !== "all"
                 ? "Try adjusting your filters."
                 : "Create the first user to get started."}
@@ -928,11 +928,11 @@ export default function AdminUsersPage() {
                             </AvatarFallback>
                           </Avatar>
                           <div className="min-w-0">
-                            <p className="font-semibold text-brand-dark truncate">
+                            <p className="font-semibold text-brand-dark truncate text-[17px]">
                               {user.fullName}
                             </p>
                             {user.requiresPasswordChange && (
-                              <p className="text-[10px] text-amber-600 flex items-center gap-0.5">
+                              <p className="text-[11px] text-amber-600 flex items-center gap-0.5">
                                 <HiKey size={10} />
                                 Needs pw change
                               </p>

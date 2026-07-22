@@ -201,12 +201,12 @@ export function ChatAssistant() {
             <HiSparkles size={16} className="text-white" />
           </div>
           <div>
-            <p className="text-[14px] font-bold text-white leading-tight">
+            <p className="text-[15px] font-bold text-white leading-tight">
               Questify Assistant
             </p>
             <div className="flex items-center gap-1.5 mt-0.5">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" aria-hidden />
-              <p className="text-[11px] text-white/70 leading-none">Powered by Gemini</p>
+              <p className="text-[12px] text-white/70 leading-none">Powered by Gemini</p>
             </div>
           </div>
         </div>
@@ -246,8 +246,8 @@ export function ChatAssistant() {
                 <HiSparkles size={28} className="text-brand-blue" />
               </div>
               <div>
-                <p className="text-[15px] font-bold text-brand-dark dark:text-white">Hi there! 👋</p>
-                <p className="text-[13px] text-brand-body dark:text-white/55 mt-0.5">
+                <p className="text-[16px] font-bold text-brand-dark dark:text-white">Hi there! 👋</p>
+                <p className="text-[14px] text-brand-body dark:text-white/55 mt-0.5">
                   Ask me anything about Questify
                 </p>
               </div>

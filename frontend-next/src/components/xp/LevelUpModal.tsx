@@ -66,10 +66,10 @@ export function LevelUpModal({ state, newLevel, xpToNextLevel, xpEarned }: Level
             </div>
 
             <div className="space-y-1">
-              <p className="text-2xl font-black text-brand-dark dark:text-white tracking-tight">
+              <p className="text-[25px] font-black text-brand-dark dark:text-white tracking-tight">
                 Level Up!
               </p>
-              <p className="text-[15px] font-semibold text-brand-body dark:text-white/70">
+              <p className="text-[16px] font-semibold text-brand-body dark:text-white/70">
                 You've reached Level {newLevel}
               </p>
             </div>

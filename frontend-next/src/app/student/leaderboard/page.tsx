@@ -165,16 +165,16 @@ function YourRankCard({
             <HiTrophy size={24} className="text-brand-blue" />
           </div>
           <div>
-            <p className="text-lg font-bold text-brand-dark">{t("leaderboardPage.yourRank")}</p>
-            <p className="text-sm text-brand-body">
+            <p className="text-[19px] font-bold text-brand-dark">{t("leaderboardPage.yourRank")}</p>
+            <p className="text-[15px] text-brand-body">
               {t(PERIOD_KEY[period])} · {total} {t("leaderboardPage.participants")}
             </p>
           </div>
           <div className="ml-auto text-right">
-            <p className="text-3xl font-black text-brand-dark leading-none">
+            <p className="text-[31px] font-black text-brand-dark leading-none">
               {rankDisplay(entry.rank)}
             </p>
-            <p className="text-xs text-brand-body mt-0.5">{t("leaderboardPage.position")}</p>
+            <p className="text-[13px] text-brand-body mt-0.5">{t("leaderboardPage.position")}</p>
           </div>
         </div>
       </CardHeader>
@@ -184,16 +184,16 @@ function YourRankCard({
       <CardContent className="flex flex-col gap-4 pt-4">
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
           <div>
-            <p className="text-xs text-brand-body uppercase tracking-wide font-medium mb-1">
+            <p className="text-[13px] text-brand-body uppercase tracking-wide font-medium mb-1">
               {t("leaderboardPage.totalXp")}
             </p>
-            <p className="flex items-center gap-1.5 text-2xl font-black text-brand-dark">
+            <p className="flex items-center gap-1.5 text-[25px] font-black text-brand-dark">
               <HiStar size={18} className="text-amber-500" />
               {entry.totalXP.toLocaleString()}
             </p>
           </div>
           <div>
-            <p className="text-xs text-brand-body uppercase tracking-wide font-medium mb-1">
+            <p className="text-[13px] text-brand-body uppercase tracking-wide font-medium mb-1">
               {t("leaderboardPage.percentile")}
             </p>
             <Chip
@@ -207,10 +207,10 @@ function YourRankCard({
           </div>
           {entry.courseCount !== undefined && (
             <div>
-              <p className="text-xs text-brand-body uppercase tracking-wide font-medium mb-1">
+              <p className="text-[13px] text-brand-body uppercase tracking-wide font-medium mb-1">
                 {t("leaderboardPage.courses")}
               </p>
-              <p className="text-lg font-bold text-brand-dark">{entry.courseCount}</p>
+              <p className="text-[19px] font-bold text-brand-dark">{entry.courseCount}</p>
             </div>
           )}
         </div>
@@ -233,7 +233,7 @@ function YourRankCard({
               <ProgressBarFill className="h-full rounded-full bg-gradient-to-r from-brand-blue to-blue-400 transition-[width]" />
             </ProgressBarTrack>
           </ProgressBar>
-          <p className="text-xs text-brand-body mt-1.5">
+          <p className="text-[13px] text-brand-body mt-1.5">
             {t("leaderboardPage.youAreInTop")}{" "}
             <span className="font-semibold text-brand-dark">{100 - pct + 1}%</span>{" "}
             {t("leaderboardPage.ofAllStudents")}
@@ -296,7 +296,7 @@ function LeaderboardRow({
           <div className="min-w-0">
             <p
               className={cn(
-                "text-sm font-semibold truncate",
+                "text-[15px] font-semibold truncate",
                 isCurrent ? "text-brand-blue" : "text-brand-dark"
               )}
             >
@@ -308,7 +308,7 @@ function LeaderboardRow({
               )}
             </p>
             {entry.email && (
-              <p className="text-xs text-brand-body truncate">{entry.email}</p>
+              <p className="text-[13px] text-brand-body truncate">{entry.email}</p>
             )}
           </div>
         </div>
@@ -317,7 +317,7 @@ function LeaderboardRow({
       {/* XP + bar */}
       <td className="px-4 py-3">
         <div className="flex flex-col gap-1">
-          <p className="flex items-center gap-1 text-sm font-bold text-brand-dark">
+          <p className="flex items-center gap-1 text-[15px] font-bold text-brand-dark">
             <HiStar size={13} className="text-amber-500 shrink-0" />
             {entry.totalXP.toLocaleString()}
           </p>
@@ -549,7 +549,7 @@ export default function LeaderboardPage() {
       {/* ── Page header ── */}
       <div>
         <h1 className="text-2xl font-bold text-brand-dark">{t("leaderboardPage.title")}</h1>
-        <p className="text-sm text-brand-body mt-1">
+        <p className="text-[15px] text-brand-body mt-1">
           {t("leaderboardPage.subtitle")}
         </p>
       </div>
@@ -633,8 +633,8 @@ export default function LeaderboardPage() {
       {entries.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 gap-3 text-center">
           <HiTrophy size={40} className="text-brand-body/30" />
-          <p className="text-base font-semibold text-brand-dark">{t("leaderboardPage.noDataYet")}</p>
-          <p className="text-sm text-brand-body">
+          <p className="text-[17px] font-semibold text-brand-dark">{t("leaderboardPage.noDataYet")}</p>
+          <p className="text-[15px] text-brand-body">
             {t("leaderboardPage.noDataDesc")}
           </p>
         </div>
@@ -643,7 +643,7 @@ export default function LeaderboardPage() {
           <div className="rounded-xl border border-brand-border overflow-hidden bg-white">
             {/* Table header */}
             <div className="bg-brand-bg border-b border-brand-border px-4 py-2.5">
-              <p className="text-xs font-bold uppercase tracking-wider text-brand-body">
+              <p className="text-[13px] font-bold uppercase tracking-wider text-brand-body">
                 {t("leaderboardPage.rankings")} — {t(PERIOD_KEY[period])}
                 {selectedCourse !== "all" && (
                   <span className="ml-2 font-normal normal-case text-brand-blue">
@@ -737,10 +737,10 @@ export default function LeaderboardPage() {
                       <AvatarFallback>{initials(entry.name)}</AvatarFallback>
                     </Avatar>
                     <div>
-                      <p className="text-sm font-bold text-brand-dark truncate max-w-[100px]">
+                      <p className="text-[15px] font-bold text-brand-dark truncate max-w-[100px]">
                         {entry.name.split(" ")[0]}
                       </p>
-                      <p className="flex items-center justify-center gap-0.5 text-xs font-semibold text-brand-body mt-0.5">
+                      <p className="flex items-center justify-center gap-0.5 text-[13px] font-semibold text-brand-body mt-0.5">
                         <HiStar size={11} className="text-amber-500" />
                         {entry.totalXP.toLocaleString()} XP
                       </p>

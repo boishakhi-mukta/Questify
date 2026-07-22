@@ -26,20 +26,28 @@ const ACTIVITY_TYPES: XPActivityType[] = [
   "QUIZ",
 ];
 
+// Calculates a date `n` days in the past, for backdating sample XP events.
 function daysAgo(n: number): Date {
   return new Date(Date.now() - n * 86_400_000);
 }
 
 // LCG for reproducible XP distributions
+// A repeatable "random" number generator (0-1) — using a fixed starting seed
+// means re-running the seed script produces the same sample XP data every time.
 let _s = 13;
 function r(): number {
   _s = (_s * 1664525 + 1013904223) & 0xffffffff;
   return (_s >>> 0) / 0xffffffff;
 }
+// Picks one random item from a list — used to randomly choose an XP activity
+// type for each sample event.
 function pick<T>(arr: T[]): T {
   return arr[Math.floor(r() * arr.length)];
 }
 
+// Generates a realistic-looking history of XP (engagement points) events for
+// every active/completed enrollment, so demo leaderboards and progress charts
+// have believable data to show. Dropped enrollments get no XP events.
 export async function seedXP(enrollments: IEnrollment[]): Promise<number> {
   const docs: object[] = [];
   let skipped = 0;

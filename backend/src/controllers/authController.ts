@@ -20,6 +20,9 @@ import { AuthenticationError } from "@/utils/errors";
 import type { AuthenticatedRequest, LoginBody, RegisterBody } from "@/types";
 
 // ── POST /api/v1/auth/register ────────────────────────────────────────────────
+// Creates a brand-new account from a signup form and immediately logs the
+// person in by handing back login tokens. Not currently used by any route —
+// the platform's actual signup is handled by the admin/Clerk-based flow.
 export async function register(req: Request, res: Response): Promise<void> {
   const { email, firstName, lastName, password, role, avatar } =
     req.body as RegisterBody;
@@ -47,6 +50,8 @@ export async function register(req: Request, res: Response): Promise<void> {
 }
 
 // ── POST /api/v1/auth/login ───────────────────────────────────────────────────
+// An earlier, simpler version of the login flow found in auth.controller.ts —
+// checks the email/password together and returns fresh login tokens.
 export async function login(req: Request, res: Response): Promise<void> {
   const { email, password } = req.body as LoginBody;
 
@@ -78,6 +83,7 @@ export async function login(req: Request, res: Response): Promise<void> {
 }
 
 // ── GET /api/v1/auth/me ───────────────────────────────────────────────────────
+// Returns the profile of whoever is currently logged in.
 export async function getMe(
   req: AuthenticatedRequest,
   res: Response
@@ -93,6 +99,8 @@ export async function getMe(
 }
 
 // ── POST /api/v1/auth/logout ──────────────────────────────────────────────────
+// Confirms a logout — there's nothing to invalidate server-side, so this just
+// tells the frontend it's safe to discard its stored login tokens.
 export async function logout(_req: Request, res: Response): Promise<void> {
   // Stateless JWT — client discards tokens; server-side blocklist not in scope
   res.status(200).json({ success: true, message: "Logged out successfully" });

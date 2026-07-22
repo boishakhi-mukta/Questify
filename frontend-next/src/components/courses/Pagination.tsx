@@ -119,7 +119,7 @@ export function Pagination({
     <div className="mt-8 space-y-4" aria-label="Pagination controls">
 
       {/* ── "Showing X–Y of N" ── */}
-      <p className="text-[13px] text-brand-body text-center">
+      <p className="text-[14px] text-brand-body text-center">
         {t("pagination.showing")}{" "}
         <span className="font-bold text-brand-dark">{rangeStart}–{rangeEnd}</span>{" "}
         {t("pagination.of")}{" "}

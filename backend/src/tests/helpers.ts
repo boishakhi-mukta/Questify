@@ -1,3 +1,20 @@
+/**
+ * ============================================================================
+ * QUESTIFY TESTS: Shared Test Helpers
+ *
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Provides ready-made fake users, courses, and enrollments so automated
+ * tests don't have to build them from scratch every time.
+ *
+ * WHY IT EXISTS:
+ * Keeps the test files short and consistent — one shared way to create a
+ * test student, log them in, etc., instead of everyone rolling their own.
+ *
+ * HOW IT WORKS (Technical Overview):
+ * Thin wrappers around the Mongoose models and the login HTTP endpoint.
+ * ============================================================================
+ */
+
 import mongoose from "mongoose";
 import request from "supertest";
 import app from "@/app";
@@ -40,14 +57,17 @@ export async function createUser(opts: CreateUserOpts = {}): Promise<IUser> {
   return user.save();
 }
 
+// Creates a test admin account.
 export async function createAdmin(opts: CreateUserOpts = {}): Promise<IUser> {
   return createUser({ ...opts, role: "admin" });
 }
 
+// Creates a test teacher account.
 export async function createTeacher(opts: CreateUserOpts = {}): Promise<IUser> {
   return createUser({ ...opts, role: "teacher" });
 }
 
+// Creates a test student account.
 export async function createStudent(opts: CreateUserOpts = {}): Promise<IUser> {
   return createUser({ ...opts, role: "student" });
 }
@@ -64,6 +84,8 @@ export interface CreateCourseOpts {
   maxCapacity?: number;
 }
 
+// Creates a test course directly in the test database, with sensible defaults
+// for any field the test doesn't care about.
 export async function createCourse(opts: CreateCourseOpts = {}): Promise<ICourse> {
   const course = new Course({
     title:       opts.title       ?? `Test Course ${Date.now()}`,
@@ -83,6 +105,7 @@ export async function createCourse(opts: CreateCourseOpts = {}): Promise<ICourse
 
 // ── Enrollment factory ─────────────────────────────────────────────────────────
 
+// Enrolls a test student in a test course directly in the test database.
 export async function createEnrollment(
   studentId: mongoose.Types.ObjectId,
   courseId:  mongoose.Types.ObjectId
@@ -142,7 +165,8 @@ export async function createAndLogin(opts: CreateUserOpts = {}): Promise<{
 
 // ── Request helper ─────────────────────────────────────────────────────────────
 
-/** Returns a supertest Authorization header object for authenticated requests. */
+/** Builds the "Authorization: Bearer ..." header a test needs to make an
+ *  authenticated request, from a login token. */
 export function authHeader(token: string): { Authorization: string } {
   return { Authorization: `Bearer ${token}` };
 }

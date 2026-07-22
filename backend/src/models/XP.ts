@@ -126,6 +126,9 @@ const XPSchema = new Schema<IXP, IXPModel>(
 );
 
 // ── Pre-validate: auto-set points from type ────────────────────────────────────
+// Runs automatically before a new XP entry is checked/saved. It looks up how
+// many points that type of activity is worth (e.g. attendance = 10 points)
+// and fills that in automatically, so callers never have to specify it by hand.
 XPSchema.pre("validate", function (next) {
   if (this.isNew && this.type) {
     this.points = XP_POINT_VALUES[this.type];
@@ -134,6 +137,9 @@ XPSchema.pre("validate", function (next) {
 });
 
 // ── Post-save: increment Enrollment.totalXpEarned ─────────────────────────────
+// Runs automatically right after a new XP entry is saved, adding those points
+// onto the student's running total for that course so it doesn't have to be
+// recalculated from scratch every time.
 XPSchema.post("save", async function (doc: IXP) {
   if (!this.isNew) return;
 
@@ -144,6 +150,8 @@ XPSchema.post("save", async function (doc: IXP) {
 });
 
 // ── Static: leaderboard for a course ──────────────────────────────────────────
+// Builds the ranked leaderboard for a course: totals up every student's XP,
+// sorts highest first, attaches each student's name/avatar, and numbers the ranks.
 XPSchema.statics.calculateLeaderboard = async function (
   courseId: Types.ObjectId | string
 ): Promise<LeaderboardEntry[]> {
@@ -179,6 +187,8 @@ XPSchema.statics.calculateLeaderboard = async function (
 };
 
 // ── Static: total points for a student in a course ────────────────────────────
+// Adds up every XP entry a single student has earned in one course, to get
+// their current point total.
 XPSchema.statics.getUserPoints = async function (
   studentId: Types.ObjectId | string,
   courseId: Types.ObjectId | string

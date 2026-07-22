@@ -250,7 +250,7 @@ export default function HelpPage() {
             <h1 className="text-3xl sm:text-4xl font-extrabold text-brand-dark dark:text-white mb-4 leading-tight">
               {t("helpPage.title")}
             </h1>
-            <p className="text-brand-body dark:text-white/60 text-lg leading-relaxed mb-8">
+            <p className="text-brand-body dark:text-white/60 text-[19px] leading-relaxed mb-8">
               {t("helpPage.subtitle")}
             </p>
 
@@ -295,7 +295,7 @@ export default function HelpPage() {
               })}
 
               <div className="pt-4 border-t border-brand-border dark:border-white/10 mt-4">
-                <p className="text-xs text-brand-body/50 dark:text-white/30 px-3 mb-2">
+                <p className="text-[13px] text-brand-body/50 dark:text-white/30 px-3 mb-2">
                   {t("helpPage.stillStuck")}
                 </p>
                 <Link
@@ -311,7 +311,7 @@ export default function HelpPage() {
             {/* FAQ list */}
             <div className="space-y-10">
               {filterText && (
-                <p className="text-sm text-brand-body dark:text-white/50">
+                <p className="text-[15px] text-brand-body dark:text-white/50">
                   {totalVisible === 0
                     ? t("helpPage.noResultsFor", { search })
                     : t("helpPage.resultsFor", { count: totalVisible, search })}
@@ -320,7 +320,7 @@ export default function HelpPage() {
 
               {totalVisible === 0 && filterText ? (
                 <div className="text-center py-16">
-                  <p className="text-brand-body dark:text-white/50 mb-4">
+                  <p className="text-brand-body dark:text-white/50 mb-4 text-[17px]">
                     {t("helpPage.noAnswerDesc")}
                   </p>
                   <Link
@@ -361,7 +361,7 @@ export default function HelpPage() {
               <h2 className="text-3xl sm:text-4xl font-extrabold text-brand-dark mb-5 leading-tight">
                 {t("helpPage.ctaTitle")}
               </h2>
-              <p className="text-brand-body text-base leading-relaxed mb-8 max-w-md">
+              <p className="text-brand-body text-[17px] leading-relaxed mb-8 max-w-md">
                 {t("helpPage.ctaDesc")}
               </p>
               <Link

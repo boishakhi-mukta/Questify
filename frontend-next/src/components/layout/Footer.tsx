@@ -260,7 +260,7 @@ export default function Footer() {
               </a>
             ))}
           </div>
-          <p className="text-[13px] text-[#6a7c74]">
+          <p className="text-[14px] text-[#6a7c74]">
             © 2026 Questify. {t("footer.allRightsReserved")}
           </p>
         </div>

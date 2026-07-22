@@ -33,6 +33,7 @@ import { PAGINATION } from "@/config/constants";
 import type { AuthenticatedRequest } from "@/types";
 
 // ── POST /api/v1/courses ───────────────────────────────────────────────────────
+// Creates a brand-new course from the details a teacher or admin submits.
 export async function createCourse(
   req: AuthenticatedRequest,
   res: Response
@@ -42,6 +43,9 @@ export async function createCourse(
 }
 
 // ── GET /api/v1/courses ────────────────────────────────────────────────────────
+// Powers the public course catalog listing: applies whatever filters the
+// visitor picked (category, level, campus, keyword, featured-only), sorts the
+// results, and returns one page at a time.
 export async function getCourses(req: Request, res: Response): Promise<void> {
   const {
     category,
@@ -107,6 +111,8 @@ export async function getCourses(req: Request, res: Response): Promise<void> {
 
 // ── GET /api/v1/courses/search?q=... ──────────────────────────────────────────
 // NOTE: this handler must be mounted BEFORE /:id in the router
+// Powers the course search box: finds published courses matching the search
+// term and ranks the best matches first.
 export async function searchCourses(req: Request, res: Response): Promise<void> {
   const { q, page = "1", limit = String(PAGINATION.DEFAULT_LIMIT) } =
     req.query as Record<string, string>;
@@ -141,6 +147,7 @@ export async function searchCourses(req: Request, res: Response): Promise<void> 
 }
 
 // ── GET /api/v1/courses/:id ────────────────────────────────────────────────────
+// Fetches the full details of a single course, including its assigned teachers.
 export async function getCourseById(req: Request, res: Response): Promise<void> {
   const course = await Course.findById(req.params.id).populate(
     "teachers",
@@ -153,6 +160,9 @@ export async function getCourseById(req: Request, res: Response): Promise<void> 
 }
 
 // ── PATCH /api/v1/courses/:id ──────────────────────────────────────────────────
+// Edits a course's details. Fields like enrollment count and rating are
+// calculated by the system itself, so any attempt to set them directly here
+// is quietly ignored to protect those numbers from being tampered with.
 export async function updateCourse(
   req: AuthenticatedRequest,
   res: Response
@@ -177,6 +187,9 @@ export async function updateCourse(
 }
 
 // ── DELETE /api/v1/courses/:id ─────────────────────────────────────────────────
+// Permanently removes a course — and, so nothing is left behind pointing to a
+// course that no longer exists, also removes everything tied to it: student
+// enrollments, materials, assignments, submissions, attendance, and XP records.
 export async function deleteCourse(
   req: AuthenticatedRequest,
   res: Response

@@ -42,7 +42,7 @@ export default function AdminDashboard() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-brand-dark">{t("adminDashboard.title")}</h1>
-          <p className="text-sm text-brand-body mt-1">
+          <p className="text-[15px] text-brand-body mt-1">
             {t("adminDashboard.subtitle")}
           </p>
         </div>
@@ -70,11 +70,11 @@ export default function AdminDashboard() {
                 {loading ? (
                   <div className="h-7 w-16 bg-brand-bg rounded animate-pulse mb-1" />
                 ) : (
-                  <p className="text-2xl font-bold text-brand-dark leading-none">
+                  <p className="text-[25px] font-bold text-brand-dark leading-none">
                     {(data?.[key] ?? 0).toLocaleString()}
                   </p>
                 )}
-                <p className="text-sm text-brand-body mt-1">{t(labelKey)}</p>
+                <p className="text-[15px] text-brand-body mt-1">{t(labelKey)}</p>
               </div>
             </CardContent>
           </Card>
@@ -87,7 +87,7 @@ export default function AdminDashboard() {
           <div className="flex items-start justify-between mb-4">
             <div>
               <h2 className="text-base font-bold text-brand-dark">{t("adminDashboard.usersTitle")}</h2>
-              <p className="text-sm text-brand-body mt-0.5">
+              <p className="text-[15px] text-brand-body mt-0.5">
                 {t("adminDashboard.usersDesc")}
               </p>
             </div>
@@ -104,7 +104,7 @@ export default function AdminDashboard() {
           <div className="flex items-start justify-between mb-4">
             <div>
               <h2 className="text-base font-bold text-brand-dark">{t("adminDashboard.coursesTitle")}</h2>
-              <p className="text-sm text-brand-body mt-0.5">
+              <p className="text-[15px] text-brand-body mt-0.5">
                 {t("adminDashboard.coursesDesc")}
               </p>
             </div>

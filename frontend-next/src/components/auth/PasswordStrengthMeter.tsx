@@ -75,7 +75,7 @@ export default function PasswordStrengthMeter({ password }: { password: string }
       </div>
 
       {/* Label */}
-      <p className={cn("text-[11px] font-semibold", labelColor[score] ?? "text-transparent")}>
+      <p className={cn("text-[12px] font-semibold", labelColor[score] ?? "text-transparent")}>
         {label}
       </p>
 

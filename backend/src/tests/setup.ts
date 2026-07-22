@@ -1,3 +1,19 @@
+/**
+ * ============================================================================
+ * QUESTIFY TESTS: Database Setup
+ *
+ * WHAT IT DOES (For Non-Technical Readers):
+ * Connects to a separate test database and clears it out before tests run,
+ * so tests never touch real student/course data.
+ *
+ * WHY IT EXISTS:
+ * Keeps automated tests isolated and repeatable — each test run starts clean.
+ *
+ * HOW IT WORKS (Technical Overview):
+ * Thin wrappers around Mongoose's connect and collection-clearing calls.
+ * ============================================================================
+ */
+
 import mongoose from "mongoose";
 
 /**
