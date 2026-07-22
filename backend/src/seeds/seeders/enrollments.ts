@@ -21,11 +21,15 @@ import type { IUser } from "@/models/User";
 import { Types } from "mongoose";
 
 // Deterministic LCG — same seed produces same enrolment pattern every run
+// A repeatable "random" number generator (0-1) — using the same starting
+// seed means re-running the seed script produces the exact same sample data
+// every time, instead of different random values on each run.
 let _s = 99;
 function r(): number {
   _s = (_s * 1664525 + 1013904223) & 0xffffffff;
   return (_s >>> 0) / 0xffffffff;
 }
+// Calculates a date `n` days in the past, for backdating sample enrollments.
 function daysAgo(n: number): Date {
   return new Date(Date.now() - n * 86_400_000);
 }
@@ -118,6 +122,9 @@ const ENROL_PLAN: EnrolPlan[] = [
   [19, 5, "ACTIVE"],    // Entrepreneurship
 ];
 
+// Enrolls one sample student into one sample course with realistic-looking
+// progress/dates, or leaves it alone if that enrollment already exists —
+// safe to run the seed script more than once.
 async function upsertEnrollment(
   studentId: Types.ObjectId,
   courseId:  Types.ObjectId,
@@ -150,6 +157,9 @@ async function upsertEnrollment(
   return { enrollment, wasCreated: true };
 }
 
+// Enrolls the sample students into sample courses following a fixed,
+// pre-planned list, so every seeded database ends up with the same
+// realistic-looking mix of active/completed/dropped enrollments.
 export async function seedEnrollments(
   students:    IUser[],
   courses:     ICourse[],

@@ -53,7 +53,7 @@ function ScatteredCard({ testimonial, rotate, ty }: { testimonial: Testimonial; 
         >
           {testimonial.initials}
         </div>
-        <p className="font-bold text-brand-dark text-sm leading-snug">{testimonial.name}</p>
+        <p className="font-bold text-brand-dark text-[15px] leading-snug">{testimonial.name}</p>
       </div>
 
       {/* Stars + rating text */}
@@ -66,13 +66,13 @@ function ScatteredCard({ testimonial, rotate, ty }: { testimonial: Testimonial; 
 
       {/* Quote */}
       <blockquote>
-        <p className="text-[13px] text-brand-body leading-relaxed">
+        <p className="text-[14px] text-brand-body leading-relaxed">
           {t(testimonial.quoteKey)}
         </p>
       </blockquote>
 
       {/* Role */}
-      <p className="text-[11px] text-brand-body/50 font-medium">{t(testimonial.roleKey)}</p>
+      <p className="text-[12px] text-brand-body/50 font-medium">{t(testimonial.roleKey)}</p>
     </article>
   );
 }

@@ -243,7 +243,7 @@ export default function AdminCourses() {
       <div className="flex items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-brand-dark">{t("adminCourses.title")}</h1>
-          <p className="text-sm text-brand-body mt-0.5">
+          <p className="text-[15px] text-brand-body mt-0.5">
             {t("adminCourses.subtitle")}
           </p>
         </div>
@@ -452,7 +452,7 @@ export default function AdminCourses() {
             </div>
 
             {formError && (
-              <p className="text-sm text-red-600">{formError}</p>
+              <p className="text-[15px] text-red-600">{formError}</p>
             )}
           </div>
 

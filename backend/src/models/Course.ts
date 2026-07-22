@@ -200,6 +200,8 @@ const CourseSchema = new Schema<ICourse>(
 );
 
 // ── Virtual ────────────────────────────────────────────────────────────────────
+// A computed field showing how full a course is, as a percentage of its
+// capacity (e.g. 40 enrolled out of 50 seats = 80%), capped at 100.
 CourseSchema.virtual("enrollmentPercentage").get(function (
   this: ICourse
 ): number {

@@ -40,13 +40,13 @@ export default function HowItWorks() {
       <div className="w-10/12 mx-auto py-20">
 
         <ScrollReveal direction="up" className="flex flex-col items-center text-center mb-16">
-          <p className="text-sm font-semibold text-brand-blue uppercase tracking-widest mb-3">
+          <p className="text-[15px] font-semibold text-brand-blue uppercase tracking-widest mb-3">
             {t("howItWorks.eyebrow")}
           </p>
           <h2 className="text-[32px] font-bold text-brand-dark mb-3.5 leading-tight">
             {t("howItWorks.heading")}
           </h2>
-          <p className="text-[15px] text-brand-body leading-relaxed max-w-[680px]">
+          <p className="text-[16px] text-brand-body leading-relaxed max-w-[680px]">
             {t("howItWorks.body")}
           </p>
         </ScrollReveal>
@@ -90,7 +90,7 @@ export default function HowItWorks() {
 
                 {/* Description */}
                 <p
-                  className="text-[13px] leading-relaxed text-brand-body"
+                  className="text-[14px] leading-relaxed text-brand-body"
                 >
                   {t(descKey)}
                 </p>
@@ -124,7 +124,7 @@ export default function HowItWorks() {
                 <h3 className="font-bold text-[17px] mb-2 leading-snug text-brand-dark">
                   {t(titleKey)}
                 </h3>
-                <p className="text-[13px] leading-relaxed text-brand-body">
+                <p className="text-[14px] leading-relaxed text-brand-body">
                   {t(descKey)}
                 </p>
               </div>

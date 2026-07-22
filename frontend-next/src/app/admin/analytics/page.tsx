@@ -117,10 +117,10 @@ function ChartTooltip({
   return (
     <div className="rounded-lg border border-brand-border dark:border-white/10 bg-white dark:bg-slate-800 px-3 py-2 shadow-lg text-[13px]">
       {label && (
-        <p className="font-semibold text-brand-dark dark:text-white mb-1">{label}</p>
+        <p className="font-semibold text-brand-dark dark:text-white mb-1 text-[17px]">{label}</p>
       )}
       {payload.map((p) => (
-        <p key={p.name} className="text-brand-body dark:text-white/70">
+        <p key={p.name} className="text-brand-body dark:text-white/70 text-[17px]">
           <span style={{ color: p.color }} className="mr-1.5">●</span>
           {p.name}: <span className="font-semibold text-brand-dark dark:text-white">{fmt(p.value)}</span>
         </p>
@@ -165,10 +165,10 @@ function StatCard({ label, value, sub, trend = "neutral", icon: Icon, accent, lo
         ) : (
           <div className="flex items-start justify-between gap-3">
             <div className="space-y-1.5 min-w-0">
-              <p className="text-[12px] font-medium text-brand-body dark:text-white/55 uppercase tracking-wide">
+              <p className="text-[13px] font-medium text-brand-body dark:text-white/55 uppercase tracking-wide">
                 {label}
               </p>
-              <p className="text-[28px] font-black text-brand-dark dark:text-white leading-none">
+              <p className="text-[29px] font-black text-brand-dark dark:text-white leading-none">
                 {typeof value === "number" ? fmt(value) : value}
               </p>
               {sub && (
@@ -292,7 +292,7 @@ function TopStudentsTable({ entries, loading }: { entries: LeaderboardEntry[]; l
         {loading ? (
           <div className="px-4"><TableSkeleton rows={6} /></div>
         ) : entries.length === 0 ? (
-          <p className="px-6 py-6 text-[13px] text-brand-body/60 dark:text-white/40 text-center">
+          <p className="px-6 py-6 text-[14px] text-brand-body/60 dark:text-white/40 text-center">
             No data available
           </p>
         ) : (
@@ -332,9 +332,9 @@ function TopStudentsTable({ entries, loading }: { entries: LeaderboardEntry[]; l
                           </div>
                         )}
                         <div className="min-w-0">
-                          <p className="font-semibold text-brand-dark dark:text-white truncate">{e.name}</p>
+                          <p className="font-semibold text-brand-dark dark:text-white truncate text-[17px]">{e.name}</p>
                           {e.email && (
-                            <p className="text-[11px] text-brand-body/55 dark:text-white/35 truncate">{e.email}</p>
+                            <p className="text-[12px] text-brand-body/55 dark:text-white/35 truncate">{e.email}</p>
                           )}
                         </div>
                       </div>
@@ -386,7 +386,7 @@ function TopCoursesTable({ courses, loading }: { courses: Course[]; loading: boo
         {loading ? (
           <div className="px-4"><TableSkeleton rows={6} /></div>
         ) : courses.length === 0 ? (
-          <p className="px-6 py-6 text-[13px] text-brand-body/60 dark:text-white/40 text-center">
+          <p className="px-6 py-6 text-[14px] text-brand-body/60 dark:text-white/40 text-center">
             No data available
           </p>
         ) : (
@@ -413,8 +413,8 @@ function TopCoursesTable({ courses, loading }: { courses: Course[]; loading: boo
                         {idx + 1}
                       </td>
                       <td className={cn(ROW_STYLE)}>
-                        <p className="font-semibold text-brand-dark dark:text-white truncate max-w-[220px]">{c.title}</p>
-                        <p className="text-[11px] text-brand-body/55 dark:text-white/35">{c.category}</p>
+                        <p className="font-semibold text-brand-dark dark:text-white truncate max-w-[220px] text-[17px]">{c.title}</p>
+                        <p className="text-[12px] text-brand-body/55 dark:text-white/35">{c.category}</p>
                       </td>
                       <td className={cn(ROW_STYLE)}>
                         <span className={cn("inline-flex px-2 py-0.5 rounded-full text-[11px] font-bold", levelColor[c.level])}>
@@ -506,7 +506,7 @@ export default function AdminAnalyticsPage() {
             Platform Analytics
           </h1>
         </div>
-        <p className="text-[14px] text-brand-body dark:text-white/55 ml-12">
+        <p className="text-[15px] text-brand-body dark:text-white/55 ml-12">
           Insights across students, courses, and XP activity.
         </p>
       </div>

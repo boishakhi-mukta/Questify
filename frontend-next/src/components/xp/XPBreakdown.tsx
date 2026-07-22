@@ -47,8 +47,8 @@ function CustomTooltip({ active, payload }: { active?: boolean; payload?: Array<
   const { name, value } = payload[0];
   return (
     <div className="rounded-lg border border-brand-border dark:border-white/10 bg-white dark:bg-slate-800 px-3 py-2 shadow-md text-[13px]">
-      <p className="font-semibold text-brand-dark dark:text-white">{name}</p>
-      <p className="text-brand-body dark:text-white/60">{value.toLocaleString()} XP</p>
+      <p className="font-semibold text-brand-dark dark:text-white text-[17px]">{name}</p>
+      <p className="text-brand-body dark:text-white/60 text-[17px]">{value.toLocaleString()} XP</p>
     </div>
   );
 }
@@ -96,7 +96,7 @@ export function XPBreakdown({ data, height = 280 }: XPBreakdownProps) {
           </PieChart>
         </ResponsiveContainer>
 
-        <p className="text-center text-[11px] text-brand-body/55 dark:text-white/35 mt-1">
+        <p className="text-center text-[12px] text-brand-body/55 dark:text-white/35 mt-1">
           {t("xpBreakdown.total")} {total.toLocaleString()} XP
         </p>
       </CardContent>

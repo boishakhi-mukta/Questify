@@ -11,6 +11,10 @@
  * HOW IT WORKS (Technical Overview):
  * Triggers mongoose.connect() and binds event checks on success/failure hooks.
  * ============================================================================
+ *
+ * NOTE: This is an older, simpler version of the database connector — the
+ * app actually starts up using config/database.ts (see server.ts). This file
+ * is kept around but is not currently wired into the running server.
  */
 
 import mongoose from "mongoose";
@@ -26,6 +30,8 @@ if (!MONGODB_URI) {
 
 let isConnected = false;
 
+// Opens the database connection once, and remembers that it's open so
+// calling this function again doesn't try to reconnect unnecessarily.
 export async function connectDB(): Promise<void> {
   if (isConnected) return;
 

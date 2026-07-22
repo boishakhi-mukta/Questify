@@ -118,6 +118,8 @@ const AssignmentSchema = new Schema<IAssignment, IAssignmentModel>(
 );
 
 // ── Virtual populate: submissions ──────────────────────────────────────────────
+// Lets code fetch "all the student submissions for this assignment" on demand,
+// without permanently storing that list on the assignment record itself.
 AssignmentSchema.virtual("submissions", {
   ref: "Submission",
   localField: "_id",
@@ -125,6 +127,7 @@ AssignmentSchema.virtual("submissions", {
 });
 
 // ── Static: assignments with dueDate in the future ────────────────────────────
+// Fetches every assignment in a course that hasn't come due yet, soonest first.
 AssignmentSchema.statics.getActiveAssignments = async function (
   courseId: Types.ObjectId | string
 ): Promise<IAssignment[]> {
@@ -135,6 +138,8 @@ AssignmentSchema.statics.getActiveAssignments = async function (
 };
 
 // ── Static: all assignments past their dueDate (system-wide) ──────────────────
+// Fetches every assignment across the whole platform that's already overdue —
+// most recently overdue first.
 AssignmentSchema.statics.getOverdueAssignments = async function (): Promise<IAssignment[]> {
   return Assignment.find({ dueDate: { $lt: new Date() } }).sort({ dueDate: -1 });
 };

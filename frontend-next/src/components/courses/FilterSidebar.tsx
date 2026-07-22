@@ -47,7 +47,7 @@ interface FilterSidebarProps {
 // A small uppercase heading above a group of filter options (e.g. "LEVEL").
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p className="text-[11px] font-bold uppercase tracking-wider text-brand-body/60 mb-3">
+    <p className="text-[12px] font-bold uppercase tracking-wider text-brand-body/60 mb-3">
       {children}
     </p>
   );

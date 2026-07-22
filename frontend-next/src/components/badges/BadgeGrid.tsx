@@ -75,9 +75,9 @@ function BadgeCard({ badge, earned }: { badge: Badge; earned: boolean }) {
       </TooltipTrigger>
       <TooltipContent>
         <div className="max-w-[200px] space-y-1">
-          <p className="font-semibold text-[13px]">{badge.name}</p>
-          <p className="text-[12px] text-white/70">{badge.description}</p>
-          <p className="text-[11px] text-white/50">
+          <p className="font-semibold text-[14px]">{badge.name}</p>
+          <p className="text-[13px] text-white/70">{badge.description}</p>
+          <p className="text-[12px] text-white/50">
             {earned ? "✓ Earned" : `🔒 ${badge.condition}`}
           </p>
         </div>
@@ -96,7 +96,7 @@ export function BadgeGrid({ badges, earnedBadges, className }: BadgeGridProps) {
     <div className={cn("space-y-4", className)}>
       {/* Progress summary */}
       <div className="flex items-center justify-between">
-        <p className="text-sm text-brand-muted dark:text-white/60">
+        <p className="text-[15px] text-brand-muted dark:text-white/60">
           {earnedCount} of {badges.length} badges earned
         </p>
         <div className="flex items-center gap-2">

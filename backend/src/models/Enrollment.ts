@@ -114,6 +114,9 @@ const EnrollmentSchema = new Schema<IEnrollment>(
 );
 
 // ── Pre-save: stamp lastAccessedAt on every write ─────────────────────────────
+// Runs automatically right before an enrollment record is saved. It records
+// "when was this last touched," and if the student just finished the course,
+// it stamps the completion date automatically.
 EnrollmentSchema.pre("save", function (next) {
   this.lastAccessedAt = new Date();
 
@@ -126,6 +129,8 @@ EnrollmentSchema.pre("save", function (next) {
 });
 
 // ── Virtual populate ───────────────────────────────────────────────────────────
+// Lets code fetch the full course details for an enrollment on demand,
+// instead of only having the raw course ID.
 EnrollmentSchema.virtual("course", {
   ref: "Course",
   localField: "courseId",
@@ -133,6 +138,8 @@ EnrollmentSchema.virtual("course", {
   justOne: true,
 });
 
+// Lets code fetch the full student profile for an enrollment on demand,
+// instead of only having the raw student ID.
 EnrollmentSchema.virtual("student", {
   ref: "User",
   localField: "studentId",

@@ -206,8 +206,8 @@ function SuccessState({
         </div>
 
         <div className="space-y-1">
-          <p className="text-xl font-black text-brand-dark dark:text-white">Attendance Saved!</p>
-          <p className="text-[14px] text-brand-body dark:text-white/60">
+          <p className="text-[21px] font-black text-brand-dark dark:text-white">Attendance Saved!</p>
+          <p className="text-[15px] text-brand-body dark:text-white/60">
             {course.title} · {fmtDateLabel(date)}
           </p>
         </div>
@@ -220,8 +220,8 @@ function SuccessState({
             { label: "Rate",    value: `${pct}%`,     color: "text-brand-blue",                        bg: "bg-brand-blue/10"  },
           ].map(({ label, value, color, bg }) => (
             <div key={label} className={cn("rounded-xl py-3 px-2", bg)}>
-              <p className={cn("text-[22px] font-black", color)}>{value}</p>
-              <p className="text-[11px] text-brand-body/60 dark:text-white/40">{label}</p>
+              <p className={cn("text-[23px] font-black", color)}>{value}</p>
+              <p className="text-[12px] text-brand-body/60 dark:text-white/40">{label}</p>
             </div>
           ))}
         </div>
@@ -233,7 +233,7 @@ function SuccessState({
               <ProgressBarFill />
             </ProgressBarTrack>
           </ProgressBarRoot>
-          <p className="text-[11px] text-brand-body/55 dark:text-white/35">{pct}% attendance rate</p>
+          <p className="text-[12px] text-brand-body/55 dark:text-white/35">{pct}% attendance rate</p>
         </div>
 
         <div className="flex gap-2">
@@ -379,7 +379,7 @@ export default function TeacherAttendancePage() {
           </div>
           <h1 className="text-2xl font-black text-brand-dark dark:text-white tracking-tight">Attendance</h1>
         </div>
-        <p className="text-[14px] text-brand-body dark:text-white/55 ml-12">
+        <p className="text-[15px] text-brand-body dark:text-white/55 ml-12">
           Mark and track student attendance for your courses.
         </p>
       </div>
@@ -445,7 +445,7 @@ export default function TeacherAttendancePage() {
         <Card>
           <CardContent className="flex flex-col items-center justify-center py-20 gap-3 text-center">
             <HiCalendarDays size={40} className="text-brand-body/20 dark:text-white/10" />
-            <p className="text-[15px] font-semibold text-brand-body dark:text-white/60">
+            <p className="text-[16px] font-semibold text-brand-body dark:text-white/60">
               Select a course to mark attendance
             </p>
           </CardContent>
@@ -465,7 +465,7 @@ export default function TeacherAttendancePage() {
                       · {fmtDateLabel(attendanceDate)}
                     </span>
                   </CardTitle>
-                  <p className="text-[12px] text-brand-body/55 dark:text-white/35">
+                  <p className="text-[13px] text-brand-body/55 dark:text-white/35">
                     {presentCount} of {students.length} present
                   </p>
                 </div>
@@ -530,7 +530,7 @@ export default function TeacherAttendancePage() {
               {visibleStudents.length === 0 ? (
                 <div className="py-8 text-center">
                   <HiUser size={28} className="mx-auto mb-2 text-brand-body/20 dark:text-white/10" />
-                  <p className="text-[13px] text-brand-body/60 dark:text-white/40">No students match your filter</p>
+                  <p className="text-[14px] text-brand-body/60 dark:text-white/40">No students match your filter</p>
                 </div>
               ) : (
                 <div className="space-y-0.5 max-h-96 overflow-y-auto pr-1">
@@ -561,8 +561,8 @@ export default function TeacherAttendancePage() {
                   <div key={label} className={cn("rounded-xl py-3 px-4 flex items-center gap-3", bg)}>
                     <Icon size={20} className={cn("shrink-0", color)} />
                     <div>
-                      <p className={cn("text-[18px] font-black leading-none", color)}>{value}</p>
-                      <p className="text-[11px] text-brand-body/60 dark:text-white/40 mt-0.5">{label}</p>
+                      <p className={cn("text-[19px] font-black leading-none", color)}>{value}</p>
+                      <p className="text-[12px] text-brand-body/60 dark:text-white/40 mt-0.5">{label}</p>
                     </div>
                   </div>
                 ))}
@@ -572,7 +572,7 @@ export default function TeacherAttendancePage() {
               {attendanceDate !== todayIso() && (
                 <div className="flex gap-2.5 px-3 py-2.5 rounded-lg bg-amber-500/8 dark:bg-amber-500/10 border border-amber-500/20">
                   <HiExclamationCircle size={15} className="text-amber-500 mt-0.5 shrink-0" />
-                  <p className="text-[12px] text-amber-700 dark:text-amber-400 leading-snug">
+                  <p className="text-[13px] text-amber-700 dark:text-amber-400 leading-snug">
                     You're marking attendance for a past date ({fmtDateLabel(attendanceDate)}). This will be recorded as a retroactive entry.
                   </p>
                 </div>
@@ -581,7 +581,7 @@ export default function TeacherAttendancePage() {
               {/* Info about XP */}
               <div className="flex gap-2.5 px-3 py-2.5 rounded-lg bg-brand-blue/8 dark:bg-brand-blue/10 border border-brand-blue/15">
                 <HiInformationCircle size={15} className="text-brand-blue mt-0.5 shrink-0" />
-                <p className="text-[12px] text-brand-blue/80 dark:text-brand-blue/70 leading-snug">
+                <p className="text-[13px] text-brand-blue/80 dark:text-brand-blue/70 leading-snug">
                   Present students will automatically receive their attendance XP reward.
                 </p>
               </div>

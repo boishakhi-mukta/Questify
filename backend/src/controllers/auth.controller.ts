@@ -27,6 +27,9 @@ import { logAuthEvent } from "@/utils/logger";
 import type { AuthenticatedRequest } from "@/types";
 
 // ── POST /api/v1/auth/login ────────────────────────────────────────────────────
+// Handles someone logging in: checks their email exists, their account isn't
+// disabled, and their password is correct — in that order, so we can give a
+// specific reason if it fails. On success, hands back the login tokens.
 export async function login(req: Request, res: Response): Promise<void> {
   const { email, password } = req.body as { email: string; password: string };
 
@@ -108,6 +111,8 @@ export async function logout(req: AuthenticatedRequest, res: Response): Promise<
 }
 
 // ── GET /api/v1/auth/me ────────────────────────────────────────────────────────
+// Returns the profile of whoever is currently logged in — used by the
+// frontend to know who's signed in and show their name/role/avatar.
 export async function getMe(
   req: AuthenticatedRequest,
   res: Response
@@ -120,6 +125,8 @@ export async function getMe(
 }
 
 // ── POST /api/v1/auth/change-password ─────────────────────────────────────────
+// Lets a logged-in user change their own password: confirms they know their
+// current password, makes sure the new one is actually different, then saves it.
 export async function changePassword(
   req: AuthenticatedRequest,
   res: Response
@@ -178,6 +185,8 @@ export async function changePassword(
 }
 
 // ── POST /api/v1/auth/refresh ─────────────────────────────────────────────────
+// Issues a fresh login session using a still-valid refresh token, so a user
+// doesn't get logged out just because their short-lived access token expired.
 export async function refreshToken(req: Request, res: Response): Promise<void> {
   const { refreshToken: token } = req.body as { refreshToken: string };
 
@@ -200,6 +209,8 @@ export async function refreshToken(req: Request, res: Response): Promise<void> {
 }
 
 // ── PATCH /api/v1/auth/profile ─────────────────────────────────────────────────
+// Lets a logged-in user edit their own profile details (name, avatar, bio,
+// contact info) — only the fields they actually send get changed.
 export async function updateProfile(
   req: AuthenticatedRequest,
   res: Response

@@ -177,6 +177,9 @@ const DEMO_USERS: UserDef[] = [
 
 // ─── Helper ────────────────────────────────────────────────────────────────────
 
+// Creates a sample account if one with that email doesn't exist yet, or
+// reuses the existing account if it does — makes the seed script safe to run
+// more than once without creating duplicate accounts.
 async function upsertUser(def: UserDef): Promise<{ user: IUser; wasCreated: boolean }> {
   const existing = await User.findOne({ email: def.email.toLowerCase() });
   if (existing) return { user: existing, wasCreated: false };
@@ -213,6 +216,8 @@ export interface SeededUsers {
   };
 }
 
+// Creates the full set of sample accounts (admins, teachers, students, plus
+// one "demo" account of each role) used to populate a development database.
 export async function seedUsers(options?: {
   demoOnly?:  boolean;
   adminOnly?: boolean;

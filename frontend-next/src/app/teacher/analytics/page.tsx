@@ -184,9 +184,9 @@ function ChartTooltip({
   if (!active || !payload?.length) return null;
   return (
     <div className="rounded-lg border border-brand-border dark:border-white/10 bg-white dark:bg-slate-800 px-3 py-2 shadow-lg text-[13px]">
-      {label && <p className="font-semibold text-brand-dark dark:text-white mb-1">{label}</p>}
+      {label && <p className="font-semibold text-brand-dark dark:text-white mb-1 text-[17px]">{label}</p>}
       {payload.map((p) => (
-        <p key={p.name} className="text-brand-body dark:text-white/70">
+        <p key={p.name} className="text-brand-body dark:text-white/70 text-[17px]">
           <span style={{ color: p.color ?? "#3b82f6" }} className="mr-1.5">●</span>
           {p.name}: <span className="font-semibold text-brand-dark dark:text-white">{p.value}{p.name.toLowerCase().includes("attendance") || p.name.toLowerCase().includes("completion") ? "%" : ""}</span>
         </p>
@@ -230,14 +230,14 @@ function StatCard({
         ) : (
           <div className="flex items-start justify-between gap-3">
             <div className="space-y-1 min-w-0">
-              <p className="text-[12px] font-medium text-brand-body dark:text-white/55 uppercase tracking-wide">
+              <p className="text-[13px] font-medium text-brand-body dark:text-white/55 uppercase tracking-wide">
                 {label}
               </p>
-              <p className="text-[28px] font-black text-brand-dark dark:text-white leading-none">
+              <p className="text-[29px] font-black text-brand-dark dark:text-white leading-none">
                 {value}
               </p>
               {sub && (
-                <p className="text-[12px] text-brand-body/60 dark:text-white/40">{sub}</p>
+                <p className="text-[13px] text-brand-body/60 dark:text-white/40">{sub}</p>
               )}
             </div>
             <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0", accent)}>
@@ -288,7 +288,7 @@ function StudentProgressTable({ students, totalAsgns, loading }: { students: Moc
     return (
       <div className="flex flex-col items-center justify-center py-14 gap-2 text-center">
         <HiUsers size={32} className="text-brand-body/20 dark:text-white/10" />
-        <p className="text-[14px] font-semibold text-brand-body dark:text-white/60">No enrollment data</p>
+        <p className="text-[15px] font-semibold text-brand-body dark:text-white/60">No enrollment data</p>
       </div>
     );
   }
@@ -447,7 +447,7 @@ export default function TeacherAnalyticsPage() {
           </div>
           <h1 className="text-2xl font-black text-brand-dark dark:text-white tracking-tight">Course Analytics</h1>
         </div>
-        <p className="text-[14px] text-brand-body dark:text-white/55 ml-12">
+        <p className="text-[15px] text-brand-body dark:text-white/55 ml-12">
           Detailed performance insights for your courses.
         </p>
       </div>
@@ -480,7 +480,7 @@ export default function TeacherAnalyticsPage() {
         <Card>
           <CardContent className="flex flex-col items-center justify-center py-20 gap-3 text-center">
             <HiChartBar size={40} className="text-brand-body/20 dark:text-white/10" />
-            <p className="text-[15px] font-semibold text-brand-body dark:text-white/60">
+            <p className="text-[16px] font-semibold text-brand-body dark:text-white/60">
               Select a course to view analytics
             </p>
           </CardContent>

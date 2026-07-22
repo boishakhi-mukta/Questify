@@ -94,7 +94,7 @@ function StatCard({
       <div className={cn("h-1.5", accent)} />
       <CardContent className="pt-4 pb-4 flex flex-col gap-3">
         <div className="flex items-center justify-between">
-          <p className="text-xs font-semibold text-brand-body uppercase tracking-wide">
+          <p className="text-[13px] font-semibold text-brand-body uppercase tracking-wide">
             {label}
           </p>
           <div className={cn("w-8 h-8 rounded-lg flex items-center justify-center bg-opacity-10", accent.replace("bg-gradient-to-r", "bg").split(" ")[0] + "/10")}>
@@ -108,8 +108,8 @@ function StatCard({
           </>
         ) : (
           <>
-            <p className="text-3xl font-black text-brand-dark leading-none">{value}</p>
-            <p className="text-xs text-brand-body">{sub}</p>
+            <p className="text-[31px] font-black text-brand-dark leading-none">{value}</p>
+            <p className="text-[13px] text-brand-body">{sub}</p>
           </>
         )}
       </CardContent>
@@ -155,8 +155,8 @@ function CourseCard({ course }: { course: Course }) {
       <CardHeader className="pb-0">
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
-            <p className="text-xs font-semibold text-brand-body">{course.category}</p>
-            <p className="text-base font-bold text-brand-dark leading-snug mt-0.5 line-clamp-2">
+            <p className="text-[13px] font-semibold text-brand-body">{course.category}</p>
+            <p className="text-[17px] font-bold text-brand-dark leading-snug mt-0.5 line-clamp-2">
               {course.title}
             </p>
           </div>
@@ -175,8 +175,8 @@ function CourseCard({ course }: { course: Course }) {
         {/* Stats grid */}
         <div className="grid grid-cols-3 gap-2 text-xs">
           <div>
-            <p className="text-brand-body">Students</p>
-            <p className="font-bold text-brand-dark mt-0.5">
+            <p className="text-brand-body text-[17px]">Students</p>
+            <p className="font-bold text-brand-dark mt-0.5 text-[17px]">
               {course.enrollmentCount}
               <span className="font-normal text-brand-body">
                 /{course.maxCapacity}
@@ -184,12 +184,12 @@ function CourseCard({ course }: { course: Course }) {
             </p>
           </div>
           <div>
-            <p className="text-brand-body">Credits</p>
-            <p className="font-bold text-brand-dark mt-0.5">{course.credits} ECTS</p>
+            <p className="text-brand-body text-[17px]">Credits</p>
+            <p className="font-bold text-brand-dark mt-0.5 text-[17px]">{course.credits} ECTS</p>
           </div>
           <div>
-            <p className="text-brand-body">Hours</p>
-            <p className="font-bold text-brand-dark mt-0.5">{course.estimatedHours}h</p>
+            <p className="text-brand-body text-[17px]">Hours</p>
+            <p className="font-bold text-brand-dark mt-0.5 text-[17px]">{course.estimatedHours}h</p>
           </div>
         </div>
 
@@ -355,14 +355,14 @@ export default function TeacherDashboardPage() {
               <HiAcademicCap size={28} className="text-brand-blue" />
             </div>
             <div>
-              <p className="text-xl font-bold text-brand-dark">
+              <p className="text-[21px] font-bold text-brand-dark">
                 Welcome back,{" "}
                 {user
                   ? `Prof. ${user.firstName} ${user.lastName}`
                   : "Professor"}
                 ! 👋
               </p>
-              <p className="text-sm text-brand-body mt-0.5">{today()}</p>
+              <p className="text-[15px] text-brand-body mt-0.5">{today()}</p>
             </div>
           </div>
           <div className="flex gap-2 shrink-0">
@@ -420,8 +420,8 @@ export default function TeacherDashboardPage() {
               <HiBookOpen size={28} className="text-brand-blue" />
             </div>
             <div>
-              <p className="text-base font-bold text-brand-dark">No courses assigned yet</p>
-              <p className="text-sm text-brand-body mt-1 max-w-xs">
+              <p className="text-[17px] font-bold text-brand-dark">No courses assigned yet</p>
+              <p className="text-[15px] text-brand-body mt-1 max-w-xs">
                 You haven&apos;t been assigned to any courses. Contact your administrator.
               </p>
             </div>
@@ -471,8 +471,8 @@ export default function TeacherDashboardPage() {
                   <Icon size={18} className="text-brand-body group-hover:text-brand-blue transition-colors" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm font-semibold text-brand-dark">{label}</p>
-                  <p className="text-xs text-brand-body truncate">{sub}</p>
+                  <p className="text-[15px] font-semibold text-brand-dark">{label}</p>
+                  <p className="text-[13px] text-brand-body truncate">{sub}</p>
                 </div>
                 <HiArrowTopRightOnSquare
                   size={14}

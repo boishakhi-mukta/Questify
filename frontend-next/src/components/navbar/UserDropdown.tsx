@@ -117,10 +117,10 @@ export function UserDropdown() {
         >
           {/* User info */}
           <div className="px-4 py-3 border-b border-brand-border dark:border-white/10">
-            <p className="text-[13px] font-bold text-brand-dark dark:text-white truncate">
+            <p className="text-[14px] font-bold text-brand-dark dark:text-white truncate">
               {user.fullName}
             </p>
-            <p className="text-[11px] text-brand-body dark:text-white/45 truncate">
+            <p className="text-[12px] text-brand-body dark:text-white/45 truncate">
               {user.email}
             </p>
           </div>

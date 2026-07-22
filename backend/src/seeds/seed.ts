@@ -50,6 +50,7 @@ const ADMIN  = args.has("--admin-only");
 
 // ─── Helpers ───────────────────────────────────────────────────────────────────
 
+// Opens the database connection this script will seed data into.
 async function connect(): Promise<void> {
   const uri = process.env.MONGODB_URI;
   if (!uri) throw new Error("MONGODB_URI is not set");
@@ -57,6 +58,9 @@ async function connect(): Promise<void> {
   console.log(`\n✓ Connected: ${uri.replace(/\/\/[^@]+@/, "//***@")}`);
 }
 
+// Safety check: if this script is about to run against the live production
+// database, it stops and asks whoever is running it to type "SEED" to
+// confirm — prevents someone from accidentally wiping/overwriting real data.
 async function confirmProduction(): Promise<boolean> {
   return new Promise((resolve) => {
     const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
@@ -74,6 +78,8 @@ async function confirmProduction(): Promise<boolean> {
   });
 }
 
+// Empties out every table this script manages, so seeding starts from a
+// completely clean slate (used by the --reset flag).
 async function dropCollections(): Promise<void> {
   const names = [
     "users", "courses", "enrollments",
@@ -88,6 +94,10 @@ async function dropCollections(): Promise<void> {
 
 // ─── Seed modes ────────────────────────────────────────────────────────────────
 
+// Populates the database with a complete, realistic dataset: a full roster
+// of admins/teachers/students, departments, courses, enrollments, materials,
+// assignments, attendance history, and XP — everything needed for a
+// fully-working demo or development environment.
 async function runFull(): Promise<void> {
   console.log("\n━━━ Full seed ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 
@@ -104,6 +114,8 @@ async function runFull(): Promise<void> {
   await seedXP(enrollments);
 }
 
+// A lighter version of the full seed: just the demo accounts and two demo
+// courses, for quick local testing without a huge dataset.
 async function runDemo(): Promise<void> {
   console.log("\n━━━ Demo seed ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 
@@ -118,6 +130,8 @@ async function runDemo(): Promise<void> {
   await seedXP(enrollments);
 }
 
+// Creates just the admin accounts, nothing else — useful when you only need
+// to log in as an admin without a full dataset.
 async function runAdminOnly(): Promise<void> {
   console.log("\n━━━ Admin-only seed ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
   await seedUsers({ adminOnly: true });
@@ -125,6 +139,10 @@ async function runAdminOnly(): Promise<void> {
 
 // ─── Entry point ───────────────────────────────────────────────────────────────
 
+// The script's entry point: connects to the database, double-checks before
+// touching production, optionally wipes existing data, runs whichever seed
+// mode was requested (full/demo/admin-only), and prints a summary with the
+// login credentials to use afterward.
 async function main(): Promise<void> {
   await connect();
 

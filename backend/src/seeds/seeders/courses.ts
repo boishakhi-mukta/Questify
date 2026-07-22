@@ -566,6 +566,8 @@ export const DEMO_COURSE_DEFS: CourseDef[] = [
 
 // ─── Helper ────────────────────────────────────────────────────────────────────
 
+// Looks up the actual teacher accounts for a sample course's listed teacher
+// emails, so the course gets linked to real User records.
 function resolveTeachers(
   def: CourseDef,
   allTeachers: IUser[],
@@ -578,6 +580,8 @@ function resolveTeachers(
   });
 }
 
+// Creates a sample course, or updates it in place if a course with that
+// title already exists — makes the seed script safe to run more than once.
 async function upsertCourse(
   def: CourseDef,
   teacherIds: Types.ObjectId[]
@@ -635,6 +639,8 @@ async function upsertCourse(
 
 // ─── Exports ───────────────────────────────────────────────────────────────────
 
+// Loads the full sample catalog of courses into the database, linking each
+// one to its teacher(s).
 export async function seedCourses(
   teachers: IUser[],
   demoTeacher?: IUser,

@@ -103,12 +103,12 @@ export default function ChangePasswordPage() {
                   </svg>
                 </div>
                 <h2 className="text-xl font-bold text-brand-dark mb-2">Password updated!</h2>
-                <p className="text-[15px] text-brand-body">Redirecting you to your dashboard…</p>
+                <p className="text-[16px] text-brand-body">Redirecting you to your dashboard…</p>
               </div>
             ) : (
               <>
                 <h1 className="text-2xl font-bold text-brand-dark mb-1.5">Change password</h1>
-                <p className="text-[15px] text-brand-body mb-7">
+                <p className="text-[16px] text-brand-body mb-7">
                   {user ? `Updating password for ${user.email}` : "Update your account password"}
                 </p>
 
@@ -169,7 +169,7 @@ export default function ChangePasswordPage() {
                       className="w-full h-11 px-4 border border-brand-border rounded-lg text-[15px] text-brand-dark placeholder:text-brand-body/40 focus:outline-none focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/15 transition-colors disabled:opacity-60"
                     />
                     {confirm && next && confirm !== next && (
-                      <p className="text-[11px] text-red-500">Passwords do not match</p>
+                      <p className="text-[12px] text-red-500">Passwords do not match</p>
                     )}
                   </div>
 

@@ -85,7 +85,7 @@ export default function TeacherDashboard() {
 
       <div>
         <h2 className="text-lg font-bold text-brand-dark mb-1">Quick Navigation</h2>
-        <p className="text-sm text-brand-body">
+        <p className="text-[15px] text-brand-body">
           Access your teaching tools from one place.
         </p>
       </div>
@@ -104,10 +104,10 @@ export default function TeacherDashboard() {
               <Icon size={22} style={{ color: accent }} />
             </div>
             <div className="min-w-0 flex-1">
-              <p className="text-sm font-bold text-brand-dark group-hover:text-brand-blue transition-colors">
+              <p className="text-[15px] font-bold text-brand-dark group-hover:text-brand-blue transition-colors">
                 {label}
               </p>
-              <p className="text-xs text-brand-body mt-0.5 leading-relaxed">
+              <p className="text-[13px] text-brand-body mt-0.5 leading-relaxed">
                 {description}
               </p>
             </div>

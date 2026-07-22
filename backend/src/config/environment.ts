@@ -73,6 +73,10 @@ const schema = z.object({
 
 export type Env = z.infer<typeof schema>;
 
+// Check the real environment variables against the rules defined above.
+// If anything required is missing or malformed, print a clear list of what's
+// wrong and stop the server immediately — better to fail fast at startup
+// than to run with broken configuration.
 const parsed = schema.safeParse(process.env);
 
 if (!parsed.success) {

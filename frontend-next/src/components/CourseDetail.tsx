@@ -129,7 +129,7 @@ export default function CourseDetail({ id }: CourseDetailProps) {
   if (error || !course) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4">
-        <p className="text-lg font-semibold text-brand-dark">
+        <p className="text-[19px] font-semibold text-brand-dark">
           {error ?? t("courseDetail.courseNotFound")}
         </p>
         <Link href="/courses" className="text-sm font-semibold text-brand-blue hover:text-brand-blue-dark no-underline transition-colors">
@@ -261,7 +261,7 @@ export default function CourseDetail({ id }: CourseDetailProps) {
                   : (isEnrolled ? t("courseDetail.unenrollNow") : t("courseDetail.enrollNow"))}
               </Button>
               {enrollActionError && (
-                <p className="text-sm text-red-600">{enrollActionError}</p>
+                <p className="text-[15px] text-red-600">{enrollActionError}</p>
               )}
             </div>
           )}
@@ -276,7 +276,7 @@ export default function CourseDetail({ id }: CourseDetailProps) {
 
           <section>
             <h2 className="text-xl font-bold text-brand-dark mb-3.5">{t("courseDetail.aboutThisCourse")}</h2>
-            <p className="text-[15px] text-brand-body leading-[1.8]">{course.description}</p>
+            <p className="text-[16px] text-brand-body leading-[1.8]">{course.description}</p>
           </section>
 
           <section>
@@ -341,14 +341,14 @@ export default function CourseDetail({ id }: CourseDetailProps) {
                     style={{ width: `${progressPct}%`, background: "linear-gradient(90deg, #30d99a 0%, #25B585 100%)" }}
                   />
                 </div>
-                <p className="text-xs text-brand-body mt-2">
+                <p className="text-[13px] text-brand-body mt-2">
                   {isEnrolled ? `${xpEarned} XP earned so far` : t("courseDetail.enrollToStart")}
                 </p>
               </div>
 
               <div className="mt-5 bg-brand-bg rounded-md p-3 text-center">
-                <p className="text-xs text-brand-body mb-1">{t("courseDetail.totalPotentialXp")}</p>
-                <p className="text-2xl font-bold text-brand-dark">50 XP</p>
+                <p className="text-[13px] text-brand-body mb-1">{t("courseDetail.totalPotentialXp")}</p>
+                <p className="text-[25px] font-bold text-brand-dark">50 XP</p>
               </div>
 
             </CardContent>

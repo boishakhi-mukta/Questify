@@ -172,8 +172,8 @@ export default function DashboardShell({
               )}
             </div>
             <div className="overflow-hidden">
-              <p className="text-[13px] font-semibold text-white truncate">{displayName}</p>
-              <p className="text-[11px] text-white/45 truncate">{displaySub}</p>
+              <p className="text-[14px] font-semibold text-white truncate">{displayName}</p>
+              <p className="text-[12px] text-white/45 truncate">{displaySub}</p>
             </div>
           </div>
 

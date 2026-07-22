@@ -61,6 +61,8 @@ const DEPARTMENT_DATA: DepartmentDef[] = [
   },
 ];
 
+// Creates the sample academic departments (skipping any that already exist),
+// optionally assigning a specific person as the head of each one.
 export async function seedDepartments(
   heads?: Record<string, Types.ObjectId>
 ): Promise<IDepartment[]> {

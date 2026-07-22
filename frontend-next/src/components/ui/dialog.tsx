@@ -128,7 +128,7 @@ export function DialogDescription({
   className,
   ...props
 }: React.HTMLAttributes<HTMLParagraphElement>) {
-  return <p className={cn("text-sm text-brand-body", className)} {...props} />;
+  return <p className={cn("text-[15px] text-brand-body", className)} {...props} />;
 }
 
 // The bottom row of the dialog, usually holding the action buttons

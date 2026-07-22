@@ -220,11 +220,11 @@ function MaterialCard({ material }: { material: Material }) {
         <Icon size={18} className="text-brand-blue" />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-semibold text-brand-dark truncate">
+        <p className="text-[15px] font-semibold text-brand-dark truncate">
           {material.title}
         </p>
         {material.description && (
-          <p className="text-xs text-brand-body truncate">{material.description}</p>
+          <p className="text-[13px] text-brand-body truncate">{material.description}</p>
         )}
       </div>
       <div className="flex items-center gap-2 shrink-0">
@@ -265,7 +265,7 @@ function MaterialsSection({ materials }: { materials: Material[] }) {
     return (
       <div className="flex flex-col items-center justify-center py-10 gap-2 text-center rounded-lg border border-dashed border-brand-border">
         <HiDocumentText size={28} className="text-brand-body/50" />
-        <p className="text-sm text-brand-body">No materials published yet.</p>
+        <p className="text-[15px] text-brand-body">No materials published yet.</p>
       </div>
     );
   }
@@ -321,7 +321,7 @@ function AssignmentsSection({
     return (
       <div className="flex flex-col items-center justify-center py-10 gap-2 text-center rounded-lg border border-dashed border-brand-border">
         <HiCheckCircle size={28} className="text-brand-body/50" />
-        <p className="text-sm text-brand-body">No assignments yet.</p>
+        <p className="text-[15px] text-brand-body">No assignments yet.</p>
       </div>
     );
   }
@@ -352,10 +352,10 @@ function AssignmentsSection({
               <tr key={a._id} className="hover:bg-brand-bg/50 transition-colors">
                 <td className="px-4 py-3">
                   <div>
-                    <p className="font-semibold text-brand-dark leading-tight">
+                    <p className="font-semibold text-brand-dark leading-tight text-[17px]">
                       {a.title}
                     </p>
-                    <p className="text-xs text-brand-body mt-0.5 capitalize">
+                    <p className="text-[13px] text-brand-body mt-0.5 capitalize">
                       {a.submissionType.toLowerCase()} submission
                     </p>
                   </div>
@@ -416,7 +416,7 @@ function ProgressCard({
       {/* Progress */}
       <Card className="bg-white">
         <CardHeader className="pb-2">
-          <p className="text-sm font-bold text-brand-dark">Overall Progress</p>
+          <p className="text-[15px] font-bold text-brand-dark">Overall Progress</p>
         </CardHeader>
         <Divider />
         <CardContent className="flex flex-col gap-3 pt-3">
@@ -444,7 +444,7 @@ function ProgressCard({
             </ProgressBarTrack>
           </ProgressBar>
           {lastActivity && (
-            <p className="text-xs text-brand-body">
+            <p className="text-[13px] text-brand-body">
               Last activity {lastActivity}
             </p>
           )}
@@ -454,7 +454,7 @@ function ProgressCard({
       {/* XP */}
       <Card className="bg-white">
         <CardHeader className="pb-2">
-          <p className="text-sm font-bold text-brand-dark">XP Progress</p>
+          <p className="text-[15px] font-bold text-brand-dark">XP Progress</p>
         </CardHeader>
         <Divider />
         <CardContent className="flex flex-col gap-3 pt-3">
@@ -564,8 +564,8 @@ export default function CourseDetailPage() {
       <div className="flex flex-col items-center justify-center py-20 gap-4 text-center">
         <HiExclamationTriangle size={40} className="text-red-400" />
         <div>
-          <p className="text-lg font-bold text-brand-dark">Course not found</p>
-          <p className="text-sm text-brand-body mt-1">
+          <p className="text-[19px] font-bold text-brand-dark">Course not found</p>
+          <p className="text-[15px] text-brand-body mt-1">
             {courseError ?? "This course doesn't exist or you don't have access."}
           </p>
         </div>
@@ -637,7 +637,7 @@ export default function CourseDetailPage() {
               <h1 className="text-2xl font-bold text-brand-dark leading-tight">
                 {course.title}
               </h1>
-              <p className="text-sm text-brand-body mt-1">
+              <p className="text-[15px] text-brand-body mt-1">
                 Instructor:{" "}
                 <span className="font-semibold text-brand-dark">{teacherName}</span>
                 {" · "}
@@ -649,7 +649,7 @@ export default function CourseDetailPage() {
 
             {course.description && (
               <CardContent className="pt-0">
-                <p className="text-sm text-brand-body leading-relaxed">
+                <p className="text-[15px] text-brand-body leading-relaxed">
                   {course.description}
                 </p>
               </CardContent>
@@ -662,7 +662,7 @@ export default function CourseDetailPage() {
               <div className="grid grid-cols-3 gap-6">
                 {/* Progress */}
                 <div>
-                  <p className="text-xs text-brand-body font-medium uppercase tracking-wide mb-2">
+                  <p className="text-[13px] text-brand-body font-medium uppercase tracking-wide mb-2">
                     Progress
                   </p>
                   <ProgressBar
@@ -675,26 +675,26 @@ export default function CourseDetailPage() {
                       <ProgressBarFill className="h-full rounded-full bg-emerald-500 transition-[width]" />
                     </ProgressBarTrack>
                   </ProgressBar>
-                  <p className="text-xl font-bold text-brand-dark mt-2">
+                  <p className="text-[21px] font-bold text-brand-dark mt-2">
                     {progress}%
                   </p>
                 </div>
 
                 {/* XP */}
                 <div>
-                  <p className="text-xs text-brand-body font-medium uppercase tracking-wide mb-2">
+                  <p className="text-[13px] text-brand-body font-medium uppercase tracking-wide mb-2">
                     XP Earned
                   </p>
                   <div className="flex items-center gap-1.5 mt-2">
                     <HiStar size={18} className="text-amber-500" />
-                    <p className="text-xl font-bold text-brand-dark">{xpEarned}</p>
+                    <p className="text-[21px] font-bold text-brand-dark">{xpEarned}</p>
                   </div>
-                  <p className="text-xs text-brand-body mt-0.5">points earned</p>
+                  <p className="text-[13px] text-brand-body mt-0.5">points earned</p>
                 </div>
 
                 {/* Enrollment status */}
                 <div>
-                  <p className="text-xs text-brand-body font-medium uppercase tracking-wide mb-2">
+                  <p className="text-[13px] text-brand-body font-medium uppercase tracking-wide mb-2">
                     Status
                   </p>
                   <div className="mt-2">
@@ -713,7 +713,7 @@ export default function CourseDetailPage() {
                       {enrollment?.status ?? "NOT ENROLLED"}
                     </Chip>
                   </div>
-                  <p className="text-xs text-brand-body mt-1.5">
+                  <p className="text-[13px] text-brand-body mt-1.5">
                     {enrollment
                       ? `Enrolled ${new Date(enrollment.enrolledAt).toLocaleDateString("en-US", { month: "short", year: "numeric" })}`
                       : "—"}
@@ -777,7 +777,7 @@ export default function CourseDetailPage() {
           {/* Course meta card */}
           <Card className="bg-white">
             <CardHeader className="pb-2">
-              <p className="text-sm font-bold text-brand-dark">Course Info</p>
+              <p className="text-[15px] font-bold text-brand-dark">Course Info</p>
             </CardHeader>
             <Divider />
             <CardContent className="flex flex-col gap-3 pt-3 text-sm">
@@ -806,7 +806,7 @@ export default function CourseDetailPage() {
           {course.metadata?.objectives && course.metadata.objectives.length > 0 && (
             <Card className="bg-white">
               <CardHeader className="pb-2">
-                <p className="text-sm font-bold text-brand-dark">Learning Objectives</p>
+                <p className="text-[15px] font-bold text-brand-dark">Learning Objectives</p>
               </CardHeader>
               <Divider />
               <CardContent className="pt-3">
@@ -852,7 +852,7 @@ export default function CourseDetailPage() {
             </DialogDescription>
           </DialogHeader>
           {unenrollError && (
-            <p className="text-sm text-red-600 -mt-2">{unenrollError}</p>
+            <p className="text-[15px] text-red-600 -mt-2">{unenrollError}</p>
           )}
           <DialogFooter>
             <DialogClose asChild>

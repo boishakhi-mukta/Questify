@@ -209,8 +209,8 @@ function SidebarContent({
             )}
           </div>
           <div className="overflow-hidden flex-1 min-w-0">
-            <p className="text-[12px] font-semibold text-white truncate leading-tight">{displayName}</p>
-            <p className="text-[10px] text-white/40 truncate leading-tight">{displaySub}</p>
+            <p className="text-[13px] font-semibold text-white truncate leading-tight">{displayName}</p>
+            <p className="text-[11px] text-white/40 truncate leading-tight">{displaySub}</p>
           </div>
         </div>
 

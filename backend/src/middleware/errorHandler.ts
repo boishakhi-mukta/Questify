@@ -49,6 +49,9 @@ const SENSITIVE_FIELDS = new Set([
   "passwordHash",
 ]);
 
+// Replaces sensitive fields (passwords, tokens, etc.) with "[REDACTED]" before
+// a failed request's body is written to the logs, so secrets never end up in
+// log files.
 function sanitizeBody(body: unknown): unknown {
   if (!body || typeof body !== "object" || Array.isArray(body)) return body;
   const result: Record<string, unknown> = {};
@@ -76,6 +79,9 @@ interface LogContext {
   timestamp: string;
 }
 
+// Gathers all the useful details about a failed request (who made it, what
+// URL, what error, etc.) into one bundle that both the log message and the
+// error response can be built from.
 function buildContext(
   req: Request,
   res: Response,
@@ -100,6 +106,9 @@ function buildContext(
   };
 }
 
+// Writes the error to the server logs — serious errors (500s) are logged as
+// "error" level with the full technical stack trace; everything else (like a
+// user typo) is logged as a lighter "warning."
 function logError(ctx: LogContext): void {
   if (env.NODE_ENV === "test") return;
 
@@ -132,6 +141,9 @@ interface ErrorBody {
   stack?:     string;
 }
 
+// Builds the actual JSON message sent back to whoever made the failed
+// request — a clear error message and code, plus (only in development) the
+// technical stack trace to help developers debug.
 function buildErrorBody(
   ctx:     LogContext,
   code:    string,
@@ -154,6 +166,10 @@ function buildErrorBody(
 
 // ══════════════════════════════════════════════════════════════════════════════
 // MAIN ERROR HANDLER
+// The single place every error in the app eventually flows through. It looks
+// at what kind of error occurred (a known app error, an expired login token,
+// bad data, a duplicate record, or something totally unexpected) and turns
+// it into a consistent, readable response instead of letting the app crash.
 // ══════════════════════════════════════════════════════════════════════════════
 
 export function errorHandler(
@@ -245,6 +261,8 @@ export function errorHandler(
 }
 
 // ── 404 catch-all ─────────────────────────────────────────────────────────────
+// Runs when a request doesn't match any known route (e.g. a typo'd URL) —
+// turns it into a proper "not found" error instead of Express's default response.
 export function notFound(req: Request, _res: Response, next: NextFunction): void {
   next(new NotFoundError(`${req.method} ${req.originalUrl}`));
 }

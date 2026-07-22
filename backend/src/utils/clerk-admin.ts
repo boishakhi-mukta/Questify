@@ -41,6 +41,9 @@ interface ClerkUpdatePayload {
 }
 
 // ── Internal request helper ────────────────────────────────────────────────────
+// Sends a single request to Clerk's servers (create/update/delete/look-up a
+// user) using our secret API key, and throws a readable error if Clerk
+// rejects the request.
 async function clerkFetch<T>(
   method: string,
   path:   string,
@@ -70,6 +73,8 @@ export function isClerkConfigured(): boolean {
 }
 
 // ── Public API ─────────────────────────────────────────────────────────────────
+// Creates a matching account over in Clerk whenever an admin creates a user
+// in Questify, so the person can log in through Clerk too.
 export async function clerkCreateUser(payload: ClerkCreatePayload): Promise<ClerkUser> {
   return clerkFetch<ClerkUser>("POST", "/users", {
     ...payload,
@@ -78,6 +83,8 @@ export async function clerkCreateUser(payload: ClerkCreatePayload): Promise<Cler
   });
 }
 
+// Pushes profile changes (name, role) made in Questify over to the linked
+// Clerk account so the two systems stay in sync.
 export async function clerkUpdateUser(
   clerkId: string,
   payload: ClerkUpdatePayload
@@ -85,10 +92,15 @@ export async function clerkUpdateUser(
   return clerkFetch<ClerkUser>("PATCH", `/users/${clerkId}`, payload);
 }
 
+// Removes a user's account from Clerk — used when an admin deletes a user
+// in Questify, so they lose access everywhere at once.
 export async function clerkDeleteUser(clerkId: string): Promise<void> {
   return clerkFetch<void>("DELETE", `/users/${clerkId}`);
 }
 
+// Looks up a Clerk account by email address. Returns null (instead of
+// throwing) if nothing is found or the lookup fails, since callers just want
+// to know "does this person already have a Clerk account or not."
 export async function clerkFindByEmail(email: string): Promise<ClerkUser | null> {
   try {
     const results = await clerkFetch<ClerkUser[]>(

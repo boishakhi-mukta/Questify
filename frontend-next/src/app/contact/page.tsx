@@ -105,7 +105,7 @@ function ContactForm() {
           <CheckCircle size={32} className="text-emerald-500" />
         </div>
         <h3 className="text-xl font-bold text-brand-dark dark:text-white">{t("contact.successTitle")}</h3>
-        <p className="text-brand-body dark:text-white/60 max-w-sm">
+        <p className="text-brand-body dark:text-white/60 max-w-sm text-[17px]">
           {t("contact.successBody")}
         </p>
         <button
@@ -145,7 +145,7 @@ function ContactForm() {
             disabled={status === "loading"}
             className={fieldClass(!!errors.name)}
           />
-          {errors.name && <p className="mt-1 text-xs text-red-400">{errors.name}</p>}
+          {errors.name && <p className="mt-1 text-[13px] text-red-400">{errors.name}</p>}
         </div>
         <div>
           <label htmlFor="email" className="block text-sm font-semibold text-brand-dark dark:text-white mb-1.5">
@@ -162,7 +162,7 @@ function ContactForm() {
             disabled={status === "loading"}
             className={fieldClass(!!errors.email)}
           />
-          {errors.email && <p className="mt-1 text-xs text-red-400">{errors.email}</p>}
+          {errors.email && <p className="mt-1 text-[13px] text-red-400">{errors.email}</p>}
         </div>
       </div>
 
@@ -184,7 +184,7 @@ function ContactForm() {
             <option key={value} value={value}>{t(key)}</option>
           ))}
         </select>
-        {errors.subject && <p className="mt-1 text-xs text-red-400">{errors.subject}</p>}
+        {errors.subject && <p className="mt-1 text-[13px] text-red-400">{errors.subject}</p>}
       </div>
 
       {/* Message */}
@@ -204,7 +204,7 @@ function ContactForm() {
         />
         <div className="flex justify-between mt-1">
           {errors.message ? (
-            <p className="text-xs text-red-400">{errors.message}</p>
+            <p className="text-[13px] text-red-400">{errors.message}</p>
           ) : (
             <span />
           )}
@@ -232,7 +232,7 @@ function ContactForm() {
         )}
       </Button>
 
-      <p className="text-xs text-center text-brand-body/50 dark:text-white/30">
+      <p className="text-[13px] text-center text-brand-body/50 dark:text-white/30">
         {t("contact.responseNote")}
       </p>
     </form>
@@ -269,7 +269,7 @@ export default function ContactPage() {
             <h1 className="text-3xl sm:text-4xl font-extrabold text-brand-dark dark:text-white mb-4 leading-tight">
               {t("contact.title")}
             </h1>
-            <p className="text-brand-body dark:text-white/60 text-lg leading-relaxed">
+            <p className="text-brand-body dark:text-white/60 text-[19px] leading-relaxed">
               {t("contact.subtitle")}
             </p>
           </div>
@@ -285,7 +285,7 @@ export default function ContactPage() {
                 <h2 className="text-xl font-bold text-brand-dark dark:text-white mb-2">
                   {t("contact.itHelpdeskTitle")}
                 </h2>
-                <p className="text-brand-body dark:text-white/60 text-sm leading-relaxed">
+                <p className="text-brand-body dark:text-white/60 text-[15px] leading-relaxed">
                   {t("contact.itHelpdeskDesc")}
                 </p>
               </div>
@@ -297,7 +297,7 @@ export default function ContactPage() {
                       <Icon size={18} className="text-brand-blue" />
                     </div>
                     <div>
-                      <p className="text-xs font-semibold text-brand-body dark:text-white/40 uppercase tracking-widest mb-0.5">
+                      <p className="text-[13px] font-semibold text-brand-body dark:text-white/40 uppercase tracking-widest mb-0.5">
                         {t(labelKey)}
                       </p>
                       {href ? (
@@ -308,7 +308,7 @@ export default function ContactPage() {
                           {value}
                         </a>
                       ) : (
-                        <p className="text-sm font-medium text-brand-dark dark:text-white">{value}</p>
+                        <p className="text-[15px] font-medium text-brand-dark dark:text-white">{value}</p>
                       )}
                     </div>
                   </li>
@@ -317,13 +317,13 @@ export default function ContactPage() {
 
               {/* Response time badge */}
               <div className="rounded-xl border border-brand-border dark:border-white/10 p-5 bg-brand-bg dark:bg-slate-800/50">
-                <p className="text-[13px] font-semibold text-brand-dark dark:text-white mb-1">
+                <p className="text-[14px] font-semibold text-brand-dark dark:text-white mb-1">
                   {t("contact.typicalResponseTime")}
                 </p>
-                <p className="text-2xl font-extrabold text-brand-blue mb-1">
+                <p className="text-[25px] font-extrabold text-brand-blue mb-1">
                   {t("contact.lessThanOneDay")}
                 </p>
-                <p className="text-xs text-brand-body dark:text-white/50">
+                <p className="text-[13px] text-brand-body dark:text-white/50">
                   {t("contact.officeHoursNote")}{" "}
                   <a href="/help" className="text-brand-blue hover:underline underline-offset-2">
                     {t("contact.helpCenter")}

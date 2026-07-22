@@ -84,6 +84,9 @@ const AttendanceSchema = new Schema<IAttendance, IAttendanceModel>(
 );
 
 // ── Post-save: award attendance XP on first save when present ──────────────────
+// Runs automatically right after a new attendance record is saved. If the
+// student was marked present, this awards them attendance XP (engagement
+// points) — but only the first time, never for later edits to the same record.
 AttendanceSchema.post("save", async function (doc: IAttendance) {
   if (!this.isNew || !doc.present) return;
 
@@ -97,6 +100,7 @@ AttendanceSchema.post("save", async function (doc: IAttendance) {
 });
 
 // ── Static: all attendance records for a student in a course ──────────────────
+// Fetches a student's full attendance history for one course, most recent day first.
 AttendanceSchema.statics.getStudentAttendance = async function (
   studentId: Types.ObjectId | string,
   courseId: Types.ObjectId | string
@@ -108,6 +112,8 @@ AttendanceSchema.statics.getStudentAttendance = async function (
 };
 
 // ── Static: attendance rate (0–100) for a student in a course ─────────────────
+// Calculates what percentage of classes a student has attended in a course —
+// e.g. 85 means they showed up to 85% of sessions.
 AttendanceSchema.statics.getAttendanceRate = async function (
   studentId: Types.ObjectId | string,
   courseId: Types.ObjectId | string

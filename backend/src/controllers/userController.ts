@@ -11,6 +11,9 @@
  * HOW IT WORKS (Technical Overview):
  * Traditional CRUD operations for user accounts.
  * ============================================================================
+ *
+ * NOTE: Not currently wired into any route — the app uses user.controller.ts
+ * (note the dot) for its actual user-management endpoints.
  */
 
 import { Request, Response } from "express";
@@ -19,6 +22,8 @@ import { NotFoundError } from "@/utils/errors";
 import type { AuthenticatedRequest, UserRole } from "@/types";
 
 // ── GET /api/v1/users ─────────────────────────────────────────────────────────
+// Lists user accounts, with search/role/active filters. Non-admins are
+// restricted to seeing only student accounts.
 export async function getUsers(
   req: AuthenticatedRequest,
   res: Response
@@ -75,6 +80,7 @@ export async function getUsers(
 }
 
 // ── GET /api/v1/users/:id ─────────────────────────────────────────────────────
+// Fetches one user's profile by ID.
 export async function getUserById(req: Request, res: Response): Promise<void> {
   const user = await User.findById(req.params.id);
   if (!user) throw new NotFoundError("User");
@@ -82,6 +88,8 @@ export async function getUserById(req: Request, res: Response): Promise<void> {
 }
 
 // ── POST /api/v1/users (Admin only) ───────────────────────────────────────────
+// Creates a new student or teacher account — admin accounts can't be created
+// through this endpoint as a safety measure.
 export async function createUser(req: Request, res: Response): Promise<void> {
   const {
     email,
@@ -128,6 +136,8 @@ export async function createUser(req: Request, res: Response): Promise<void> {
 }
 
 // ── PUT /api/v1/users/:id (Admin only) ────────────────────────────────────────
+// Edits a user's profile. Password, password hash, and email can't be
+// changed here, and nobody can be promoted to admin through this endpoint.
 export async function updateUser(req: Request, res: Response): Promise<void> {
   // Strip fields that must not be directly updated via this endpoint
   const {
@@ -159,6 +169,8 @@ export async function updateUser(req: Request, res: Response): Promise<void> {
 }
 
 // ── DELETE /api/v1/users/:id (Admin only) ─────────────────────────────────────
+// Permanently removes a user account — an admin can't delete their own
+// account through this endpoint.
 export async function deleteUser(
   req: AuthenticatedRequest,
   res: Response

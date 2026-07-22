@@ -22,6 +22,8 @@ const LOWER   = "abcdefghjkmnpqrstuvwxyz";
 const NUMBERS = "23456789";
 const SPECIAL = "!@#$%&*";
 
+// Picks `n` random characters from the given set of allowed characters —
+// a building block used to construct a temporary password.
 function pickRandom(chars: string, n: number): string[] {
   return Array.from({ length: n }, () => {
     const byte = randomBytes(1)[0];

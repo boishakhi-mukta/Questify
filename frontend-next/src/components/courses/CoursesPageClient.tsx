@@ -219,7 +219,7 @@ export default function CoursesPageClient() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-[90px] pb-8">
           <h1 className="text-[28px] font-bold text-brand-dark mb-1">{t("coursesPage.title")}</h1>
-          <p className="text-[15px] text-brand-body mb-6">
+          <p className="text-[16px] text-brand-body mb-6">
             {t("coursesPage.subtitle")}
           </p>
           <SearchBar value={input} onChange={setInput} onClear={clearSearch} />
@@ -231,7 +231,7 @@ export default function CoursesPageClient() {
 
         {/* Mobile: filter toggle */}
         <div className="flex items-center justify-between mb-5 lg:hidden">
-          <p className="text-[14px] text-brand-body">
+          <p className="text-[15px] text-brand-body">
             {t("coursesPage.courseCount", { count: sorted.length })}
           </p>
           <div className="flex items-center gap-2">
@@ -304,8 +304,8 @@ export default function CoursesPageClient() {
                   <HiBookOpen size={32} className="text-brand-blue/60" />
                 </div>
                 <div>
-                  <p className="text-[18px] font-bold text-brand-dark">{t("coursesPage.noCoursesFound")}</p>
-                  <p className="text-[14px] text-brand-body mt-1.5 max-w-xs">
+                  <p className="text-[19px] font-bold text-brand-dark">{t("coursesPage.noCoursesFound")}</p>
+                  <p className="text-[15px] text-brand-body mt-1.5 max-w-xs">
                     {query
                       ? t("coursesPage.noResultsFor", { query })
                       : t("coursesPage.noMatchFilters")}

@@ -92,7 +92,7 @@ export default function ForcePasswordChangeModal({ userRole }: Props) {
             </svg>
           </div>
           <h2 className="text-xl font-bold text-brand-dark">{t("auth.createPermanentPassword")}</h2>
-          <p className="text-sm text-brand-body mt-1.5">
+          <p className="text-[15px] text-brand-body mt-1.5">
             {t("auth.temporaryPasswordNote")}
           </p>
         </div>
@@ -168,7 +168,7 @@ export default function ForcePasswordChangeModal({ userRole }: Props) {
               required
             />
             {confirm && next && confirm !== next && (
-              <p className="text-[11px] text-red-500 mt-1">{t("auth.passwordsDoNotMatch")}</p>
+              <p className="text-[12px] text-red-500 mt-1">{t("auth.passwordsDoNotMatch")}</p>
             )}
           </div>
 

@@ -11,6 +11,10 @@
  * HOW IT WORKS (Technical Overview):
  * Checks query parameters against schema specifications.
  * ============================================================================
+ *
+ * NOTE: This uses a different validation library (express-validator) than
+ * the rest of the app, which validates with Zod via middleware/validation.ts.
+ * No route currently imports this file — it is not wired into the running server.
  */
 
 import { Request, Response, NextFunction } from "express";

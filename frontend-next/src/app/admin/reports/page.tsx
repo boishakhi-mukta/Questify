@@ -204,7 +204,7 @@ function ReportCard({
       <div className="h-px bg-brand-border dark:bg-white/8 mx-5" />
 
       <CardContent className="pt-4 pb-5 flex flex-col gap-4 flex-1">
-        <p className="text-[13px] text-brand-body dark:text-white/60 leading-relaxed">
+        <p className="text-[14px] text-brand-body dark:text-white/60 leading-relaxed">
           {def.description}
         </p>
 
@@ -355,7 +355,7 @@ function ConfigModal({
             {/* Info row */}
             <div className="flex items-start gap-2.5 px-3 py-2.5 rounded-lg bg-brand-blue/8 dark:bg-brand-blue/12 border border-brand-blue/15">
               <HiBriefcase size={15} className="text-brand-blue mt-0.5 shrink-0" />
-              <p className="text-[12px] text-brand-blue/80 dark:text-brand-blue/70 leading-snug">
+              <p className="text-[13px] text-brand-blue/80 dark:text-brand-blue/70 leading-snug">
                 Large reports may take a few seconds to generate. A download will start automatically when ready.
               </p>
             </div>
@@ -438,8 +438,8 @@ function RecentReportsTable({ reports }: { reports: RecentReport[] }) {
         {reports.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-14 gap-3 text-center">
             <HiDocumentChartBar size={36} className="text-brand-body/25 dark:text-white/15" />
-            <p className="text-[14px] font-semibold text-brand-body dark:text-white/60">No reports yet</p>
-            <p className="text-[12px] text-brand-body/55 dark:text-white/35">
+            <p className="text-[15px] font-semibold text-brand-body dark:text-white/60">No reports yet</p>
+            <p className="text-[13px] text-brand-body/55 dark:text-white/35">
               Generate a report above to see it here.
             </p>
           </div>
@@ -582,7 +582,7 @@ export default function AdminReportsPage() {
             Reports
           </h1>
         </div>
-        <p className="text-[14px] text-brand-body dark:text-white/55 ml-12">
+        <p className="text-[15px] text-brand-body dark:text-white/55 ml-12">
           Generate and download platform reports in CSV, PDF, or Excel format.
         </p>
       </div>

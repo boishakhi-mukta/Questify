@@ -17,6 +17,9 @@ import { Request, Response, NextFunction } from "express";
 
 type AsyncFn = (req: Request, res: Response, next: NextFunction) => Promise<void>;
 
+// Wraps a route handler so that if it throws an error (e.g. a failed database
+// lookup), that error is automatically passed along to the app's central
+// error handler instead of crashing the server or getting silently lost.
 export const asyncHandler = (fn: AsyncFn) =>
   (req: Request, res: Response, next: NextFunction): void => {
     fn(req, res, next).catch(next);

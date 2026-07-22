@@ -48,6 +48,7 @@ import type { AuthenticatedRequest } from "@/types";
 
 // ── Shared helpers ─────────────────────────────────────────────────────────────
 
+// Records "which admin did what" in the server logs, for accountability.
 function logAdmin(
   action: string,
   adminId: string,
@@ -56,17 +57,23 @@ function logAdmin(
   logAction(`ADMIN_${action}`, { adminId, ...details });
 }
 
+// Turns the raw "page" and "limit" text from the URL into safe numbers,
+// clamped to sane bounds, plus how many records to skip to reach that page.
 function parsePagination(page = "1", limit = String(PAGINATION.DEFAULT_LIMIT)) {
   const pageNum  = Math.max(1, parseInt(page, 10));
   const limitNum = Math.min(PAGINATION.MAX_LIMIT, Math.max(1, parseInt(limit, 10)));
   return { pageNum, limitNum, skip: (pageNum - 1) * limitNum };
 }
 
+// Escapes special characters in user-typed search text so it can be safely
+// used in a pattern search without accidentally being treated as a command.
 function escapeRegex(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 // ── Minimal CSV serializer (no external dependency) ───────────────────────────
+// Converts a list of database records into plain CSV text (spreadsheet
+// format) so admins can download reports and open them in Excel/Sheets.
 function toCsv(rows: Record<string, unknown>[]): string {
   if (rows.length === 0) return "";
   const headers = Object.keys(rows[0]);
@@ -88,6 +95,10 @@ function toCsv(rows: Record<string, unknown>[]): string {
 // PUBLIC STATS (no auth — used on marketing/landing page)
 // ═══════════════════════════════════════════════════════════════════════════════
 
+// Returns the headline numbers shown on the public marketing/landing page:
+// how many active students and teachers there are, how many published
+// courses exist, and how much XP has been awarded platform-wide. No login
+// required — safe to show to visitors.
 export async function getStats(_req: Request, res: Response): Promise<void> {
   const [totalStudents, totalTeachers, totalCourses, xpResult] =
     await Promise.all([
@@ -198,6 +209,8 @@ export async function adminCreateUser(
 }
 
 // ── GET /api/v1/admin/users ───────────────────────────────────────────────────
+// Powers the admin user directory: search, filter by role/department/active
+// status, sort, and paginate through every account on the platform.
 export async function adminListUsers(
   req: AuthenticatedRequest,
   res: Response
@@ -312,6 +325,9 @@ export async function adminUpdateUser(
 }
 
 // ── DELETE /api/v1/admin/users/:id ────────────────────────────────────────────
+// Deactivates a user account (rather than erasing it) and drops their active
+// course enrollments so seat counts stay accurate. An admin can't deactivate
+// their own account this way.
 export async function adminSoftDeleteUser(
   req: AuthenticatedRequest,
   res: Response
@@ -402,6 +418,8 @@ export async function adminResetPassword(
 // ═══════════════════════════════════════════════════════════════════════════════
 
 // ── POST /api/v1/admin/courses ────────────────────────────────────────────────
+// Creates a new course. If specific teachers are named up front, this checks
+// that each one is actually an active teacher account before assigning them.
 export async function adminCreateCourse(
   req: AuthenticatedRequest,
   res: Response
@@ -439,6 +457,8 @@ export async function adminCreateCourse(
 }
 
 // ── GET /api/v1/admin/courses ─────────────────────────────────────────────────
+// Powers the admin course directory: search, filter by campus/semester/level/
+// published status, then paginate through results.
 export async function adminListCourses(
   req: AuthenticatedRequest,
   res: Response
@@ -486,6 +506,8 @@ export async function adminListCourses(
 }
 
 // ── PATCH /api/v1/admin/courses/:id ──────────────────────────────────────────
+// Edits a course's details. Assigned teachers can't be changed through this
+// endpoint — use assign-faculty/unassign-faculty for that instead.
 export async function adminUpdateCourse(
   req: AuthenticatedRequest,
   res: Response
@@ -530,6 +552,8 @@ export async function adminSoftDeleteCourse(
 }
 
 // ── POST /api/v1/admin/courses/:id/assign-faculty ────────────────────────────
+// Adds one or more teachers to a course, after checking each ID actually
+// belongs to an active teacher account.
 export async function assignFaculty(
   req: AuthenticatedRequest,
   res: Response
@@ -568,6 +592,7 @@ export async function assignFaculty(
 }
 
 // ── POST /api/v1/admin/courses/:id/unassign-faculty ──────────────────────────
+// Removes one teacher from a course's list of assigned teachers.
 export async function unassignFaculty(
   req: AuthenticatedRequest,
   res: Response
@@ -603,6 +628,8 @@ export async function unassignFaculty(
 // ═══════════════════════════════════════════════════════════════════════════════
 
 // ── POST /api/v1/admin/departments ───────────────────────────────────────────
+// Creates a new academic department. If a department head is named, checks
+// that person is actually an active teacher or admin first.
 export async function createDepartment(
   req: AuthenticatedRequest,
   res: Response
@@ -669,6 +696,7 @@ export async function listDepartments(
 }
 
 // ── PATCH /api/v1/admin/departments/:id ──────────────────────────────────────
+// Edits a department's details, including reassigning who leads it.
 export async function updateDepartment(
   req: AuthenticatedRequest,
   res: Response
@@ -702,6 +730,7 @@ export async function updateDepartment(
 }
 
 // ── GET /api/v1/admin/departments/:id/courses ────────────────────────────────
+// Lists every course that belongs to a given department (campus).
 export async function getDepartmentCourses(
   req: AuthenticatedRequest,
   res: Response
@@ -809,6 +838,9 @@ export async function getDepartmentStudents(
 // ═══════════════════════════════════════════════════════════════════════════════
 
 // ── GET /api/v1/admin/dashboard ───────────────────────────────────────────────
+// Builds the numbers shown on the admin's home dashboard: how many students/
+// teachers/courses exist, enrollment counts, this month's new enrollments,
+// total XP given out platform-wide, and assignments due in the next week.
 export async function getDashboard(
   _req: AuthenticatedRequest,
   res: Response
@@ -859,6 +891,9 @@ export async function getDashboard(
 }
 
 // ── GET /api/v1/admin/dashboard/analytics ─────────────────────────────────────
+// Builds the charts on the admin dashboard: enrollment trend over the last
+// year, the most popular courses, how XP breaks down by activity type, how
+// courses are distributed across campuses, and grading trends over time.
 export async function getDashboardAnalytics(
   _req: AuthenticatedRequest,
   res: Response
@@ -951,6 +986,9 @@ export async function getDashboardAnalytics(
 // ═══════════════════════════════════════════════════════════════════════════════
 
 // ── GET /api/v1/admin/reports/enrollment ──────────────────────────────────────
+// Generates the enrollment report: every matching enrollment record with
+// student and course details attached, plus a breakdown by status. Add
+// ?format=csv to download it as a spreadsheet file instead of viewing as JSON.
 export async function enrollmentReport(
   req: AuthenticatedRequest,
   res: Response
@@ -1082,6 +1120,9 @@ export async function attendanceReport(
 }
 
 // ── GET /api/v1/admin/reports/xp ─────────────────────────────────────────────
+// Generates the XP (engagement points) report, optionally scoped to one
+// course: totals broken down by activity type, the top 20 point-earners, and
+// which courses have awarded the most points.
 export async function xpReport(
   req: AuthenticatedRequest,
   res: Response

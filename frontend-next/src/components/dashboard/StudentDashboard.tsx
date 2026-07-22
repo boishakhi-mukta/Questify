@@ -59,7 +59,7 @@ function WelcomeHeader({ name }: { name: string }) {
         <h1 className="text-2xl font-bold text-brand-dark">
           {t("studentDashboard.welcomeBack", { name })}
         </h1>
-        <p className="text-sm text-brand-body mt-1">{today}</p>
+        <p className="text-[15px] text-brand-body mt-1">{today}</p>
       </div>
       <Button asChild size="sm" className="shrink-0">
         <Link href="/courses">{t("studentDashboard.browseCourses")}</Link>
@@ -87,9 +87,9 @@ function StatsCards({ items }: { items: StatItem[] }) {
           <CardContent>
             <div className="flex items-center justify-between gap-4">
               <div>
-                <p className="text-sm text-brand-body">{label}</p>
-                <p className="text-2xl font-bold text-brand-dark mt-0.5">{value}</p>
-                <p className={cn("text-xs mt-1", accent ? "text-emerald-600 font-medium" : "text-brand-body")}>
+                <p className="text-[15px] text-brand-body">{label}</p>
+                <p className="text-[25px] font-bold text-brand-dark mt-0.5">{value}</p>
+                <p className={cn("text-[13px] mt-1", accent ? "text-emerald-600 font-medium" : "text-brand-body")}>
                   {sub}
                 </p>
               </div>
@@ -164,8 +164,8 @@ function CourseCard({ enrollment }: { enrollment: EnrollmentWithCourse }) {
     <Card className="bg-white transition-shadow hover:shadow-md">
       <CardHeader>
         <div>
-          <p className="text-xs font-medium text-brand-body">{course.category}</p>
-          <p className="text-sm font-bold text-brand-dark leading-snug mt-0.5 line-clamp-2">
+          <p className="text-[13px] font-medium text-brand-body">{course.category}</p>
+          <p className="text-[15px] font-bold text-brand-dark leading-snug mt-0.5 line-clamp-2">
             {course.title}
           </p>
         </div>
@@ -184,8 +184,8 @@ function CourseCard({ enrollment }: { enrollment: EnrollmentWithCourse }) {
         </div>
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-xs text-brand-body">{t("studentDashboard.xpEarned")}</p>
-            <p className="text-sm font-bold text-brand-dark">{xp} XP</p>
+            <p className="text-[13px] text-brand-body">{t("studentDashboard.xpEarned")}</p>
+            <p className="text-[15px] font-bold text-brand-dark">{xp} XP</p>
           </div>
           <Chip size="sm" className="bg-brand-blue/10 text-brand-blue border-none text-xs font-semibold">
             {course.credits} cr
@@ -221,8 +221,8 @@ function MyCourses({ enrollments }: { enrollments: EnrollmentWithCourse[] }) {
               <HiBookOpen size={24} className="text-brand-blue" />
             </div>
             <div>
-              <p className="font-semibold text-brand-dark">{t("studentDashboard.noActiveCourses")}</p>
-              <p className="text-sm text-brand-body mt-0.5">{t("studentDashboard.enrollCta")}</p>
+              <p className="font-semibold text-brand-dark text-[17px]">{t("studentDashboard.noActiveCourses")}</p>
+              <p className="text-[15px] text-brand-body mt-0.5">{t("studentDashboard.enrollCta")}</p>
             </div>
             <Button asChild size="sm" className="mt-1">
               <Link href="/courses">{t("studentDashboard.exploreCourses")}</Link>
@@ -287,8 +287,8 @@ function AssignmentsList({ enrollments }: { enrollments: EnrollmentWithCourse[] 
                   <HiBookOpen size={16} className="text-brand-blue" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-brand-dark truncate">{item.title}</p>
-                  <p className="text-xs text-brand-body truncate">{item.course}</p>
+                  <p className="text-[15px] font-semibold text-brand-dark truncate">{item.title}</p>
+                  <p className="text-[13px] text-brand-body truncate">{item.course}</p>
                 </div>
                 <Chip size="sm" color={urgencyColor(item.daysLeft)} variant="soft" className="text-xs shrink-0">
                   {item.daysLeft <= 1
@@ -360,13 +360,13 @@ function LeaderboardPreview({ entries, currentUserId, isLoading }: { entries: Le
                       <span className="text-xs font-bold text-brand-blue">{initials}</span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className={cn("text-sm font-semibold truncate", isMe ? "text-brand-blue" : "text-brand-dark")}>
+                      <p className={cn("text-[15px] font-semibold truncate", isMe ? "text-brand-blue" : "text-brand-dark")}>
                         {isMe ? `${entry.name} ${t("studentDashboard.you")}` : entry.name}
                       </p>
                     </div>
                     <div className="text-right shrink-0">
-                      <p className="text-sm font-bold text-brand-dark">{entry.totalXP.toLocaleString()}</p>
-                      <p className="text-[11px] text-brand-body">XP</p>
+                      <p className="text-[15px] font-bold text-brand-dark">{entry.totalXP.toLocaleString()}</p>
+                      <p className="text-[12px] text-brand-body">XP</p>
                     </div>
                   </div>
                 );
@@ -416,8 +416,8 @@ function RecentActivity({ enrollments }: { enrollments: EnrollmentWithCourse[] }
                   {item.icon}
                 </div>
                 <div className="flex-1 min-w-0 pt-0.5">
-                  <p className="text-sm text-brand-dark leading-snug">{item.text}</p>
-                  <p className="text-xs text-brand-body mt-0.5">{item.sub}</p>
+                  <p className="text-[15px] text-brand-dark leading-snug">{item.text}</p>
+                  <p className="text-[13px] text-brand-body mt-0.5">{item.sub}</p>
                 </div>
               </div>
             ))}

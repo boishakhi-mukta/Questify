@@ -164,6 +164,9 @@ async function buildUserAnalytics(userId: Types.ObjectId) {
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // GET /api/v1/analytics/course/:courseId  (Teacher/Admin)
+// Builds the analytics dashboard for one course: enrollment trends over
+// time, completion/dropout rates, top-scoring students, average grades,
+// attendance rate, and how XP was earned across activity types.
 // ═══════════════════════════════════════════════════════════════════════════════
 
 export async function getCourseAnalytics(
@@ -327,6 +330,7 @@ export async function getCourseAnalytics(
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // GET /api/v1/analytics/user  (Student — self only)
+// Returns the logged-in student's own personal learning dashboard data.
 // ═══════════════════════════════════════════════════════════════════════════════
 
 export async function getSelfAnalytics(
@@ -340,6 +344,8 @@ export async function getSelfAnalytics(
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // GET /api/v1/analytics/users/:userId  (Admin — any user)
+// Same learning dashboard as above, but lets an admin pull it up for any
+// specific student by ID (e.g. to help troubleshoot a support request).
 // ═══════════════════════════════════════════════════════════════════════════════
 
 export async function getUserAnalytics(
@@ -361,6 +367,9 @@ export async function getUserAnalytics(
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // GET /api/v1/analytics/enrollments  (Admin)
+// Platform-wide enrollment analytics: how enrollments have trended over the
+// last year, which courses have the best/worst completion rates, how long
+// it typically takes students to finish a course, and a semester breakdown.
 // ═══════════════════════════════════════════════════════════════════════════════
 
 export async function getEnrollmentAnalytics(
@@ -489,6 +498,9 @@ export async function getEnrollmentAnalytics(
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // GET /api/v1/analytics/xp  (Admin)
+// XP (engagement points) analytics — optionally scoped to one course, or
+// across the whole platform: totals by activity type, the most active
+// students, which courses award the most XP, and the trend over time.
 // ═══════════════════════════════════════════════════════════════════════════════
 
 export async function getXPAnalytics(

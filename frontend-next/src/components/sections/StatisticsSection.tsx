@@ -86,12 +86,12 @@ function BlobStatCard({
           </>
         ) : (
           <>
-            <p className="text-[32px] font-extrabold leading-none tracking-tight" style={{ color: "#1B4332" }}>
+            <p className="text-[33px] font-extrabold leading-none tracking-tight" style={{ color: "#1B4332" }}>
               {formatStat(count)}
               {suffix && <span className="text-[18px] ml-0.5" style={{ color: "#25B585" }}>{suffix}</span>}
             </p>
-            <p className="text-[13px] font-bold mt-2" style={{ color: "#1B4332" }}>{label}</p>
-            <p className="text-[11px] mt-0.5" style={{ color: "#2D6A4F" }}>{subtext}</p>
+            <p className="text-[14px] font-bold mt-2" style={{ color: "#1B4332" }}>{label}</p>
+            <p className="text-[12px] mt-0.5" style={{ color: "#2D6A4F" }}>{subtext}</p>
           </>
         )}
       </div>
@@ -204,13 +204,13 @@ export default function StatisticsSection() {
           {/* Left: heading + Lottie animation */}
           <ScrollReveal direction="right">
             <div className="flex flex-col">
-              <p className="text-sm font-semibold text-brand-blue uppercase tracking-widest mb-3">
+              <p className="text-[15px] font-semibold text-brand-blue uppercase tracking-widest mb-3">
                 {t("stats.eyebrow")}
               </p>
               <h2 id="stats-heading" className="text-[32px] font-bold text-brand-dark leading-tight mb-4">
                 {t("stats.heading")}
               </h2>
-              <p className="text-[15px] text-brand-body leading-relaxed mb-6 max-w-md">
+              <p className="text-[16px] text-brand-body leading-relaxed mb-6 max-w-md">
                 {t("stats.body")}
               </p>
               <div className="w-full max-w-sm mx-auto lg:mx-0">
