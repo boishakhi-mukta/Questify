@@ -58,6 +58,10 @@ import {
 
 interface CourseDetailProps {
   id: string;
+  /** Where "back to courses" links (and the post-login redirect) point —
+   *  lets this component be reused for both the public /courses/[id] page
+   *  and an in-dashboard catalog (e.g. /student/browse/[id]). */
+  basePath?: string;
 }
 
 const LEVEL_LABELS: Record<string, string> = {
@@ -90,7 +94,7 @@ function MetaChip({ icon: Icon, label, value }: { icon: IconType; label: string;
 // The full course detail page: hero banner with enroll/unenroll button,
 // course description, learning objectives, prerequisites, modules, and an
 // XP-rewards summary card.
-export default function CourseDetail({ id }: CourseDetailProps) {
+export default function CourseDetail({ id, basePath = "/courses" }: CourseDetailProps) {
   const { course, isLoading, error } = useCourse(id);
   const { t } = useTranslation();
   const router = useRouter();
@@ -132,7 +136,7 @@ export default function CourseDetail({ id }: CourseDetailProps) {
         <p className="text-[19px] font-semibold text-brand-dark">
           {error ?? t("courseDetail.courseNotFound")}
         </p>
-        <Link href="/courses" className="text-sm font-semibold text-brand-blue hover:text-brand-blue-dark no-underline transition-colors">
+        <Link href={basePath} className="text-sm font-semibold text-brand-blue hover:text-brand-blue-dark no-underline transition-colors">
           {t("courseDetail.backToCourses")}
         </Link>
       </div>
@@ -171,7 +175,7 @@ export default function CourseDetail({ id }: CourseDetailProps) {
   // they're already enrolled and want to leave the course.
   function handleEnrollClick() {
     if (!isAuthenticated) {
-      router.push(`/login?redirect=/courses/${id}`);
+      router.push(`/login?redirect=${basePath}/${id}`);
       return;
     }
     if (!isStudent || !course) return;
@@ -217,7 +221,7 @@ export default function CourseDetail({ id }: CourseDetailProps) {
         <div className="relative max-w-[1100px] mx-auto px-5 sm:px-8 lg:px-12 pt-8 sm:pt-10 pb-10 sm:pb-12">
 
           <Link
-            href="/courses"
+            href={basePath}
             className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-brand-body hover:text-brand-dark no-underline transition-colors mb-6 sm:mb-7"
           >
             {t("courseDetail.backToCourses")}

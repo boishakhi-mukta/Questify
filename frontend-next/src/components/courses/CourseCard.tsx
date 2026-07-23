@@ -39,11 +39,14 @@ const DEFAULT_CONFIG: CategoryConfig = { color: "#1B7A5A", Icon: BookOpen };
 
 // Draws one course preview card (category, level, title, description,
 // credits, hours, enrollment count) linking to that course's detail page.
-export function CourseCard({ course }: { course: Course }) {
+// `hrefBase` lets callers keep the link inside a different section of the
+// site (e.g. the student dashboard's own catalog) instead of the public
+// /courses pages.
+export function CourseCard({ course, hrefBase = "/courses" }: { course: Course; hrefBase?: string }) {
   const { color, Icon } = CATEGORY_CONFIG[course.category] ?? DEFAULT_CONFIG;
 
   return (
-    <Link href={`/courses/${course._id}`} className="no-underline group block h-full">
+    <Link href={`${hrefBase}/${course._id}`} className="no-underline group block h-full">
       <article className="flex flex-col h-full bg-white rounded-xl overflow-hidden border border-brand-border/50 shadow-xs transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1 group-hover:border-brand-border">
 
         {/* Animated sweep border */}

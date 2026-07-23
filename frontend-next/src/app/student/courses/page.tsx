@@ -366,7 +366,7 @@ function EmptyState({ filtered }: { filtered: boolean }) {
       </div>
       {!filtered && (
         <Button asChild size="sm">
-          <Link href="/courses">Explore Courses</Link>
+          <Link href="/student/browse">Explore Courses</Link>
         </Button>
       )}
     </div>
@@ -473,7 +473,7 @@ export default function MyCoursesPage() {
           </p>
         </div>
         <Button asChild size="sm" className="shrink-0">
-          <Link href="/courses">Explore Catalogue</Link>
+          <Link href="/student/browse">Explore Catalogue</Link>
         </Button>
       </div>
 
