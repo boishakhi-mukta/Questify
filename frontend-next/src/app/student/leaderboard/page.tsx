@@ -26,7 +26,6 @@ import {
   TabListContainer,
   TabList,
   Tab,
-  TabIndicator,
   TabPanel,
   Avatar,
   AvatarImage,
@@ -597,7 +596,6 @@ export default function LeaderboardPage() {
                   </Tab>
                 ))}
               </TabList>
-              <TabIndicator className="hidden" />
             </TabListContainer>
             {(["week", "month", "all"] as Period[]).map((p) => (
               <TabPanel key={p} id={p} className="hidden">{null}</TabPanel>
