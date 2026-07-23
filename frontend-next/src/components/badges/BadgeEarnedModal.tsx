@@ -32,7 +32,7 @@ import {
   Chip,
   useOverlayState,
 } from "@heroui/react";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import {
   type Badge,
   RARITY_CHIP_COLOR,
@@ -99,10 +99,11 @@ export function BadgeEarnedModal({ badge, state }: BadgeEarnedModalProps) {
 
           {/* Footer */}
           <ModalFooter className="pb-6">
-            <ModalCloseTrigger>
-              <Button className="w-full gap-2">
-                <span>🎉</span> Awesome!
-              </Button>
+            {/* ModalCloseTrigger already renders its own <button> — styling it
+                directly (instead of nesting our Button component inside it)
+                avoids an invalid <button> inside <button>. */}
+            <ModalCloseTrigger className={buttonVariants({ className: "w-full gap-2" })}>
+              <span>🎉</span> Awesome!
             </ModalCloseTrigger>
           </ModalFooter>
         </ModalDialog>

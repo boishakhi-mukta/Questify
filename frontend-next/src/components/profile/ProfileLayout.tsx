@@ -37,7 +37,7 @@ import {
   ModalCloseTrigger,
   useOverlayState,
 } from "@heroui/react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { HiPencil, HiEnvelope, HiCalendarDays } from "react-icons/hi2";
 import { useTranslation } from "react-i18next";
 
@@ -229,10 +229,11 @@ export default function ProfileLayout({
             </ModalHeader>
             <ModalBody>{editFormContent}</ModalBody>
             <ModalFooter>
-              <ModalCloseTrigger>
-                <Button variant="outline" disabled={isSaving}>
-                  {t("profileLayout.cancel")}
-                </Button>
+              {/* ModalCloseTrigger already renders its own <button> — styling it
+                  directly (instead of nesting our Button component inside it)
+                  avoids an invalid <button> inside <button>. */}
+              <ModalCloseTrigger className={buttonVariants({ variant: "outline" })} isDisabled={isSaving}>
+                {t("profileLayout.cancel")}
               </ModalCloseTrigger>
               <Button onClick={onSave} disabled={isSaving}>
                 {isSaving ? t("profileLayout.saving") : t("profileLayout.saveChanges")}

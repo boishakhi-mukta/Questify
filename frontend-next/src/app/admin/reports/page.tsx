@@ -53,7 +53,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -362,10 +362,11 @@ function ConfigModal({
           </ModalBody>
 
           <ModalFooter className="gap-2">
-            <ModalCloseTrigger>
-              <Button variant="outline" size="sm">
-                Cancel
-              </Button>
+            {/* ModalCloseTrigger already renders its own <button> — styling it
+                directly (instead of nesting our Button component inside it)
+                avoids an invalid <button> inside <button>. */}
+            <ModalCloseTrigger className={buttonVariants({ variant: "outline", size: "sm" })}>
+              Cancel
             </ModalCloseTrigger>
             <Button
               variant="default"
