@@ -62,7 +62,7 @@ function WelcomeHeader({ name }: { name: string }) {
         <p className="text-[15px] text-brand-body mt-1">{today}</p>
       </div>
       <Button asChild size="sm" className="shrink-0">
-        <Link href="/courses">{t("studentDashboard.browseCourses")}</Link>
+        <Link href="/student/browse">{t("studentDashboard.browseCourses")}</Link>
       </Button>
     </div>
   );
@@ -209,9 +209,6 @@ function MyCourses({ enrollments }: { enrollments: EnrollmentWithCourse[] }) {
     <section>
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-bold text-brand-dark">{t("studentDashboard.myCourses")}</h2>
-        <Button asChild variant="ghost" size="sm">
-          <Link href="/courses">{t("studentDashboard.browseMore")}</Link>
-        </Button>
       </div>
 
       {active.length === 0 ? (
@@ -225,7 +222,7 @@ function MyCourses({ enrollments }: { enrollments: EnrollmentWithCourse[] }) {
               <p className="text-[15px] text-brand-body mt-0.5">{t("studentDashboard.enrollCta")}</p>
             </div>
             <Button asChild size="sm" className="mt-1">
-              <Link href="/courses">{t("studentDashboard.exploreCourses")}</Link>
+              <Link href="/student/browse">{t("studentDashboard.exploreCourses")}</Link>
             </Button>
           </CardContent>
         </Card>

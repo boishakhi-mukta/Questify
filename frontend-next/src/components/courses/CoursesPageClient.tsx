@@ -100,7 +100,10 @@ function parseInitialParams(params: URLSearchParams) {
 // The whole "Browse Courses" page: search box, filter sidebar, sort dropdown,
 // the resulting grid of course cards, and pagination — all wired together,
 // and kept in sync with the page's URL so views can be shared/bookmarked.
-export default function CoursesPageClient() {
+// `basePath` lets this same component power both the public /courses page
+// and an in-dashboard catalog (e.g. /student/browse) without either one's
+// URL sync or course links leaking into the other section of the site.
+export default function CoursesPageClient({ basePath = "/courses" }: { basePath?: string }) {
   const params = useSearchParams();
   const router = useRouter();
 
@@ -176,9 +179,9 @@ export default function CoursesPageClient() {
     if (pagination.pageSize !== 9)      p.set("pageSize", String(pagination.pageSize));
 
     const qs = p.toString();
-    router.replace(qs ? `/courses?${qs}` : "/courses", { scroll: false });
+    router.replace(qs ? `${basePath}?${qs}` : basePath, { scroll: false });
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query, filters, sort, pagination.page, pagination.pageSize]);
+  }, [query, filters, sort, pagination.page, pagination.pageSize, basePath]);
 
   // ── Close mobile drawer on resize ────────────────────────────────────────────
   useEffect(() => {
@@ -293,7 +296,7 @@ export default function CoursesPageClient() {
             {hydrated && !isLoading && paged.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
                 {paged.map((course) => (
-                  <CourseCard key={course._id} course={course} />
+                  <CourseCard key={course._id} course={course} hrefBase={basePath} />
                 ))}
               </div>
             )}
