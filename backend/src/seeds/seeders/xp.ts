@@ -17,6 +17,7 @@ import { Types } from "mongoose";
 import { XPModel, XP_POINT_VALUES } from "@/models/XP";
 import type { XPActivityType } from "@/models/XP";
 import type { IEnrollment } from "@/models/Enrollment";
+import { recalculateEnrollmentXpTotals } from "@/seeds/backfill-xp-totals";
 
 // XP activity types that don't require a real assignment/submission reference
 const ACTIVITY_TYPES: XPActivityType[] = [
@@ -90,8 +91,10 @@ export async function seedXP(enrollments: IEnrollment[]): Promise<number> {
     return 0;
   }
 
-  // insertMany bypasses post-save hooks (intentional — avoids double-counting XP
-  // since enrollment.totalXpEarned is already set by seedEnrollments)
+  // insertMany bypasses the XP model's post-save hook (the one that normally
+  // keeps Enrollment.totalXpEarned in sync as each XP event is awarded) —
+  // that's fine for bulk-seeding speed, but it means enrollment.totalXpEarned
+  // (seeded as 0 in seedEnrollments) is left stale until we backfill it below.
   const result = await XPModel.insertMany(docs, { ordered: false });
 
   // If there are existing records from a prior partial run, some inserts may fail
@@ -102,6 +105,11 @@ export async function seedXP(enrollments: IEnrollment[]): Promise<number> {
     skipped = docs.length - inserted;
   }
 
-  console.log(`   XP: ${inserted} created, ${skipped} skipped`);
+  // Recompute every enrollment's totalXpEarned from the real XP records we
+  // just inserted (and any from prior runs), so the leaderboard and XP
+  // stats shown in the app reflect what was actually seeded.
+  const { updated } = await recalculateEnrollmentXpTotals();
+
+  console.log(`   XP: ${inserted} created, ${skipped} skipped, ${updated} enrollment totals backfilled`);
   return inserted;
 }

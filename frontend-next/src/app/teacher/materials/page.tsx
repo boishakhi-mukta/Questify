@@ -65,7 +65,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { useCourses } from "@/hooks/api/useCourses";
 import { useCourseMaterials } from "@/hooks/api/useCourseMaterials";
@@ -426,8 +426,11 @@ function UploadModal({
           </ModalBody>
 
           <ModalFooter className="gap-2">
-            <ModalCloseTrigger>
-              <Button variant="outline" size="sm">Cancel</Button>
+            {/* ModalCloseTrigger already renders its own <button> — styling it
+                directly (instead of nesting our Button component inside it)
+                avoids an invalid <button> inside <button>. */}
+            <ModalCloseTrigger className={buttonVariants({ variant: "outline", size: "sm" })}>
+              Cancel
             </ModalCloseTrigger>
             <Button
               variant="default"
@@ -519,8 +522,11 @@ function EditModal({
             />
           </ModalBody>
           <ModalFooter className="gap-2">
-            <ModalCloseTrigger>
-              <Button variant="outline" size="sm">Cancel</Button>
+            {/* ModalCloseTrigger already renders its own <button> — styling it
+                directly (instead of nesting our Button component inside it)
+                avoids an invalid <button> inside <button>. */}
+            <ModalCloseTrigger className={buttonVariants({ variant: "outline", size: "sm" })}>
+              Cancel
             </ModalCloseTrigger>
             <Button variant="default" size="sm" onClick={handleSave} disabled={isSaving} className="gap-1.5 min-w-[120px]">
               {isSaving ? <><HiArrowPath size={14} className="animate-spin" /> Saving…</> : <><HiPencilSquare size={14} /> Save Changes</>}
@@ -582,8 +588,11 @@ function DeleteModal({
             </div>
           </ModalBody>
           <ModalFooter className="gap-2">
-            <ModalCloseTrigger>
-              <Button variant="outline" size="sm">Keep it</Button>
+            {/* ModalCloseTrigger already renders its own <button> — styling it
+                directly (instead of nesting our Button component inside it)
+                avoids an invalid <button> inside <button>. */}
+            <ModalCloseTrigger className={buttonVariants({ variant: "outline", size: "sm" })}>
+              Keep it
             </ModalCloseTrigger>
             <Button
               variant="destructive"
