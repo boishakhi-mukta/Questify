@@ -3,13 +3,15 @@
  * QUESTIFY API ROUTE: AI Tutor Chat API
  * 
  * WHAT IT DOES (For Non-Technical Readers):
- * Gateway forwarding chat inquiries to our local/remote AI model.
- * 
+ * Receives chat messages from the AI Tutor widget and forwards them to
+ * Google's Gemini AI model, then sends its reply back.
+ *
  * WHY IT EXISTS:
- * Powers the interactive AI teaching assistant.
- * 
+ * Keeps the Gemini API key on the server — the browser never sees it.
+ *
  * HOW IT WORKS (Technical Overview):
- * Next.js API routing handler using model prompts to parse replies.
+ * A Next.js API route that calls the Gemini SDK server-side, using the
+ * conversation history as chat context, and returns the model's reply as JSON.
  * ============================================================================
  */
 

@@ -80,7 +80,7 @@ Whether you're a student chasing the top of the leaderboard or an admin keeping 
 - Middleware-level route protection.
 
 ### 8. Additional Features
-- **AI Tutor Chatbot:** Connect with a virtual teaching assistant powered by LLM APIs.
+- **AI Tutor Chatbot:** Connect with a virtual teaching assistant powered by Google's Gemini API.
 - **Fully Responsive:** Accessible on desktop, tablet, and mobile devices.
 - **Modern UI:** Built with Tailwind CSS v4 and HeroUI (nextui) components.
 - **Lottie Animations:** Smooth, lightweight animations on the landing page.
@@ -141,6 +141,9 @@ Configure frontend environment variables by creating a `.env.local` file in `fro
 NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
 CLERK_SECRET_KEY=your_clerk_secret_key
+
+# Powers the AI Tutor chatbot — get a key from https://aistudio.google.com/apikey
+GEMINI_API_KEY=your_gemini_api_key
 ```
 Run the development server:
 ```bash
