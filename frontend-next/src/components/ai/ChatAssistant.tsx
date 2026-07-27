@@ -19,7 +19,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { ScrollShadow, Chip } from "@heroui/react";
 import { HiPaperAirplane, HiXMark, HiSparkles, HiArrowPath } from "react-icons/hi2";
 import { toast } from "sonner";
-import { getChatResponse, type ChatMessage } from "@/lib/ollama";
+import { getChatResponse, type ChatMessage } from "@/lib/gemini";
 import { cn } from "@/lib/utils";
 
 const QUICK_PROMPTS = [
