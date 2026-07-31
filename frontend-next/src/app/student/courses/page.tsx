@@ -189,7 +189,7 @@ function CourseCard({
           <Button
             className="flex-1 text-sm"
             size="sm"
-            onClick={() => router.push(`/courses/${course._id}`)}
+            onClick={() => router.push(`/student/courses/${course._id}`)}
           >
             View Course
           </Button>

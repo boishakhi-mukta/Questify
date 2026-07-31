@@ -192,7 +192,7 @@ function CourseCard({ enrollment }: { enrollment: EnrollmentWithCourse }) {
           </Chip>
         </div>
         <Button asChild size="sm" className="w-full mt-auto">
-          <Link href={`/courses/${course._id}`}>{t("studentDashboard.viewCourse")}</Link>
+          <Link href={`/student/courses/${course._id}`}>{t("studentDashboard.viewCourse")}</Link>
         </Button>
       </CardContent>
     </Card>
