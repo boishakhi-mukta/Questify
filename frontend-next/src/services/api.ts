@@ -67,7 +67,7 @@ export const enrollmentsApi = {
 // Gets the list of study materials (PDFs, videos, links, etc.) for one course.
 export const materialsApi = {
   byCourse: (courseId: string) =>
-    get<Material[]>("/materials", { courseId }),
+    get<Material[]>(`/materials/course/${courseId}`),
 };
 
 // ── Assignments ───────────────────────────────────────────────────────────────
@@ -83,7 +83,7 @@ export interface SubmitAssignmentPayload {
 // completed assignment (their submission) to be graded.
 export const assignmentsApi = {
   byCourse: (courseId: string) =>
-    get<Assignment[]>("/assignments", { courseId }),
+    get<Assignment[]>(`/assignments/course/${courseId}`),
 
   submit: (payload: SubmitAssignmentPayload) =>
     post<Submission>("/submissions", payload),
