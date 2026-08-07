@@ -71,11 +71,11 @@ async function assertTeacherCourseAccess(
  * Guards:
  * - Student must be actively enrolled in the assignment's course
  * - Duplicate submission → 409
- * - Past deadline + late not allowed → 400
- * - Content must match the assignment's submissionType
+ * - Past deadline → 400, always (late submissions are never accepted,
+ *   regardless of the assignment's allowLateSubmission setting)
  *
- * Status is set to "LATE" when the submission arrives after dueDate
- * and the assignment has allowLateSubmission enabled.
+ * The student may submit either written text or a file link — whichever
+ * they choose — independent of the assignment's configured submissionType.
  */
 export async function submitAssignment(
   req: AuthenticatedRequest,
@@ -104,33 +104,19 @@ export async function submitAssignment(
     );
   }
 
-  // ── 3. Deadline check ───────────────────────────────────────────────────────
+  // ── 3. Deadline check — hard cutoff, no exceptions ─────────────────────────
   const now = new Date();
-  const isPastDeadline = now > assignment.dueDate;
-
-  if (isPastDeadline && !assignment.allowLateSubmission) {
+  if (now > assignment.dueDate) {
     throw new BadRequestError(
-      "The submission deadline has passed and late submissions are not accepted for this assignment."
+      "The submission deadline has passed. This assignment is no longer accepting submissions."
     );
   }
 
-  // ── 4. Content must match submissionType ───────────────────────────────────
-  const type = assignment.submissionType;
-  if ((type === "TEXT" || type === "CODE") && !submissionContent) {
-    throw new BadRequestError(
-      `submissionContent is required for ${type} assignments.`
-    );
-  }
-  if (type === "FILE" && !fileUrl) {
-    throw new BadRequestError("fileUrl is required for FILE assignments.");
-  }
-  if (type === "LINK" && !submissionContent) {
-    throw new BadRequestError(
-      "submissionContent (the URL) is required for LINK assignments."
-    );
-  }
+  // Note: submissionContent/fileUrl presence (at least one required) is
+  // already enforced by submitAssignmentSchema before this controller runs —
+  // students may submit either, regardless of the assignment's submissionType.
 
-  // ── 5. Duplicate submission check ──────────────────────────────────────────
+  // ── 4. Duplicate submission check ──────────────────────────────────────────
   const existing = await Submission.findOne({ assignmentId, studentId }).lean();
   if (existing) {
     throw new ConflictError(
@@ -139,16 +125,16 @@ export async function submitAssignment(
     );
   }
 
-  // ── 6. Create submission ───────────────────────────────────────────────────
-  const status = isPastDeadline ? "LATE" : "SUBMITTED";
-
+  // ── 5. Create submission ───────────────────────────────────────────────────
+  // Always "SUBMITTED" — the deadline check above already rejected anything
+  // arriving after the due date, so a "LATE" submission can no longer happen.
   const submission = await Submission.create({
     assignmentId: new Types.ObjectId(assignmentId),
     studentId: new Types.ObjectId(studentId),
     courseId: assignment.courseId,
     submissionContent,
     fileUrl,
-    status,
+    status: "SUBMITTED",
   });
 
   logAction("ASSIGNMENT_SUBMITTED", {
@@ -156,18 +142,9 @@ export async function submitAssignment(
     assignmentId,
     submissionId: submission._id.toString(),
     courseId: assignment.courseId.toString(),
-    status,
-    isLate: isPastDeadline,
-    latePenaltyPct: isPastDeadline ? assignment.latePenalty : 0,
   });
 
-  sendCreated(
-    res,
-    { submission },
-    isPastDeadline
-      ? `Assignment submitted late (${assignment.latePenalty}% penalty applies)`
-      : "Assignment submitted successfully"
-  );
+  sendCreated(res, { submission }, "Assignment submitted successfully");
 }
 
 // ── GET /api/v1/submissions/assignment/:assignmentId (Teacher/Admin) ──────────

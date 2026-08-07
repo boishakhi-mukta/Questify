@@ -5,11 +5,13 @@
  * QUESTIFY PAGE ROUTE: Student Assignment Detail & Uploads
  * 
  * WHAT IT DOES (For Non-Technical Readers):
- * The page where a student views homework instructions and submits solutions.
- * 
+ * The page where a student views homework instructions and submits solutions
+ * — either by writing a response or uploading a file link. Once the due
+ * date passes, submission is closed for everyone.
+ *
  * WHY IT EXISTS:
  * Entry point for homework submissions.
- * 
+ *
  * HOW IT WORKS (Technical Overview):
  * Inspects courseId/assignmentId URL parameters, loading instructions and form states.
  * ============================================================================
@@ -39,19 +41,16 @@ import {
   HiCheckCircle,
   HiExclamationTriangle,
   HiInformationCircle,
-  HiClock,
   HiStar,
   HiCalendar,
   HiPaperClip,
-  HiLink,
-  HiCodeBracket,
   HiDocumentText,
   HiArrowUpTray,
   HiXMark,
 } from "react-icons/hi2";
 import { Button } from "@/components/ui/button";
 import { useCourseAssignments } from "@/hooks/api/useCourseAssignments";
-import type { Assignment, SubmissionType } from "@/types/api-response";
+import type { Assignment } from "@/types/api-response";
 import { cn } from "@/lib/utils";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -92,13 +91,6 @@ const DUE_STATUS_LABEL: Record<DueStatus, string> = {
   "overdue":  "Overdue",
   "due-soon": "Due Soon",
   "upcoming": "Upcoming",
-};
-
-const SUBMISSION_TYPE_ICON: Record<SubmissionType, React.ElementType> = {
-  TEXT: HiDocumentText,
-  FILE: HiPaperClip,
-  LINK: HiLink,
-  CODE: HiCodeBracket,
 };
 
 // ─── Divider ──────────────────────────────────────────────────────────────────
@@ -146,7 +138,6 @@ function PageSkeleton() {
 // points, description, instructions, and any attachments.
 function AssignmentDetailCard({ assignment }: { assignment: Assignment }) {
   const dueStatus = getDueStatus(assignment.dueDate);
-  const TypeIcon  = SUBMISSION_TYPE_ICON[assignment.submissionType];
 
   const chipColor = {
     overdue:  "danger",
@@ -159,20 +150,9 @@ function AssignmentDetailCard({ assignment }: { assignment: Assignment }) {
       <CardHeader className="pb-1">
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-2 flex-wrap">
-            <Chip size="sm" className="text-xs bg-brand-bg text-brand-body border-none">
-              <span className="flex items-center gap-1">
-                <TypeIcon size={11} />
-                {assignment.submissionType.toLowerCase()} submission
-              </span>
-            </Chip>
             <Chip size="sm" color={chipColor} variant="soft" className="text-xs">
               {DUE_STATUS_LABEL[dueStatus]}
             </Chip>
-            {!assignment.allowLateSubmission && (
-              <Chip size="sm" className="text-xs bg-red-50 text-red-600 border-red-200">
-                No late submissions
-              </Chip>
-            )}
           </div>
           <h1 className="text-2xl font-bold text-brand-dark mt-1">
             {assignment.title}
@@ -203,16 +183,6 @@ function AssignmentDetailCard({ assignment }: { assignment: Assignment }) {
               {assignment.totalPoints} XP
             </p>
           </div>
-          {assignment.latePenalty > 0 && (
-            <div>
-              <p className="text-[13px] font-medium text-brand-body uppercase tracking-wide mb-1">
-                Late Penalty
-              </p>
-              <p className="text-[15px] font-semibold text-red-600">
-                −{assignment.latePenalty}% per day
-              </p>
-            </div>
-          )}
         </div>
 
         {/* Description */}
@@ -278,40 +248,47 @@ interface SubmissionFormProps {
   }) => Promise<{ submittedAt: string }>;
 }
 
-// The form a student fills in to turn in their work — its fields change
-// based on the assignment's submission type (text, code, link, or file URL).
+type SubmissionMode = "write" | "upload";
+
+// The form a student fills in to turn in their work. The student always
+// gets a choice between writing a text response or uploading a file link —
+// regardless of how the teacher configured the assignment's submissionType.
 function SubmissionForm({
   assignment,
   courseId,
   onSubmitted,
   submit,
 }: SubmissionFormProps) {
+  // Default to whichever mode best matches the assignment's own type, but
+  // the student can freely switch — both are always available.
+  const [mode, setMode] = useState<SubmissionMode>(
+    assignment.submissionType === "FILE" || assignment.submissionType === "LINK"
+      ? "upload"
+      : "write"
+  );
   const [text,          setText]          = useState("");
   const [linkUrl,       setLinkUrl]       = useState("");
   const [isSubmitting,  setIsSubmitting]  = useState(false);
   const [submitError,   setSubmitError]   = useState<string | null>(null);
   const [progress,      setProgress]      = useState(0);
 
-  const submissionType = assignment.submissionType;
   const maxChars = 10_000;
 
-  const isOverdue = getDueStatus(assignment.dueDate) === "overdue";
-  const canSubmit = isOverdue ? assignment.allowLateSubmission : true;
+  // The due date is a hard cutoff — once it passes, submission is closed
+  // for everyone, no exceptions.
+  const isOverdue  = getDueStatus(assignment.dueDate) === "overdue";
+  const canSubmit  = !isOverdue;
+  const isCodeType = assignment.submissionType === "CODE";
 
   const isValid = useMemo(() => {
-    if (submissionType === "TEXT" || submissionType === "CODE") {
-      return text.trim().length > 0 && text.length <= maxChars;
-    }
-    if (submissionType === "FILE" || submissionType === "LINK") {
-      return linkUrl.trim().length > 0;
-    }
-    return false;
-  }, [submissionType, text, linkUrl, maxChars]);
+    if (mode === "write") return text.trim().length > 0 && text.length <= maxChars;
+    return linkUrl.trim().length > 0;
+  }, [mode, text, linkUrl, maxChars]);
 
   // Sends the student's work to the server, showing a fake progress bar
   // while it's in flight, then reports success (or an error) back up.
   async function handleSubmit() {
-    if (!isValid || isSubmitting) return;
+    if (!isValid || isSubmitting || !canSubmit) return;
     setSubmitError(null);
     setIsSubmitting(true);
     setProgress(0);
@@ -325,8 +302,8 @@ function SubmissionForm({
       const result = await submit({
         assignmentId:      assignment._id,
         courseId,
-        submissionContent: submissionType === "TEXT" || submissionType === "CODE" ? text.trim() : undefined,
-        fileUrl:           submissionType === "FILE" || submissionType === "LINK" ? linkUrl.trim() : undefined,
+        submissionContent: mode === "write"  ? text.trim()    : undefined,
+        fileUrl:           mode === "upload" ? linkUrl.trim() : undefined,
       });
       clearInterval(tick);
       setProgress(100);
@@ -350,8 +327,8 @@ function SubmissionForm({
       <Divider />
       <CardContent className="flex flex-col gap-6 pt-4">
 
-        {/* Overdue / no late submission warning */}
-        {isOverdue && !canSubmit && (
+        {/* Submission closed once the due date has passed — no exceptions */}
+        {isOverdue && (
           <Alert status="danger">
             <AlertIndicator>
               <HiExclamationTriangle size={16} />
@@ -359,45 +336,55 @@ function SubmissionForm({
             <AlertContent>
               <AlertTitle>Submission Closed</AlertTitle>
               <AlertDescription>
-                The due date has passed and this assignment does not accept late submissions.
+                The due date for this assignment has passed. Submissions are no longer accepted.
               </AlertDescription>
             </AlertContent>
           </Alert>
         )}
 
-        {isOverdue && canSubmit && (
-          <Alert status="warning">
-            <AlertIndicator>
-              <HiClock size={16} />
-            </AlertIndicator>
-            <AlertContent>
-              <AlertTitle>Late Submission</AlertTitle>
-              <AlertDescription>
-                This is past the due date. A penalty of {assignment.latePenalty}% per day will be applied.
-              </AlertDescription>
-            </AlertContent>
-          </Alert>
-        )}
+        {/* Write vs. Upload toggle — always both available */}
+        <div className="flex gap-1 p-1 bg-brand-bg rounded-lg border border-brand-border w-fit">
+          <button
+            type="button"
+            onClick={() => setMode("write")}
+            disabled={!canSubmit || isSubmitting}
+            className={cn(
+              "flex items-center gap-1.5 px-4 py-1.5 rounded-md text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50",
+              mode === "write" ? "bg-white text-brand-dark shadow-sm" : "text-brand-body hover:text-brand-dark"
+            )}
+          >
+            <HiDocumentText size={14} />
+            Write
+          </button>
+          <button
+            type="button"
+            onClick={() => setMode("upload")}
+            disabled={!canSubmit || isSubmitting}
+            className={cn(
+              "flex items-center gap-1.5 px-4 py-1.5 rounded-md text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50",
+              mode === "upload" ? "bg-white text-brand-dark shadow-sm" : "text-brand-body hover:text-brand-dark"
+            )}
+          >
+            <HiArrowUpTray size={14} />
+            Upload File
+          </button>
+        </div>
 
-        {/* Submission input — conditioned on type */}
-        {(submissionType === "TEXT" || submissionType === "CODE") && (
+        {/* Write mode */}
+        {mode === "write" && (
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-semibold text-brand-body uppercase tracking-wide">
-              {submissionType === "CODE" ? "Your Code" : "Your Response"}
+              {isCodeType ? "Your Code" : "Your Response"}
             </label>
             <TextArea
               value={text}
               onChange={(e) => setText(e.target.value)}
-              placeholder={
-                submissionType === "CODE"
-                  ? "// Paste your code here"
-                  : "Write your response here…"
-              }
-              rows={submissionType === "CODE" ? 14 : 8}
+              placeholder={isCodeType ? "// Paste your code here" : "Write your response here…"}
+              rows={isCodeType ? 14 : 8}
               disabled={!canSubmit || isSubmitting}
               className={cn(
                 "w-full resize-y rounded-md border border-brand-border bg-white px-3 py-2.5 text-sm text-brand-dark placeholder:text-brand-body/50 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent transition-colors disabled:opacity-50",
-                submissionType === "CODE" && "font-mono text-[13px]"
+                isCodeType && "font-mono text-[13px]"
               )}
             />
             <div className="flex justify-between text-xs text-brand-body">
@@ -409,38 +396,14 @@ function SubmissionForm({
           </div>
         )}
 
-        {submissionType === "LINK" && (
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-brand-body uppercase tracking-wide">
-              Submission URL
-            </label>
-            <div className="relative">
-              <HiLink
-                size={15}
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-body pointer-events-none"
-              />
-              <Input
-                type="url"
-                value={linkUrl}
-                onChange={(e) => setLinkUrl(e.target.value)}
-                placeholder="https://github.com/yourname/project"
-                disabled={!canSubmit || isSubmitting}
-                className="w-full h-10 pl-9 pr-3 rounded-md border border-brand-border bg-white text-sm text-brand-dark placeholder:text-brand-body/50 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent transition-colors disabled:opacity-50"
-              />
-            </div>
-            <p className="text-[13px] text-brand-body">
-              Enter the URL to your submission (GitHub, Google Drive, etc.)
-            </p>
-          </div>
-        )}
-
-        {submissionType === "FILE" && (
+        {/* Upload mode */}
+        {mode === "upload" && (
           <div className="flex flex-col gap-3">
             <label className="text-xs font-semibold text-brand-body uppercase tracking-wide">
-              File URL
+              File Link
             </label>
 
-            {/* File drop zone — UI only, maps to fileUrl field */}
+            {/* File drop zone — UI only, maps to the URL field below */}
             <label
               className={cn(
                 "flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-brand-border p-8 text-center cursor-pointer transition-colors",
@@ -476,7 +439,7 @@ function SubmissionForm({
                 />
               </div>
               <p className="text-[13px] text-brand-body">
-                Upload your file to a cloud service and paste the shareable link above.
+                Upload your file to a cloud service (Google Drive, GitHub, etc.) and paste the shareable link above.
               </p>
             </div>
 
@@ -550,16 +513,14 @@ function SubmissionForm({
 
 // ─── Submission success ───────────────────────────────────────────────────────
 
-// Shown after a successful submission — confirms it was received, warns if
-// it was late, and offers a "Resubmit" button.
+// Shown after a successful submission — confirms it was received and offers
+// a "Resubmit" button.
 function SubmissionSuccess({
   submittedAt,
-  isLate,
   assignment,
   onResubmit,
 }: {
   submittedAt: string;
-  isLate:      boolean;
   assignment:  Assignment;
   onResubmit:  () => void;
 }) {
@@ -576,20 +537,6 @@ function SubmissionSuccess({
           </AlertDescription>
         </AlertContent>
       </Alert>
-
-      {isLate && (
-        <Alert status="warning">
-          <AlertIndicator>
-            <HiClock size={16} />
-          </AlertIndicator>
-          <AlertContent>
-            <AlertTitle>Late Submission</AlertTitle>
-            <AlertDescription>
-              This was submitted after the due date. A penalty of {assignment.latePenalty}% per day applies.
-            </AlertDescription>
-          </AlertContent>
-        </Alert>
-      )}
 
       <Card className="bg-white">
         <CardContent className="flex flex-col gap-4 pt-4">
@@ -713,8 +660,6 @@ export default function AssignmentSubmissionPage() {
     );
   }
 
-  const isLate = getDueStatus(assignment.dueDate) === "overdue";
-
   return (
     <div className="max-w-2xl mx-auto flex flex-col gap-6">
 
@@ -738,7 +683,6 @@ export default function AssignmentSubmissionPage() {
       {submittedAt && !showForm ? (
         <SubmissionSuccess
           submittedAt={submittedAt}
-          isLate={isLate}
           assignment={assignment}
           onResubmit={() => setShowForm(true)}
         />
