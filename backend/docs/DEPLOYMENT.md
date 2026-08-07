@@ -77,7 +77,7 @@ JWT_REFRESH_EXPIRES_IN=30d
 ALLOWED_ORIGINS=https://your-frontend.vercel.app
 RATE_LIMIT_WINDOW_MS=900000
 RATE_LIMIT_MAX=100
-BCRYPT_ROUNDS=12
+BCRYPT_ROUNDS=10
 LOG_FORMAT=combined
 APP_URL=https://your-frontend.vercel.app
 ENABLE_DOCS=false
@@ -255,7 +255,7 @@ docker compose logs -f api
 | `JWT_REFRESH_EXPIRES_IN` | `30d` | `30d` |
 | `RATE_LIMIT_WINDOW_MS` | `900000` | `900000` |
 | `RATE_LIMIT_MAX` | `100` | `50`–`100` (tune to your traffic) |
-| `BCRYPT_ROUNDS` | `12` | `12` |
+| `BCRYPT_ROUNDS` | `12` | `10` (higher measurably slows login on constrained hosting CPU) |
 | `LOG_FORMAT` | `dev` | `combined` |
 | `ENABLE_DOCS` | (always on in dev) | `false` |
 

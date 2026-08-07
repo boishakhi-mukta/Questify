@@ -187,7 +187,8 @@ UserSchema.virtual("fullName").get(function (this: IUser): string {
 });
 
 // ── Indexes ───────────────────────────────────────────────────────────────────
-UserSchema.index({ email: 1 }, { unique: true });
+// email's unique index already comes from `unique: true` on the field
+// above — declaring it again here was creating a duplicate index.
 UserSchema.index({ role: 1 });
 UserSchema.index({ createdAt: -1 });
 UserSchema.index({ isActive: 1, role: 1 });

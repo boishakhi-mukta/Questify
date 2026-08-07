@@ -51,7 +51,9 @@ const schema = z.object({
   RATE_LIMIT_WINDOW_MS: z.coerce.number().positive().default(900_000),
   RATE_LIMIT_MAX: z.coerce.number().positive().default(100),
 
-  BCRYPT_ROUNDS: z.coerce.number().min(10).max(15).default(12),
+  // 10 is the OWASP-accepted minimum; each +1 roughly doubles login latency.
+  // Was 12, which measurably slowed login under constrained hosting CPU.
+  BCRYPT_ROUNDS: z.coerce.number().min(10).max(15).default(10),
 
   LOG_FORMAT: z
     .enum(["combined", "dev", "short", "tiny"])
