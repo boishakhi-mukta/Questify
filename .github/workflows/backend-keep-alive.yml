@@ -1,0 +1,35 @@
+# ============================================================================
+# QUESTIFY WORKFLOW: Backend Keep-Alive
+#
+# WHAT IT DOES (For Non-Technical Readers):
+# Pings the live backend's health check every 10 minutes so it never sits
+# idle long enough for the hosting platform to put it to sleep.
+#
+# WHY IT EXISTS:
+# Free/hobby hosting tiers commonly spin a web service down after a period
+# of no traffic, and the next real request then has to wait for it to wake
+# back up — which can take tens of seconds. Regular pings keep it warm.
+#
+# HOW IT WORKS (Technical Overview):
+# A scheduled GitHub Actions job curls the backend's /health endpoint.
+# ============================================================================
+
+name: Backend Keep-Alive
+
+on:
+  schedule:
+    # Every 10 minutes. GitHub Actions cron can lag by a few minutes under
+    # load, but that's fine — we just need to stay well under whatever
+    # inactivity window the host uses to spin the service down.
+    - cron: "*/10 * * * *"
+  workflow_dispatch: {} # lets you trigger a manual ping from the Actions tab
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping backend health check
+        run: |
+          curl -sf --max-time 60 "${{ vars.BACKEND_HEALTH_URL || 'https://questify-backend-mckv.onrender.com/health' }}" \
+            && echo "Backend is awake." \
+            || echo "::warning::Backend health check failed or timed out."

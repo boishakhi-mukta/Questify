@@ -29,7 +29,7 @@ interface UserDef {
   bio?:       string;
 }
 
-const ADMIN_USERS: UserDef[] = [
+export const ADMIN_USERS: UserDef[] = [
   {
     email:      "admin@university.edu",
     password:   "AdminPass123!",
@@ -50,7 +50,7 @@ const ADMIN_USERS: UserDef[] = [
   },
 ];
 
-const FACULTY_USERS: UserDef[] = [
+export const FACULTY_USERS: UserDef[] = [
   {
     email:      "s.chen@university.edu",
     password:   "FacultyPass123!",
@@ -125,7 +125,7 @@ const FACULTY_USERS: UserDef[] = [
   },
 ];
 
-const STUDENT_USERS: UserDef[] = [
+export const STUDENT_USERS: UserDef[] = [
   { email: "alice.johnson@student.edu",  password: "StudentPass123!", firstName: "Alice",    lastName: "Johnson",   role: "student", department: "CS" },
   { email: "ben.carter@student.edu",     password: "StudentPass123!", firstName: "Ben",      lastName: "Carter",    role: "student", department: "CS" },
   { email: "carla.reyes@student.edu",    password: "StudentPass123!", firstName: "Carla",    lastName: "Reyes",     role: "student", department: "BUS" },
@@ -148,7 +148,7 @@ const STUDENT_USERS: UserDef[] = [
   { email: "tara.mbeki@student.edu",     password: "StudentPass123!", firstName: "Tara",     lastName: "Mbeki",     role: "student", department: "BUS" },
 ];
 
-const DEMO_USERS: UserDef[] = [
+export const DEMO_USERS: UserDef[] = [
   {
     email:     "student@demo.com",
     password:  "DemoPass123!",

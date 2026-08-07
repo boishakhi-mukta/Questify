@@ -77,8 +77,12 @@ export async function login(req: Request, res: Response): Promise<void> {
   }
 
   // ── 4. Success ───────────────────────────────────────────────────────────────
-  user.lastLogin = new Date();
-  await user.save({ validateModifiedOnly: true });
+  // Record the login timestamp without making the student/teacher wait for
+  // it — it's not needed to build the response below, so there's no reason
+  // to hold up the login on an extra database round-trip.
+  User.updateOne({ _id: user._id }, { $set: { lastLogin: new Date() } })
+    .exec()
+    .catch((err: Error) => logAuthEvent("LAST_LOGIN_UPDATE_FAILED", { userId: user._id.toString(), error: err.message }));
 
   const tokens = generateTokenPair({
     id: String(user._id),

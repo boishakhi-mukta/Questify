@@ -30,7 +30,7 @@ Whether you're a student chasing the top of the leaderboard or an admin keeping 
 | **Objective** | Build a gamified LMS that motivates students through points, leaderboards, and course progress tracking. |
 | **Target Audience** | University students, teachers, and administrators. |
 | **Status** | ✅ Core features fully implemented and verified. |
-| **Deployment** | Hosted on Vercel (Frontend) and Railway (Backend). |
+| **Deployment** | Hosted on Vercel (Frontend) and Render (Backend). |
 
 **Key Metrics (targets):**
 - Points earned per session: tracked in real-time
@@ -96,7 +96,7 @@ Whether you're a student chasing the top of the leaderboard or an admin keeping 
 | **Authentication** | Clerk Authentication (`@clerk/nextjs`) |
 | **Backend API** | Node.js, Express, MongoDB, Mongoose |
 | **Icons / Animation** | Lucide React, React Icons, Lottie (dotlottie-react) |
-| **Deployment** | Vercel (Frontend) and Railway (Backend) |
+| **Deployment** | Vercel (Frontend) and Render (Backend) |
 
 ---
 
